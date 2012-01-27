@@ -2,7 +2,6 @@
 
 /** Bootstraping */
 require_once __DIR__ . '/../vendor/Silex/silex.phar';
-include __DIR__ . '/config.php';
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,11 +17,8 @@ $app['autoloader']->registerPrefixes(array('Twig_Extensions_'  => array(__DIR__.
 /** Extensions */
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => array(
-        'driver' => 'pdo_mysql',
-        'host' => $config["host"],
-        'dbname' => $config["dbname"],
-        'user' => $config["user"],
-        'password' => $config["password"],
+        'driver'    => 'pdo_sqlite',
+        'path'      => __DIR__.'/app.db',
         'charset' => 'utf8'
     ),
     'db.dbal.class_path' => __DIR__ . '/../vendor/doctrine-dbal/lib',
@@ -31,7 +27,7 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
 
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
     'monolog.class_path' => __DIR__ . '/../vendor/monolog/src',
-    'monolog.logfile' => __DIR__ . '/../logs/app.log',
+    'monolog.logfile' => __DIR__ . 'app.log',
     'monolog.name' => 'app',
     'monolog.level' => 100 // Logger::DEBUG
 ));

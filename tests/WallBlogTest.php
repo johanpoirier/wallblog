@@ -10,7 +10,7 @@ class WallBlogTest extends WebTestCase {
     } 
     
     public function createApplication() {
-        $app = require __DIR__ . '/../src/life.php';
+        $app = require __DIR__ . '/../src/tests.php';
         $app['debug'] = true;
         unset($app['exception_handler']);
         $app['session.storage'] = $app->share(function() {

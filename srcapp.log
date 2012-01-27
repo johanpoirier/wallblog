@@ -1,0 +1,2 @@
+[2012-01-27 12:41:12] app.INFO: GET /api/currentuser [] []
+[2012-01-27 12:41:12] app.ERROR: could not find driver [] []
