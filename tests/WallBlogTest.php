@@ -16,17 +16,28 @@ class WallBlogTest extends WebTestCase {
         $app['session.storage'] = $app->share(function() {
             return new FilesystemSessionStorage(sys_get_temp_dir());
         });
-        $app['session']->set('email', "johan.poirier@gmail.com");
+        $app['session']->set('email', "darth.vader@gmail.com");
 
         return $app;
+    }
+	
+	public function setUp() {
+        parent::setUp();
+
+        $user = array("email" => "darth.vader@gmail.com", "password" => "f71dbe52628a3f83a77ab494817525c6");
+        $this->app['user_service']->create($user);
     }
 
     public function testGetUser() {
         $client = $this->createClient();
         $client->request('GET', '/api/currentuser', array(), array());
         $this->assertTrue($client->getResponse()->isOk());
-        //$jsonUser = json_decode($client->getResponse()->getContent(), true);
-        //$this->assertEquals($jsonUser["nickname"], "dst17");
+        $jsonUser = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals($jsonUser["email"], "darth.vader@gmail.com");
+    }
+	
+	public function tearDown() {
+        $this->app['user_service']->deleteAll();
     }
 }
 

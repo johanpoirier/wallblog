@@ -18,7 +18,7 @@ $app['autoloader']->registerPrefixes(array('Twig_Extensions_'  => array(__DIR__.
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => array(
         'driver'    => 'pdo_sqlite',
-        'path'      => __DIR__.'/app.db',
+        'path'      => __DIR__.'/../tests/app.db',
         'charset' => 'utf8'
     ),
     'db.dbal.class_path' => __DIR__ . '/../vendor/doctrine-dbal/lib',
@@ -27,7 +27,7 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
 
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
     'monolog.class_path' => __DIR__ . '/../vendor/monolog/src',
-    'monolog.logfile' => __DIR__ . 'app.log',
+    'monolog.logfile' => __DIR__ . '/../tests/app.log',
     'monolog.name' => 'app',
     'monolog.level' => 100 // Logger::DEBUG
 ));
