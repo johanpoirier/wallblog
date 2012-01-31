@@ -20,11 +20,7 @@ class WallBlogTest extends WebTestCase {
 
         return $app;
     }
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> e421eff5e542cc44a53b2e54e5aa8140958ebb88
     public function setUp() {
         parent::setUp();
 
