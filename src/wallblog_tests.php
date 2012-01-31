@@ -1,18 +1,21 @@
 <?php
 
-/** Bootstraping */
-require_once __DIR__ . '/../vendor/Silex/silex.phar';
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use services\PictureService;
 use services\UserService;
 use services\CommentService;
 
+/** Bootstraping */
+require_once __DIR__ . '/../vendor/Silex/silex.phar';
+include __DIR__ . '/config.php';
+
 $app = new Silex\Application();
 $app['debug'] = true;
 
-$app['autoloader']->registerPrefixes(array('Twig_Extensions_'  => array(__DIR__.'/../vendor/Twig-extensions/lib')));
+/** Autoloading */
+$app['autoloader']->registerNamespace( 'services', __DIR__ . '/.' );
+$app['autoloader']->registerNamespace( 'controllers', __DIR__ . '/.' );
 
 /** Extensions */
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
@@ -36,17 +39,6 @@ $app->register(new Silex\Provider\SessionServiceProvider(), array(
     'lifetime' => 1800 // 30 min
 ));
 
-$app->register(new Silex\Provider\TwigServiceProvider(), array(
-    'twig.path' => __DIR__ . '/../views',
-    'twig.class_path' => __DIR__ . '/../vendor/twig/lib',
-));
-
-$oldTwigConfiguration = isset($app['twig.configure']) ? $app['twig.configure']: function(){};
-$app['twig.configure'] = $app->protect(function($twig) use ($oldTwigConfiguration) {
-    $oldTwigConfiguration($twig);
-    $twig->addExtension(new Twig_Extensions_Extension_Text());
-});
-
 /** Services */
 $app['autoloader']->registerNamespace('services', __DIR__);
 $app['picture_service'] = $app->share(function() use ($app) {
@@ -60,8 +52,7 @@ $app['comment_service'] = $app->share(function() use ($app) {
 });
 
 /** Routes */
-require __DIR__.'/auth.php';
-require __DIR__.'/api.php';
+require __DIR__.'/routes.php';
 
 return $app;
 ?>
