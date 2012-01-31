@@ -1,3 +1,5 @@
+.. image:: https://secure.travis-ci.org/johanpoirier/wallblog.png
+
 =========
 Wall Blog
 =========

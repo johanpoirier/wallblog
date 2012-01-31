@@ -31,7 +31,11 @@ class UserService {
             return false;
         }
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> e421eff5e542cc44a53b2e54e5aa8140958ebb88
     public function create($user) {
         $existingUser = self::getByEmail($user['email']);
         if (!$existingUser) {
@@ -44,7 +48,11 @@ class UserService {
         }
         return false;
     }
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> e421eff5e542cc44a53b2e54e5aa8140958ebb88
     public function deleteAll() {
         $sql = "DELETE FROM " . self::$table_name;
         return self::$db->exec($sql);
