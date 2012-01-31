@@ -1,0 +1,12 @@
+<div class="loader">Chargement...</div>
+{{#each items}}
+    <div class="item">
+        <img src="pictures/{{this.file}}" alt="{{this.file}}" id="{{this.id}}" class="wall" />
+        {{#if this.date}}
+            <h3>{{this.date}}</h3>
+        {{/if}}
+        {{#if this.description}}
+            <h2>{{this.description}}</h2>
+        {{/if}}
+    </div>
+{{/each}}

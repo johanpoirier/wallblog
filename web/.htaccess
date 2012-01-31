@@ -11,6 +11,7 @@ AddType font/otf .otf
     Options -MultiViews
 
     RewriteEngine On
+    RewriteRule ^(views)($|/) - [L]
     #RewriteBase /path/to/app
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^(.*)$ index.php [QSA,L]

@@ -10,7 +10,7 @@ namespace services;
 class UserService {
 
     private static $db;
-    private static $table_name = "life__user";
+    private static $table_name = "wallblog__user";
     private static $logger;
 
     public function __construct($db, $app_logger) {
@@ -30,24 +30,6 @@ class UserService {
         } else {
             return false;
         }
-    }
-
-	public function create($user) {
-        $existingUser = self::getByEmail($user['email']);
-        if (!$existingUser) {
-            $user['email'] = strtolower($user['email']);
-            $res = self::$db->insert(self::$table_name, $user);
-            self::$logger->addDebug("creating new user : " . $user);
-            if ($res == 1) {
-                return self::getByEmail($user['email']);
-            }
-        }
-        return false;
-    }
-	
-	public function deleteAll() {
-        $sql = "DELETE FROM " . self::$table_name;
-        return self::$db->exec($sql);
     }
 }
 

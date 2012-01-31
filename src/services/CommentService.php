@@ -10,7 +10,7 @@ namespace services;
 class CommentService {
 
     private static $db;
-    private static $table_name = "life__comment";
+    private static $table_name = "wallblog__comment";
     private static $logger;
 
     public function __construct($db, $app_logger) {
