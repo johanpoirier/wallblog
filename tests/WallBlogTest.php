@@ -20,8 +20,8 @@ class WallBlogTest extends WebTestCase {
 
         return $app;
     }
-	
-	public function setUp() {
+
+    public function setUp() {
         parent::setUp();
 
         $user = array("email" => "darth.vader@gmail.com", "password" => "f71dbe52628a3f83a77ab494817525c6");
@@ -36,7 +36,7 @@ class WallBlogTest extends WebTestCase {
         $this->assertEquals($jsonUser["email"], "darth.vader@gmail.com");
     }
 	
-	public function tearDown() {
+    public function tearDown() {
         $this->app['user_service']->deleteAll();
     }
 }

@@ -32,7 +32,7 @@ class UserService {
         }
     }
 
-	public function create($user) {
+    public function create($user) {
         $existingUser = self::getByEmail($user['email']);
         if (!$existingUser) {
             $user['email'] = strtolower($user['email']);
@@ -45,7 +45,7 @@ class UserService {
         return false;
     }
 	
-	public function deleteAll() {
+    public function deleteAll() {
         $sql = "DELETE FROM " . self::$table_name;
         return self::$db->exec($sql);
     }
