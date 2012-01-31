@@ -1,6 +1,4 @@
-=========
-Wall Blog
-=========
+.. image:: https://secure.travis-ci.org/johanpoirier/wallblog.png
 
 Concept
 -------
@@ -13,5 +11,7 @@ Stack
 -----
 
 - Silex
-- Twig
+- Doctrine DBAL
+- RequireJS
 - jQuery
+- Handlebars
