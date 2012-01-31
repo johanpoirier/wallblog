@@ -1,14 +1,21 @@
-require(["jquery", "picture", "tmpl!../views/headbar", "tmpl!../views/wall", "tmpl!../views/footer"],
-    function($, picture, headbar, wall, footer) {
+require(["jquery", "picture", "tmpl!../views/headbar", "tmpl!../views/wall"],
+    function($, picture, headbar, wall) {
         $(function() {
             // load templates
             $("header").html(headbar());
             
-            $("footer").html(footer());
-            
             // load pics
-            picture.getItems(function(items) { 
-                $("#content").html(wall({ "items" : items }));
+            picture.getItems(function(items) {
+                columns = new Array(new Array(), new Array(), new Array());
+                columnIndex = 0;
+                for(i=0; i<items.length; i++) {
+                    columns[columnIndex].push(items[i]);
+                    columnIndex++;
+                    if (columnIndex == 3) {
+                        columnIndex = 0;
+                    }
+                }
+                $("#content").html(wall({ "columns" : columns }));
             }, 0, 9);
             
             // scroll auto loading
