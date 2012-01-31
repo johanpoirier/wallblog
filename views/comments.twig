@@ -1,0 +1,19 @@
+<article class="zoom">
+    <header>{% include "headbar-zoom.twig" %}</header>
+    <img src="/pictures/{{picture.file}}" alt="" />
+    
+    <div class="comment form hidden">
+        <input type="hidden" name="id" value="{{picture.id}}" />
+        <h1><input type="text" name="author" id="author" class="virgin" maxlength="100" /></h1>
+        <h2>{{currentDate}}</h2>
+        <textarea name="text" id="text" rows="4" class="virgin"></textarea>
+        <span class="buttons">
+            <button class="submit">Envoyer</button>
+            <button class="cancel">Annuler</button>
+        </span>
+    </div>
+
+    {% for comment in comments %}
+        {% include "comment.twig" %}
+    {% endfor %}
+</article>
