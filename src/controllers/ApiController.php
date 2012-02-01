@@ -6,6 +6,7 @@ use Silex\ControllerProviderInterface;
 use Silex\ControllerCollection;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ApiController implements ControllerProviderInterface
 {
@@ -15,11 +16,11 @@ class ApiController implements ControllerProviderInterface
         $controllers->get('/items', function (Application $app, Request $request) {
             $start = $request->get('start');
             $nb = $request->get('nb');
-            return json_encode($app['picture_service']->get($nb, $start));
+            return new Response(json_encode($app['picture_service']->get($nb, $start)), 200, array('Content-type' => 'application/json'));
         });
 
         $controllers->get('/item/{id}', function (Application $app, $id) {
-            return json_encode($app['picture_service']->getById($id));
+            return new Response(json_encode($app['picture_service']->getById($id)), 200, array('Content-type' => 'application/json'));
         });
 
         $controllers->get('/item/{id}/comments', function (Application $app, $id) {
