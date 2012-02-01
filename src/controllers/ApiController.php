@@ -16,22 +16,22 @@ class ApiController implements ControllerProviderInterface
         $controllers->get('/items', function (Application $app, Request $request) {
             $start = $request->get('start');
             $nb = $request->get('nb');
-            return new Response(json_encode($app['picture_service']->get($nb, $start)), 200, array('Content-type' => 'application/json'));
+            return encodeJsonResponse($app['picture_service']->get($nb, $start));
         });
 
         $controllers->get('/item/{id}', function (Application $app, $id) {
-            return new Response(json_encode($app['picture_service']->getById($id)), 200, array('Content-type' => 'application/json'));
+            return encodeJsonResponse($app['picture_service']->getById($id));
         });
 
         $controllers->get('/item/{id}/comments', function (Application $app, $id) {
-            return json_encode($app['comment_service']->getByItem($id));
+            return encodeJsonResponse($app['comment_service']->getByItem($id));
         });
 
         $controllers->post('/item/{id}/comments', function (Application $app, Request $request) {
             $app['monolog']->addDebug($request->getContent());
             $jsonComment = json_decode($request->getContent(), true);
             $comment = $app['comment_service']->add($jsonComment);
-            return json_encode($comment);
+            return encodeJsonResponse($comment);
         });
 
         $controllers->post('/item', function (Application $app, Request $request) {
@@ -45,12 +45,12 @@ class ApiController implements ControllerProviderInterface
                         $pic = $_FILES['pic'];
                         $description = $request->get('description');
                         if(!in_array($app['picture_service']->getExtension($pic['name']), $allowed_ext)){
-                            return json_encode(array('status' => 'Only ' . implode(',', $allowed_ext) . ' files are allowed!'));
+                            return encodeJsonResponse(array('status' => 'Only ' . implode(',', $allowed_ext) . ' files are allowed!'));
                         }	
 
                         if(move_uploaded_file($pic['tmp_name'], $upload_dir.$pic['name'])) {
                             $app['picture_service']->add($pic['name'], $description);
-                            return json_encode(array('status' => 'File was uploaded successfuly!'));
+                            return encodeJsonResponse(array('status' => 'File was uploaded successfuly!'));
                         }
                     }
                 }
@@ -58,10 +58,14 @@ class ApiController implements ControllerProviderInterface
         });
 
         $controllers->get('/items/rss', function (Application $app) {
-            return json_encode($app['picture_service']->get(20, 0));
+            return encodeJsonResponse($app['picture_service']->get(20, 0));
         });
 
         return $controllers;
+    }
+    
+    private function encodeJsonResponse($data) {
+        return new Response(json_encode($data), 200, array('Content-type' => 'application/json'));
     }
 }
 ?>
