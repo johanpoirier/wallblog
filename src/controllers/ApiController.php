@@ -6,7 +6,6 @@ use Silex\ControllerProviderInterface;
 use Silex\ControllerCollection;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class ApiController implements ControllerProviderInterface
 {
@@ -16,22 +15,22 @@ class ApiController implements ControllerProviderInterface
         $controllers->get('/items', function (Application $app, Request $request) {
             $start = $request->get('start');
             $nb = $request->get('nb');
-            return encodeJsonResponse($app['picture_service']->get($nb, $start));
+            return $app['json']->constructJsonResponse($app['picture_service']->get($nb, $start));
         });
 
         $controllers->get('/item/{id}', function (Application $app, $id) {
-            return encodeJsonResponse($app['picture_service']->getById($id));
-        });
+            return $app['json']->constructJsonResponse($app['picture_service']->getById($id));
+        })->assert('id', '\d+');
 
         $controllers->get('/item/{id}/comments', function (Application $app, $id) {
-            return encodeJsonResponse($app['comment_service']->getByItem($id));
-        });
+            return $app['json']->constructJsonResponse($app['comment_service']->getByItem($id));
+        })->assert('id', '\d+');
 
         $controllers->post('/item/{id}/comments', function (Application $app, Request $request) {
             $app['monolog']->addDebug($request->getContent());
             $jsonComment = json_decode($request->getContent(), true);
             $comment = $app['comment_service']->add($jsonComment);
-            return encodeJsonResponse($comment);
+            return $app['json']->constructJsonResponse($comment);
         });
 
         $controllers->post('/item', function (Application $app, Request $request) {
@@ -45,12 +44,12 @@ class ApiController implements ControllerProviderInterface
                         $pic = $_FILES['pic'];
                         $description = $request->get('description');
                         if(!in_array($app['picture_service']->getExtension($pic['name']), $allowed_ext)){
-                            return encodeJsonResponse(array('status' => 'Only ' . implode(',', $allowed_ext) . ' files are allowed!'));
+                            return $app['json']->constructJsonResponse(array('status' => 'Only ' . implode(',', $allowed_ext) . ' files are allowed!'));
                         }	
 
                         if(move_uploaded_file($pic['tmp_name'], $upload_dir.$pic['name'])) {
                             $app['picture_service']->add($pic['name'], $description);
-                            return encodeJsonResponse(array('status' => 'File was uploaded successfuly!'));
+                            return $app['json']->constructJsonResponse(array('status' => 'File was uploaded successfuly!'));
                         }
                     }
                 }
@@ -58,14 +57,10 @@ class ApiController implements ControllerProviderInterface
         });
 
         $controllers->get('/items/rss', function (Application $app) {
-            return encodeJsonResponse($app['picture_service']->get(20, 0));
+            return $app['json']->constructJsonResponse($app['picture_service']->get(20, 0));
         });
 
         return $controllers;
-    }
-    
-    private function encodeJsonResponse($data) {
-        return new Response(json_encode($data), 200, array('Content-type' => 'application/json'));
     }
 }
 ?>

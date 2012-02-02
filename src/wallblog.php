@@ -2,9 +2,6 @@
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use services\PictureService;
-use services\UserService;
-use services\CommentService;
 
 /** Bootstraping */
 require_once __DIR__ . '/../vendor/Silex/silex.phar';
@@ -16,6 +13,7 @@ $app['debug'] = true;
 /** Autoloading */
 $app['autoloader']->registerNamespace( 'services', __DIR__ . '/.' );
 $app['autoloader']->registerNamespace( 'controllers', __DIR__ . '/.' );
+
 
 /** Extensions */
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
@@ -44,13 +42,16 @@ $app->register(new Silex\Provider\SessionServiceProvider(), array(
 
 /** Services */
 $app['picture_service'] = $app->share(function() use ($app) {
-    return new PictureService($app['db'], $app['monolog']);
+    return new services\PictureService($app['db'], $app['monolog']);
 });
 $app['user_service'] = $app->share(function() use ($app) {
-    return new UserService($app['db'], $app['monolog']);
+    return new services\UserService($app['db'], $app['monolog']);
 });
 $app['comment_service'] = $app->share(function() use ($app) {
-    return new CommentService($app['db'], $app['monolog']);
+    return new services\CommentService($app['db'], $app['monolog']);
+});
+$app['json'] = $app->share(function() {
+    return new services\JSonService();
 });
 
 /** Routes */
