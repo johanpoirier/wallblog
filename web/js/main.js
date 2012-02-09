@@ -1,9 +1,10 @@
-require(["jquery", "picture", "tmpl!../views/headbar", "tmpl!../views/wall"],
-    function($, picture, headbar, wall) {
+require(["jquery", "picture"],
+    function($, picture, headbar) {
         $(function() {
-            // load templates
-            $("header").html(headbar());
-            
+            require(["tmpl!../views/headbar"], function(headbar) {
+                $("header").html(headbar());
+            });
+
             // load pics
             picture.getItems(function(items) {
                 columns = new Array(new Array(), new Array(), new Array());
@@ -15,23 +16,30 @@ require(["jquery", "picture", "tmpl!../views/headbar", "tmpl!../views/wall"],
                         columnIndex = 0;
                     }
                 }
-                $("#content").html(wall({ "columns" : columns }));
+                require(["tmpl!../views/wall"], function(wall) {
+                    $("#content").html(wall({
+                        "columns" : columns
+                    }));
+                });
             }, 0, 9);
             
-            // scroll auto loading
-            /*$(window).mousewheel(function(event, delta) {
-                if (delta < 0) {
-                    if(!loadingComplete && (($(window).scrollTop() + $(window).height()) + 500) >= $(document).height()) {
-                        if(loading == false) {
-                            loadMore();
-                            console.log("loading more pics");
-                        }
-                    }
-                }
-            });
+            // img full page functionnality
+            $("img.wall").live("click", function() {
+                var pic = $(this);
+                ratio = pic.width() / pic.height();
 
-            // load columns
-            columns = $("div.column");*/
+                $(".loader").show();
+                $.get("/api/item/" + pic.attr("id"), function(data) {
+                    //lockScroll();
+                    $(".loader").hide();
+            
+                    // click on the pic to close the zoom
+                    pic.click(function() {
+                        zoomDiv.remove();
+                        //unlockScroll();
+                    });
+                });
+            });
         });
     }
-);
+    );
