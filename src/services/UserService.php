@@ -31,24 +31,6 @@ class UserService {
             return false;
         }
     }
-
-    public function create($user) {
-        $existingUser = self::getByEmail($user['email']);
-        if (!$existingUser) {
-            $user['email'] = strtolower($user['email']);
-            $res = self::$db->insert(self::$table_name, $user);
-            self::$logger->addDebug("creating new user : " . $user);
-            if ($res == 1) {
-                return self::getByEmail($user['email']);
-            }
-        }
-        return false;
-    }
-
-    public function deleteAll() {
-        $sql = "DELETE FROM " . self::$table_name;
-        return self::$db->exec($sql);
-    }
 }
 
 ?>

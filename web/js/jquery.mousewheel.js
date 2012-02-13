@@ -8,14 +8,14 @@
  * @param {Object} down
  * @param {Object} preventDefault
  */
-jQuery.fn.extend({
+$.fn.extend({
 	mousewheel: function(up, down, preventDefault) {
 		return this.hover(
 			function() {
-				jQuery.event.mousewheel.giveFocus(this, up, down, preventDefault);
+				$.event.mousewheel.giveFocus(this, up, down, preventDefault);
 			},
 			function() {
-				jQuery.event.mousewheel.removeFocus(this);
+				$.event.mousewheel.removeFocus(this);
 			}
 		);
 	},
@@ -27,18 +27,18 @@ jQuery.fn.extend({
 	},
 	unmousewheel: function() {
 		return this.each(function() {
-			jQuery(this).unmouseover().unmouseout();
-			jQuery.event.mousewheel.removeFocus(this);
+			$(this).unmouseover().unmouseout();
+			$.event.mousewheel.removeFocus(this);
 		});
 	},
-	unmousewheeldown: jQuery.fn.unmousewheel,
-	unmousewheelup: jQuery.fn.unmousewheel
+	unmousewheeldown: $.fn.unmousewheel,
+	unmousewheelup: $.fn.unmousewheel
 });
 
 
-jQuery.event.mousewheel = {
+$.event.mousewheel = {
 	giveFocus: function(el, up, down, preventDefault) {
-		if (el._handleMousewheel) jQuery(el).unmousewheel();
+		if (el._handleMousewheel) $(el).unmousewheel();
 		
 		if (preventDefault == window.undefined && down && down.constructor != Function) {
 			preventDefault = down;

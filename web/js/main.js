@@ -1,12 +1,10 @@
-require(["jquery", "picture"],
-    function($, picture, headbar) {
+require(["jquery", "Handlebars", "pictureSource", "tmpl!../views/headbar", "tmpl!../views/wall", "jquery.mousewheel"],
+    function($, hbs, pictureSource, headbar, wall) {
         $(function() {
-            require(["tmpl!../views/headbar"], function(headbar) {
-                $("header").html(headbar());
-            });
+            $("header").html(headbar());
 
             // load pics
-            picture.getItems(function(items) {
+            pictureSource.getItems(function(items) {
                 columns = new Array(new Array(), new Array(), new Array());
                 columnIndex = 0;
                 for(i=0; i<items.length; i++) {
@@ -16,11 +14,11 @@ require(["jquery", "picture"],
                         columnIndex = 0;
                     }
                 }
-                require(["tmpl!../views/wall"], function(wall) {
-                    $("#content").html(wall({
-                        "columns" : columns
-                    }));
-                });
+                pictureSource.index = 9;
+
+                $("#content").html(wall({
+                    "columns" : columns
+                }));
             }, 0, 9);
             
             // img full page functionnality
@@ -36,10 +34,28 @@ require(["jquery", "picture"],
                     // click on the pic to close the zoom
                     pic.click(function() {
                         zoomDiv.remove();
-                        //unlockScroll();
+                    //unlockScroll();
                     });
                 });
             });
+            
+            // mousewheel detection
+            $(window).mousewheel(function(event, delta) {
+                if (delta < 0) {
+                    if(!pictureSource.loadingComplete && (($(window).scrollTop() + $(window).height()) + 500) >= $(document).height()) {
+                        if(pictureSource.loading == false) {
+                            require(["tmpl!../views/picture"], function(picture) {
+                                pictureSource.loading = true;
+                                pictureSource.getItems(function(items) {
+                                    $(picture(items[0])).appendTo($("div.column:first"));
+                                    pictureSource.loading = false;
+                                }, pictureSource.index++, 1);
+                            });
+                            //console.log("loading more pics");
+                        }
+                    }
+                }
+            });
         });
     }
-    );
+);
