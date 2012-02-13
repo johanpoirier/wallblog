@@ -1,7 +1,21 @@
-require(["jquery", "Handlebars", "pictureSource", "tmpl!../views/headbar", "tmpl!../views/wall", "jquery.mousewheel"],
-    function($, hbs, pictureSource, headbar, wall) {
+require(["jquery", "pictureSource", "tmpl!../views/headbar", "tmpl!../views/wall", "jquery.mousewheel"],
+    function($, pictureSource, headbar, wall) {
         $(function() {
             $("header").html(headbar());
+
+            var getShorterColumn = function() {
+                divColumns = $("div.column");
+                shorterColumnIndex = 0;
+                minHeight = 999999;
+                for(var i=0; i<divColumns.length; i++) {
+                    columnHeight = $("div.column").eq(i).height();
+                    if(columnHeight < minHeight) {
+                        shorterColumnIndex = i;
+                        minHeight = columnHeight;
+                    }
+                }
+                return divColumns[shorterColumnIndex];
+            }
 
             // load pics
             pictureSource.getItems(function(items) {
@@ -40,22 +54,22 @@ require(["jquery", "Handlebars", "pictureSource", "tmpl!../views/headbar", "tmpl
             });
             
             // mousewheel detection
-            $(window).mousewheel(function(event, delta) {
-                if (delta < 0) {
-                    if(!pictureSource.loadingComplete && (($(window).scrollTop() + $(window).height()) + 500) >= $(document).height()) {
-                        if(pictureSource.loading == false) {
-                            require(["tmpl!../views/picture"], function(picture) {
+            require(["tmpl!../views/picture"], function(picture) {
+                $(window).mousewheel(function(event, delta) {
+                    if (delta < 0) {
+                        if(!pictureSource.loadingComplete && (($(window).scrollTop() + $(window).height()) + 500) >= $(document).height()) {
+                            if(pictureSource.loading == false) {
                                 pictureSource.loading = true;
                                 pictureSource.getItems(function(items) {
-                                    $(picture(items[0])).appendTo($("div.column:first"));
+                                    $(picture(items[0])).appendTo(getShorterColumn());
                                     pictureSource.loading = false;
                                 }, pictureSource.index++, 1);
-                            });
                             //console.log("loading more pics");
+                            }
                         }
                     }
-                }
+                });
             });
         });
     }
-);
+    );
