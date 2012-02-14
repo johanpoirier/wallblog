@@ -4,18 +4,6 @@ var page = 9;
 var columns;
 
 $(document).ready(function() {
-    // scroll auto loading
-    $(window).mousewheel(function(event, delta) {
-        if (delta < 0) {
-            if(!loadingComplete && (($(window).scrollTop() + $(window).height()) + 500) >= $(document).height()) {
-                if(loading == false) {
-                    loadMore();
-                    console.log("loading more pics");
-                }
-            }
-        }
-    });
-
     // load columns
     columns = $("div.column");
     
@@ -96,28 +84,6 @@ $(document).ready(function() {
         });
     });
     
-    // login key
-    shortcut.add("Ctrl+Alt+L", function() {
-        var email = prompt("Email ?");
-        var password = "";
-        if(email && (email.length > 0)) {
-            password = prompt("Password ?");
-            if(password && (password.length > 0)) {
-                $.ajax({
-                    type: 'POST',
-                    url: "/login",
-                    data: {"email" : email, "password" : password},
-                    success: function() {
-                        alert("Login successful");
-                    },
-                    failure: function() {
-                        alert("Login failed");
-                    }
-                });
-            }
-        }
-    });
-
     // upload functionnality
     var dropbox = $(document);
     dropbox.filedrop({
@@ -172,75 +138,4 @@ var resetFormComment = function(form) {
     var text = $("textarea[name='text']", form);
     text.addClass("virgin");
     text.val("votre commentaire ici ...");
-}
-
-var loadMore = function() {
-    if(!loading) {
-        loading = true;
-        $.getJSON("/api/more/" + ++page, function(newPics) {
-            if(newPics.length == 0) {
-                loadingComplete = true;
-                console.log("loading complete");
-                return;
-            }
-
-            for(var i=0; i<newPics.length; i++) {
-                col = getShorterColumn();
-                $("<div/>", {
-                    "class": "item"
-                }).appendTo(col);
-
-                $("<img/>", {
-                    "src": "pictures/" + newPics[i]['file'],
-                    "class": "wall",
-                    "id": newPics[i]['id']
-                }).appendTo($("div.item:last", col));
-
-                if(newPics[i]['date']) {
-                    $("<h3/>").html($.format.date(newPics[i]['date'], "dd MMM yyyy")).appendTo($("div.item:last", col));
-                }
-
-                if(newPics[i]['description']) {
-                    $("<h2/>").html(newPics[i]['description']).appendTo($("div.item:last", col));
-                }
-            }
-
-            loading = false;
-            console.log("loaded page " + page);
-        });
-    }
-}
-
-var getShorterColumn = function() {
-    shorterColumnIndex = 0;
-    minHeight = 999999;
-    for(var i=0; i<columns.length; i++) {
-        columnHeight = $("div.column").eq(i).height();
-        if(columnHeight < minHeight) {
-            shorterColumnIndex = i;
-            minHeight = columnHeight;
-        }
-    }
-    return columns[shorterColumnIndex];
-}
-
-var lockScroll = function() {
-    // lock scroll position, but retain settings for later
-    var scrollPosition = [
-        self.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft,
-        self.pageYOffset || document.documentElement.scrollTop  || document.body.scrollTop
-    ];
-    var html = jQuery('html'); // it would make more sense to apply this to body, but IE7 won't have that
-    html.data('scroll-position', scrollPosition);
-    html.data('previous-overflow', html.css('overflow'));
-    html.css('overflow', 'hidden');
-    window.scrollTo(scrollPosition[0], scrollPosition[1]);
-}
-
-var unlockScroll = function() {
-    // un-lock scroll position
-    var html = jQuery('html');
-    var scrollPosition = html.data('scroll-position');
-    html.css('overflow', html.data('previous-overflow'));
-    window.scrollTo(scrollPosition[0], scrollPosition[1]);
 }

@@ -1,5 +1,5 @@
-require(["jquery", "pictureSource", "tools", "jquery.mousewheel"],
-    function($, pictureSource, tools) {
+require(["jquery", "pictureSource", "tools", "shortcut"],
+    function($, pictureSource, tools, shortcut) {
         $(function() {
             tools.viewportWidth = window.innerWidth;
 
@@ -76,7 +76,7 @@ require(["jquery", "pictureSource", "tools", "jquery.mousewheel"],
             });
             
             // mousewheel detection
-            require(["tmpl!../views/picture"], function(picture) {
+            require(["tmpl!../views/picture", "jquery.mousewheel"], function(picture) {
                 $(window).mousewheel(function(event, delta) {
                     if (delta < 0) {
                         if(!pictureSource.loadingComplete && (($(window).scrollTop() + $(window).height()) + 500) >= $(document).height()) {
@@ -96,6 +96,30 @@ require(["jquery", "pictureSource", "tools", "jquery.mousewheel"],
                     }
                 });
             });
+            
+            // login key
+            shortcut.add("Ctrl+Alt+L", function() {
+                var email = prompt("Email ?");
+                var password = "";
+                if(email && (email.length > 0)) {
+                    password = prompt("Password ?");
+                    if(password && (password.length > 0)) {
+                        $.ajax({
+                            type: 'POST',
+                            url: "/login",
+                            data: {
+                                "email" : email, 
+                                "password" : password
+                            },
+                            success: function() {
+                                alert("Login successful");
+                            },
+                            failure: function() {
+                                alert("Login failed");
+                            }
+                        });
+                    }
+                }
+            });
         });
-    }
-    );
+    });

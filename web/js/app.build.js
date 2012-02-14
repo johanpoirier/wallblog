@@ -14,7 +14,7 @@
         //included already in require-jquery.js
         {
             name: "main",
-            include: ["tmpl"]
+            include: ["tmpl", "jquery.mousewheel"]
         }
     ]
 })
