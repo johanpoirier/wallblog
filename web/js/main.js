@@ -1,7 +1,15 @@
 require(["jquery", "pictureSource", "tmpl!../views/headbar", "tmpl!../views/wall", "jquery.mousewheel"],
     function($, pictureSource, headbar, wall) {
         $(function() {
+            // display header bar
             $("header").html(headbar());
+            
+            // browser resizes -> update layout
+            var resizeTimer;
+            $(window).resize(function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(displayItems, 100);
+            });
 
             var getShorterColumn = function() {
                 divColumns = $("div.column");
@@ -18,22 +26,33 @@ require(["jquery", "pictureSource", "tmpl!../views/headbar", "tmpl!../views/wall
             }
 
             // load pics
-            pictureSource.getItems(function(items) {
-                columns = new Array(new Array(), new Array(), new Array());
-                columnIndex = 0;
-                for(i=0; i<items.length; i++) {
-                    columns[columnIndex].push(items[i]);
-                    columnIndex++;
-                    if (columnIndex == 3) {
-                        columnIndex = 0;
+            var displayItems = function() {
+                pictureSource.getItems(function(items) {
+                    var browserWidth = window.innerWidth;
+                    //console.log("browserWidth : " + browserWidth);
+                    if(browserWidth < 520) {
+                        columns = new Array(new Array(), new Array());
                     }
-                }
-                pictureSource.index = 9;
+                    else {
+                        columns = new Array(new Array(), new Array(), new Array());
+                    }
+                
+                    columnIndex = 0;
+                    for(i=0; i<items.length; i++) {
+                        columns[columnIndex].push(items[i]);
+                        columnIndex++;
+                        if (columnIndex == columns.length) {
+                            columnIndex = 0;
+                        }
+                    }
+                    pictureSource.index = 9;
 
-                $("#content").html(wall({
-                    "columns" : columns
-                }));
-            }, 0, 9);
+                    $("#content").html(wall({
+                        "columns" : columns
+                    }));
+                }, 0, 9);
+            };
+            displayItems();
             
             // img full page functionnality
             $("img.wall").live("click", function() {
@@ -60,11 +79,15 @@ require(["jquery", "pictureSource", "tmpl!../views/headbar", "tmpl!../views/wall
                         if(!pictureSource.loadingComplete && (($(window).scrollTop() + $(window).height()) + 500) >= $(document).height()) {
                             if(pictureSource.loading == false) {
                                 pictureSource.loading = true;
-                                pictureSource.getItems(function(items) {
+                                pictureSource.getItem(function(items) {
+                                    if(items.length == 0) {
+                                        pictureSource.loadingComplete = true;
+                                        console.log("loading complete");
+                                        return;
+                                    }
                                     $(picture(items[0])).appendTo(getShorterColumn());
                                     pictureSource.loading = false;
-                                }, pictureSource.index++, 1);
-                            //console.log("loading more pics");
+                                }, pictureSource.index++);
                             }
                         }
                     }

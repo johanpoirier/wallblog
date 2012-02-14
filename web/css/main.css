@@ -14,7 +14,6 @@ body {
     background-color: #eee;
     font-family: 'SansationRegular', sans-serif;
     margin: 0;
-    min-width: 500px;
     padding: 0;
 }
 
@@ -78,10 +77,18 @@ footer {
 }
 
 .column {
-    width: 32%;
-    min-width: 150px;
     margin: 3px;
     float: left;
+}
+@media (max-width: 519px) {
+    .column {
+        width: 48%;
+    }
+}
+@media (min-width: 520px) {
+    .column {
+        width: 32%;
+    }
 }
 
 .column .item {
