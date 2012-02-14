@@ -23,7 +23,7 @@
  * 	See README at project homepage
  *
  */
-;(function($) {
+define(['jquery'], function($) {
   jQuery.event.props.push("dataTransfer");
 
   var opts = {},
@@ -445,4 +445,4 @@
         
     } // End of fileDropInstance()
   }; // End of $.fn.filedrop()
-})(jQuery);
+});

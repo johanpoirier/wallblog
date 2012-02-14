@@ -1,4 +1,4 @@
-define( 'Handlebars', [], function(){
+define('Handlebars', [], function() {
 // HANDLEBARS
 
 // START Handlebars

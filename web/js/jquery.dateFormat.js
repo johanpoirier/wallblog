@@ -1,4 +1,4 @@
-(function ($) {
+define(['jquery'], function ($) {
 		
 		var daysInWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 		var shortMonthsInYear = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -260,22 +260,4 @@
             }
         };
     }());
-}(jQuery));
-
-
-$(document).ready(function () {
-    $(".shortDateFormat").each(function (idx, elem) {
-        if ($(elem).is(":input")) {
-            $(elem).val($.format.date($(elem).val(), "dd/MM/yyyy"));
-        } else {
-            $(elem).text($.format.date($(elem).text(), "dd/MM/yyyy"));
-        }
-    });
-    $(".longDateFormat").each(function (idx, elem) {
-        if ($(elem).is(":input")) {
-            $(elem).val($.format.date($(elem).val(), "dd/MM/yyyy hh:mm:ss"));
-        } else {
-            $(elem).text($.format.date($(elem).text(), "dd/MM/yyyy hh:mm:ss"));
-        }
-    });
 });

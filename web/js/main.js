@@ -1,10 +1,12 @@
-require(["jquery", "pictureSource", "tools", "tmpl!../views/headbar", "tmpl!../views/wall", "jquery.mousewheel"],
-    function($, pictureSource, tools, headbar, wall) {
+require(["jquery", "pictureSource", "tools", "jquery.mousewheel"],
+    function($, pictureSource, tools) {
         $(function() {
             tools.viewportWidth = window.innerWidth;
 
             // display header bar
-            $("header").html(headbar());
+            require(["tmpl!../views/headbar"], function(headbar) {
+                $("header").html(headbar());
+            });
             
             // browser resizes -> update layout
             var resizeTimer;
@@ -14,44 +16,46 @@ require(["jquery", "pictureSource", "tools", "tmpl!../views/headbar", "tmpl!../v
             });
 
             // load pics
-            var displayItems = function() {
-                // no redisplaying if the number of columns don't change
-                previousViewportWidth = tools.viewportWidth;
-                tools.viewportWidth = window.innerWidth;
-                if((previousViewportWidth != tools.viewportWidth)
-                && (((previousViewportWidth < 520) && (tools.viewportWidth < 520))
-                || ((previousViewportWidth >= 520) && (tools.viewportWidth >= 520)))) {
-                    return;
-                }
+            require(["tmpl!../views/wall"], function(wall) {
+                var displayItems = function() {
+                    // no redisplaying if the number of columns don't change
+                    previousViewportWidth = tools.viewportWidth;
+                    tools.viewportWidth = window.innerWidth;
+                    if((previousViewportWidth != tools.viewportWidth)
+                        && (((previousViewportWidth < 520) && (tools.viewportWidth < 520))
+                            || ((previousViewportWidth >= 520) && (tools.viewportWidth >= 520)))) {
+                        return;
+                    }
                 
-                // get items to display
-                pictureSource.getItems(function(items) {
-                    // 2 or 3 columns ?
-                    if(tools.viewportWidth < 520) {
-                        columns = new Array(new Array(), new Array());
-                    }
-                    else {
-                        columns = new Array(new Array(), new Array(), new Array());
-                    }
-
-                    // dispatching items to columns
-                    columnIndex = 0;
-                    for(i=0; i<items.length; i++) {
-                        columns[columnIndex].push(items[i]);
-                        columnIndex++;
-                        if (columnIndex == columns.length) {
-                            columnIndex = 0;
+                    // get items to display
+                    pictureSource.getItems(function(items) {
+                        // 2 or 3 columns ?
+                        if(tools.viewportWidth < 520) {
+                            columns = new Array(new Array(), new Array());
                         }
-                    }
-                    pictureSource.index = 9;
+                        else {
+                            columns = new Array(new Array(), new Array(), new Array());
+                        }
 
-                    // call to hbs template
-                    $("#content").html(wall({
-                        "columns" : columns
-                    }));
-                }, 0, 9);
-            };
-            displayItems(); // first display
+                        // dispatching items to columns
+                        columnIndex = 0;
+                        for(i=0; i<items.length; i++) {
+                            columns[columnIndex].push(items[i]);
+                            columnIndex++;
+                            if (columnIndex == columns.length) {
+                                columnIndex = 0;
+                            }
+                        }
+                        pictureSource.index = 9;
+
+                        // call to hbs template
+                        $("#content").html(wall({
+                            "columns" : columns
+                        }));
+                    }, 0, 9);
+                };
+                displayItems(); // first display
+            });
             
             // img full page functionnality
             $("img.wall").live("click", function() {
