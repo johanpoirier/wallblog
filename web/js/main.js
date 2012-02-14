@@ -1,6 +1,8 @@
-require(["jquery", "pictureSource", "tmpl!../views/headbar", "tmpl!../views/wall", "jquery.mousewheel"],
-    function($, pictureSource, headbar, wall) {
+require(["jquery", "pictureSource", "tools", "tmpl!../views/headbar", "tmpl!../views/wall", "jquery.mousewheel"],
+    function($, pictureSource, tools, headbar, wall) {
         $(function() {
+            tools.viewportWidth = window.innerWidth;
+
             // display header bar
             $("header").html(headbar());
             
@@ -11,32 +13,28 @@ require(["jquery", "pictureSource", "tmpl!../views/headbar", "tmpl!../views/wall
                 resizeTimer = setTimeout(displayItems, 100);
             });
 
-            var getShorterColumn = function() {
-                divColumns = $("div.column");
-                shorterColumnIndex = 0;
-                minHeight = 999999;
-                for(var i=0; i<divColumns.length; i++) {
-                    columnHeight = $("div.column").eq(i).height();
-                    if(columnHeight < minHeight) {
-                        shorterColumnIndex = i;
-                        minHeight = columnHeight;
-                    }
-                }
-                return divColumns[shorterColumnIndex];
-            }
-
             // load pics
             var displayItems = function() {
+                // no redisplaying if the number of columns don't change
+                previousViewportWidth = tools.viewportWidth;
+                tools.viewportWidth = window.innerWidth;
+                if((previousViewportWidth != tools.viewportWidth)
+                && (((previousViewportWidth < 520) && (tools.viewportWidth < 520))
+                || ((previousViewportWidth >= 520) && (tools.viewportWidth >= 520)))) {
+                    return;
+                }
+                
+                // get items to display
                 pictureSource.getItems(function(items) {
-                    var browserWidth = window.innerWidth;
-                    //console.log("browserWidth : " + browserWidth);
-                    if(browserWidth < 520) {
+                    // 2 or 3 columns ?
+                    if(tools.viewportWidth < 520) {
                         columns = new Array(new Array(), new Array());
                     }
                     else {
                         columns = new Array(new Array(), new Array(), new Array());
                     }
-                
+
+                    // dispatching items to columns
                     columnIndex = 0;
                     for(i=0; i<items.length; i++) {
                         columns[columnIndex].push(items[i]);
@@ -47,12 +45,13 @@ require(["jquery", "pictureSource", "tmpl!../views/headbar", "tmpl!../views/wall
                     }
                     pictureSource.index = 9;
 
+                    // call to hbs template
                     $("#content").html(wall({
                         "columns" : columns
                     }));
                 }, 0, 9);
             };
-            displayItems();
+            displayItems(); // first display
             
             // img full page functionnality
             $("img.wall").live("click", function() {
@@ -85,7 +84,7 @@ require(["jquery", "pictureSource", "tmpl!../views/headbar", "tmpl!../views/wall
                                         console.log("loading complete");
                                         return;
                                     }
-                                    $(picture(items[0])).appendTo(getShorterColumn());
+                                    $(picture(items[0])).appendTo(tools.getShorterColumn());
                                     pictureSource.loading = false;
                                 }, pictureSource.index++);
                             }
