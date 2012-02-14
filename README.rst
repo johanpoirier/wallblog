@@ -15,3 +15,10 @@ Stack
 - RequireJS
 - jQuery
 - Handlebars
+
+Optimization
+------------
+
+In web/js, execute :
+
+ node ../../r.js -o app.build.js
