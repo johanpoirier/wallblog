@@ -1,4 +1,4 @@
-require(["jquery", "pictureSource", "tools", "shortcut"],
+require(["jquery", "pictureSource", "tools", "shortcut", "jquery.dateFormat"],
     function($, pictureSource, tools, shortcut) {
         $(function() {
             tools.viewportWidth = window.innerWidth;
@@ -8,15 +8,15 @@ require(["jquery", "pictureSource", "tools", "shortcut"],
                 $("header").html(headbar());
             });
             
-            // browser resizes -> update layout
-            var resizeTimer;
-            $(window).resize(function() {
-                clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(displayItems, 100);
-            });
-
             // load pics
             require(["tmpl!../views/wall"], function(wall) {
+                // browser resizes -> update layout
+                var resizeTimer;
+                $(window).resize(function() {
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(displayItems, 100);
+                });
+            
                 var displayItems = function() {
                     // no redisplaying if the number of columns don't change
                     previousViewportWidth = tools.viewportWidth;
@@ -40,6 +40,7 @@ require(["jquery", "pictureSource", "tools", "shortcut"],
                         // dispatching items to columns
                         columnIndex = 0;
                         for(i=0; i<items.length; i++) {
+                            items[i]['date'] = $.format.date(items[i]['date'], "dd MMM yyyy");
                             columns[columnIndex].push(items[i]);
                             columnIndex++;
                             if (columnIndex == columns.length) {
@@ -77,22 +78,32 @@ require(["jquery", "pictureSource", "tools", "shortcut"],
             
             // mousewheel detection
             require(["tmpl!../views/picture", "jquery.mousewheel"], function(picture) {
-                $(window).mousewheel(function(event, delta) {
-                    if (delta < 0) {
-                        if(!pictureSource.loadingComplete && (($(window).scrollTop() + $(window).height()) + 500) >= $(document).height()) {
-                            if(pictureSource.loading == false) {
-                                pictureSource.loading = true;
-                                pictureSource.getItem(function(items) {
-                                    if(items.length == 0) {
-                                        pictureSource.loadingComplete = true;
-                                        console.log("loading complete");
-                                        return;
-                                    }
-                                    $(picture(items[0])).appendTo(tools.getShorterColumn());
-                                    pictureSource.loading = false;
-                                }, pictureSource.index++);
-                            }
+                var loadMore = function() {
+                    if(!pictureSource.loadingComplete && (($(window).scrollTop() - ($(document).height() - $(window).height())) <= 0)) {
+                        if(pictureSource.loading == false) {
+                            pictureSource.loading = true;
+                            pictureSource.getItem(function(items) {
+                                if(items.length == 0) {
+                                    pictureSource.loadingComplete = true;
+                                    return;
+                                }
+                                items[0]['date'] = $.format.date(items[0]['date'], "dd MMM yyyy");
+                                $(picture(items[0])).appendTo(tools.getShorterColumn());
+                                pictureSource.loading = false;
+                            }, pictureSource.index++);
                         }
+                    }
+                };
+                $(window).scroll(function() {
+                    loadMore();
+                });
+                $(window).mousewheel(function() {
+                    loadMore();
+                });
+                $(window).keydown(function(event) {
+                    // arrow down
+                    if (event.keyCode == '40') {
+                        loadMore();
                     }
                 });
             });
