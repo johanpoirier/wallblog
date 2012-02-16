@@ -24,3 +24,7 @@ AddType text/cache-manifest .appcache
     Header append X-UA-Compatible "chrome=1" env=gcf
   </IfModule>
 </IfModule>
+
+<filesMatch "\.(ico|jpg|jpeg|png|gif|JPG|JPEG)$">
+    Header set Cache-Control "max-age=290304000, public"
+</filesMatch>
