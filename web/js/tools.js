@@ -35,6 +35,15 @@ define('tools', ["jquery"], function($) {
             var scrollPosition = html.data('scroll-position');
             html.css('overflow', html.data('previous-overflow'));
             window.scrollTo(scrollPosition[0], scrollPosition[1]);
+        },
+        
+        'resetFormComment' : function(form) {
+            var author = $("input[name='author']", form);
+            author.addClass("virgin");
+            author.val("votre nom ici ...");
+            var text = $("textarea[name='text']", form);
+            text.addClass("virgin");
+            text.val("votre commentaire ici ...");
         }
     }
 });

@@ -59,19 +59,90 @@ require(["jquery", "pictureSource", "tools", "shortcut", "jquery.dateFormat"],
             });
             
             // img full page functionnality
-            $("img.wall").live("click", function() {
-                var pic = $(this);
-                ratio = pic.width() / pic.height();
-
-                $(".loader").show();
-                $.get("/api/item/" + pic.attr("id"), function(data) {
-                    //lockScroll();
-                    $(".loader").hide();
+            require(["Handlebars", "tmpl!../views/zoom", "tmpl!../views/comment"], function(hbs, zoomTmpl, commentTmpl) {
+                hbs.registerHelper('formatDay', function(date) {
+                    return $.format.date(date, "dd MMM yyyy");
+                });
+                hbs.registerHelper('formatDatetime', function(date) {
+                    return $.format.date(date, "le dd/MM/yyyy à HH:mm");
+                });
+                
+                $("img.wall").live("click", function() {
+                    $(".loader").show();
+                    $.get("/api/item/" + $(this).attr("id"), function(data) {
+                        data.currentDate = new Date();
+                        tools.lockScroll();
+                        $(".loader").hide();
+                        $(zoomTmpl(data)).insertBefore($("#content"));
+                        
+                        var zoomSection = $("section.zoom");
+                        zoomSection.css("top", window.scrollY);
+                        
+                        var pic = $("img", zoomSection);
+                        availableWidth = $(window).width() - 345;
+                        availableHeight = $(window).height() - 60;
+                        ratio = pic.width() / pic.height();
+                        if(pic.height() > availableHeight) {
+                            pic.height(availableHeight);
+                            newWidth = availableHeight * ratio;
+                            if(newWidth > availableWidth) {
+                                pic.width(availableWidth);
+                            }
+                        }
+                        else if(pic.width() > availableWidth) {
+                            pic.width(availableWidth);
+                        }
             
-                    // click on the pic to close the zoom
-                    pic.click(function() {
-                        zoomDiv.remove();
-                    //unlockScroll();
+                        // click on the pic to close the zoom
+                        pic.click(function() {
+                            zoomSection.remove();
+                            tools.unlockScroll();
+                        });
+                        
+                        $("header button").unbind("click");
+                        $("header button").click(function() {
+                            // show comment form
+                            var form = $("div.comment.form");
+                            form.show();
+                            tools.resetFormComment(form);
+                
+                            // virgin inputs
+                            var unVirgin = function(event) {
+                                var element = $(event.currentTarget);
+                                if(element.hasClass("virgin")) {
+                                    element.val("");
+                                    element.removeClass("virgin");
+                                }
+                            };
+                            var author = $("input[name='author']", form);
+                            var text = $("textarea[name='text']", form);
+                            author.focus(unVirgin);
+                            text.focus(unVirgin);
+
+                            // add comment handler
+                            $("button.submit").unbind("click");
+                            $("button.submit").click(function() {
+                                var id = $("input[name='id']").val();
+                                if(!author.hasClass("virgin") && !text.hasClass("virgin")) {
+                                    var comment = {
+                                        "idItem": id, 
+                                        "author": $("input[name='author']").val(), 
+                                        "text": $("textarea[name='text']").val(), 
+                                        "date": null
+                                    };
+                                    $.post("/api/item/" + id + "/comments", JSON.stringify(comment), function(data) {
+                                        $(commentTmpl(data)).insertAfter(form);
+                                        form.hide();
+                                    });
+                                }
+                            });
+                
+                            // cancel handler
+                            $("button.cancel").unbind("click");
+                            $("button.cancel").click(function() {
+                                form.hide();
+                            });
+                        });
                     });
                 });
             });

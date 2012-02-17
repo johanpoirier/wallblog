@@ -19,7 +19,9 @@ class ApiController implements ControllerProviderInterface
         });
 
         $controllers->get('/item/{id}', function (Application $app, $id) {
-            return $app['json']->constructJsonResponse($app['picture_service']->getById($id));
+            $item = $app['picture_service']->getById($id);
+            $item['comments'] = $app['comment_service']->getByItem($id);
+            return $app['json']->constructJsonResponse($item);
         })->assert('id', '\d+');
 
         $controllers->get('/item/{id}/comments', function (Application $app, $id) {
