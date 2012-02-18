@@ -55,6 +55,12 @@ class ApiController implements ControllerProviderInterface
                         }
                     }
                 }
+                else {
+                    $app['monolog']->addDebug("[session " . $request->getSession()->getId() . "] " . "can't upload, user " . $request->getSession()->get('email') . " not found in session");
+                }
+            }
+            else {
+                $app['monolog']->addDebug("can't upload, no session");
             }
         });
 

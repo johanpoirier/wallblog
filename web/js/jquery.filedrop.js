@@ -23,8 +23,8 @@
  * 	See README at project homepage
  *
  */
-define(['jquery'], function(jQuery) {
-  jQuery.event.props.push("dataTransfer");
+define(['jquery'], function($) {
+  $.event.props.push("dataTransfer");
 
   var opts = {},
   default_opts = {
