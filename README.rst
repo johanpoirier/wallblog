@@ -1,9 +1,5 @@
 .. image:: https://secure.travis-ci.org/johanpoirier/wallblog.png
 
-=========
-Wall Blog
-=========
-
 Concept
 -------
 
@@ -15,5 +11,14 @@ Stack
 -----
 
 - Silex
-- Twig
+- Doctrine DBAL
+- RequireJS
 - jQuery
+- Handlebars
+
+Optimization
+------------
+
+In web/js, execute :
+
+ node ../../r.js -o app.build.js

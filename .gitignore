@@ -3,4 +3,5 @@ logs/
 src/config.jops.php
 web/pictures/
 web/videos/
+web-build/
 tests/app.log

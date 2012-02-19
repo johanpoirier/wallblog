@@ -10,7 +10,7 @@ namespace services;
 class UserService {
 
     private static $db;
-    private static $table_name = "life__user";
+    private static $table_name = "wallblog__user";
     private static $logger;
 
     public function __construct($db, $app_logger) {
@@ -20,6 +20,7 @@ class UserService {
 
     public function getByEmail($email) {
         $sql = "SELECT * FROM " . self::$table_name . " WHERE email = ?";
+        self::$logger->addDebug($sql);
         return self::$db->fetchAssoc($sql, array(strtolower($email)));
     }
 
@@ -44,7 +45,7 @@ class UserService {
         }
         return false;
     }
-	
+
     public function deleteAll() {
         $sql = "DELETE FROM " . self::$table_name;
         return self::$db->exec($sql);

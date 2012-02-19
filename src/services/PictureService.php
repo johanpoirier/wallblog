@@ -10,7 +10,7 @@ namespace services;
 class PictureService {
 
     private static $db;
-    private static $table_name = "life__item";
+    private static $table_name = "wallblog__item";
     private static $logger;
     private static $dir;
 

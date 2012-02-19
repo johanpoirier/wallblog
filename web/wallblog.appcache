@@ -1,0 +1,21 @@
+CACHE MANIFEST
+# Version 0.4
+
+CACHE:
+app.html
+js/require-jquery.js
+js/main.js
+css/main.css
+css/fonts/sansation_regular-webfont.eot
+css/fonts/sansation_regular-webfont.svg
+css/fonts/sansation_regular-webfont.ttf
+css/fonts/sansation_regular-webfont.woff
+views/comment.handlebars
+views/headbar.handlebars
+views/headbar-zoom.handlebars
+views/picture.handlebars
+views/wall.handlebars
+views/zoom.handlebars
+
+NETWORK:
+*

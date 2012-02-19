@@ -6,12 +6,25 @@ AddType video/webm .webm
 AddType application/vnd.ms-fontobject .eot
 AddType font/ttf .ttf
 AddType font/otf .otf
+AddType text/cache-manifest .appcache
 
 <IfModule mod_rewrite.c>
     Options -MultiViews
 
     RewriteEngine On
+    RewriteRule ^(views)($|/) - [L]
     #RewriteBase /path/to/app
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^(.*)$ index.php [QSA,L]
 </IfModule>
+
+<IfModule mod_setenvif.c>
+  <IfModule mod_headers.c>
+    BrowserMatch chromeframe gcf
+    Header append X-UA-Compatible "chrome=1" env=gcf
+  </IfModule>
+</IfModule>
+
+<filesMatch "\.(ico|jpg|jpeg|png|gif|JPG|JPEG)$">
+    Header set Cache-Control "max-age=290304000, public"
+</filesMatch>

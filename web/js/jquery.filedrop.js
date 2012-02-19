@@ -23,8 +23,8 @@
  * 	See README at project homepage
  *
  */
-;(function($) {
-  jQuery.event.props.push("dataTransfer");
+define(['jquery'], function($) {
+  $.event.props.push("dataTransfer");
 
   var opts = {},
   default_opts = {
@@ -445,4 +445,4 @@
         
     } // End of fileDropInstance()
   }; // End of $.fn.filedrop()
-})(jQuery);
+});
