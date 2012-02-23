@@ -54,7 +54,7 @@ header .date {
     top: 0;
 }
 
-.content {
+#content {
     margin: 3px;
 }
 
@@ -79,15 +79,11 @@ footer {
 .column {
     margin: 3px;
     float: left;
+    width: 32%;
 }
 @media (max-width: 519px) {
     .column {
         width: 48%;
-    }
-}
-@media (min-width: 520px) {
-    .column {
-        width: 32%;
     }
 }
 
@@ -134,7 +130,7 @@ footer {
 }
 
 .zoom {
-    background-color: rgba(0, 0, 0, 0.85);
+    background: url(transparent.png) 0px 0px;
     display: block;
     height: 100%;
     left: 0;

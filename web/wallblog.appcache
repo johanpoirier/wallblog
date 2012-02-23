@@ -3,6 +3,7 @@ CACHE MANIFEST
 
 CACHE:
 app.html
+js/modernizr.js
 js/require-jquery.js
 js/main.js
 css/main.css
