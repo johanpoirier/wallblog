@@ -1,7 +1,7 @@
 require(["jquery", "pictureSource", "tools", "shortcut", "jquery.dateFormat"],
     function($, pictureSource, tools, shortcut) {
         $(function() {
-            tools.viewportWidth = window.innerWidth;
+            tools.viewportWidth = $(window).innerWidth();
 
             // display header bar
             require(["tmpl!../views/headbar"], function(headbar) {
