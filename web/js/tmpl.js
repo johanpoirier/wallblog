@@ -88,7 +88,7 @@ define('tmpl', ['Handlebars'], function ( Handlebars ) {
             function findPartialDeps( text ) {
               var matches = text.match( /{{>\s*([^\s]+?)\s*}}/ig );
               var res = [];
-              if(matches) {
+              if(matches != null) {
                 for (var i=0; i<matches.length; i++) {
                     res.push(matches[i].split(' ')[1]);
                 }

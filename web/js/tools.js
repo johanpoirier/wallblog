@@ -44,6 +44,19 @@ define('tools', ["jquery"], function($) {
             var text = $("textarea[name='text']", form);
             text.addClass("virgin");
             text.val("votre commentaire ici ...");
+        },
+        
+        'set' : function(key, value) {
+            if(Modernizr.localstorage) {
+                localStorage.setItem(key, value);
+            }
+        },
+        
+        'get' : function(key) {
+            if(Modernizr.localstorage) {
+                return localStorage.getItem(key);
+            }
+            return null;
         }
     }
 });

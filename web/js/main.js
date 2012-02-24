@@ -1,5 +1,5 @@
-require(["jquery", "pictureSource", "tools", "shortcut", "jquery.dateFormat"],
-    function($, pictureSource, tools, shortcut) {
+require(["jquery", "pictureSource", "tools", "jquery.dateFormat"],
+    function($, pictureSource, tools) {
         $(function() {
             tools.viewportWidth = $(window).innerWidth();
 
@@ -68,81 +68,85 @@ require(["jquery", "pictureSource", "tools", "shortcut", "jquery.dateFormat"],
                 });
                 
                 $("img.wall").live("click", function() {
-                    $(".loader").show();
-                    $.get("/api/item/" + $(this).attr("id"), function(data) {
-                        data.currentDate = new Date();
-                        tools.lockScroll();
-                        $(".loader").hide();
-                        $(zoomTmpl(data)).insertBefore($("#content"));
+                    var img = $(this);
+                    require(["admin"], function(admin) {
+                        $(".loader").show();
+                        $.get("/api/item/" + img.attr("id"), function(data) {
+                            data.currentDate = new Date();
+                            tools.lockScroll();
+                            $(".loader").hide();
+                            data.isAdmin = admin.isAdmin();
+                            $(zoomTmpl(data)).insertBefore($("#content"));
                         
-                        var zoomSection = $("section.zoom");
-                        zoomSection.css("top", window.scrollY);
+                            var zoomSection = $("section.zoom");
+                            zoomSection.css("top", window.scrollY);
                         
-                        var pic = $("img", zoomSection);
-                        availableWidth = $(window).width() - 345;
-                        availableHeight = $(window).height() - 60;
-                        ratio = pic.width() / pic.height();
-                        if(pic.height() > availableHeight) {
-                            pic.height(availableHeight);
-                            newWidth = availableHeight * ratio;
-                            if(newWidth > availableWidth) {
+                            var pic = $("img", zoomSection);
+                            availableWidth = $(window).width() - 345;
+                            availableHeight = $(window).height() - 60;
+                            ratio = pic.width() / pic.height();
+                            if(pic.height() > availableHeight) {
+                                pic.height(availableHeight);
+                                newWidth = availableHeight * ratio;
+                                if(newWidth > availableWidth) {
+                                    pic.width(availableWidth);
+                                }
+                            }
+                            else if(pic.width() > availableWidth) {
                                 pic.width(availableWidth);
                             }
-                        }
-                        else if(pic.width() > availableWidth) {
-                            pic.width(availableWidth);
-                        }
             
-                        // click on the pic to close the zoom
-                        pic.click(function() {
-                            zoomSection.remove();
-                            tools.unlockScroll();
-                        });
+                            // click on the pic to close the zoom
+                            pic.click(function() {
+                                zoomSection.remove();
+                                tools.unlockScroll();
+                            });
                         
-                        $("header button").unbind("click");
-                        $("header button").click(function() {
-                            // show comment form
-                            var form = $("div.comment.form");
-                            form.show();
-                            tools.resetFormComment(form);
+                            $("header button").unbind("click");
+                            $("header button").click(function() {
+                                // show comment form
+                                var form = $("div.comment.form");
+                                form.show();
+                                tools.resetFormComment(form);
                 
-                            // virgin inputs
-                            var unVirgin = function(event) {
-                                var element = $(event.currentTarget);
-                                if(element.hasClass("virgin")) {
-                                    element.val("");
-                                    element.removeClass("virgin");
-                                }
-                            };
-                            var author = $("input[name='author']", form);
-                            var text = $("textarea[name='text']", form);
-                            author.focus(unVirgin);
-                            text.focus(unVirgin);
+                                // virgin inputs
+                                var unVirgin = function(event) {
+                                    var element = $(event.currentTarget);
+                                    if(element.hasClass("virgin")) {
+                                        element.val("");
+                                        element.removeClass("virgin");
+                                    }
+                                };
+                                var author = $("input[name='author']", form);
+                                var text = $("textarea[name='text']", form);
+                                author.focus(unVirgin);
+                                text.focus(unVirgin);
 
-                            // add comment handler
-                            $("button.submit").unbind("click");
-                            $("button.submit").click(function() {
-                                var id = $("input[name='id']").val();
-                                if(!author.hasClass("virgin") && !text.hasClass("virgin")) {
-                                    var comment = {
-                                        "idItem": id, 
-                                        "author": $("input[name='author']").val(), 
-                                        "text": $("textarea[name='text']").val(), 
-                                        "date": null
-                                    };
-                                    $.post("/api/item/" + id + "/comments", JSON.stringify(comment), function(data) {
-                                        $(commentTmpl(data)).insertAfter(form);
-                                        form.hide();
-                                    });
-                                }
-                            });
+                                // add comment handler
+                                $("button.submit").unbind("click");
+                                $("button.submit").click(function() {
+                                    var id = $("input[name='id']").val();
+                                    if(!author.hasClass("virgin") && !text.hasClass("virgin")) {
+                                        var comment = {
+                                            "idItem": id, 
+                                            "author": $("input[name='author']").val(), 
+                                            "text": $("textarea[name='text']").val(), 
+                                            "date": null
+                                        };
+                                        $.post("/api/item/" + id + "/comments", JSON.stringify(comment), function(data) {
+                                            $(commentTmpl(data)).insertAfter(form);
+                                            form.hide();
+                                        });
+                                    }
+                                });
                 
-                            // cancel handler
-                            $("button.cancel").unbind("click");
-                            $("button.cancel").click(function() {
-                                form.hide();
+                                // cancel handler
+                                $("button.cancel").unbind("click");
+                                $("button.cancel").click(function() {
+                                    form.hide();
+                                });
                             });
-                        });
+                        }); 
                     });
                 });
             });
@@ -180,76 +184,44 @@ require(["jquery", "pictureSource", "tools", "shortcut", "jquery.dateFormat"],
             });
             
             // login key
-            shortcut.add("Ctrl+Alt+L", function() {
-                var email = prompt("Email ?");
-                var password = "";
-                if(email && (email.length > 0)) {
-                    password = prompt("Password ?");
-                    if(password && (password.length > 0)) {
-                        $.ajax({
-                            type: 'POST',
-                            url: "/login",
-                            data: {
-                                "email" : email, 
-                                "password" : password
-                            },
-                            success: function() {
-                                alert("Login successful");
-                            },
-                            failure: function() {
-                                alert("Login failed");
-                            }
-                        });
-                    }
-                }
-            });
-            
-            // upload functionnality
-            require(["jquery.filedrop"], function() {
-                var dropbox = $(document);
-                dropbox.filedrop({
-                    // The name of the $_FILES entry:
-                    paramname: 'pic',
-		
-                    maxfiles: 1,
-                    maxfilesize: 30,
-                    url: '/api/upload',
-		
-                    uploadFinished: function() {
-                        location.reload();
-                    },
-		
-                    error: function(err, file) {
-                        switch(err) {
-                            case 'BrowserNotSupported':
-                                alert('Your browser does not support HTML5 file uploads!');
-                                break;
-                            case 'TooManyFiles':
-                                alert('Too many files! Only one allowed!');
-                                break;
-                            case 'FileTooLarge':
-                                alert(file.name + ' is too large! Please upload files up to 5mb.');
-                                break;
-                            case 'UserNotLogged':
-                                alert('You can\'t upload pictures if you\'re not logged.');
-                                break;
-                            default:
-                                break;
-                        }
-                    },
-		
-                    // Called before each upload is started
-                    beforeEach: function(file) {
-                        if(!file.type.match(/^image\//)){
-                            alert('Only images are allowed!');
-                            return false;
-                        }
-                        var desc = prompt("Description de la photo ?");
-                        if(desc && desc.length > 0) {
-                            this.url = "/api/item?description=" + desc;
-                        }
-                    }
+            var lastLogin = tools.get("adminTimestamp");
+            var now = new Date();
+            if((lastLogin != null) && ((now.getTime() - lastLogin) < 600000)) {
+                require(["admin"], function(admin) {
+                    admin.init();
                 });
-            });
+            }
+            else {
+                require(["shortcut"], function(shortcut) {
+                    shortcut.add("Ctrl+Alt+L", function() {
+                        var email = prompt("Email ?");
+                        var password = "";
+                        if(email && (email.length > 0)) {
+                            password = prompt("Password ?");
+                            if(password && (password.length > 0)) {
+                                $.ajax({
+                                    type: 'POST',
+                                    url: "/login",
+                                    data: {
+                                        "email" : email, 
+                                        "password" : password
+                                    },
+                                    success: function() {
+                                        require(["admin"], function(admin) {
+                                            alert("Login successful");
+                                            var now = new Date();
+                                            tools.set("adminTimestamp", now.getTime());
+                                            admin.init();
+                                        });
+                                    },
+                                    failure: function() {
+                                        alert("Login failed");
+                                    }
+                                });
+                            }
+                        }
+                    });
+                });
+            }
         });
     });

@@ -53,10 +53,16 @@ class ApiController implements ControllerProviderInterface
                             $app['picture_service']->add($pic['name'], $description);
                             return $app['json']->constructJsonResponse(array('status' => 'File was uploaded successfuly!'));
                         }
+                        else {
+                            $app['monolog']->addDebug("[session " . $request->getSession()->getId() . "] problem during pic upload");
+                        }
+                    }
+                    else {
+                        $app['monolog']->addDebug("[session " . $request->getSession()->getId() . "] can't find pic to updload");
                     }
                 }
                 else {
-                    $app['monolog']->addDebug("[session " . $request->getSession()->getId() . "] " . "can't upload, user " . $request->getSession()->get('email') . " not found in session");
+                    $app['monolog']->addDebug("[session " . $request->getSession()->getId() . "] can't upload, user " . $request->getSession()->get('email') . " not found in session");
                 }
             }
             else {
