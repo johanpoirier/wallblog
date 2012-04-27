@@ -9,7 +9,7 @@ require(["jquery", "pictureSource", "tools", "jquery.dateFormat"],
             });
             
             // load pics
-            require(["tmpl!../views/wall"], function(wall) {
+            require(["storage", "tmpl!../views/wall"], function(storage, wall) {
                 // browser resizes -> update layout
                 var resizeTimer;
                 $(window).resize(function() {
@@ -46,6 +46,9 @@ require(["jquery", "pictureSource", "tools", "jquery.dateFormat"],
                             if (columnIndex == columns.length) {
                                 columnIndex = 0;
                             }
+                            
+                            // store image details
+                            storage.set(items[i]['id'], items[i]);
                         }
                         pictureSource.index = 9;
 
@@ -69,9 +72,10 @@ require(["jquery", "pictureSource", "tools", "jquery.dateFormat"],
                 
                 $("img.wall").live("click", function() {
                     var img = $(this);
-                    require(["admin"], function(admin) {
+                    require(["admin", "storage"], function(admin, storage) {
                         $(".loader").show();
-                        $.get("/api/item/" + img.attr("id"), function(data) {
+                        
+                        var zoomImage = function(data) {
                             data.currentDate = new Date();
                             tools.lockScroll();
                             $(".loader").hide();
@@ -146,13 +150,21 @@ require(["jquery", "pictureSource", "tools", "jquery.dateFormat"],
                                     form.hide();
                                 });
                             });
-                        }); 
+                        }
+
+                        var item = storage.get(img.attr("id"));
+                        if(item == null) {
+                            $.get("/api/item/" + img.attr("id"), zoomImage);
+                        }
+                        else {
+                            zoomImage(item);
+                        }
                     });
                 });
             });
             
             // mousewheel detection
-            require(["tmpl!../views/picture", "jquery.mousewheel"], function(picture) {
+            require(["storage", "tmpl!../views/picture", "jquery.mousewheel"], function(storage, picture) {
                 var loadMore = function() {
                     if(!pictureSource.loadingComplete && (($(window).scrollTop() - ($(document).height() - $(window).height())) <= 0)) {
                         if(pictureSource.loading == false) {
@@ -165,6 +177,9 @@ require(["jquery", "pictureSource", "tools", "jquery.dateFormat"],
                                 items[0]['date'] = $.format.date(items[0]['date'], "dd MMM yyyy");
                                 $(picture(items[0])).appendTo(tools.getShorterColumn());
                                 pictureSource.loading = false;
+
+                                // store image
+                                storage.set(items[0]['id'], items[0]);
                             }, pictureSource.index++);
                         }
                     }

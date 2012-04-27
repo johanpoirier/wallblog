@@ -14,7 +14,7 @@
         //included already in require-jquery.js
         {
             name: "main",
-            include: ["tmpl", "admin", "shortcut", "jquery.mousewheel", "jquery.filedrop"]
+            include: ["tmpl", "admin", "shortcut", "storage", "jquery.mousewheel", "jquery.filedrop"]
         }
     ]
 })
