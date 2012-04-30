@@ -20,15 +20,26 @@ body {
 header {
     background-color: gray;
     color: white;
-    height: 20px;
+    height: 35px;
     left: 0;
     position: relative;
     top: 0;
     width: 100%;
+    -moz-box-shadow: 1px 0px 1px #999; 
+    -webkit-box-shadow: 1px 0px 1px #999;
+    box-shadow: 1px 0px 1px #999;
 }
 
 header span {
-    padding: 0px 10px;
+    font-size: large;
+    left: 10px;
+    position: relative;
+    top: 7px;
+}
+    
+header span.info {
+    float: right;
+    padding: 4px 50px 0 0;
 }
 
 header button {
@@ -37,8 +48,8 @@ header button {
     color: white;
     cursor: pointer;
     float: right;
-    height: 100%;
-    margin: 0 50px 0 0;
+    height: 70%;
+    margin: 5px 50px 0 0;
     padding: 0 10px 2px 10px;
     text-align: center;
 }
@@ -97,10 +108,12 @@ footer {
     width: 100%;
     -moz-box-shadow: 1px 1px 5px #999; 
     -webkit-box-shadow: 1px 1px 5px #999;
+    box-shadow: 1px 1px 5px #999;
 }
 .column .item img:hover {
     -moz-box-shadow: 2px 2px 6px #FFFFBC; 
     -webkit-box-shadow: 2px 2px 6px #FFFFBC;
+    box-shadow: 2px 2px 6px #FFFFBC;
 }
 
 .column .item h2, .column .item h3 {
@@ -147,6 +160,7 @@ footer {
     margin: 10px 0 0 10px;
     -moz-box-shadow: 0 0 2px 2px #FFFFBC; 
     -webkit-box-shadow: 0 0 2px 2px #FFFFBC;
+    box-shadow: 0 0 2px 2px #FFFFBC;
 }
 
 .comment {
@@ -160,6 +174,7 @@ footer {
     width: 290px;
     -moz-box-shadow: 0 0 2px 2px #FFF; 
     -webkit-box-shadow: 0 0 2px 2px #FFF;
+    box-shadow: 0 0 2px 2px #FFF;
 }
 
 .comment h1 {

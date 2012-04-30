@@ -5,7 +5,9 @@ require(["jquery", "pictureSource", "tools", "jquery.dateFormat"],
 
             // display header bar
             require(["tmpl!../views/headbar"], function(headbar) {
-                $("header").html(headbar());
+                pictureSource.countItems(function(res) {
+                    $("header").html(headbar({ "nbItems" : res }));
+                });
             });
             
             // load pics
@@ -62,7 +64,7 @@ require(["jquery", "pictureSource", "tools", "jquery.dateFormat"],
             });
             
             // img full page functionnality
-            require(["Handlebars", "tmpl!../views/zoom", "tmpl!../views/comment"], function(hbs, zoomTmpl, commentTmpl) {
+            require(["Handlebars", "tmpl!../views/zoom", "tmpl!../views/comments", "tmpl!../views/comment"], function(hbs, zoomTmpl, commentsTmpl, commentTmpl) {
                 hbs.registerHelper('formatDay', function(date) {
                     return $.format.date(date, "dd MMM yyyy");
                 });
@@ -76,15 +78,18 @@ require(["jquery", "pictureSource", "tools", "jquery.dateFormat"],
                         $(".loader").show();
                         
                         var zoomImage = function(data) {
+                            // display picture
                             data.currentDate = new Date();
                             tools.lockScroll();
                             $(".loader").hide();
                             data.isAdmin = admin.isAdmin();
                             $(zoomTmpl(data)).insertBefore($("#content"));
                         
+                            // fix zoom top position
                             var zoomSection = $("section.zoom");
-                            zoomSection.css("top", window.scrollY);
+                            zoomSection.css("top", $(window).scrollTop());
                         
+                            // adjust picture to availaible space
                             var pic = $("img", zoomSection);
                             availableWidth = $(window).width() - 345;
                             availableHeight = $(window).height() - 60;
@@ -105,7 +110,14 @@ require(["jquery", "pictureSource", "tools", "jquery.dateFormat"],
                                 zoomSection.remove();
                                 tools.unlockScroll();
                             });
-                        
+
+                            // load comments
+                            var displayComments = function(data) {
+                                $(commentsTmpl(data)).appendTo($("section.zoom"));
+                            };
+                            $.get("/api/item/" + img.attr("id") + "/comments", displayComments);
+                            
+                            // set button handlers
                             $("header button").unbind("click");
                             $("header button").click(function() {
                                 // show comment form
@@ -151,7 +163,8 @@ require(["jquery", "pictureSource", "tools", "jquery.dateFormat"],
                                 });
                             });
                         }
-
+                        
+                        // check local storage before calling remote api
                         var item = storage.get(img.attr("id"));
                         if(item == null) {
                             $.get("/api/item/" + img.attr("id"), zoomImage);

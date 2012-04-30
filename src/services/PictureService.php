@@ -30,6 +30,11 @@ class PictureService {
         return self::$db->fetchAssoc($sql, array($id));
     }
 
+    public function count() {
+        $sql = "SELECT COUNT(*) FROM " . self::$table_name;
+        return self::$db->fetchColumn($sql);
+    }
+
     public function add($file_name, $description = null, $date = null) {
         $item["file"] = $file_name;
         $item["description"] = $description;

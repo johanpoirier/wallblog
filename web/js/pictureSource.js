@@ -10,6 +10,10 @@ define('pictureSource', ["jquery"], function($) {
         
         'getItem' : function(callback, index) {
             $.getJSON("/api/items?start=" + index + "&nb=1", callback);
+        },
+        
+        'countItems' : function(callback) {
+            $.getJSON("/api/items/count", callback);
         }
     }
 });
