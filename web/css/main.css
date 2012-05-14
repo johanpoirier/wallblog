@@ -22,6 +22,7 @@ header {
     color: white;
     height: 35px;
     left: 0;
+    overflow: hidden;
     position: relative;
     top: 0;
     width: 100%;
@@ -92,11 +93,6 @@ footer {
     float: left;
     width: 32%;
 }
-@media (max-width: 519px) {
-    .column {
-        width: 48%;
-    }
-}
 
 .column .item {
     position: relative;
@@ -148,15 +144,20 @@ footer {
     height: 100%;
     left: 0;
     margin: 0;
+    overflow: auto;
     padding: 0;
-    top: 0;
     position: absolute;
+    top: 0;
     width: 100%;
     z-index: 3;
 }
-.zoom img {
+
+.zoom span.picture {
+    display: block;
+    text-align: center;
+}
+.zoom span.picture img {
     cursor: pointer;
-    float: left;
     margin: 10px 0 0 10px;
     -moz-box-shadow: 0 0 2px 2px #FFFFBC; 
     -webkit-box-shadow: 0 0 2px 2px #FFFFBC;
@@ -171,7 +172,7 @@ footer {
     overflow: hidden;
     padding: 10px;
     text-align: left;
-    width: 290px;
+    width: 240px;
     -moz-box-shadow: 0 0 2px 2px #FFF; 
     -webkit-box-shadow: 0 0 2px 2px #FFF;
     box-shadow: 0 0 2px 2px #FFF;
@@ -184,7 +185,7 @@ footer {
     width: 100%;
 }
 .comment h2 {
-    font-size: small;
+    font-size: x-small;
     font-weight: normal;
     margin: 0 0 0 -1px;
     padding-bottom: 10px;
@@ -194,6 +195,12 @@ footer {
 
 .hidden {
     display: none;
+}
+
+.comment.form {
+    right: 5px;
+    position: absolute;
+    top: 32px;
 }
 
 .form input[type=text] {
@@ -232,4 +239,34 @@ footer {
 .virgin {
     color: grey;
     font-style: italic;
+}
+
+/* for small screens */
+@media (max-width: 519px) {
+    .column {
+        width: 48%;
+    }
+    
+    header img:first-child {
+        padding-top: 9px;
+        width: 140px;
+    }
+    
+    header button {
+        font-size: x-small;
+        margin: 5px 10px 0 0;
+    }
+    
+    header span.info {
+        font-size: 7px;
+    }
+    
+    header span {
+        font-size: small;
+        top: 12px;
+    }
+    
+    .column .item h2, .column .item h3 {
+        font-size: small;
+    }
 }

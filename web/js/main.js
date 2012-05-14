@@ -91,7 +91,7 @@ require(["jquery", "pictureSource", "tools", "jquery.dateFormat"],
                         
                             // adjust picture to availaible space
                             var pic = $("img", zoomSection);
-                            availableWidth = $(window).width() - 345;
+                            availableWidth = $(window).width() - 20;
                             availableHeight = $(window).height() - 60;
                             ratio = pic.width() / pic.height();
                             if(pic.height() > availableHeight) {
@@ -99,6 +99,7 @@ require(["jquery", "pictureSource", "tools", "jquery.dateFormat"],
                                 newWidth = availableHeight * ratio;
                                 if(newWidth > availableWidth) {
                                     pic.width(availableWidth);
+                                    pic.height(availableWidth / ratio);
                                 }
                             }
                             else if(pic.width() > availableWidth) {
