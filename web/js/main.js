@@ -5,8 +5,8 @@ require(["jquery", "pictureSource", "tools", "jquery.dateFormat"],
 
             // display header bar
             require(["tmpl!../views/headbar"], function(headbar) {
-                pictureSource.countItems(function(res) {
-                    $("header").html(headbar({ "nbItems" : res }));
+                pictureSource.countItems(function(total) {
+                    $("header").html(headbar({ "nbItems" : total }));
                 });
             });
             
@@ -19,7 +19,8 @@ require(["jquery", "pictureSource", "tools", "jquery.dateFormat"],
                     resizeTimer = setTimeout(displayItems, 100);
                 });
             
-                var displayItems = function() {
+                storage.clear();
+                var displayItems = function(forceRefresh) {
                     // no redisplaying if the number of columns don't change
                     previousViewportWidth = tools.viewportWidth;
                     tools.viewportWidth = window.innerWidth;
@@ -30,37 +31,58 @@ require(["jquery", "pictureSource", "tools", "jquery.dateFormat"],
                     }
                 
                     // get items to display
-                    pictureSource.getItems(function(items) {
-                        // 2 or 3 columns ?
-                        if(tools.viewportWidth < 520) {
-                            columns = new Array(new Array(), new Array());
-                        }
-                        else {
-                            columns = new Array(new Array(), new Array(), new Array());
-                        }
+                    // 2 or 3 columns ?
+                    if(tools.viewportWidth < 520) {
+                        columns = new Array(new Array(), new Array());
+                    }
+                    else {
+                        columns = new Array(new Array(), new Array(), new Array());
+                    }
+                    if((forceRefresh === true) || !localStorage) {
+                        pictureSource.getItems(function(items) {
+                            // dispatching items to columns
+                            columnIndex = 0;
+                            for(i=0; i<items.length; i++) {
+                                // store image details
+                                storage.set(items[i]['id'], items[i]);
+                                
+                                // format date to display
+                                items[i]['date'] = $.format.date(items[i]['date'], "dd MMM yyyy");
+                                columns[columnIndex].push(items[i]);
+                                columnIndex++;
+                                if (columnIndex == columns.length) {
+                                    columnIndex = 0;
+                                }
+                            }
+                            pictureSource.index = 9;
 
+                            // call to hbs template
+                            $("#content").html(wall({
+                                "columns" : columns
+                            }));
+                        }, 0, 9);
+                    }
+                    else {
                         // dispatching items to columns
                         columnIndex = 0;
-                        for(i=0; i<items.length; i++) {
+                        var items = storage.getAll();
+                        nbItems = items.length;
+                        for(i=0; i<nbItems; i++) {
                             items[i]['date'] = $.format.date(items[i]['date'], "dd MMM yyyy");
                             columns[columnIndex].push(items[i]);
                             columnIndex++;
                             if (columnIndex == columns.length) {
                                 columnIndex = 0;
                             }
-                            
-                            // store image details
-                            storage.set(items[i]['id'], items[i]);
                         }
-                        pictureSource.index = 9;
 
                         // call to hbs template
                         $("#content").html(wall({
                             "columns" : columns
                         }));
-                    }, 0, 9);
+                    }
                 };
-                displayItems(); // first display
+                displayItems(true); // first display
             });
             
             // img full page functionnality
@@ -110,6 +132,14 @@ require(["jquery", "pictureSource", "tools", "jquery.dateFormat"],
                             pic.click(function() {
                                 zoomSection.remove();
                                 tools.unlockScroll();
+                            });
+                            
+                            // or press Esc
+                            require(["shortcut"], function(shortcut) {
+                                shortcut.add("Esc", function() {
+                                   zoomSection.remove(); 
+                                   tools.unlockScroll();
+                                });
                             });
 
                             // load comments
@@ -201,8 +231,10 @@ require(["jquery", "pictureSource", "tools", "jquery.dateFormat"],
                 $(window).scroll(function() {
                     loadMore();
                 });
-                $(window).mousewheel(function() {
-                    loadMore();
+                $(window).mousewheel(function(event, delta) {
+                    if(delta < 0) {
+                        loadMore();
+                    }
                 });
                 $(window).keydown(function(event) {
                     // arrow down
