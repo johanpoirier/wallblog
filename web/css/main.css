@@ -242,31 +242,45 @@ footer {
 }
 
 /* for small screens */
-@media (max-width: 519px) {
+@media (max-width: 520px) {
     .column {
         width: 48%;
     }
-    
+}
+
+@media (max-width: 600px) {
+    header {
+        height: 55px;
+    }
+
     header img:first-child {
-        padding-top: 9px;
-        width: 140px;
+        float: left;
     }
     
     header button {
-        font-size: x-small;
-        margin: 5px 10px 0 0;
+        font-size: small;
+        height: auto;
+        margin: 5px 10px;
+        padding: 5px;
     }
     
     header span.info {
-        font-size: 7px;
+        clear: both;
+        float: left;
+        padding: 0;
     }
     
     header span {
         font-size: small;
-        top: 12px;
+        top: 0;
     }
     
     .column .item h2, .column .item h3 {
         font-size: small;
+    }
+    
+    .comment.form {
+        right: 7px;
+        top: 42px;
     }
 }
