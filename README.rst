@@ -22,3 +22,8 @@ Optimization
 In web/js, execute :
 
  node ../../r.js -o app.build.js
+
+Demo
+----
+
+Go to http://wallblog.jops-dev.com
