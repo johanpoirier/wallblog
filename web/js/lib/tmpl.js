@@ -9,7 +9,7 @@
 /*jslint evil: true, strict: false, plusplus: false, regexp: false */
 /*global require: false, XMLHttpRequest: false, ActiveXObject: false,
   define: false, process: false, window: false */
-define('tmpl', ['Handlebars'], function ( Handlebars ) {
+define("tmpl", ["Handlebars"], function ( Handlebars ) {
   var fs, getXhr,
         progIds = ['Msxml2.XMLHTTP', 'Microsoft.XMLHTTP', 'Msxml2.XMLHTTP.4.0'],
         fetchText = function () {

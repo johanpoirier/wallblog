@@ -4,7 +4,13 @@
     dir: "../../web-build",
 
     paths: {
-        "jquery": "require-jquery"
+        "jquery": "lib/require-jquery",
+        "Handlebars": "lib/Handlebars",
+        "tmpl": "lib/tmpl",
+        "shortcut": "lib/shortcut",
+        "jquery.mousewheel": "lib/jquery.mousewheel",
+        "jquery.dateFormat": "lib/jquery.dateFormat",
+        "jquery.filedrop": "lib/jquery.filedrop"
     },
     
     optimizeCss: "standard.keepLines",

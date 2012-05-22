@@ -7,6 +7,10 @@ $app->get('/', function() use($app) {
     return $app->redirect('/app.html');
 });
 
+$app->get('/item/{id}', function($id) use($app) {
+    return $app->redirect('/app.html');
+});
+
 $app->post('/login', function(Request $request) use($app) {
     $email = $app->escape($request->get('email'));
     $password = $request->get('password');

@@ -57,6 +57,17 @@ define('tools', ["jquery"], function($) {
                 return localStorage.getItem(key);
             }
             return null;
+        },
+        
+        'enableResizeLayout' : function(handler) {
+            this.disableResizeLayout();
+            $(window).bind("resize", function() {
+                handler();
+            });
+        },
+        
+        'disableResizeLayout' : function() {
+             $(window).unbind("resize");
         }
     }
 });

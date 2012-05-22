@@ -143,18 +143,22 @@ footer {
     z-index: 2;
 }
 
+aside {
+    float: left;
+    margin-left: -280px;
+    width: 270px;
+}
+
 .zoom {
-    background: url(transparent.png) 0px 0px;
-    display: block;
-    height: 100%;
-    left: 0;
+    float: left;
     margin: 0;
-    overflow: auto;
     padding: 0;
-    position: absolute;
-    top: 0;
     width: 100%;
     z-index: 3;
+}
+.zoom > div {
+    overflow:hidden;
+    margin-right: 290px;
 }
 
 .zoom span.picture {
@@ -287,5 +291,13 @@ footer {
     .comment.form {
         right: 7px;
         top: 42px;
+    }
+    
+    aside {
+        display: none;
+    }
+   
+    .zoom > div {
+        margin: 0;
     }
 }
