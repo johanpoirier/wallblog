@@ -31,11 +31,16 @@ header {
     box-shadow: 1px 0px 1px #999;
 }
 
+header img {
+    float: left;
+}
+
 header span {
     font-size: large;
-    left: 10px;
     position: relative;
     top: 7px;
+    float: left;
+    padding-left: 10px;
 }
     
 header span.info {
