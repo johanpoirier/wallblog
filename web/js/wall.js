@@ -38,12 +38,13 @@ define("wall", ["jquery", "pictureSource", "tools", "storage", "zoom"], function
                                     pictureSource.loadingComplete = true;
                                     return;
                                 }
+                                
+                                // store image
+                                storage.set(items[0]['id'], items[0]);
+       
                                 items[0]['date'] = $.format.date(items[0]['date'], "dd MMM yyyy");
                                 $(picture(items[0])).appendTo(tools.getShorterColumn());
                                 pictureSource.loading = false;
-
-                                // store image
-                                storage.set(items[0]['id'], items[0]);
                             }, pictureSource.index++);
                         }
                     }
@@ -120,6 +121,7 @@ define("wall", ["jquery", "pictureSource", "tools", "storage", "zoom"], function
                 // dispatching items to columns
                 columnIndex = 0;
                 var items = storage.getAll();
+                items = tools.sort(items, "date");
                 nbItems = items.length;
                 for(i=0; i<nbItems; i++) {
                     items[i]['date'] = $.format.date(items[i]['date'], "dd MMM yyyy");
@@ -134,6 +136,10 @@ define("wall", ["jquery", "pictureSource", "tools", "storage", "zoom"], function
                 $("#content").html(self.template({
                     "columns" : columns
                 }));
+
+                // set scroll position
+                $(document).scrollTop(tools.scrollPosition);
+                console.log("scroll position : " + tools.scrollPosition);
             }
         }
     }

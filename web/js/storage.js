@@ -30,18 +30,7 @@ define('storage', ['jquery'], function($) {
             for(var i=0; i<nbItems; i++) {
                 items.push(this.getItemAt(i));
             }
-            return items.sort(function(a, b) {
-                if(!a['date']) {
-                    if(!b['date']) {
-                        return 0;
-                    }
-                    return 1;
-                }
-                else if(!b['date']) {
-                    return -1;
-                }
-                return (a['date'] < b['date']) ? 1 : -1;
-            });
+            return items;
         },
 
         'clear' : function() {

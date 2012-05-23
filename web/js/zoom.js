@@ -12,6 +12,8 @@ define("zoom", ["jquery", "Handlebars", "tools", "tmpl!../views/headbar-zoom", "
                 
                 $("img.wall").live("click", function() {
                     var img = $(this);
+                    tools.scrollPosition = $(document).scrollTop();
+
                     require(["storage"], function(storage) {
                         $(".loader").show();
                         
@@ -36,6 +38,9 @@ define("zoom", ["jquery", "Handlebars", "tools", "tmpl!../views/headbar-zoom", "
                             // adjust picture to availaible space
                             var pic = $("img", zoomSection);
                             availableWidth = $(window).width() - 20;
+                            if($(window).width() > 600) {
+                                availableWidth -= 300;
+                            }
                             availableHeight = $(window).height() - 80;
                             ratio = pic.width() / pic.height();
                             if(pic.height() > availableHeight) {
@@ -49,6 +54,7 @@ define("zoom", ["jquery", "Handlebars", "tools", "tmpl!../views/headbar-zoom", "
                             else if(pic.width() > availableWidth) {
                                 pic.width(availableWidth);
                             }
+                            $("aside").height(pic.height());
             
                             // click on the pic to close the zoom
                             pic.click(function() {
@@ -102,7 +108,7 @@ define("zoom", ["jquery", "Handlebars", "tools", "tmpl!../views/headbar-zoom", "
                                             "date": null
                                         };
                                         $.post("/api/item/" + id + "/comments", JSON.stringify(comment), function(data) {
-                                            $(commentTmpl(data)).prependTo($("aside"));
+                                            $(commentTmpl(data)).insertAfter($("aside div.comment.form"));
                                             form.hide();
                                         });
                                     }

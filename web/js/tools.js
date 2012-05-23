@@ -1,6 +1,7 @@
 define('tools', ["jquery"], function($) {
     return {
         'viewportWidth' : 0,
+        'scrollPosition' : 0,
         
         'getShorterColumn' : function() {
             divColumns = $("div.column");
@@ -57,6 +58,21 @@ define('tools', ["jquery"], function($) {
                 return localStorage.getItem(key);
             }
             return null;
+        },
+        
+        'sort' : function(items, criterion) {
+            return items.sort(function(a, b) {
+                if(!a[criterion]) {
+                    if(!b[criterion]) {
+                        return 0;
+                    }
+                    return 1;
+                }
+                else if(!b[criterion]) {
+                    return -1;
+                }
+                return (a[criterion] < b[criterion]) ? 1 : -1;
+            });
         },
         
         'enableResizeLayout' : function(handler) {
