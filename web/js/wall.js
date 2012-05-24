@@ -142,7 +142,6 @@ define("wall", ["jquery", "pictureSource", "tools", "storage", "zoom"], function
 
                 // set scroll position
                 $(document).scrollTop(tools.scrollPosition);
-                console.log("scroll position : " + tools.scrollPosition);
             }
         }
     }
