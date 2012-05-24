@@ -112,9 +112,11 @@ define("wall", ["jquery", "pictureSource", "tools", "storage", "zoom"], function
                     pictureSource.index = 9;
 
                     // call to hbs template
-                    $("#content").html(self.template({
-                        "columns" : columns
-                    }));
+                    if(self.template) {
+                        $("#content").html(self.template({
+                            "columns" : columns
+                        }));
+                    }
                 }, 0, 9);
             }
             else {

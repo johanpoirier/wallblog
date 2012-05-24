@@ -1,6 +1,8 @@
 define("zoom", ["jquery", "Handlebars", "tools", "tmpl!../views/headbar-zoom", "jquery.dateFormat"], function($, hbs, tools, headbarZoom) {
     return {
         'init' : function() {
+            var self = this;
+
             // img full page functionnality
             require(["tmpl!/views/zoom", "tmpl!/views/comments", "tmpl!/views/comment"], function(zoomTmpl, commentsTmpl, commentTmpl) {
                 hbs.registerHelper('formatDay', function(date) {
@@ -13,13 +15,16 @@ define("zoom", ["jquery", "Handlebars", "tools", "tmpl!../views/headbar-zoom", "
                 $("img.wall").live("click", function() {
                     var img = $(this);
                     tools.scrollPosition = $(document).scrollTop();
-
+                    
+                    // chec local storage if items present
                     require(["storage"], function(storage) {
                         $(".loader").show();
                         
                         var zoomImage = function(data) {
                             // update uri
-                            window.history.pushState(data, data['description'], "/item/" + data['id']);
+                            if(Modernizr.history) {
+                                window.history.pushState(data, data['description'], "/item/" + data['id']);
+                            }
                             tools.disableResizeLayout();
 
                             // display picture
@@ -58,14 +63,14 @@ define("zoom", ["jquery", "Handlebars", "tools", "tmpl!../views/headbar-zoom", "
             
                             // click on the pic to close the zoom
                             pic.click(function() {
-                                window.history.back();
+                                self.close();
                             });
                             
                             // or press Esc
                             require(["shortcut"], function(shortcut) {
                                 shortcut.remove("Esc");
                                 shortcut.add("Esc", function() {
-                                    window.history.back();
+                                    self.close();
                                 });
                             });
 
@@ -133,6 +138,16 @@ define("zoom", ["jquery", "Handlebars", "tools", "tmpl!../views/headbar-zoom", "
                     });
                 });
             });
+        },
+        
+        'close' : function() {
+            if(Modernizr.history) {
+                window.history.back();
+            }
+            else {
+                // fallback for IE
+                window.location.href = "/";
+            }
         }
     }
 });

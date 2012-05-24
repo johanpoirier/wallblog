@@ -1,25 +1,5 @@
 CACHE MANIFEST
-# Version 0.6
-
-CACHE:
-app.html
-js/modernizr.js
-js/require-jquery.js
-js/main.js
-css/main.css
-css/beta.png
-css/titre.png
-css/transparent.png
-css/fonts/sansation_regular-webfont.eot
-css/fonts/sansation_regular-webfont.svg
-css/fonts/sansation_regular-webfont.ttf
-css/fonts/sansation_regular-webfont.woff
-views/comment.handlebars
-views/headbar.handlebars
-views/headbar-zoom.handlebars
-views/picture.handlebars
-views/wall.handlebars
-views/zoom.handlebars
+# Version 0.7
 
 NETWORK:
 *

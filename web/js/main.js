@@ -12,6 +12,11 @@ require.config({
 require(["jquery", "tools", "wall"],
     function($, tools, wall) {
         $(function() {
+            // force appcache update
+            if(Modernizr.applicationcache) {
+                window.applicationCache.update();
+            }
+
             // hashtag change event
             $(window).bind("popstate", function(event) {
                 tools.viewportWidth = 0;
