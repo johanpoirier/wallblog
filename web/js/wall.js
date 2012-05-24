@@ -95,7 +95,7 @@ define("wall", ["jquery", "pictureSource", "tools", "storage", "zoom"], function
                 columns = new Array(new Array(), new Array(), new Array());
             }
             if((forceRefresh === true) || !localStorage) {
-                pictureSource.getItems(function(items) {
+                pictureSource.getFullItems(function(items) {
                     // dispatching items to columns
                     columnIndex = 0;
                     for(i=0; i<items.length; i++) {

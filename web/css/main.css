@@ -121,7 +121,7 @@ footer {
     box-shadow: 2px 2px 6px #FFFFBC;
 }
 
-.column .item h2, .column .item h3 {
+.column .item h2, .column .item h3, .column .item h4 {
     background: rgba(0, 0, 0, 0.5);
     bottom: 3px;
     color: #ffffff;
@@ -133,7 +133,7 @@ footer {
     visibility: hidden;
     width: 100%;
 }
-.column .item:hover h2, .column .item:hover h3 {
+.column .item:hover h2, .column .item:hover h3, .column .item h4 {
     visibility: visible;
 }
 
@@ -145,6 +145,10 @@ footer {
     top: 0;
     width: auto;
     z-index: 2;
+}
+
+.column .item h4 {
+    fl
 }
 
 aside {

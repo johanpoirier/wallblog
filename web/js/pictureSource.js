@@ -8,6 +8,10 @@ define('pictureSource', ["jquery"], function($) {
             $.getJSON("/api/items?start=" + start + "&nb=" + nb, callback);
         },
         
+        'getFullItems' : function(callback, start, nb) {
+            $.getJSON("/api/itemsfull?start=" + start + "&nb=" + nb, callback);
+        },
+        
         'getItem' : function(callback, index) {
             $.getJSON("/api/items?start=" + index + "&nb=1", callback);
         },
