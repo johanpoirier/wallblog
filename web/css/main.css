@@ -166,23 +166,23 @@ aside h4 {
     margin: 7px 0 0 0;
 }
 
-.zoom {
+article.zoom {
     float: left;
     margin: 0;
     padding: 0;
     width: 100%;
     z-index: 3;
 }
-.zoom > div {
+article.zoom > div {
     overflow:hidden;
     margin-right: 299px;
 }
 
-.zoom span.picture {
+article.zoom span.picture {
     display: block;
     text-align: center;
 }
-.zoom span.picture img {
+article.zoom span.picture img {
     -moz-box-shadow: 0 0 2px 2px #bbb; 
     -webkit-box-shadow: 0 0 2px 2px #bbb;
     box-shadow: 0 0 2px 2px #bbb;
@@ -307,8 +307,12 @@ aside h4 {
     aside {
         display: none;
     }
-   
-    .zoom > div {
+
+    header.zoom {
+        display: none;
+    }
+
+    article.zoom > div {
         margin: 0;
     }
 }

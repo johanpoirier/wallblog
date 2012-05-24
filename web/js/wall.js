@@ -68,6 +68,7 @@ define("wall", ["jquery", "pictureSource", "tools", "storage", "zoom"], function
 
         'displayHeader' : function() {
             var self = this;
+            $("header").attr("class", "");
             $("header").html(self.header({
                 "nbItems" : self.nbItems
             }));

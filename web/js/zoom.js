@@ -26,27 +26,34 @@ define("zoom", ["jquery", "Handlebars", "tools", "tmpl!../views/headbar-zoom", "
                                 window.history.pushState(data, data['description'], "/item/" + data['id']);
                             }
                             tools.disableResizeLayout();
+                        
+                            // display header bar
+                            $(document).scrollTop(0);
+                            $("header").html(headbarZoom(data));
+                            $("header").addClass("zoom");
 
                             // display picture
                             data.currentDate = new Date();
                             tools.lockScroll();
                             $(".loader").hide();
                             $("#content").html(zoomTmpl(data));
-                        
-                            // display header bar
-                            $(document).scrollTop(0);
-                            $("header").html(headbarZoom(data));
             
                             // fix zoom top position
-                            var zoomSection = $(".zoom");
+                            var zoomSection = $("article.zoom");
                         
                             // adjust picture to availaible space
                             var pic = $("img", zoomSection);
                             availableWidth = $(window).width() - 20;
+                            availableHeight = $(window).height() - 80;
+                            
+                            // small screen fix
                             if($(window).width() > 600) {
                                 availableWidth -= 300;
                             }
-                            availableHeight = $(window).height() - 80;
+                            else {
+                                availableHeight += 80;
+                            }
+
                             ratio = pic.width() / pic.height();
                             if(pic.height() > availableHeight) {
                                 pic.height(availableHeight);
