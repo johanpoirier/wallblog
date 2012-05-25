@@ -13,7 +13,7 @@ define('pictureSource', ["jquery"], function($) {
         },
         
         'getItem' : function(callback, index) {
-            $.getJSON("/api/items?start=" + index + "&nb=1", callback);
+            $.getJSON("/api/itemsfull?start=" + index + "&nb=1", callback);
         },
         
         'countItems' : function(callback) {

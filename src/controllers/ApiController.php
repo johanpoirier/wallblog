@@ -23,7 +23,10 @@ class ApiController implements ControllerProviderInterface {
                     $nb = $request->get('nb');
                     $items = $app['picture_service']->get($nb, $start);
                     for ($i = 0; $i < sizeof($items); $i++) {
-                        $items[$i]['comments'] = $app['comment_service']->getByItem($items[$i]['id']);
+                        $comments = $app['comment_service']->getByItem($items[$i]['id']);
+                        if(sizeof($comments) > 0) {
+                            $items[$i]['comments'] = $comments;
+                        }
                     }
                     return $app['json']->constructJsonResponse($items);
                 });

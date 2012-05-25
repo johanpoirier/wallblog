@@ -133,7 +133,7 @@ footer {
     visibility: hidden;
     width: 100%;
 }
-.column .item:hover h2, .column .item:hover h3, .column .item h4 {
+.column .item:hover h2, .column .item:hover h3, .column .item:hover h4 {
     visibility: visible;
 }
 
@@ -148,7 +148,16 @@ footer {
 }
 
 .column .item h4 {
-    fl
+    background-image: url('comment.png');
+    background-position: right;
+    background-repeat: no-repeat;
+    bottom: auto;
+    font-size: medium;
+    padding: 4px 30px 4px 5px;
+    right: 0;
+    top: 0;
+    width: auto;
+    z-index: 2;
 }
 
 aside {
