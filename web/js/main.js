@@ -9,14 +9,9 @@ require.config({
     }
 });
 
-require(["jquery", "tools", "wall"],
-    function($, tools, wall) {
+require(["jquery", "routes", "tools", "wall"],
+    function($, routes, tools, wall) {
         $(function() {
-            // force appcache update
-            //if(Modernizr.applicationcache) {
-            //    window.applicationCache.update();
-            //}
-
             // hashtag change event
             $(window).bind("popstate", function(event) {
                 tools.viewportWidth = 0;
@@ -26,8 +21,20 @@ require(["jquery", "tools", "wall"],
                 event.preventDefault();
             });
             
-            // init wall
-            wall.init();
+            // routes
+            var path = window.location.pathname;
+            if(path && (path === "/app.html")) {
+                path = "/";
+            }
+            routes.add("item/{id}", function() {
+                console.log("item x");
+                wall.init();
+            });
+            routes.add("", function() {
+                // init wall
+                wall.init();
+            });
+            routes.handle(path);
             
             // admin login
             var lastLogin = tools.get("adminTimestamp");

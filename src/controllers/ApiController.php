@@ -24,7 +24,7 @@ class ApiController implements ControllerProviderInterface {
                     $items = $app['picture_service']->get($nb, $start);
                     for ($i = 0; $i < sizeof($items); $i++) {
                         $comments = $app['comment_service']->getByItem($items[$i]['id']);
-                        if(sizeof($comments) > 0) {
+                        if (sizeof($comments) > 0) {
                             $items[$i]['comments'] = $comments;
                         }
                     }
@@ -79,14 +79,25 @@ class ApiController implements ControllerProviderInterface {
                     }
                 });
 
-        $controllers->get('/items/rss', function (Application $app) {
-                    return $app['json']->constructJsonResponse($app['picture_service']->get(20, 0));
-                });
-
         $controllers->get('/items/count', function (Application $app) {
                     return $app['json']->constructJsonResponse($app['picture_service']->count());
                 });
 
+        $controllers->get('/user', function(Request $request) use($app) {
+                    $user = false;
+                    if ($request->hasSession()) {
+                        $loggedUserEmail = $request->getSession()->get('email');
+                        $user = $app['user_service']->getByEmail($loggedUserEmail);
+                        $user['password'] = '';
+                    }
+
+                    if ($user) {
+                        return json_encode($user);
+                    } else {
+                        return new Response("user not logged", 500);
+                    }
+                });
+                
         return $controllers;
     }
 

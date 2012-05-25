@@ -13,9 +13,10 @@ AddType text/cache-manifest .appcache
 
     RewriteEngine On
     RewriteRule ^(views)($|/) - [L]
-    #RewriteBase /path/to/app
+    RewriteRule ^api/(.*)$ index.php [QSA,L]
+    RewriteRule ^rss$ index.php [QSA,L]
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^(.*)$ index.php [QSA,L]
+    RewriteRule ^(.*)$ app.html [QSA,L]
 </IfModule>
 
 <IfModule mod_setenvif.c>
@@ -25,6 +26,6 @@ AddType text/cache-manifest .appcache
   </IfModule>
 </IfModule>
 
-<filesMatch "\.(ico|jpg|jpeg|png|gif|JPG|JPEG)$">
+<filesMatch "\.(jpg|jpeg|png|gif|JPG|JPEG)$">
     Header set Cache-Control "max-age=290304000, public"
 </filesMatch>

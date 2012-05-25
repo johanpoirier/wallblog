@@ -41,6 +41,11 @@ $app->register(new Silex\Provider\SessionServiceProvider(), array(
     'lifetime' => 1800 // 30 min
 ));
 
+$app->register(new Silex\Provider\TwigServiceProvider(), array(
+    'twig.path' => __DIR__.'/../views',
+    'twig.class_path' => __DIR__ . '/../vendor/twig/lib'
+));
+
 /** Services */
 $app['picture_service'] = $app->share(function() use ($app) {
     return new services\PictureService($app['db'], $app['monolog']);

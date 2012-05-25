@@ -3,15 +3,7 @@
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-$app->get('/', function() use($app) {
-    return $app->redirect('/app.html');
-});
-
-$app->get('/item/{id}', function($id) use($app) {
-    return $app->redirect('/app.html');
-});
-
-$app->post('/login', function(Request $request) use($app) {
+$app->post('/auth/login', function(Request $request) use($app) {
     $email = $app->escape($request->get('email'));
     $password = $request->get('password');
     $user = $app['user_service']->login($email, $password);
@@ -26,19 +18,11 @@ $app->post('/login', function(Request $request) use($app) {
     }
 });
 
-$app->get('/user', function(Request $request) use($app) {
-    $user = false;
-    if($request->hasSession()) {
-        $loggedUserEmail = $request->getSession()->get('email');
-        $user = $app['user_service']->getByEmail($loggedUserEmail);
-        $user['password'] = '';
-    }
-    
-    if($user) {
-        return json_encode($user);
-    }
-    else {
-        return new Response("user not logged", 500);
-    }
+$app->get('/rss', function () use ($app) {
+    $items = $app['picture_service']->get(20, 0);
+    $response = new Response();
+    $response->headers->set('Content-type', 'application/rss+xml; charset=utf-8');
+    return $app['twig']->render('rss.twig', array("now" => date("D, d M Y H:i:s T"), "items" => $items), $response);
 });
+
 ?>
