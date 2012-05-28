@@ -30,7 +30,7 @@ class WallBlogTest extends WebTestCase {
 
     public function testGetUser() {
         $client = $this->createClient();
-        $client->request('GET', '/user', array(), array());
+        $client->request('GET', '/auth/user', array(), array());
         $this->assertTrue($client->getResponse()->isOk());
         $jsonUser = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals($jsonUser["email"], "darth.vader@gmail.com");

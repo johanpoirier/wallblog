@@ -14,6 +14,7 @@ AddType text/cache-manifest .appcache
     RewriteEngine On
     RewriteRule ^(views)($|/) - [L]
     RewriteRule ^api/(.*)$ index.php [QSA,L]
+    RewriteRule ^auth/(.*)$ index.php [QSA,L]
     RewriteRule ^rss$ index.php [QSA,L]
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^(.*)$ app.html [QSA,L]

@@ -54,7 +54,7 @@ require(["jquery", "routes", "tools", "wall"],
                             if(password && (password.length > 0)) {
                                 $.ajax({
                                     type: 'POST',
-                                    url: "/login",
+                                    url: "/auth/login",
                                     data: {
                                         "email" : email, 
                                         "password" : password
