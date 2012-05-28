@@ -26,7 +26,7 @@ require(["jquery", "routes", "tools", "wall"],
             if(path && (path === "/app.html")) {
                 path = "/";
             }
-            routes.add("item/{id}", function() {
+            routes.add("item/:id", function() {
                 console.log("item x");
                 wall.init();
             });

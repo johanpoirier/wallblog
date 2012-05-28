@@ -14,7 +14,13 @@ define("routes", ["jquery"], function($) {
             
             for(var i = 0; i<this.routes.length; i++){
                 var registered_route = this.routes[i];
-                if(path === registered_route) {
+                
+                var path_pattern = '^' + registered_route.replace(/:\w+\((.*)\)/g, '($1)').replace(/:\w+/g, '([\\w\-]+)') + '$';
+                var path_regexp = new RegExp(path_pattern);
+                var path_parts = path.match(path_regexp);
+
+                // If path match
+                if(path_parts) {
                     console.log("route ok : " + path);
                     this.handlers[path]();
                     return;
