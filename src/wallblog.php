@@ -2,7 +2,6 @@
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use services\UserService;
 
 /** Bootstraping */
 require_once __DIR__ . '/../vendor/Silex/silex.phar';

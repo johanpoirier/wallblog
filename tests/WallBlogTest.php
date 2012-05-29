@@ -11,6 +11,7 @@ class WallBlogTest extends WebTestCase {
     
     public function createApplication() {
         $app = require __DIR__ . '/../src/wallblog_tests.php';
+		$app->mount('/api', new controllers\ApiController());
         $app['debug'] = true;
         unset($app['exception_handler']);
         $app['session.storage'] = $app->share(function() {
@@ -30,7 +31,7 @@ class WallBlogTest extends WebTestCase {
 
     public function testGetUser() {
         $client = $this->createClient();
-        $client->request('GET', '/auth/user', array(), array());
+        $client->request('GET', '/api/user', array(), array());
         $this->assertTrue($client->getResponse()->isOk());
         $jsonUser = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals($jsonUser["email"], "darth.vader@gmail.com");

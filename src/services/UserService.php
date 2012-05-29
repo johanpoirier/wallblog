@@ -38,7 +38,7 @@ class UserService {
         if (!$existingUser) {
             $user['email'] = strtolower($user['email']);
             $res = self::$db->insert(self::$table_name, $user);
-            self::$logger->addDebug("creating new user : " . $user);
+            self::$logger->addDebug("creating new user : " . $user['email']);
             if ($res == 1) {
                 return self::getByEmail($user['email']);
             }

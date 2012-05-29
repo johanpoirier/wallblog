@@ -14,6 +14,7 @@ $app['debug'] = true;
 $app['autoloader']->registerNamespace( 'services', __DIR__ . '/.' );
 $app['autoloader']->registerNamespace( 'controllers', __DIR__ . '/.' );
 
+
 /** Extensions */
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => array(
@@ -34,6 +35,11 @@ $app->register(new Silex\Provider\MonologServiceProvider(), array(
 
 $app->register(new Silex\Provider\SessionServiceProvider(), array(
     'lifetime' => 1800 // 30 min
+));
+
+$app->register(new Silex\Provider\TwigServiceProvider(), array(
+    'twig.path' => __DIR__.'/../views',
+    'twig.class_path' => __DIR__ . '/../vendor/twig/lib'
 ));
 
 /** Services */
