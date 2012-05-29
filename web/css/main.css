@@ -176,7 +176,14 @@ aside {
 
 aside h4 {
     color: white;
+    float: left;
     margin: 7px 0 0 0;
+    padding-left: 10px;
+}
+
+aside img {
+    float: right;
+    padding: 7px 15px 0 0;
 }
 
 article.zoom {

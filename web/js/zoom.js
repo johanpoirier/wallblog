@@ -83,7 +83,12 @@ define("zoom", ["jquery", "Handlebars", "tools", "tmpl!../views/headbar-zoom", "
 
                             // load comments
                             var displayComments = function(data) {
-                                $(commentsTmpl(data)).appendTo($("aside"));
+                                if(data.length > 0) {
+                                    $(commentsTmpl(data)).appendTo($("aside"));
+                                }
+                                else {
+                                    self.showCommentForm();
+                                }
                             };
                             $.get("/api/item/" + img.attr("id") + "/comments", displayComments);
                             
@@ -91,46 +96,7 @@ define("zoom", ["jquery", "Handlebars", "tools", "tmpl!../views/headbar-zoom", "
                             $("header button").unbind("click");
                             $("header button").click(function() {
                                 // show comment form
-                                var form = $("div.comment.form");
-                                form.show();
-                                tools.resetFormComment(form);
-                
-                                // virgin inputs
-                                var unVirgin = function(event) {
-                                    var element = $(event.currentTarget);
-                                    if(element.hasClass("virgin")) {
-                                        element.val("");
-                                        element.removeClass("virgin");
-                                    }
-                                };
-                                var author = $("input[name='author']", form);
-                                var text = $("textarea[name='text']", form);
-                                author.focus(unVirgin);
-                                text.focus(unVirgin);
-
-                                // add comment handler
-                                $("button.submit").unbind("click");
-                                $("button.submit").click(function() {
-                                    var id = $("input[name='id']").val();
-                                    if(!author.hasClass("virgin") && !text.hasClass("virgin")) {
-                                        var comment = {
-                                            "idItem": id, 
-                                            "author": $("input[name='author']").val(), 
-                                            "text": $("textarea[name='text']").val(), 
-                                            "date": null
-                                        };
-                                        $.post("/api/item/" + id + "/comments", JSON.stringify(comment), function(data) {
-                                            $(commentTmpl(data)).insertAfter($("aside div.comment.form"));
-                                            form.hide();
-                                        });
-                                    }
-                                });
-                
-                                // cancel handler
-                                $("button.cancel").unbind("click");
-                                $("button.cancel").click(function() {
-                                    form.hide();
-                                });
+                                self.showCommentForm();
                             });
                         }
                         
@@ -147,6 +113,49 @@ define("zoom", ["jquery", "Handlebars", "tools", "tmpl!../views/headbar-zoom", "
             });
         },
         
+        'showCommentForm' : function() {
+            var form = $("div.comment.form");
+            form.show();
+            tools.resetFormComment(form);
+                
+            // virgin inputs
+            var unVirgin = function(event) {
+                var element = $(event.currentTarget);
+                if(element.hasClass("virgin")) {
+                    element.val("");
+                    element.removeClass("virgin");
+                }
+            };
+            var author = $("input[name='author']", form);
+            var text = $("textarea[name='text']", form);
+            author.focus(unVirgin);
+            text.focus(unVirgin);
+
+            // add comment handler
+            $("button.submit").unbind("click");
+            $("button.submit").click(function() {
+                var id = $("input[name='id']").val();
+                if(!author.hasClass("virgin") && !text.hasClass("virgin")) {
+                    var comment = {
+                        "idItem": id, 
+                        "author": $("input[name='author']").val(), 
+                        "text": $("textarea[name='text']").val(), 
+                        "date": null
+                    };
+                    $.post("/api/item/" + id + "/comments", JSON.stringify(comment), function(data) {
+                        $(commentTmpl(data)).insertAfter($("aside div.comment.form"));
+                        form.hide();
+                    });
+                }
+            });
+                
+            // cancel handler
+            $("button.cancel").unbind("click");
+            $("button.cancel").click(function() {
+                form.hide();
+            });
+        },
+
         'close' : function() {
             if(Modernizr.history) {
                 window.history.back();
