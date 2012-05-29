@@ -1,4 +1,4 @@
-define("zoom", ["jquery", "Handlebars", "tools", "tmpl!../views/headbar-zoom", "jquery.dateFormat"], function($, hbs, tools, headbarZoom) {
+define("zoom", ["jquery", "Handlebars", "like", "tools", "tmpl!../views/headbar-zoom", "jquery.dateFormat"], function($, hbs, like, tools, headbarZoom) {
     return {
         'commentTmpl' : null,
 
@@ -118,6 +118,8 @@ define("zoom", ["jquery", "Handlebars", "tools", "tmpl!../views/headbar-zoom", "
         
         'showCommentForm' : function() {
             var self = this;
+
+            like.init();
 
             var form = $("div.comment.form");
             form.show();

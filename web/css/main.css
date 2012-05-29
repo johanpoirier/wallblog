@@ -281,6 +281,14 @@ article.zoom span.picture img {
     font-style: italic;
 }
 
+img.like {
+    display: none;
+}
+
+img.like, img.dontlike {
+    cursor: pointer;
+}
+
 /* for small screens */
 @media (max-width: 520px) {
     .column {
