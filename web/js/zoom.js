@@ -1,10 +1,13 @@
 define("zoom", ["jquery", "Handlebars", "tools", "tmpl!../views/headbar-zoom", "jquery.dateFormat"], function($, hbs, tools, headbarZoom) {
     return {
+        'commentTmpl' : null,
+
         'init' : function() {
             var self = this;
 
             // img full page functionnality
             require(["tmpl!/views/zoom", "tmpl!/views/comments", "tmpl!/views/comment"], function(zoomTmpl, commentsTmpl, commentTmpl) {
+                self.commentTmpl = commentTmpl;
                 hbs.registerHelper('formatDay', function(date) {
                     return $.format.date(date, "dd MMM yyyy");
                 });
@@ -114,10 +117,12 @@ define("zoom", ["jquery", "Handlebars", "tools", "tmpl!../views/headbar-zoom", "
         },
         
         'showCommentForm' : function() {
+            var self = this;
+
             var form = $("div.comment.form");
             form.show();
             tools.resetFormComment(form);
-                
+
             // virgin inputs
             var unVirgin = function(event) {
                 var element = $(event.currentTarget);
@@ -143,12 +148,12 @@ define("zoom", ["jquery", "Handlebars", "tools", "tmpl!../views/headbar-zoom", "
                         "date": null
                     };
                     $.post("/api/item/" + id + "/comments", JSON.stringify(comment), function(data) {
-                        $(commentTmpl(data)).insertAfter($("aside div.comment.form"));
+                        $(self.commentTmpl(data)).insertAfter($("aside div.comment.form"));
                         form.hide();
                     });
                 }
             });
-                
+
             // cancel handler
             $("button.cancel").unbind("click");
             $("button.cancel").click(function() {
