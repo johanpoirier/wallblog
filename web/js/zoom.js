@@ -1,10 +1,15 @@
 define("zoom", ["jquery", "Handlebars", "like", "tools", "jquery.dateFormat"], function($, hbs, like, tools) {
     return {
         'commentTmpl' : null,
+        'headbarZoomTmpl' : null,
 
         'init' : function() {
             var self = this;
 
+            require(["tmpl!/views/headbar-zoom"], function(headbarZoomTmpl) {
+                self.headbarZoomTmpl = headbarZoomTmpl;
+            });
+            
             // img full page functionnality
             require(["tmpl!/views/zoom", "tmpl!/views/comments", "tmpl!/views/comment"], function(zoomTmpl, commentsTmpl, commentTmpl) {
                 self.commentTmpl = commentTmpl;
@@ -18,14 +23,7 @@ define("zoom", ["jquery", "Handlebars", "like", "tools", "jquery.dateFormat"], f
                 $("img.wall").live("click", function() {
                     var img = $(this);
                     tools.scrollPosition = $(document).scrollTop();
-                    
-                    // display header bar
-                    require(["tmpl!/views/headbar-zoom"], function(headbarZoomTmpl) {
-                        $(document).scrollTop(0);
-                        $("header").html(headbarZoomTmpl(data));
-                        $("header").addClass("zoom");
-                    });
-                    
+
                     // chec local storage if items present
                     require(["storage"], function(storage) {
                         $(".loader").show();
@@ -37,6 +35,11 @@ define("zoom", ["jquery", "Handlebars", "like", "tools", "jquery.dateFormat"], f
                             }
                             tools.disableResizeLayout();
                         
+                            // display header bar
+                            $(document).scrollTop(0);
+                            $("header").html(self.headbarZoomTmpl(data));
+                            $("header").addClass("zoom");
+
                             // display picture
                             data.currentDate = new Date();
                             tools.lockScroll();
