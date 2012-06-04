@@ -1,4 +1,4 @@
-define("zoom", ["jquery", "Handlebars", "like", "tools", "tmpl!../views/headbar-zoom", "jquery.dateFormat"], function($, hbs, like, tools, headbarZoom) {
+define("zoom", ["jquery", "Handlebars", "like", "tools", "jquery.dateFormat"], function($, hbs, like, tools) {
     return {
         'commentTmpl' : null,
 
@@ -19,6 +19,13 @@ define("zoom", ["jquery", "Handlebars", "like", "tools", "tmpl!../views/headbar-
                     var img = $(this);
                     tools.scrollPosition = $(document).scrollTop();
                     
+                    // display header bar
+                    require(["tmpl!/views/headbar-zoom"], function(headbarZoomTmpl) {
+                        $(document).scrollTop(0);
+                        $("header").html(headbarZoomTmpl(data));
+                        $("header").addClass("zoom");
+                    });
+                    
                     // chec local storage if items present
                     require(["storage"], function(storage) {
                         $(".loader").show();
@@ -30,11 +37,6 @@ define("zoom", ["jquery", "Handlebars", "like", "tools", "tmpl!../views/headbar-
                             }
                             tools.disableResizeLayout();
                         
-                            // display header bar
-                            $(document).scrollTop(0);
-                            $("header").html(headbarZoom(data));
-                            $("header").addClass("zoom");
-
                             // display picture
                             data.currentDate = new Date();
                             tools.lockScroll();
