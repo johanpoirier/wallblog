@@ -1,18 +1,19 @@
 define("zoom", ["jquery", "Handlebars", "like", "tools", "jquery.dateFormat"], function($, hbs, like, tools) {
     return {
-        'commentTmpl' : null,
+        'zoomTmpl' : null,
         'headbarZoomTmpl' : null,
+        'commentsTmpl' : null,
+        'commentTmpl' : null,
 
-        'init' : function() {
+        'init' : function(id) {
             var self = this;
 
-            require(["tmpl!/views/headbar-zoom"], function(headbarZoomTmpl) {
-                self.headbarZoomTmpl = headbarZoomTmpl;
-            });
-            
             // img full page functionnality
-            require(["tmpl!/views/zoom", "tmpl!/views/comments", "tmpl!/views/comment"], function(zoomTmpl, commentsTmpl, commentTmpl) {
+            require(["tmpl!/views/headbar-zoom", "tmpl!/views/zoom", "tmpl!/views/comments", "tmpl!/views/comment"], function(headbarZoomTmpl, zoomTmpl, commentsTmpl, commentTmpl) {
+                self.headbarZoomTmpl = headbarZoomTmpl;
                 self.commentTmpl = commentTmpl;
+                self.commentsTmpl = commentsTmpl;
+                self.zoomTmpl = zoomTmpl;
                 hbs.registerHelper('formatDay', function(date) {
                     return $.format.date(date, "dd MMM yyyy");
                 });
@@ -21,103 +22,113 @@ define("zoom", ["jquery", "Handlebars", "like", "tools", "jquery.dateFormat"], f
                 });
                 
                 $("img.wall").live("click", function() {
-                    var img = $(this);
-                    tools.scrollPosition = $(document).scrollTop();
-
-                    // chec local storage if items present
-                    require(["storage"], function(storage) {
-                        $(".loader").show();
-                        
-                        var zoomImage = function(data) {
-                            // update uri
-                            if(Modernizr.history) {
-                                window.history.pushState(data, data['description'], "/item/" + data['id']);
-                            }
-                            tools.disableResizeLayout();
-                        
-                            // display header bar
-                            $(document).scrollTop(0);
-                            $("header").html(self.headbarZoomTmpl(data));
-                            $("header").addClass("zoom");
-
-                            // display picture
-                            data.currentDate = new Date();
-                            tools.lockScroll();
-                            $(".loader").hide();
-                            $("#content").html(zoomTmpl(data));
+                    self.displayItem($(this).attr("id"));
+                });
             
-                            // fix zoom top position
-                            var zoomSection = $("article.zoom");
-                        
-                            // adjust picture to availaible space
-                            var pic = $("img", zoomSection);
-                            availableWidth = $(window).width() - 20;
-                            availableHeight = $(window).height() - 80;
-                            
-                            // small screen fix
-                            if($(window).width() > 600) {
-                                availableWidth -= 300;
-                            }
-                            else {
-                                availableHeight += 80;
-                            }
-
-                            ratio = pic.width() / pic.height();
-                            if(pic.height() > availableHeight) {
-                                pic.height(availableHeight);
-                                newWidth = availableHeight * ratio;
-                                if(newWidth > availableWidth) {
-                                    pic.width(availableWidth);
-                                    pic.height(availableWidth / ratio);
-                                }
-                            }
-                            else if(pic.width() > availableWidth) {
-                                pic.width(availableWidth);
-                            }
-                            $("aside").height(pic.height());
+                // display if id
+                if(id) {
+                    self.displayItem(id);
+                }
+            });
+        },
+        
+        'displayItem' : function(id) {
+            var self = this;
             
-                            // click on the pic to close the zoom
-                            pic.click(function() {
-                                self.close();
-                            });
-                            
-                            // or press Esc
-                            require(["shortcut"], function(shortcut) {
-                                shortcut.remove("Esc");
-                                shortcut.add("Esc", function() {
-                                    self.close();
-                                });
-                            });
+            tools.scrollPosition = $(document).scrollTop();
 
-                            // load comments
-                            var displayComments = function(data) {
-                                if(data.length > 0) {
-                                    $(commentsTmpl(data)).appendTo($("aside"));
-                                }
-                                else {
-                                    self.showCommentForm();
-                                }
-                            };
-                            $.get("/api/item/" + img.attr("id") + "/comments", displayComments);
+            // chec local storage if items present
+            require(["storage"], function(storage) {
+                $(".loader").show();
+                        
+                var zoomImage = function(data) {
+                    // update uri
+                    if(Modernizr.history) {
+                        window.history.pushState(data, data['description'], "/item/" + data['id']);
+                    }
+                    tools.disableResizeLayout();
+                        
+                    // display header bar
+                    $(document).scrollTop(0);
+                    $("header").html(self.headbarZoomTmpl(data));
+                    $("header").addClass("zoom");
+
+                    // display picture
+                    data.currentDate = new Date();
+                    tools.lockScroll();
+                    $(".loader").hide();
+                    $("#content").html(self.zoomTmpl(data));
+            
+                    // fix zoom top position
+                    var zoomSection = $("article.zoom");
+                        
+                    // adjust picture to availaible space
+                    var pic = $("img", zoomSection);
+                    availableWidth = $(window).width() - 20;
+                    availableHeight = $(window).height() - 80;
                             
-                            // set button handlers
-                            $("header button").unbind("click");
-                            $("header button").click(function() {
-                                // show comment form
-                                self.showCommentForm();
-                            });
+                    // small screen fix
+                    if($(window).width() > 600) {
+                        availableWidth -= 300;
+                    }
+                    else {
+                        availableHeight += 80;
+                    }
+
+                    ratio = pic.width() / pic.height();
+                    if(pic.height() > availableHeight) {
+                        pic.height(availableHeight);
+                        newWidth = availableHeight * ratio;
+                        if(newWidth > availableWidth) {
+                            pic.width(availableWidth);
+                            pic.height(availableWidth / ratio);
                         }
-                        
-                        // check local storage before calling remote api
-                        var item = storage.get(img.attr("id"));
-                        if(item == null) {
-                            $.get("/api/item/" + img.attr("id"), zoomImage);
+                    }
+                    else if(pic.width() > availableWidth) {
+                        pic.width(availableWidth);
+                    }
+                    $("aside").height(availableHeight);
+            
+                    // click on the pic to close the zoom
+                    pic.click(function() {
+                        self.close();
+                    });
+                            
+                    // or press Esc
+                    require(["shortcut"], function(shortcut) {
+                        shortcut.remove("Esc");
+                        shortcut.add("Esc", function() {
+                            self.close();
+                        });
+                    });
+
+                    // load comments
+                    var displayComments = function(data) {
+                        if(data.length > 0) {
+                            $(self.commentsTmpl(data)).appendTo($("aside"));
                         }
                         else {
-                            zoomImage(item);
+                            self.showCommentForm();
                         }
+                    };
+                    $.get("/api/item/" + id + "/comments", displayComments);
+                            
+                    // set button handlers
+                    $("header button").unbind("click");
+                    $("header button").click(function() {
+                        // show comment form
+                        self.showCommentForm();
                     });
-                });
+                }
+                        
+                // check local storage before calling remote api
+                var item = storage.get(id);
+                if(item == null) {
+                    $.get("/api/item/" + id, zoomImage);
+                }
+                else {
+                    zoomImage(item);
+                }
             });
         },
         

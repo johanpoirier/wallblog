@@ -9,29 +9,31 @@ require.config({
     }
 });
 
-require(["jquery", "routes", "tools", "wall"],
-    function($, routes, tools, wall) {
+require(["jquery", "routes", "tools", "wall", "zoom"],
+    function($, routes, tools, wall, zoom) {
         $(function() {
-            // hashtag change event
-            $(window).bind("popstate", function(event) {
-                tools.viewportWidth = 0;
-                tools.unlockScroll();
-                wall.displayHeader();
-                wall.displayItems(false);
-                event.preventDefault();
-            });
-            
             // routes
             var path = window.location.pathname;
             if(path && (path === "/app.html")) {
                 path = "/";
             }
-            routes.add("item/:id", function() {
-                console.log("item x");
-                wall.init();
+            
+            // single item view
+            routes.add("item/:id", function(id) {
+                console.log("item " + id);
+                zoom.init(id);
             });
+            
+            // wall view
             routes.add("", function() {
-                // init wall
+                // hashtag change event
+                $(window).bind("popstate", function(event) {
+                    tools.viewportWidth = 0;
+                    tools.unlockScroll();
+                    wall.displayItems(false);
+                    event.preventDefault();
+                });
+                
                 wall.init();
             });
             routes.handle(path);
