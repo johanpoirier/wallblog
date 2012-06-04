@@ -17,6 +17,18 @@ define('tools', ["jquery"], function($) {
             return divColumns[shorterColumnIndex];
         },
         
+        'getIndexOfMinValue' : function(myArray) {
+            var indexOf = -1;
+            var minValue = 99999999;
+            for(var i=0; i<myArray.length; i++) {
+                if(myArray[i] < minValue) {
+                    minValue = myArray[i];
+                    indexOf = i;
+                }
+            }
+            return indexOf;
+        },
+        
         'lockScroll' : function() {
             // lock scroll position, but retain settings for later
             var scrollPosition = [

@@ -3,6 +3,8 @@ define("wall", ["jquery", "pictureSource", "tools", "storage", "zoom"], function
         'header' : null,
         'template' : null,
         'nbItems' : 0,
+        'columns' : null,
+        'columnHeights' : null,
         
         'init' : function() {
             var self = this;
@@ -22,7 +24,7 @@ define("wall", ["jquery", "pictureSource", "tools", "storage", "zoom"], function
             });
             
             // browser resizes -> update layout
-            tools.enableResizeLayout(this.displayItems);
+            tools.enableResizeLayout($.proxy(self.displayItems, this));
 
             // img full page functionnality
             zoom.init();
@@ -33,19 +35,21 @@ define("wall", ["jquery", "pictureSource", "tools", "storage", "zoom"], function
                     if(!pictureSource.loadingComplete && (($(window).scrollTop() - ($(document).height() - $(window).height())) <= 0)) {
                         if(pictureSource.loading == false) {
                             pictureSource.loading = true;
-                            pictureSource.getItem(function(items) {
+                            pictureSource.getFullItems(function(items) {
                                 if(items.length == 0) {
                                     pictureSource.loadingComplete = true;
                                     return;
                                 }
-                                
-                                // store image
-                                storage.set(items[0]['id'], items[0]);
        
-                                items[0]['date'] = $.format.date(items[0]['date'], "dd MMM yyyy");
-                                $(picture(items[0])).appendTo(tools.getShorterColumn());
+                                // dispatch item to the shortest column
+                                items = self.dispatchItems(items, true);
+                                for(var i=0; i<items.length; i++) {
+                                    $(picture(items[i])).appendTo($("div.column").eq(items[i]['column']));
+                                }
+                                
                                 pictureSource.loading = false;
-                            }, pictureSource.index++);
+                            }, pictureSource.index, 3);
+                            pictureSource.index += 3;
                         }
                     }
                 };
@@ -89,60 +93,60 @@ define("wall", ["jquery", "pictureSource", "tools", "storage", "zoom"], function
             // get items to display
             // 2 or 3 columns ?
             if(tools.viewportWidth < 520) {
-                columns = new Array(new Array(), new Array());
+                self.columns = new Array(new Array(), new Array());
+                self.columnHeights = new Array(0, 0);
             }
             else {
-                columns = new Array(new Array(), new Array(), new Array());
+                self.columns = new Array(new Array(), new Array(), new Array());
+                self.columnHeights = new Array(0, 0, 0);
             }
             if((forceRefresh === true) || !localStorage) {
                 pictureSource.getFullItems(function(items) {
                     // dispatching items to columns
-                    columnIndex = 0;
-                    for(i=0; i<items.length; i++) {
-                        // store image details
-                        storage.set(items[i]['id'], items[i]);
-
-                        // format date to display
-                        items[i]['date'] = $.format.date(items[i]['date'], "dd MMM yyyy");
-                        columns[columnIndex].push(items[i]);
-                        columnIndex++;
-                        if (columnIndex == columns.length) {
-                            columnIndex = 0;
-                        }
-                    }
+                    self.dispatchItems(items, true);
                     pictureSource.index = 9;
 
                     // call to hbs template
-                    if(self.template) {
-                        $("#content").html(self.template({
-                            "columns" : columns
-                        }));
-                    }
+                    $("#content").html(self.template({
+                        "columns" : self.columns
+                    }));
                 }, 0, 9);
             }
             else {
                 // dispatching items to columns
-                columnIndex = 0;
                 var items = storage.getAll();
                 items = tools.sort(items, "date");
-                nbItems = items.length;
-                for(i=0; i<nbItems; i++) {
-                    items[i]['date'] = $.format.date(items[i]['date'], "dd MMM yyyy");
-                    columns[columnIndex].push(items[i]);
-                    columnIndex++;
-                    if (columnIndex == columns.length) {
-                        columnIndex = 0;
-                    }
-                }
+                this.dispatchItems(items);
 
                 // call to hbs template
                 $("#content").html(self.template({
-                    "columns" : columns
+                    "columns" : self.columns
                 }));
 
                 // set scroll position
                 $(document).scrollTop(tools.scrollPosition);
             }
+        },
+        
+        'dispatchItems' : function(items, store) {
+            for(i=0; i<items.length; i++) {
+                if(store) {
+                    storage.set(items[i]['id'], items[i]);
+                }
+
+                // format date to display
+                items[i]['date'] = $.format.date(items[i]['date'], "dd MMM yyyy");
+                
+                // dispatch item to the shortest column
+                var indexOfMinValue = tools.getIndexOfMinValue(this.columnHeights);
+                items[i]['column'] = indexOfMinValue;
+                this.columns[indexOfMinValue].push(items[i]);
+                
+                // add ratio to the column heights
+                var ratio = parseInt(items[i]['height']) / parseInt(items[i]['width'])
+                this.columnHeights[indexOfMinValue] += ratio;
+            }
+            return items;
         }
     }
 });

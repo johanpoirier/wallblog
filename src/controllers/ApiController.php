@@ -83,6 +83,10 @@ class ApiController implements ControllerProviderInterface {
                     return $app['json']->constructJsonResponse($app['picture_service']->count());
                 });
 
+        $controllers->get('/items/rebuild', function (Application $app) {
+                    return $app['picture_service']->rebuild();
+                });
+
         $controllers->get('/user', function(Request $request) use($app) {
                     $user = false;
                     if ($request->hasSession()) {
@@ -97,7 +101,7 @@ class ApiController implements ControllerProviderInterface {
                         return new Response("user not logged", 500);
                     }
                 });
-                
+
         return $controllers;
     }
 

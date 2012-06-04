@@ -51,8 +51,13 @@ class PictureService {
             }
         }
         $item["date"] = $date;
-        self::$db->insert(self::$table_name, $item);
+
         $this->resize(self::$dir . "/" . $file_name, 1024);
+        $image_info = getimagesize(self::$dir . "/" . $file_name);
+        $item["width"] = $image_info[0];
+        $item["height"] = $image_info[1];
+
+        self::$db->insert(self::$table_name, $item);
     }
 
     public function getExtension($file_name) {
@@ -104,6 +109,13 @@ class PictureService {
         }
     }
 
+    public function rebuild() {
+        $items = self::get(999999, 0);
+        for ($i = 0; $i < sizeof($items); $i++) {
+            $item = $items[$i];
+            $image_info = getimagesize(self::$dir . "/" . $item['file']);
+            self::$db->update(self::$table_name, array("width" => $image_info[0], "height" => $image_info[1]), array('id' => $item['id']));
+        }
+    }
 }
-
 ?>
