@@ -30,6 +30,7 @@ require(["jquery", "routes", "tools", "wall", "zoom"],
                 $(window).bind("popstate", function(event) {
                     tools.viewportWidth = 0;
                     tools.unlockScroll();
+                    wall.displayHeader();
                     wall.displayItems(false);
                     event.preventDefault();
                 });
