@@ -81,6 +81,12 @@ define("wall", ["jquery", "pictureSource", "tools", "storage", "zoom"], function
         'displayItems' : function(forceRefresh) {
             var self = this;
             
+            // if not initialized
+            if(!self.header && ! self.template) {
+                self.init();
+                return;
+            }
+
             // no redisplaying if the number of columns don't change
             previousViewportWidth = tools.viewportWidth;
             tools.viewportWidth = window.innerWidth;

@@ -12,7 +12,9 @@ define("routes", ["jquery"], function($) {
             // remove trailing query string part of the path
             path = path.split("?")[0];
             
-            for(var i = 0; i<this.routes.length; i++){
+            var args = new Array();
+            
+            for(var i=0; i<this.routes.length; i++){
                 var registered_route = this.routes[i];
                 var handler = this.handlers[this.routes[i]];
                 
@@ -23,7 +25,10 @@ define("routes", ["jquery"], function($) {
                 // If path match
                 if(path_parts) {
                     console.log("route ok : " + path);
-                    handler();
+                    for(var i=1; i<path_parts.length; i++){
+                        args.push(path_parts[i]);
+                    }
+                    handler(args);
                     return;
                 }
             }

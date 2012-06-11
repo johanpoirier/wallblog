@@ -80,8 +80,9 @@ header .date {
 }
 
 footer {
-    float: right;
     clear: both;
+    float: right;
+    padding: 5px 10px;
 }
 
 .loader {
@@ -287,6 +288,7 @@ img.like {
 
 img.like, img.dontlike {
     cursor: pointer;
+    display: none;
 }
 
 /* for small screens */
