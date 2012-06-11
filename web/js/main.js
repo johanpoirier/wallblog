@@ -37,7 +37,7 @@ require(["jquery", "routes", "tools", "wall"],
             routes.handle(path);
             
             // admin login
-            var lastLogin = tools.get("adminTimestamp");
+            var lastLogin = tools.getFromSession("adminTimestamp");
             var now = new Date();
             if((lastLogin != null) && ((now.getTime() - lastLogin) < 600000)) {
                 require(["admin"], function(admin) {
@@ -63,7 +63,7 @@ require(["jquery", "routes", "tools", "wall"],
                                         require(["admin"], function(admin) {
                                             alert("Login successful");
                                             var now = new Date();
-                                            tools.set("adminTimestamp", now.getTime());
+                                            tools.setInSession("adminTimestamp", now.getTime());
                                             admin.init();
                                         });
                                     },

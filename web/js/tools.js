@@ -72,6 +72,19 @@ define('tools', ["jquery"], function($) {
             return null;
         },
         
+        'setInSession' : function(key, value) {
+            if(Modernizr.localstorage) {
+                sessionStorage.setItem(key, value);
+            }
+        },
+        
+        'getFromSession' : function(key) {
+            if(Modernizr.localstorage) {
+                return sessionStorage.getItem(key);
+            }
+            return null;
+        },
+        
         'sort' : function(items, criterion) {
             return items.sort(function(a, b) {
                 if(!a[criterion]) {

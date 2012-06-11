@@ -52,7 +52,7 @@ define('admin', ["jquery", "tools", "jquery.filedrop"], function($, tools) {
         },
         
         'isAdmin' : function() {
-            var lastLogin = tools.get("adminTimestamp");
+            var lastLogin = tools.getFromSession("adminTimestamp");
             var now = new Date();
             return (lastLogin != null) && ((now.getTime() - lastLogin) < 600000);
         }
