@@ -50,32 +50,9 @@ require(["jquery", "routes", "tools", "wall", "zoom"],
             else {
                 require(["shortcut"], function(shortcut) {
                     shortcut.add("Ctrl+Alt+L", function() {
-                        var email = prompt("Email ?");
-                        var password = "";
-                        if(email && (email.length > 0)) {
-                            password = prompt("Password ?");
-                            if(password && (password.length > 0)) {
-                                $.ajax({
-                                    type: 'POST',
-                                    url: "/auth/login",
-                                    data: {
-                                        "email" : email, 
-                                        "password" : password
-                                    },
-                                    success: function() {
-                                        require(["admin"], function(admin) {
-                                            alert("Login successful");
-                                            var now = new Date();
-                                            tools.setInSession("adminTimestamp", now.getTime());
-                                            admin.init();
-                                        });
-                                    },
-                                    failure: function() {
-                                        alert("Login failed");
-                                    }
-                                });
-                            }
-                        }
+                        require(["admin"], function(admin) {
+                            admin.showLogin(); 
+                        });
                     });
                 });
             }

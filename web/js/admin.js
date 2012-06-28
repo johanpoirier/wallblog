@@ -1,7 +1,9 @@
 define('admin', ["jquery", "tools", "jquery.filedrop"], function($, tools) {
     return {
+        'loginTmpl' : null,
+        
         'init' : function() {
-           this.setupFiledrop();
+            this.setupFiledrop();
         },
 
         'setupFiledrop' : function() {
@@ -55,6 +57,59 @@ define('admin', ["jquery", "tools", "jquery.filedrop"], function($, tools) {
             var lastLogin = tools.getFromSession("adminTimestamp");
             var now = new Date();
             return (lastLogin != null) && ((now.getTime() - lastLogin) < 600000);
+        },
+        
+        'showLogin' : function() {
+            var self = this;
+            require(["shortcut", "tmpl!/views/login"], function(shortcut, loginTmpl) {
+                if(!self.loginTmpl) {
+                    self.loginTmpl = loginTmpl;
+                }
+
+                $("#content").append(self.loginTmpl());
+
+                var submitButton = $("button.submit", $(".form.login"));
+                submitButton.unbind("click");
+                submitButton.click(function() {
+                    $.ajax({
+                        type: 'POST',
+                        url: "/auth/login",
+                        data: {
+                            "email" : $("#email").val(), 
+                            "password" : $("#password").val()
+                        },
+                        success: function() {
+                            var now = new Date();
+                            tools.setInSession("adminTimestamp", now.getTime());
+                            self.hideLogin();
+                            self.init();
+                        },
+                        error: function() {
+                            alert("Email et/ou mot de passe incorrects.");
+                        }
+                    });
+                });
+                
+                // click Cancel button to close dialog
+                var cancelButton = $("button.cancel", $(".form.login"));
+                cancelButton.unbind("click");
+                cancelButton.click(function() {
+                    self.hideLogin();
+                });
+                    
+                // or press Esc
+                require(["shortcut"], function(shortcut) {
+                    shortcut.remove("Esc");
+                    shortcut.add("Esc", function() {
+                        self.hideLogin();
+                    });
+                });
+            });
+        },
+        
+        'hideLogin' : function() {
+            $("button", $(".form.login")).unbind("click");
+            $("#overlay").remove();
         }
     }
 });
