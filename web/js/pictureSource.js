@@ -18,6 +18,16 @@ define('pictureSource', ["jquery"], function($) {
         
         'countItems' : function(callback) {
             $.getJSON("/api/items/count", callback);
+        },
+        
+        'updateItem' : function(callback, item) {
+            $.ajax({
+                type: "PUT",
+                url: "/api/item/" + item['id'],
+                dataType: "json",
+                data: '{ "id" : "' + item['id'] + '", "description" : "' + item['description'] + '"}',
+                success: callback
+            });
         }
     }
 });

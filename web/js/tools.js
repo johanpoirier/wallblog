@@ -47,7 +47,9 @@ define('tools', ["jquery"], function($) {
             var html = $('html');
             var scrollPosition = html.data('scroll-position');
             html.css('overflow', html.data('previous-overflow'));
-            window.scrollTo(scrollPosition[0], scrollPosition[1]);
+            if(scrollPosition && scrollPosition.length > 1) {
+                window.scrollTo(scrollPosition[0], scrollPosition[1]);
+            }
         },
         
         'resetFormComment' : function(form) {

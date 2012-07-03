@@ -67,6 +67,7 @@ define('admin', ["jquery", "tools", "jquery.filedrop"], function($, tools) {
                 }
 
                 $("#content").append(self.loginTmpl());
+                $("input[name='email']").focus();
 
                 var submitButton = $("button.submit", $(".form.login"));
                 submitButton.unbind("click");

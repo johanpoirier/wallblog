@@ -60,6 +60,16 @@ class PictureService {
         self::$db->insert(self::$table_name, $item);
     }
 
+    public function update($item) {
+        self::$logger->addDebug("updating item : " . $item['id']);
+        $res = self::$db->update(self::$table_name, $item, array('id' => $item['id']));
+        self::$logger->addDebug("updating item result = " . $res);
+        if ($res == 1) {
+            return self::getById($item['id']);
+        }
+        return false;
+    }
+
     public function getExtension($file_name) {
         $ext = explode('.', $file_name);
         $ext = array_pop($ext);

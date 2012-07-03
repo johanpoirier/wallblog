@@ -1,13 +1,10 @@
 <a href="/"><img src="/css/logo_m.png" alt="Logo" /></a>
 <span>{{formatDay date}} :</span>
-<span>
+<span class="description">
 {{#if description}}
     {{description}}
 {{else}}
     {{file}}
 {{/if}}
 </span>
-{{#if isAdmin }}
-<span>[A]</span>
-{{/if}}
 <button>Ajouter un commentaire</button>

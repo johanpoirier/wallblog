@@ -41,8 +41,14 @@ class ApiController implements ControllerProviderInterface {
                     return $app['json']->constructJsonResponse($app['comment_service']->getByItem($id));
                 })->assert('id', '\d+');
 
-        $controllers->post('/item/{id}/comments', function (Application $app, Request $request) {
+        $controllers->put('/item/{id}', function (Application $app, Request $request) {
                     $app['monolog']->addDebug($request->getContent());
+                    $jsonItem = json_decode($request->getContent(), true);
+                    $item = $app['picture_service']->update($jsonItem);
+                    return $app['json']->constructJsonResponse($item);
+                });
+
+        $controllers->post('/item/{id}/comments', function (Application $app, Request $request) {
                     $jsonComment = json_decode($request->getContent(), true);
                     $comment = $app['comment_service']->add($jsonComment);
                     return $app['json']->constructJsonResponse($comment);
