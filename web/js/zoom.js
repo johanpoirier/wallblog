@@ -5,16 +5,18 @@ define("zoom", ["jquery", "Handlebars", "pictureSource", "like", "tools", "jquer
             'headbarZoomTmpl' : null,
             'commentsTmpl' : null,
             'commentTmpl' : null,
+            'labels' : null,
 
             'init' : function(id) {
                 var self = this;
 
                 // img full page functionnality
-                require(["tmpl!/views/headbar-zoom", "tmpl!/views/zoom", "tmpl!/views/comments", "tmpl!/views/comment"], function(headbarZoomTmpl, zoomTmpl, commentsTmpl, commentTmpl) {
+                require(["tmpl!/views/headbar-zoom", "tmpl!/views/zoom", "tmpl!/views/comments", "tmpl!/views/comment", "i18n!nls/labels"], function(headbarZoomTmpl, zoomTmpl, commentsTmpl, commentTmpl, labels) {
                     self.headbarZoomTmpl = headbarZoomTmpl;
                     self.commentTmpl = commentTmpl;
                     self.commentsTmpl = commentsTmpl;
                     self.zoomTmpl = zoomTmpl;
+                    self.labels = labels;
                     hbs.registerHelper('formatDay', function(date) {
                         return $.format.date(date, "dd MMM yyyy");
                     });
@@ -48,6 +50,8 @@ define("zoom", ["jquery", "Handlebars", "pictureSource", "like", "tools", "jquer
                             window.history.pushState(data, data['description'], "/item/" + data['id']);
                         }
                         tools.disableResizeLayout();
+                        
+                        data['i18n'] = self.labels;
                         
                         // display header bar
                         $(document).scrollTop(0);

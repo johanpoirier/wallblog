@@ -47,7 +47,7 @@ define('admin', ["jquery", "tools", "jquery.filedrop"], function($, tools) {
                     }
                     var desc = prompt("Description de la photo ?");
                     if(desc && desc.length > 0) {
-                        this.url = "/api/item?description=" + desc;
+                        this.url = "/api/item?description=" + encodeURIComponent(desc);
                     }
                 }
             });

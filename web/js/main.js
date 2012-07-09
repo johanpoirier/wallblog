@@ -5,7 +5,7 @@ require.config({
         "shortcut": "lib/shortcut",
         "jquery.mousewheel": "lib/jquery.mousewheel",
         "jquery.dateFormat": "lib/jquery.dateFormat",
-        "jquery.filedrop": "lib/jquery.filedrop"
+        "jquery.filedrop": "lib/jquery.filedrop",
     }
 });
 
