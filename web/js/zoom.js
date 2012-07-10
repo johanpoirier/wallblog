@@ -18,10 +18,10 @@ define("zoom", ["jquery", "Handlebars", "pictureSource", "like", "tools", "jquer
                     self.zoomTmpl = zoomTmpl;
                     self.labels = labels;
                     hbs.registerHelper('formatDay', function(date) {
-                        return $.format.date(date, "dd MMM yyyy");
+                        return $.format.date(date, labels.dateFormat);
                     });
                     hbs.registerHelper('formatDatetime', function(date) {
-                        return $.format.date(date, "le dd/MM/yyyy à HH:mm");
+                        return $.format.date(date, labels.dateTimeFormat);
                     });
                 
                     $("img.wall").live("click", function() {

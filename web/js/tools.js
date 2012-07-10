@@ -1,4 +1,4 @@
-define('tools', ["jquery"], function($) {
+define('tools', ["jquery", "i18n!nls/labels"], function($, i18n) {
     return {
         'viewportWidth' : 0,
         'scrollPosition' : 0,
@@ -55,10 +55,10 @@ define('tools', ["jquery"], function($) {
         'resetFormComment' : function(form) {
             var author = $("input[name='author']", form);
             author.addClass("virgin");
-            author.val("votre nom ici ...");
+            author.val(i18n.authorHint);
             var text = $("textarea[name='text']", form);
             text.addClass("virgin");
-            text.val("votre commentaire ici ...");
+            text.val(i18n.commentHint);
         },
         
         'set' : function(key, value) {
