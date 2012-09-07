@@ -25,6 +25,11 @@ class PictureService {
         return self::$db->fetchAll($sql);
     }
 
+    public function getAll() {
+        $sql = "SELECT * FROM " . self::$table_name . " ORDER BY date DESC";
+        return self::$db->fetchAll($sql);
+    }
+
     public function getById($id) {
         $sql = "SELECT * FROM " . self::$table_name . " WHERE id = ?";
         return self::$db->fetchAssoc($sql, array($id));

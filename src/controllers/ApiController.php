@@ -12,13 +12,21 @@ class ApiController implements ControllerProviderInterface {
     public function connect(Application $app) {
         $controllers = new ControllerCollection();
 
-        $controllers->get('/items', function (Application $app, Request $request) {
+        $controllers->get('/item', function (Application $app, Request $request) {
                     $start = $request->get('start');
                     $nb = $request->get('nb');
-                    return $app['json']->constructJsonResponse($app['picture_service']->get($nb, $start));
+                    if(!$start) {
+                        $start = 0;
+                    }
+                    if(!$nb) {
+                        return $app['json']->constructJsonResponse($app['picture_service']->getAll());
+                    }
+                    else {
+                        return $app['json']->constructJsonResponse($app['picture_service']->get($nb, $start));
+                    }
                 });
 
-        $controllers->get('/itemsfull', function (Application $app, Request $request) {
+        $controllers->get('/itemfull', function (Application $app, Request $request) {
                     $start = $request->get('start');
                     $nb = $request->get('nb');
                     $items = $app['picture_service']->get($nb, $start);
