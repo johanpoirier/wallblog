@@ -46,9 +46,9 @@ require.config({
 });
 
 // Load our app module and pass it to our definition function
-require(['backbone', 'router', 'i18n!nls/messages', 'views/app', 'collections/items']
+require(['backbone', 'router', 'i18n!nls/messages', 'views/app']
         , function(Backbone, AppRouter, messages, AppView, Items){
-    new AppView({root: $('#wallblog')});
+    new AppView({root: "body"});
     new AppRouter();
     Backbone.history.start();
 });

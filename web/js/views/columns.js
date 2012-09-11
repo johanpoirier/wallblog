@@ -1,12 +1,16 @@
 define([
-  'underscore', 'backbone', 'resthub-handlebars', 'collections/items', 'hbs!templates/items.html', 'views/item', 'i18n!nls/messages'],
-  function(_, Backbone, Handlebars, ItemCollection, itemsTmpl, ItemView, messages){
-  var ItemsView = Backbone.View.extend({
+  'underscore', 'backbone', 'resthub-handlebars', 'collections/columns', 'hbs!templates/columns.html', 'views/column', 'i18n!nls/messages'],
+  function(_, Backbone, Handlebars, ColumnCollection, columnsTmpl, ColumnView, messages){
+  var ColumnsView = Backbone.View.extend({     
+    
+    template: columnsTmpl,
+    tagName: "div",
+    className: "column",
+    strategy: "append",
 
     // Delegated events for creating new items, and clearing completed ones.
     events: {
     },
-    template: itemsTmpl,
 
     // At initialization we bind to the relevant events on the `Todos`
     // collection, when items are added or changed. Kick things off by
@@ -18,20 +22,16 @@ define([
       // Add this context in order to allow automatic removal of the calback with dispose()
       this.collection.on('add',     this.addOne, this);
       this.collection.on('reset',   this.addAll, this);
-      this.collection.on('all',     this.refresh, this);
       
       this.render({messages: messages});
 
-      this.collection.fetch();
+      this.collection.fetch({error: function() { console.log(arguments); }});
     },
     
-    // Add a single todo item to the list by creating a view for it, and
-    // appending its element to the `<ul>`.
-    addOne: function(item) {
-      var itemView = new ItemView({root: $('.column'), model: item});
+    addOne: function(column) {
+      var columnView = new ColumnView({root: $('#content'), model: column});
     },
 
-    // Add all items in the **Todos** collection at once.
     addAll: function() {
         this.collection.each(this.addOne);
     },
@@ -40,5 +40,5 @@ define([
 
     }
   });
-  return ItemsView;
+  return ColumnsView;
 });

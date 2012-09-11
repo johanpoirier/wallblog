@@ -1,15 +1,11 @@
-define(['jquery', 'underscore', 'backbone', 'resthub-handlebars', 'hbs!templates/item.html'],
-function($, _, Backbone, Handlebars, itemTmpl){
-  var ItemView = Backbone.View.extend({
+define(['jquery', 'underscore', 'backbone', 'resthub-handlebars', 'hbs!templates/column.html'],
+function($, _, Backbone, Handlebars, columnTmpl){
+  var ColumnView = Backbone.View.extend({
 
     tagName:  "div",
-    className: "item",
-    template: itemTmpl,
+    className: "column",
+    template: columnTmpl,
     strategy: "append",
-
-    // The DOM events specific to an item.
-    events: {
-    },
 
     // The TodoView listens for changes to its model, re-rendering. Since there's
     // a one-to-one correspondence between a **Todo** and a **TodoView** in this
@@ -31,5 +27,5 @@ function($, _, Backbone, Handlebars, itemTmpl){
       this.model.clear();
     }
   });
-  return ItemView;
+  return ColumnView;
 });
