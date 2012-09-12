@@ -1,4 +1,4 @@
-define(['underscore', 'backbone', 'models/item'], function(_, Backbone, Item) {
+define(['backbone', 'models/item'], function(Backbone, Item) {
   var ItemCollection = Backbone.Collection.extend({
     model: Item
   });

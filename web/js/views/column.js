@@ -1,5 +1,5 @@
-define(['jquery', 'underscore', 'backbone', 'resthub-handlebars', 'hbs!templates/column.html'],
-function($, _, Backbone, Handlebars, columnTmpl){
+define(['underscore', 'backbone', 'hbs!templates/column.html', 'views/items'],
+function(_, Backbone, columnTmpl, ItemsView){
   var ColumnView = Backbone.View.extend({
 
     tagName:  "div",
@@ -15,7 +15,10 @@ function($, _, Backbone, Handlebars, columnTmpl){
       // Add this context in order to allow automatic removal of the calback with dispose()
       this.model.on('change', this.refresh, this);
       this.model.on('destroy', this.remove, this);
-      this.render(this.model.toJSON());
+      
+      this.render();
+
+      new ItemsView({collection: this.model.items, rootEl: this.el});
     },
 
     refresh: function() {

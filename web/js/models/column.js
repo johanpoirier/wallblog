@@ -1,22 +1,19 @@
-define(['underscore', 'backbone', 'collections/items'], function(_, Backbone, ItemCollection) {
-  var ColumnModel = Backbone.Model.extend({
+define(['backbone', 'collections/items'], function(Backbone, ItemCollection) {
+    var ColumnModel = Backbone.Model.extend({
 
-    // Wait for server feedback to perform deletion
-    wait: true,
-    items: new ItemCollection(),
+        initialize: function(options) {
+            // Add this context in order to allow automatic removal of the calback with dispose()
+            _.bindAll(this, 'add', 'clear');
+            this.items = new ItemCollection();
+        },
 
-    initialize: function() {
-      
-    },
-
-    clear: function() {
-      this.destroy();
-    },
+        clear: function() {
+            this.destroy();
+        },
     
-    add: function(item) {
-      this.items.add(item);
-    }
-
-  });
-  return ColumnModel;
+        add: function(item) {
+            this.items.add(item);
+        }
+    });
+    return ColumnModel;
 });
