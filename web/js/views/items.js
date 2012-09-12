@@ -19,11 +19,7 @@ define(['underscore', 'backbone', 'views/item'],
             },
 	
             addOne: function(item) {
-                console.log(this.rootEl);
-                var itemView = new ItemView({
-                    root: this.rootEl, 
-                    model: item
-                });
+                var itemView = new ItemView({ root: this.rootEl, model: item });
             }
         });
         return ItemsView;
