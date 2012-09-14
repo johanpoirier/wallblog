@@ -18,22 +18,22 @@ define(['underscore', 'backbone', 'views/column'],
                         console.log(arguments);
                     }
                 });
-        },
+            },
     
-        addOne: function(column) {
-            var columnView = new ColumnView({
-                root: $('#content'), 
-                model: column
-            });
-        },
+            addOne: function(column) {
+                var columnView = new ColumnView({
+                    root: $('#content'), 
+                    model: column
+                });
+            },
 
-        addAll: function() {
-            this.collection.each(this.addOne);
-        },
+            addAll: function() {
+                this.collection.each(this.addOne);
+            },
     
-        refresh: function() {
+            refresh: function() {
 
-        }
+            }
+        });
+        return ColumnsView;
     });
-    return ColumnsView;
-});

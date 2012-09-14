@@ -46,9 +46,8 @@ require.config({
 });
 
 // Load our app module and pass it to our definition function
-require(['backbone', 'router', 'i18n!nls/messages', 'views/app']
-        , function(Backbone, AppRouter, messages, AppView, Items){
-    new AppView({root: "body"});
-    new AppRouter();
-    Backbone.history.start();
+require(['backbone', 'router']
+        , function(Backbone, AppRouter){
+    window.app = new AppRouter();
+    Backbone.history.start({pushState: true});
 });

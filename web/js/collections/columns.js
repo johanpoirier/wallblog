@@ -3,7 +3,7 @@ define(['backbone', 'models/column'], function(Backbone, Column){
     var ColumnCollection = Backbone.Collection.extend({
         model: Column,
         url: 'api/item',
-            
+               
         parse: function(response) {
             var columns = new Array(new Column(), new Column(), new Column());
             var index = 0;

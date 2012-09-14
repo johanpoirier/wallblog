@@ -1,24 +1,25 @@
-define(['backbone'], function(Backbone){
-	var AppRouter = Backbone.Router.extend({
+define(['backbone', 'underscore', 'views/app'], function(Backbone, _, AppView) {
+    var AppRouter = Backbone.Router.extend({
+        
+        initialize : function() {
+            _.bindAll(this, 'home', 'showItem');
+        },
+        
         routes: {
-            'fr': 'fr',
-            'en': 'en'
+            '' : 'home',
+            'item/{id}' : 'showItem'
         },
-        fr: function( ){
-        	var locale = localStorage.getItem('locale');
-        	if(locale != 'fr-fr') {
-	        	localStorage.setItem('locale', 'fr-fr'); 
-				// i18n plugin require page reload !
-                location.reload();
-			}
+        
+        home: function() {
+            console.log("show home");
+            if (!this.appView) {
+                this.appView = new AppView({root: "#wallblog"});
+            }
+            this.appView.render();
         },
-        en: function( ){
-        	var locale = localStorage.getItem('locale');
-        	if(locale != 'en-us') {
-            	localStorage.setItem('locale', 'en-us');
-                // i18n plugin require page reload !
-				location.reload();
-			}
+
+        showItem: function(id) {
+            console.log("show item " + id);
         }
     });
     
