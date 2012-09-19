@@ -13,7 +13,9 @@ define(['backbone', 'underscore', 'views/app'], function(Backbone, _, AppView) {
         home: function() {
             console.log("show home");
             if (!this.appView) {
-                this.appView = new AppView({root: "#wallblog"});
+                this.appView = new AppView({
+                    root: "#wallblog"
+                });
             }
             this.appView.render();
         },
