@@ -11,7 +11,7 @@ function(_, Backbone, columnTmpl, ItemsView){
     // a one-to-one correspondence between a **Todo** and a **TodoView** in this
     // app, we set a direct reference on the model for convenience.
     initialize: function(options) {
-      //_.bindAll(this, 'render', 'close', 'remove');
+      _.bindAll(this, 'refresh', 'clear');
       // Add this context in order to allow automatic removal of the calback with dispose()
       this.model.on('change', this.refresh, this);
       this.model.on('destroy', this.remove, this);

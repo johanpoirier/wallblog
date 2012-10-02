@@ -1,4 +1,4 @@
-define(['backbone', 'underscore', 'views/app'], function(Backbone, _, AppView) {
+define(['backbone', 'underscore', 'models/item', 'views/app', 'views/picture'], function(Backbone, _, ItemModel, AppView, PictureView) {
     var AppRouter = Backbone.Router.extend({
         
         initialize : function() {
@@ -7,21 +7,23 @@ define(['backbone', 'underscore', 'views/app'], function(Backbone, _, AppView) {
         
         routes: {
             '' : 'home',
-            'item/{id}' : 'showItem'
+            'item/:id' : 'showItem'
         },
         
         home: function() {
-            console.log("show home");
-            if (!this.appView) {
-                this.appView = new AppView({
-                    root: "#wallblog"
-                });
-            }
-            this.appView.render();
+            new AppView({
+                root: "#content"
+            });
         },
 
         showItem: function(id) {
-            console.log("show item " + id);
+            var picture = new ItemModel();
+            picture.set({ id: id });
+            picture.fetch({
+                success: function() {
+                    new PictureView({ root: '#content', model: picture });
+                }
+            });
         }
     });
     

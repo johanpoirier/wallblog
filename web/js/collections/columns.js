@@ -1,9 +1,10 @@
-define(['backbone', 'models/column'], function(Backbone, Column){
+define(['backbone', 'models/column', 'localstorage'], function(Backbone, Column, Store) {
 	  
     var ColumnCollection = Backbone.Collection.extend({
         model: Column,
         url: 'api/item',
-               
+        localStorage: new Store('items'),
+
         parse: function(response) {
             var columns = new Array(new Column(), new Column(), new Column());
             var index = 0;
