@@ -1,4 +1,4 @@
-define('admin', ["jquery", "tools", "jquery.filedrop"], function($, tools) {
+define('admin', ["jquery", "tools", "shortcut", "jquery.filedrop"], function($, tools, shortcut) {
     return {
         'loginTmpl' : null,
         
@@ -99,16 +99,21 @@ define('admin', ["jquery", "tools", "jquery.filedrop"], function($, tools) {
                 });
                     
                 // or press Esc
-                require(["shortcut"], function(shortcut) {
-                    shortcut.remove("Esc");
-                    shortcut.add("Esc", function() {
-                        self.hideLogin();
-                    });
+                shortcut.add("Esc", function() {
+                    self.hideLogin();
+                });
+                
+                // Enter to login
+                shortcut.add("Enter", function() {
+                    console.log("Enter pressed");
+                    submitButton.click();
                 });
             });
         },
         
         'hideLogin' : function() {
+            shortcut.remove("Esc");
+            shortcut.remove("Enter");
             $("button", $(".form.login")).unbind("click");
             $("#overlay").remove();
         }
