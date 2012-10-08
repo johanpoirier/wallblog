@@ -17,7 +17,7 @@ AddType text/cache-manifest .appcache
     RewriteRule ^auth/(.*)$ index.php [QSA,L]
     RewriteRule ^rss$ index.php [QSA,L]
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^(.*)$ app.html [QSA,L]
+    RewriteRule ^(.*)$ index.html [QSA,L]
 </IfModule>
 
 <IfModule mod_setenvif.c>

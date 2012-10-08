@@ -1,7 +1,7 @@
 /**
  * Set of generic handlebars helpers
  */
-define(['handlebars', 'underscore.string'], function(Handlebars) {
+define(['handlebars', 'date.format', 'underscore.string'], function(Handlebars, DateFormat) {
 
     /**
      * This helper provides a more fluent syntax for inline ifs. i.e. if
@@ -152,6 +152,13 @@ define(['handlebars', 'underscore.string'], function(Handlebars) {
         else {
             return block.inverse();
         }
+    });
+    
+    /**
+     * This helper provides a way to format a date
+     */
+    Handlebars.registerHelper('formatDate', function(date, pattern) {
+         return DateFormat.date(date, pattern);
     });
    
     return Handlebars;

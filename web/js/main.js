@@ -39,6 +39,9 @@ require.config({
             deps: [
                 'jquery'
             ]
+        },
+        'date.format': {
+            exports: 'DateFormat'
         }
     },
 
@@ -62,7 +65,8 @@ require.config({
         'backbone-paginator': 'libs/backbone.paginator',
         async: 'libs/async',
         keymaster: 'libs/keymaster',
-        hbs: 'libs/resthub/require-handlebars'
+        hbs: 'libs/resthub/require-handlebars',
+        'date.format': 'libs/date.format'
     }
 });
 
