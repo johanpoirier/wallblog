@@ -1,53 +1,80 @@
 // Set the require.js configuration for your application.
 require.config({
 
-    shim:{
-        'underscore':{
-            exports:'_'
+    shim: {
+        'underscore': {
+            exports: '_'
         },
-        'underscore.string':{
-            deps:[
+        'underscore.string': {
+            deps: [
                 'underscore'
-            ],
-            exports:'_s'
+            ]
         },
-        'handlebars':{
-            exports:'Handlebars'
+        'handlebars': {
+            exports: 'Handlebars'
         },
-        'backbone-orig':{
-            deps:[
+        'backbone-orig': {
+            deps: [
                 'underscore',
                 'underscore.string',
                 'jquery'
             ],
-            exports:'Backbone'
+            exports: 'Backbone'
+        },
+        'backbone-queryparams': {
+            deps: [
+                'backbone-orig',
+                'underscore'
+            ]
+        },
+        'backbone-paginator': {
+            deps: [
+                'backbone-orig',
+                'underscore',
+                'jquery'
+            ],
+            exports: 'Backbone.Paginator'
+        },
+        'bootstrap': {
+            deps: [
+                'jquery'
+            ]
         }
     },
 
     // Libraries
-    paths:{
-        jquery:'libs/jquery',
-        underscore:'libs/underscore',
-        'underscore.string':'libs/underscore.string',
-        'backbone-orig':'libs/backbone',
-        'backbone':'resthub/backbone.ext',
-        localstorage:'libs/localstorage',
-        text:'libs/text',
-        i18n:'libs/i18n',
-        handlebars:'libs/Handlebars',
-        'resthub-handlebars':'resthub/handlebars-helpers',
-        hbs: 'resthub/handlebars-require',
-        'jquery.mousewheel': 'libs/jquery.mousewheel',
-        'jquery.dateFormat': 'libs/jquery.dateFormat',
-        'jquery.filedrop': 'libs/jquery.filedrop'
-    },
-    
-    locale: localStorage.getItem('locale') || 'fr-fr'
+    paths: {
+        jquery: 'libs/jquery',
+        underscore: 'libs/underscore',
+        'underscore.string': 'libs/underscore.string',
+        'backbone-orig': 'libs/backbone',
+        backbone: 'libs/resthub/backbone.ext',
+        localstorage: 'libs/localstorage',
+        text: 'libs/text',
+        i18n: 'libs/i18n',
+        pubsub: 'libs/resthub/pubsub',
+        'bootstrap': 'libs/bootstrap',
+        'backbone-validation-orig': 'libs/backbone-validation',
+        'backbone-validation': 'libs/resthub/backbone-validation.ext',
+        handlebars: 'libs/handlebars',
+        'resthub-handlebars': 'libs/resthub/handlebars-helpers',
+        'backbone-queryparams': 'libs/backbone.queryparams',
+        'backbone-paginator': 'libs/backbone.paginator',
+        async: 'libs/async',
+        keymaster: 'libs/keymaster',
+        hbs: 'libs/resthub/require-handlebars'
+    }
 });
 
-// Load our app module and pass it to our definition function
-require(['backbone', 'router']
-        , function(Backbone, AppRouter){
-    window.app = new AppRouter();
-    Backbone.history.start({pushState: true});
+// namespaces for Singleton views and routers
+App = {
+    Views: {}
+};
+
+require(['router', 'views/header', 'events'], function(AppRouter, HeaderView) {
+    // header
+    App.Views.headerView = new HeaderView({ root: "header" });
+    
+    // create and initialize our router
+    new AppRouter();
 });

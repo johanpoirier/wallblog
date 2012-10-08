@@ -1,29 +1,39 @@
-define(['backbone', 'underscore', 'models/item', 'views/app', 'views/picture'], function(Backbone, _, ItemModel, AppView, PictureView) {
+define(['backbone',
+        'models/picture',
+        'collections/pictures',
+        'views/grid',
+        'views/picture-zoom',
+        'backbone-queryparams'],
+    
+function(Backbone, Picture, PictureCollection, Grid, PictureZoomView) {
+
     var AppRouter = Backbone.Router.extend({
         
-        initialize : function() {
-            _.bindAll(this, 'home', 'showItem');
+        initialize: function() {
+            Backbone.history.start({ pushState: true, root: "/" });
         },
         
         routes: {
-            '' : 'home',
-            'item/:id' : 'showItem'
+            '': 'main',
+            'item/:id': 'zoom'
         },
         
-        home: function() {
-            new AppView({
-                root: "#content"
-            });
+        main: function() {
+            // get items for the first load
+            if(!window.items) {
+                window.items = new PictureCollection();
+            }
+            else {
+                App.Views.headerView.render(window.items.length);
+            }
+            
+            // display items on the grid
+            new Grid({ root: "#main", collection: window.items });
         },
 
-        showItem: function(id) {
-            var picture = new ItemModel();
-            picture.set({ id: id });
-            picture.fetch({
-                success: function() {
-                    new PictureView({ root: '#content', model: picture });
-                }
-            });
+        zoom: function(id) {
+           var picture = new Picture({id: id});
+           new PictureZoomView({ root: "#main", model: picture, availableHeight: $(window).height() - 50});
         }
     });
     

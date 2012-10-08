@@ -1,0 +1,138 @@
+@font-face {
+    font-family: 'SansationRegular';
+    src: url('fonts/sansation_regular-webfont.eot');
+    src: url('fonts/sansation_regular-webfont.eot?#iefix') format('embedded-opentype'),
+        url('fonts/sansation_regular-webfont.woff') format('woff'),
+        url('fonts/sansation_regular-webfont.ttf') format('truetype'),
+        url('fonts/sansation_regular-webfont.svg#SansationRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    background-color: #eee;
+    font-family: 'SansationRegular', sans-serif;
+    margin: 0;
+    padding: 45px 0 0 0;
+}
+
+header .info {
+    line-height: 38px;
+    margin: 0;
+    padding-right: 50px;
+}
+
+header .date, header .description {
+    font-size: large;
+    line-height: 38px;
+    margin: 0;
+}
+
+header .description {
+    font-weight: bold;
+}
+
+.beta {
+    border: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1031;
+}
+
+.column .item {
+    position: relative;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.column .item img {
+    cursor: pointer;
+    position: relative;
+    width: 100%;
+}
+.column .item img, .picture img {
+    -moz-box-shadow: 1px 1px 5px #999;
+    -webkit-box-shadow: 1px 1px 5px #999;
+    box-shadow: 1px 1px 5px #999;
+}
+.column .item img:hover {
+    -moz-box-shadow: 2px 2px 6px #FFFFBC;
+    -webkit-box-shadow: 2px 2px 6px #FFFFBC;
+    box-shadow: 2px 2px 6px #FFFFBC;
+}
+
+.column .item .date, .column .item .description, .column .item .nb-comments {
+    background: rgba(0, 0, 0, 0.5);
+    bottom: 0;
+    color: #ffffff;
+    font-size: large;
+    left: 0;
+    margin: 0;
+    padding: 4px 0;
+    position: absolute;
+    text-align: center;
+    visibility: hidden;
+    width: 100%;
+}
+.column .item:hover .date, .column .item:hover .description, .column .item:hover .nb-comments {
+    visibility: visible;
+}
+
+.column .item .date {
+    bottom: auto;
+    font-size: medium;
+    padding: 4px 5px;
+    text-align: center;
+    top: 0;
+    width: auto;
+    z-index: 2;
+}
+
+.column .item .nb-comments {
+    background-image: url('comment.png');
+    background-position: right;
+    background-repeat: no-repeat;
+    bottom: auto;
+    font-size: medium;
+    padding: 4px 30px 4px 5px;
+    right: 0;
+    top: 0;
+    width: auto;
+    z-index: 2;
+}
+
+.comments {
+    -moz-box-shadow: 0 0 2px 2px #bbb;
+    -webkit-box-shadow: 0 0 2px 2px #bbb;
+    background-color: gray;
+    box-shadow: 0 0 2px 2px #bbb;
+    text-align: center;
+    color: #fff;
+}
+
+.row-fluid .span3.comments {
+    margin-left: 0.7%;
+}
+
+.picture {
+    text-align: center;
+}
+
+@media (max-width: 620px) {
+    header .info {
+        display: none;
+    }
+    
+    header .date, header .description {
+        font-size: small;
+    }
+    
+    .comments h4 {
+        font-size: small;
+    }
+    .comments button {
+        display: none;
+    }
+}
