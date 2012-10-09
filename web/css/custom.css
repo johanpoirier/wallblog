@@ -161,6 +161,21 @@ header .description {
     padding-bottom: 10px;
 }
 
+.commentForm .hidden {
+    display: none;
+}
+.commentForm form {
+    margin-bottom: 5px;
+}
+.commentForm input, .commentForm textarea {
+    width: 96%;
+}
+
+.row-fluid.commentForm .span10 {
+    margin-left: 3%;
+    width: 94%;
+}
+
 .picture {
     text-align: center;
 }

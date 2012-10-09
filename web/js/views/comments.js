@@ -5,6 +5,7 @@ function(Backbone, CommentView) {
 
         initialize: function() {
             this.render();
+            this.collection.on("add", this.renderComment, this);
         },
 
         render: function() {

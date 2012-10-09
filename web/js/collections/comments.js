@@ -3,9 +3,7 @@ define(['backbone', 'models/comment'], function(Backbone, Comment) {
         model: Comment,
         
         initialize: function(options) {
-            this.url = function() {
-                return "/api/item/" + options.item.get("id") + "/comments"
-            }
+            this.url = "/api/item/" + options.item.get("id") + "/comments";
         }
     });
     return CommentCollection;

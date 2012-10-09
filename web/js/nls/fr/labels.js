@@ -1,8 +1,9 @@
 define({
-    "submit": "OK",
+    "submitComment": "Poster un commentaire",
     "cancel": "Annuler",
     "comments": "Commentaires",
     "addComment": "Ajouter un commentaire",
+    "anyComment": "un commentaire ?",
     "authorHint": "votre nom ici...",
     "commentHint": "votre commentaire ici ...",
     "dateFormat": "dd MMM yyyy",

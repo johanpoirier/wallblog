@@ -4,6 +4,7 @@ define({
         "cancel": "Cancel",
         "comments": "Comments",
         "addComment": "Add comment",
+        "anyComment": "any comment ?",
         "authorHint": "your name here...",
         "commentHint": "your comment here...",
         "dateFormat": "MMM dd yyyy",
