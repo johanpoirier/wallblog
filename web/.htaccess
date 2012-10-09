@@ -12,7 +12,7 @@ AddType text/cache-manifest .appcache
     Options -MultiViews
 
     RewriteEngine On
-    RewriteRule ^(views)($|/) - [L]
+    RewriteRule ^(js)($|/) - [L]
     RewriteRule ^api/(.*)$ index.php [QSA,L]
     RewriteRule ^auth/(.*)$ index.php [QSA,L]
     RewriteRule ^rss$ index.php [QSA,L]

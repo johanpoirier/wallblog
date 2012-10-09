@@ -21,7 +21,7 @@ define(['backbone', 'pubsub', 'hbs!templates/picture-zoom'], function(Backbone, 
         },
 
         sendEvent: function() {
-            Pubsub.trigger(App.Events.ITEM_ZOOMED, this.model);
+            Pubsub.trigger(AppEvents.ITEM_ZOOMED, this.model);
         },
 
         back: function() {

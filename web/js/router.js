@@ -24,7 +24,7 @@ function(Backbone, Picture, PictureCollection, Grid, PictureZoomView) {
                 window.items = new PictureCollection();
             }
             else {
-                App.Views.headerView.render(window.items.length);
+                window.headerView.render(window.items.length);
             }
             
             // display items on the grid

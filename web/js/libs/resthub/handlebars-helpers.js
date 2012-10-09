@@ -1,7 +1,7 @@
 /**
  * Set of generic handlebars helpers
  */
-define(['handlebars', 'date.format', 'underscore.string'], function(Handlebars, DateFormat) {
+define(['handlebars', 'jquery', 'dateFormat', 'underscore.string'], function(Handlebars, $) {
 
     /**
      * This helper provides a more fluent syntax for inline ifs. i.e. if
@@ -158,7 +158,7 @@ define(['handlebars', 'date.format', 'underscore.string'], function(Handlebars, 
      * This helper provides a way to format a date
      */
     Handlebars.registerHelper('formatDate', function(date, pattern) {
-         return DateFormat.date(date, pattern);
+         return $.format.date(date, pattern);
     });
    
     return Handlebars;

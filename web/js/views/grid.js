@@ -70,7 +70,7 @@ function(_, Backbone, $, Pubsub, PictureView, gridTmpl) {
         },
                 
         sendEvent: function() {
-            Pubsub.trigger(App.Events.ITEMS_FETCHED, this.collection.length);
+            Pubsub.trigger(AppEvents.ITEMS_FETCHED, this.collection.length);
         }
     });
     return Grid;

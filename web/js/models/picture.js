@@ -1,5 +1,5 @@
-define(['models/item'], function(Item) {
-    var PictureModel = Item.extend({
+define(['backbone'], function(Backbone) {
+    var PictureModel = Backbone.Model.extend({
         
         urlRoot: "/api/item"
 

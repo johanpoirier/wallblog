@@ -11,8 +11,8 @@ function(_, Backbone, Pubsub, tmpl, tmplZoom) {
         className: "navbar navbar-fixed-top navbar-inverse",
         
         initialize: function() {
-            Pubsub.on(App.Events.ITEMS_FETCHED, this.render, this);
-            Pubsub.on(App.Events.ITEM_ZOOMED, this.renderZoom, this);
+            Pubsub.on(AppEvents.ITEMS_FETCHED, this.render, this);
+            Pubsub.on(AppEvents.ITEM_ZOOMED, this.renderZoom, this);
             this.render();
         },
 

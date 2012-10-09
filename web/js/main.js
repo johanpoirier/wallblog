@@ -40,8 +40,10 @@ require.config({
                 'jquery'
             ]
         },
-        'date.format': {
-            exports: 'DateFormat'
+        'dateFormat': {
+            deps: [
+                'jquery'
+            ]
         }
     },
 
@@ -66,18 +68,13 @@ require.config({
         async: 'libs/async',
         keymaster: 'libs/keymaster',
         hbs: 'libs/resthub/require-handlebars',
-        'date.format': 'libs/date.format'
+        'dateFormat': 'libs/jquery.dateFormat'
     }
 });
 
-// namespaces for Singleton views and routers
-App = {
-    Views: {}
-};
-
 require(['router', 'views/header', 'events'], function(AppRouter, HeaderView) {
     // header
-    App.Views.headerView = new HeaderView({ root: "header" });
+    window.headerView = new HeaderView({ root: "header" });
     
     // create and initialize our router
     new AppRouter();
