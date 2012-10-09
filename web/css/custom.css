@@ -103,7 +103,7 @@ header .description {
     z-index: 2;
 }
 
-.comments {
+.commentBar {
     -moz-box-shadow: 0 0 2px 2px #bbb;
     -webkit-box-shadow: 0 0 2px 2px #bbb;
     background-color: gray;
@@ -112,8 +112,53 @@ header .description {
     color: #fff;
 }
 
-.row-fluid .span3.comments {
+.commentBar h4 {
+    line-height: 8px;
+    padding-left: 8px;
+    padding-top: 3px;
+    text-align: left;
+}
+
+.row-fluid .span3.commentBar {
     margin-left: 0.7%;
+}
+
+.comment {
+    background-color: #FFFFFF;
+    float: left;
+    font-size: medium;
+    color: #111;
+    margin: 10px 5px 5px 10px;
+    overflow: hidden;
+    padding: 6px;
+    text-align: left;
+    -moz-box-shadow: 0 0 2px 2px #FFF;
+    -webkit-box-shadow: 0 0 2px 2px #FFF;
+    box-shadow: 0 0 2px 2px #FFF;
+}
+
+.row-fluid .span10.comment {
+    margin-left: 3%;
+    width: 94%;
+}
+
+.comment > * {
+    clear: both;
+    float: left;
+    margin: 0;
+}
+.comment .author {
+    border-bottom: 2px solid grey;
+    font-size: large;
+    font-weight: bold;
+    width: 100%;
+}
+.comment .date {
+    float: right;
+    font-size: x-small;
+    font-weight: normal;
+    line-height: 15px;
+    padding-bottom: 10px;
 }
 
 .picture {
@@ -129,10 +174,10 @@ header .description {
         font-size: small;
     }
     
-    .comments h4 {
-        font-size: small;
-    }
-    .comments button {
+    .span3.commentBar {
         display: none;
+    }
+    .span9.picture {
+        width: 98%;
     }
 }

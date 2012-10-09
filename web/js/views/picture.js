@@ -1,8 +1,9 @@
-define(['underscore', 'backbone', 'hbs!templates/picture'],
+define(['underscore', 'backbone', 'i18n!nls/labels', 'hbs!templates/picture'],
 
-function(_, Backbone, tmpl) {
+function(_, Backbone, labels, tmpl) {
     var PictureView = Backbone.View.extend({
         template: tmpl,
+        labels: labels,
         className: "item",
         strategy: "append",
 

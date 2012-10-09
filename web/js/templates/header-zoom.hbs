@@ -2,7 +2,7 @@
     <a href="/" class="brand">
         <img src="/img/logo_m.png" alt="Logo" />
     </a>
-    <span class="date">{{formatDate date "dd MMM yyyy"}}</span>
+    <span class="date">{{formatDate date labels.dateFormat}}</span>
     <span class="description">
     {{#if description}} : {{description}}{{/if}}
     </span>

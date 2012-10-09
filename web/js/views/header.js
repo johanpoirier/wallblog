@@ -1,13 +1,15 @@
 define(['underscore',
         'backbone',
         'pubsub',
+        'i18n!nls/labels', 
         'hbs!templates/header',
         'hbs!templates/header-zoom'],
 
-function(_, Backbone, Pubsub, tmpl, tmplZoom) {
+function(_, Backbone, Pubsub, labels, tmpl, tmplZoom) {
 
     var HeaderView = Backbone.View.extend({
         template: tmpl,
+        labels: labels,
         className: "navbar navbar-fixed-top navbar-inverse",
         
         initialize: function() {

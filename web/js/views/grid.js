@@ -28,7 +28,7 @@ function(_, Backbone, $, Pubsub, PictureView, gridTmpl) {
             this.collection.on("reset", this.render, this);
             this.collection.on("reset", this.sendEvent, this);
             if(this.collection.length === 0) {
-                this.collection.fetch();
+                this.collection.fetch({ data: { start: 0, nb: 12 }});
             }
             else {
                 this.render();
@@ -42,22 +42,33 @@ function(_, Backbone, $, Pubsub, PictureView, gridTmpl) {
                 this.nbColumns--;
             }
             
+            // save columns heights
+            this.columnsSize = [];
+            for(var i=0; i<this.nbColumns; i++) {
+                this.columnsSize[i] = { id: i+1, value: 0};
+            }
+            
             // render of columns
             var columnClass = "span" + new String(Math.round(12 / this.nbColumns));
             Grid.__super__.render.apply(this, [{ nbColumns: this.nbColumns, columnClass: columnClass }]);
             console.log("Rendering " + this.collection.length + " items on " + this.nbColumns + " columns.");
 
             // render of items
-            this.indexColumn = 1;
             this.collection.each(this.renderModel, this);
         },
 
         renderModel: function(model) {
-            var view = new PictureView({ root: this.$("#column" + this.indexColumn++), model: model });
+            var shorterColumId = this.getShorterColumnId();
+            var view = new PictureView({ root: this.$("#column" + shorterColumId), model: model });
+            this.columnsSize[shorterColumId - 1].value += parseInt(model.get("height")) / parseInt(model.get("width"));
+            
             view.render();
-            if(this.indexColumn > this.nbColumns) {
-                this.indexColumn = 1;
-            }
+        },
+        
+        getShorterColumnId: function() {
+            return this.columnsSize.reduceRight(function(a, b) {
+                return (a.value < b.value) ? a : b;
+            }).id;
         },
 
         screenResize: function(event) {
