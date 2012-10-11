@@ -1,6 +1,6 @@
 define({
     "root": {
-        "submit": "OK",
+        "submitComment": "OK",
         "cancel": "Cancel",
         "comments": "Comments",
         "addComment": "Add comment",

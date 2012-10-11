@@ -1,6 +1,6 @@
 <form>
-    <textarea name="text" placeholder="{{labels.anyComment}}" rows="1"></textarea>
-    <input type="text" name="author" value="" placeholder="{{labels.authorHint}}" class="hidden" />
-    <button type="submit" class="btn btn-success hidden">{{labels.submitComment}}</button>
-    <button type="button" class="btn hidden">{{labels.cancel}}</button>
+    <textarea name="text" placeholder="{{labels.anyComment}}" rows="1" tabindex="1"></textarea>
+    <input type="text" name="author" value="" placeholder="{{labels.authorHint}}" class="hidden" tabindex="2" />
+    <button type="button" class="btn hidden" tabindex="4">{{labels.cancel}}</button>
+    <button type="submit" class="btn btn-success hidden" tabindex="3"><i class="icon-ok icon-white"></i> {{labels.submitComment}}</button>
 </form>

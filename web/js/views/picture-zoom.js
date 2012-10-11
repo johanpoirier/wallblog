@@ -6,12 +6,15 @@ function(Backbone, Pubsub, labels, CommentsView, CommentFormView, tmpl) {
         className: "row-fluid",
         strategy: "replace",
 
+        minDesktopWidth: 620,
+
         events: {
             "click img": "back"
         },
 
         initialize: function(options) {
             this.availableHeight = options.availableHeight || 200;
+            this.availableWidth = options.availableWidth || this.minDesktopWidth;
             this.model.on("change", this.render, this);
             this.model.on("change", this.fetchComments, this);
             this.model.fetch();
@@ -19,7 +22,9 @@ function(Backbone, Pubsub, labels, CommentsView, CommentFormView, tmpl) {
 
         render: function() {
             PictureZoomView.__super__.render.apply(this);
-            this.$(".commentBar").height(this.availableHeight);
+            if(this.availableWidth > this.minDesktopWidth) {
+                this.$(".commentBar").height(this.availableHeight);
+            }
             new CommentFormView({ root: this.$(".commentForm"), item: this.model });
         },
 

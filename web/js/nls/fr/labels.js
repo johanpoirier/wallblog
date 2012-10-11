@@ -1,5 +1,5 @@
 define({
-    "submitComment": "Poster un commentaire",
+    "submitComment": "Poster",
     "cancel": "Annuler",
     "comments": "Commentaires",
     "addComment": "Ajouter un commentaire",

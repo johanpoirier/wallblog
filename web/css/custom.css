@@ -17,15 +17,20 @@ body {
     padding: 45px 0 0 0;
 }
 
+header .navbar .brand {
+    padding: 0 5px;
+    margin: 0;
+}
+
 header .info {
-    line-height: 38px;
+    line-height: 40px;
     margin: 0;
     padding-right: 50px;
 }
 
 header .date, header .description {
     font-size: large;
-    line-height: 38px;
+    line-height: 40px;
     margin: 0;
 }
 
@@ -170,6 +175,11 @@ header .description {
 .commentForm input, .commentForm textarea {
     width: 96%;
 }
+.commentForm .btn-success {
+    background-color: #85C100;
+    background-image: -moz-linear-gradient(center top , #85C100, #85B600);
+    box-shadow: 0;
+}
 
 .row-fluid.commentForm .span10 {
     margin-left: 3%;
@@ -181,18 +191,25 @@ header .description {
 }
 
 @media (max-width: 620px) {
-    header .info {
+    .navbar-fixed-top {
+        margin-bottom: 5px;
+        margin-top: -45px;
+        position: relative;
+    }
+
+    header .info, header .beta {
         display: none;
     }
-    
+
     header .date, header .description {
-        font-size: small;
+        font-size: medium;
     }
-    
-    .span3.commentBar {
-        display: none;
-    }
-    .span9.picture {
+
+    .span9.picture, .span3.commentBar {
         width: 98%;
+    }
+
+    .span3.commentBar {
+        margin-top: 10px;
     }
 }
