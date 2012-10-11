@@ -1,8 +1,9 @@
-define(['backbone', 'hbs!templates/comment'],
+define(['backbone', 'i18n!nls/labels', 'hbs!templates/comment'],
 
-function(Backbone, tmpl) {
+function(Backbone, labels, tmpl) {
     var CommentView = Backbone.View.extend({
         template: tmpl,
+        labels: labels,
         className: "span10 offset1 comment",
         strategy: "prepend",
         
