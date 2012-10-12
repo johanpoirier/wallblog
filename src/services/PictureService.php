@@ -125,11 +125,11 @@ class PictureService {
     }
 
     public function rebuild() {
-        $items = self::get(999999, 0);
+        $items = self::getAll();
         for ($i = 0; $i < sizeof($items); $i++) {
             $item = $items[$i];
             $image_info = getimagesize(self::$dir . "/" . $item['file']);
-            self::$db->update(self::$table_name, array("width" => $image_info[0], "height" => $image_info[1]), array('id' => $item['id']));
+            self::$db->update(self::$table_name, array("ratio" => $image_info[0] / $image_info[1], "reverseRatio" => $image_info[1] / $image_info[0]), array('id' => $item['id']));
         }
     }
 }

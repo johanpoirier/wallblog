@@ -23,11 +23,9 @@ function(Backbone, Pubsub, labels, CommentsView, CommentFormView, tmpl) {
         render: function() {
             PictureZoomView.__super__.render.apply(this);
             if(this.availableWidth > this.minDesktopWidth) {
-                var ratio = this.model.get("width") / this.model.get("height");
-                if(ratio <= 1) {
-                    this.$("img").width(Math.round(this.availableHeight * ratio));
-                    this.$("img").height(this.availableHeight);
-                }
+                var ratio = parseFloat(this.model.get("ratio"));
+                this.$("img").width(Math.round(this.availableHeight * ratio));
+                this.$("img").height(this.availableHeight);
                 this.$(".commentBar").height(this.availableHeight);
             }
             new CommentFormView({ root: this.$(".commentForm"), item: this.model });

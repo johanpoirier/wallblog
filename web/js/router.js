@@ -15,6 +15,7 @@ function(Backbone, Picture, PictureCollection, Grid, PictureZoomView) {
 
         routes: {
             '': 'main',
+            'login': 'login',
             'item/:id': 'zoom'
         },
 
@@ -29,6 +30,10 @@ function(Backbone, Picture, PictureCollection, Grid, PictureZoomView) {
 
             // display items on the grid
             new Grid({ root: "#main", collection: window.items });
+        },
+
+        login: function() {
+            console.log("Admin login");
         },
 
         zoom: function(id) {

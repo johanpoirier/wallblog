@@ -6,7 +6,7 @@ define({
     "anyComment": "un commentaire ?",
     "authorHint": "votre nom ici...",
     "commentHint": "votre commentaire ici ...",
-    "dateFormat": "dd MMM yyyy",
-    "dateTimeFormat": "le dd/MM/yyyy à HH:mm",
+    "dateFormat": "D MMMM YYYY",
+    "dateTimeFormat": "le DD/MM/YYYY à HH\\hmm",
     "picturesToClickAndComment": "photos à cliquer et commenter."
 });

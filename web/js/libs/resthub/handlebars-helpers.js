@@ -1,7 +1,7 @@
 /**
  * Set of generic handlebars helpers
  */
-define(['handlebars', 'jquery', 'dateFormat', 'underscore.string'], function(Handlebars, $) {
+define(['handlebars', 'moment', 'moment-fr', 'underscore.string'], function(Handlebars, moment) {
 
     /**
      * This helper provides a more fluent syntax for inline ifs. i.e. if
@@ -13,11 +13,13 @@ define(['handlebars', 'jquery', 'dateFormat', 'underscore.string'], function(Han
      *
      * Usage: class='{{ifinline done "done"}}' or class='{{ifinline done "done" "todo"}}'
      */
-     Handlebars.registerHelper('ifinline', function(value, returnValTrue, options) {
+    Handlebars.registerHelper('ifinline', function(value, returnValTrue, options) {
         var returnValFalse = '';
-        if(arguments.length == 4) {returnValFalse = options}
+        if(arguments.length == 4) {
+            returnValFalse = options
+            }
         return (value && !Handlebars.Utils.isEmpty(value)) ? returnValTrue : returnValFalse;
-     });
+    });
 
     /**
      * Opposite of ifinline helper
@@ -42,7 +44,9 @@ define(['handlebars', 'jquery', 'dateFormat', 'underscore.string'], function(Han
      */
     Handlebars.registerHelper('ifequalsinline', function(value1, value2, returnValTrue, options) {
         var returnValFalse = '';
-        if(arguments.length == 5) {returnValFalse = options}
+        if(arguments.length == 5) {
+            returnValFalse = options
+            }
         return (value1 === value2) ? returnValTrue : returnValFalse;
     });
 
@@ -155,10 +159,39 @@ define(['handlebars', 'jquery', 'dateFormat', 'underscore.string'], function(Han
     });
     
     /**
-     * This helper provides a way to format a date
+     * This helper provides a date formatting tool
+     * 
+     * date is the date to parse and format
+     * outputPattern is the pattern used to display the date (optional)
+     * inputPattern is the pattern used to parse the date (optional)
+     * 
+     * default pattern is : YYYY-MM-DD HH:mm:ss
+     * 
+     * Usage: <span>{{formatDate myDate "MM/DD/YYYY"}}</span>
      */
-    Handlebars.registerHelper('formatDate', function(date, pattern) {
-         return $.format.date(date, pattern);
+    Handlebars.registerHelper('formatDate', function(date, outputPattern, inputPattern) {
+        var defaultPattern = 'YYYY-MM-DD HH:mm:ss';
+        var momentDate;
+        
+        if(date) {
+            if((date instanceof Date) || (date instanceof Array)) {
+                momentDate = moment(date);
+            }
+            else if(typeof(date) === 'string') {
+                if(!inputPattern || (typeof(inputPattern) !== 'string')) {
+                    inputPattern = defaultPattern;
+                }
+                momentDate = moment(date, inputPattern);
+            }
+            else {
+                return date;
+            }
+        }
+        else {
+            return "";
+        }
+
+        return momentDate.format(outputPattern ? outputPattern : defaultPattern);
     });
    
     return Handlebars;

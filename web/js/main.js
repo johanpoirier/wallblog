@@ -44,6 +44,14 @@ require.config({
             deps: [
                 'jquery'
             ]
+        },
+        'moment-fr': {
+            deps: [
+                'moment'
+            ]
+        },
+        'keymaster': {
+            exports: 'key'
         }
     },
 
@@ -68,7 +76,8 @@ require.config({
         async: 'libs/async',
         keymaster: 'libs/keymaster',
         hbs: 'libs/resthub/require-handlebars',
-        'dateFormat': 'libs/jquery.dateFormat'
+        'moment': 'libs/moment',
+        'moment-fr': 'libs/moment-lang/fr'
     }
 });
 
