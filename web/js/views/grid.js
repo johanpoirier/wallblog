@@ -12,7 +12,6 @@ function(_, Backbone, $, Pubsub, PictureView, gridTmpl) {
         template: gridTmpl,
         className: "row-fluid",
         strategy: "replace",
-        models: {},
         
         currentNbItems: 12,
         loading: false,
@@ -39,7 +38,7 @@ function(_, Backbone, $, Pubsub, PictureView, gridTmpl) {
             this.collection.on("reset", this.sendEvent, this);
             if(this.collection.length === 0) {
                 this.loading = true;
-                this.collection.fetch({ data: { start: 0, nb: this.currentNbItems }});
+                this.fetchCurrent();
             }
             else {
                 this.render();
@@ -105,6 +104,63 @@ function(_, Backbone, $, Pubsub, PictureView, gridTmpl) {
                 this.collection.fetch({ add: true, data: { start: this.currentNbItems, nb: this.loadingIncrement }});
                 this.currentNbItems += this.loadingIncrement;
             }
+        },
+        
+        activateDropFile: function() {
+            var dropZone = window.document.getElementById("main");
+            if(window.FileReader) {
+                dropZone.addEventListener("dragover", _.bind(this.handleDragOver, this), false);
+                dropZone.addEventListener("drop", _.bind(this.handleFileSelect, this), false);
+            }
+            else {
+                alert("Your browser does not support HTML5 file uploads!");
+            }
+        },
+
+        handleFileSelect: function(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+
+            var files = evt.dataTransfer.files;
+            if(files.length == 1) {
+                // Only process image files.
+                if (!files[0].type.match("image.*")) {
+                    alert("Only images are allowed!");
+                    return;
+                }
+
+                var reader = new FileReader();
+                reader.onload = this.handleFileUpload(files[0]);
+                reader.readAsDataURL(files[0]);
+            }
+            else {
+                alert("Too many files! Only one allowed!");
+            }
+        },
+
+        handleDragOver: function(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+            evt.dataTransfer.dropEffect = 'copy';
+        },
+
+        handleFileUpload: function(file) {
+            return _.bind(function(e) {
+                $.ajax({
+                    type: "POST",
+                    url: "api/item",
+                    data: {
+                        data: e.target.result,
+                        filename: file.name,
+                        description: "test"
+                    },
+                    success: _.bind(this.fetchCurrent, this)
+                });
+            }, this);
+        },
+        
+        fetchCurrent: function() {
+            this.collection.fetch({ data: { start: 0, nb: this.currentNbItems }});
         }
     });
     return Grid;

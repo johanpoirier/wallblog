@@ -1,11 +1,12 @@
 define(['backbone',
+        'keymaster',
         'models/picture',
         'collections/pictures',
         'views/grid',
         'views/picture-zoom',
         'backbone-queryparams'],
 
-function(Backbone, Picture, PictureCollection, Grid, PictureZoomView) {
+function(Backbone, key, Picture, PictureCollection, Grid, PictureZoomView) {
 
     var AppRouter = Backbone.Router.extend({
 
@@ -29,12 +30,19 @@ function(Backbone, Picture, PictureCollection, Grid, PictureZoomView) {
             }
 
             // display items on the grid
-            new Grid({ root: "#main", collection: window.items });
+            var grid = new Grid({ root: "#main", collection: window.items });
+
+            // admin shortcut
+            key('ctrl+alt+l', function() {
+               //Backbone.history.navigate('/login', true);
+               console.log("Admin login");
+               grid.activateDropFile();
+            });
         },
 
-        login: function() {
+        /*login: function() {
             console.log("Admin login");
-        },
+        },*/
 
         zoom: function(id) {
            var picture = new Picture({id: id});

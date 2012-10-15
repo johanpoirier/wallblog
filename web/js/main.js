@@ -7,7 +7,7 @@ require.config({
         },
         'underscore.string': {
             deps: [
-                'underscore'
+            'underscore'
             ]
         },
         'handlebars': {
@@ -15,39 +15,39 @@ require.config({
         },
         'backbone-orig': {
             deps: [
-                'underscore',
-                'underscore.string',
-                'jquery'
+            'underscore',
+            'underscore.string',
+            'jquery'
             ],
             exports: 'Backbone'
         },
         'backbone-queryparams': {
             deps: [
-                'backbone-orig',
-                'underscore'
+            'backbone-orig',
+            'underscore'
             ]
         },
         'backbone-paginator': {
             deps: [
-                'backbone-orig',
-                'underscore',
-                'jquery'
+            'backbone-orig',
+            'underscore',
+            'jquery'
             ],
             exports: 'Backbone.Paginator'
         },
         'bootstrap': {
             deps: [
-                'jquery'
+            'jquery'
             ]
         },
         'dateFormat': {
             deps: [
-                'jquery'
+            'jquery'
             ]
         },
         'moment-fr': {
             deps: [
-                'moment'
+            'moment'
             ]
         },
         'keymaster': {
@@ -83,7 +83,9 @@ require.config({
 
 require(['router', 'views/header', 'events'], function(AppRouter, HeaderView) {
     // header
-    window.headerView = new HeaderView({ root: "header" });
+    window.headerView = new HeaderView({
+        root: "header"
+    });
     
     // create and initialize our router
     new AppRouter();

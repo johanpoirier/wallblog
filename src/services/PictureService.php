@@ -59,10 +59,16 @@ class PictureService {
 
         $this->resize(self::$dir . "/" . $file_name, 1024);
         $image_info = getimagesize(self::$dir . "/" . $file_name);
-        $item["width"] = $image_info[0];
-        $item["height"] = $image_info[1];
+        $item["ratio"] = $image_info[0] / $image_info[1];
+        $item["reverseRatio"] = $image_info[1] / $image_info[0];
 
-        self::$db->insert(self::$table_name, $item);
+        $res = self::$db->insert(self::$table_name, $item);
+        if ($res == 1) {
+            $id = self::$db->lastInsertId(self::$table_name);
+            return $this->getById($id);
+        } else {
+            return null;
+        }
     }
 
     public function update($item) {

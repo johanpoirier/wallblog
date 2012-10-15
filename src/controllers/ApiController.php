@@ -63,34 +63,42 @@ class ApiController implements ControllerProviderInterface {
                 });
 
         $controllers->post('/item', function (Application $app, Request $request) {
-                    if ($request->hasSession()) {
+                    /*if ($request->hasSession()) {
                         $user = $app['user_service']->getByEmail($request->getSession()->get('email'));
-                        if ($user) {
+                        if ($user) {*/
                             $upload_dir = '../web/pictures/';
                             $allowed_ext = array('jpg', 'jpeg', 'png', 'mp4');
 
-                            if (array_key_exists('pic', $_FILES) && $_FILES['pic']['error'] == 0) {
-                                $pic = $_FILES['pic'];
+                            if (array_key_exists('data', $_POST) && array_key_exists('filename', $_POST)) {
+                                $filename = $request->get('filename');
                                 $description = $request->get('description');
-                                if (!in_array($app['picture_service']->getExtension($pic['name']), $allowed_ext)) {
+                                $img = $request->get('data');
+                                $img = str_replace('data:image/png;base64,', '', $img);
+                                $img = str_replace('data:image/jpeg;base64,', '', $img);
+                                $img = str_replace(' ', '+', $img);
+                                $data = base64_decode($img);
+                                
+                                if (!in_array($app['picture_service']->getExtension($filename), $allowed_ext)) {
                                     return $app['json']->constructJsonResponse(array('status' => 'Only ' . implode(',', $allowed_ext) . ' files are allowed!'));
                                 }
-
-                                if (move_uploaded_file($pic['tmp_name'], $upload_dir . $pic['name'])) {
-                                    $app['picture_service']->add($pic['name'], $description);
-                                    return $app['json']->constructJsonResponse(array('status' => 'File was uploaded successfuly!'));
-                                } else {
+                                
+                                if(file_put_contents($upload_dir . $filename, $data)) {
+                                    $item = $app['picture_service']->add($filename, $description);
+                                    $app['monolog']->addDebug("[session " . $request->getSession()->getId() . "] " . $filename . " was succesfully uploaded");
+                                    return $app['json']->constructJsonResponse($item);
+                                }
+                                else {
                                     $app['monolog']->addDebug("[session " . $request->getSession()->getId() . "] problem during pic upload");
                                 }
                             } else {
                                 $app['monolog']->addDebug("[session " . $request->getSession()->getId() . "] can't find pic to updload");
                             }
-                        } else {
+                        /*} else {
                             $app['monolog']->addDebug("[session " . $request->getSession()->getId() . "] can't upload, user " . $request->getSession()->get('email') . " not found in session");
                         }
                     } else {
                         $app['monolog']->addDebug("can't upload, no session");
-                    }
+                    }*/
                 });
 
         $controllers->get('/items/count', function (Application $app) {

@@ -1,12 +1,11 @@
 define(['underscore',
         'backbone',
         'pubsub',
-        'keymaster',
-        'i18n!nls/labels', 
+        'i18n!nls/labels',
         'hbs!templates/header',
         'hbs!templates/header-zoom'],
 
-function(_, Backbone, Pubsub, key, labels, tmpl, tmplZoom) {
+function(_, Backbone, Pubsub, labels, tmpl, tmplZoom) {
 
     var HeaderView = Backbone.View.extend({
         template: tmpl,
@@ -17,11 +16,6 @@ function(_, Backbone, Pubsub, key, labels, tmpl, tmplZoom) {
             Pubsub.on(AppEvents.ITEMS_FETCHED, this.render, this);
             Pubsub.on(AppEvents.ITEM_ZOOMED, this.renderZoom, this);
             this.render();
-
-            // admin shortcut
-            key('ctrl+alt+l', function() {
-               Backbone.history.navigate('/login', true);
-            });
         },
 
         render: function(nbItems) {
