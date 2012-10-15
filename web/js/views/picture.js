@@ -1,6 +1,10 @@
-define(['underscore', 'backbone', 'i18n!nls/labels', 'hbs!templates/picture'],
+define(['jquery',
+        'backbone',
+        'i18n!nls/labels',
+        'views/picture-zoom',
+        'hbs!templates/picture'],
 
-function(_, Backbone, labels, tmpl) {
+function($, Backbone, labels, PictureZoomView, tmpl) {
     var PictureView = Backbone.View.extend({
         template: tmpl,
         labels: labels,
@@ -12,13 +16,10 @@ function(_, Backbone, labels, tmpl) {
         },
         
         zoom: function() {
-            Backbone.history.navigate('/item/' + this.model.id, true);
-        }/*,
- 
-        render: function() {
-            PictureView.__super__.render.apply(this);
-            this.$el.fadeIn();
-        }*/
+            window.currentScollPosition = $(document).scrollTop();
+            Backbone.history.navigate('/item/' + this.model.id, false);
+            new PictureZoomView({ root: "#main", model: this.model, availableWidth: $(window).width(), availableHeight: $(window).height() - 50});
+        }
     });
     return PictureView;
 });

@@ -77,11 +77,13 @@ require.config({
         keymaster: 'libs/keymaster',
         hbs: 'libs/resthub/require-handlebars',
         'moment': 'libs/moment',
-        'moment-fr': 'libs/moment-lang/fr'
+        'moment-fr': 'libs/moment-lang/fr',
+        templates: '../templates'
     }
 });
 
-require(['router', 'views/header', 'events'], function(AppRouter, HeaderView) {
+require(['router', 'views/header', 'bootstrap', 'events'],
+function(AppRouter, HeaderView) {
     // header
     window.headerView = new HeaderView({
         root: "header"

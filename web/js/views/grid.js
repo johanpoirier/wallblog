@@ -47,6 +47,7 @@ function(_, Backbone, $, Pubsub, PictureView, gridTmpl) {
 
         render: function() {
             this.loading = false;
+            this.lastYOffset = window.pageYOffset;
 
             // compute number of columns
             this.nbColumns = this.settings.initNbColumns;
@@ -78,7 +79,7 @@ function(_, Backbone, $, Pubsub, PictureView, gridTmpl) {
         },
 
         getShorterColumnId: function() {
-            return this.columnsSize.reduceRight(function(a, b) {
+            return _.reduceRight(this.columnsSize, function(a, b) {
                 return (a.value < b.value) ? a : b;
             }).id;
         },
@@ -98,12 +99,13 @@ function(_, Backbone, $, Pubsub, PictureView, gridTmpl) {
         },
         
         loadMore: function() {
-            if(!this.loading && (($(window).scrollTop() - ($(document).height() - $(window).height())) <= 0)) {
+            if(!this.loading && ((window.pageYOffset - this.lastYOffset) > 0) && (($(window).scrollTop() - ($(document).height() - $(window).height())) <= 0)) {
                 //console.log("Loading more items");
                 this.loading = true;
-                this.collection.fetch({ add: true, data: { start: this.currentNbItems, nb: this.loadingIncrement }});
+                this.collection.fetch({ add: true, data: { start: this.currentNbItems, nb: this.loadingIncrement, comments: true }});
                 this.currentNbItems += this.loadingIncrement;
             }
+            this.lastYOffset = window.pageYOffset;
         },
         
         activateDropFile: function() {
@@ -112,9 +114,9 @@ function(_, Backbone, $, Pubsub, PictureView, gridTmpl) {
                 dropZone.addEventListener("dragover", _.bind(this.handleDragOver, this), false);
                 dropZone.addEventListener("drop", _.bind(this.handleFileSelect, this), false);
             }
-            else {
+            /*else {
                 alert("Your browser does not support HTML5 file uploads!");
-            }
+            }*/
         },
 
         handleFileSelect: function(evt) {
@@ -146,21 +148,24 @@ function(_, Backbone, $, Pubsub, PictureView, gridTmpl) {
 
         handleFileUpload: function(file) {
             return _.bind(function(e) {
-                $.ajax({
-                    type: "POST",
-                    url: "api/item",
-                    data: {
-                        data: e.target.result,
-                        filename: file.name,
-                        description: "test"
-                    },
-                    success: _.bind(this.fetchCurrent, this)
-                });
+                var desc = prompt("Description de la photo ?");
+                if(desc && desc.length > 0) {
+                    $.ajax({
+                        type: "POST",
+                        url: "api/item",
+                        data: {
+                            data: e.target.result,
+                            filename: file.name,
+                            description: desc
+                        },
+                        success: _.bind(this.fetchCurrent, this)
+                    });
+                }
             }, this);
         },
         
         fetchCurrent: function() {
-            this.collection.fetch({ data: { start: 0, nb: this.currentNbItems }});
+            this.collection.fetch({ data: { start: 0, nb: this.currentNbItems, comments: true }});
         }
     });
     return Grid;

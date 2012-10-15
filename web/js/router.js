@@ -1,12 +1,15 @@
-define(['backbone',
+define(['jquery',
+        'backbone',
         'keymaster',
+        'tools',
         'models/picture',
         'collections/pictures',
         'views/grid',
         'views/picture-zoom',
+        'views/login',
         'backbone-queryparams'],
 
-function(Backbone, key, Picture, PictureCollection, Grid, PictureZoomView) {
+function($, Backbone, key, tools, Picture, PictureCollection, Grid, PictureZoomView, LoginView) {
 
     var AppRouter = Backbone.Router.extend({
 
@@ -15,9 +18,9 @@ function(Backbone, key, Picture, PictureCollection, Grid, PictureZoomView) {
         },
 
         routes: {
-            '': 'main',
             'login': 'login',
-            'item/:id': 'zoom'
+            'item/:id': 'zoom',
+            '': 'main'
         },
 
         main: function() {
@@ -31,18 +34,26 @@ function(Backbone, key, Picture, PictureCollection, Grid, PictureZoomView) {
 
             // display items on the grid
             var grid = new Grid({ root: "#main", collection: window.items });
+            grid.activateDropFile();
 
             // admin shortcut
-            key('ctrl+alt+l', function() {
-               //Backbone.history.navigate('/login', true);
-               console.log("Admin login");
-               grid.activateDropFile();
-            });
+            if(!tools.isLogged()) {
+                key('ctrl+alt+l', function() {
+                    Backbone.history.navigate('/login', true);
+                });
+            }
+            
+            // set last scroll position
+            if(window.currentScollPosition) {
+                $(document).scrollTop(window.currentScollPosition);
+            }
         },
 
-        /*login: function() {
-            console.log("Admin login");
-        },*/
+        login: function() {
+            new LoginView({
+                root: $("body")
+            });
+        },
 
         zoom: function(id) {
            var picture = new Picture({id: id});

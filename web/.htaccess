@@ -13,6 +13,7 @@ AddType text/cache-manifest .appcache
 
     RewriteEngine On
     RewriteRule ^(js)($|/) - [L]
+    RewriteRule ^(templates)($|/) - [L]
     RewriteRule ^api/(.*)$ index.php [QSA,L]
     RewriteRule ^auth/(.*)$ index.php [QSA,L]
     RewriteRule ^rss$ index.php [QSA,L]

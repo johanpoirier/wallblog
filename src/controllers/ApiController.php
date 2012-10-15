@@ -15,25 +15,24 @@ class ApiController implements ControllerProviderInterface {
         $controllers->get('/item', function (Application $app, Request $request) {
                     $start = $request->get('start');
                     $nb = $request->get('nb');
+                    $getComments = $request->get('comments');
+                    
                     if(!$start) {
                         $start = 0;
                     }
                     if(!$nb) {
-                        return $app['json']->constructJsonResponse($app['picture_service']->getAll());
+                        $items = $app['picture_service']->getAll();
                     }
                     else {
-                        return $app['json']->constructJsonResponse($app['picture_service']->get($nb, $start));
+                        $items = $app['picture_service']->get($nb, $start);
                     }
-                });
-
-        $controllers->get('/itemfull', function (Application $app, Request $request) {
-                    $start = $request->get('start');
-                    $nb = $request->get('nb');
-                    $items = $app['picture_service']->get($nb, $start);
-                    for ($i = 0; $i < sizeof($items); $i++) {
-                        $comments = $app['comment_service']->getByItem($items[$i]['id']);
-                        if (sizeof($comments) > 0) {
-                            $items[$i]['comments'] = $comments;
+                    
+                    if($getComments) {
+                        for ($i = 0; $i < sizeof($items); $i++) {
+                            $comments = $app['comment_service']->getByItem($items[$i]['id']);
+                            if (sizeof($comments) > 0) {
+                                $items[$i]['comments'] = $comments;
+                            }
                         }
                     }
                     return $app['json']->constructJsonResponse($items);
@@ -63,9 +62,9 @@ class ApiController implements ControllerProviderInterface {
                 });
 
         $controllers->post('/item', function (Application $app, Request $request) {
-                    /*if ($request->hasSession()) {
+                    if ($request->hasSession()) {
                         $user = $app['user_service']->getByEmail($request->getSession()->get('email'));
-                        if ($user) {*/
+                        if ($user) {
                             $upload_dir = '../web/pictures/';
                             $allowed_ext = array('jpg', 'jpeg', 'png', 'mp4');
 
@@ -93,12 +92,12 @@ class ApiController implements ControllerProviderInterface {
                             } else {
                                 $app['monolog']->addDebug("[session " . $request->getSession()->getId() . "] can't find pic to updload");
                             }
-                        /*} else {
+                        } else {
                             $app['monolog']->addDebug("[session " . $request->getSession()->getId() . "] can't upload, user " . $request->getSession()->get('email') . " not found in session");
                         }
                     } else {
                         $app['monolog']->addDebug("can't upload, no session");
-                    }*/
+                    }
                 });
 
         $controllers->get('/items/count', function (Application $app) {
