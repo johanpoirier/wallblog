@@ -42,7 +42,7 @@ $app->register(new Silex\Provider\SessionServiceProvider(), array(
 
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/../views',
-    'twig.class_path' => __DIR__ . '/../vendor/twig/lib'
+    'twig.class_path' => __DIR__ . '/../vendor/Twig/lib'
 ));
 
 /** Services */
