@@ -1,4 +1,4 @@
 AppEvents = {
-    ITEMS_FETCHED: 'ItemsFetched',
+    ITEMS_ADDED: 'ItemsAdded',
     ITEM_ZOOMED: 'ItemZoomed'
 };

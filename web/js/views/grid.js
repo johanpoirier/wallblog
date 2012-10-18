@@ -33,9 +33,7 @@ function(_, Backbone, $, Pubsub, PictureView, gridTmpl) {
 
             // fetch items
             this.collection.on("add", this.render, this);
-            this.collection.on("add", this.sendEvent, this);
             this.collection.on("reset", this.render, this);
-            this.collection.on("reset", this.sendEvent, this);
             if(this.collection.length === 0) {
                 this.loading = true;
                 this.fetchCurrent();
@@ -64,7 +62,6 @@ function(_, Backbone, $, Pubsub, PictureView, gridTmpl) {
             // render of columns
             var columnClass = "span" + new String(Math.round(12 / this.nbColumns));
             Grid.__super__.render.apply(this, [{ nbColumns: this.nbColumns, columnClass: columnClass }]);
-            //console.log("Rendering " + this.collection.length + " items on " + this.nbColumns + " columns.");
 
             // render of items
             this.collection.each(this.renderModel, this);
@@ -84,18 +81,13 @@ function(_, Backbone, $, Pubsub, PictureView, gridTmpl) {
             }).id;
         },
 
-        screenResize: function(event) {
+        screenResize: function() {
             var currentScreenWidth = $(window).width();
             var reRender = (this.screenWidth !== currentScreenWidth);
             this.screenWidth = currentScreenWidth;
             if(reRender) {
-                //console.log("new screen width : " + currentScreenWidth);
                 this.render();
             }
-        },
-
-        sendEvent: function() {
-            Pubsub.trigger(AppEvents.ITEMS_FETCHED, this.collection.length);
         },
         
         loadMore: function() {
@@ -166,6 +158,7 @@ function(_, Backbone, $, Pubsub, PictureView, gridTmpl) {
         
         fetchCurrent: function() {
             this.collection.fetch({ data: { start: 0, nb: this.currentNbItems, comments: true }});
+            Pubsub.trigger(AppEvents.ITEMS_ADDED, -1);
         }
     });
     return Grid;

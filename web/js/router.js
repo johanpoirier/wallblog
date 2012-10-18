@@ -24,12 +24,12 @@ function($, Backbone, key, tools, Picture, PictureCollection, Grid, PictureZoomV
         },
 
         main: function() {
+            // render header bar even if nb items is unknown
+            window.headerView.render();
+            
             // get items for the first load
             if(!window.items) {
                 window.items = new PictureCollection();
-            }
-            else {
-                window.headerView.render(window.items.length);
             }
 
             // display items on the grid

@@ -3,6 +3,6 @@
         <img src="/img/logo_m.png" alt="Logo" />
         <img alt="Tan, Johan & Evan" src="/img/titre.png" />
     </a>
-    <p class="info pull-right">{{nbItems}} {{labels.picturesToClickAndComment}}</p>
+    <p class="info pull-right">{{#unlessequals nbItems 0}}{{nbItems}} {{labels.picturesToClickAndComment}}{{/unlessequals}}</p>
     <img alt="Beta" src="/img/beta.png" class="beta" />
 </div>
