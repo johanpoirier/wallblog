@@ -1,5 +1,5 @@
-define(['underscore', 'backbone', 'tools', 'hbs!templates/login'],
-    function(_, Backbone, tools, tmpl) {
+define(['underscore', 'backbone', 'pubsub', 'tools', 'hbs!templates/login'],
+    function(_, Backbone, Pubsub, tools, tmpl) {
         var LoginView = Backbone.View.extend({     
 
             template: tmpl,
@@ -52,8 +52,7 @@ define(['underscore', 'backbone', 'tools', 'hbs!templates/login'],
                 Backbone.history.navigate('/', false);
                 this.$el.modal('hide');
                 tools.setLoggedTime();
-                //App.user = user;
-                //Pubsub.trigger(App.Events.USER_LOGGED_IN, user);
+                Pubsub.trigger(AppEvents.USER_LOGGED_IN, user);
             },
             
             keyPressed: function(e) {

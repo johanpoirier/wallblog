@@ -38,7 +38,7 @@ header .description {
     font-weight: bold;
 }
 
-.beta {
+header img.beta, header img.admin, header img.upload {
     border: 0;
     position: absolute;
     right: 0;
