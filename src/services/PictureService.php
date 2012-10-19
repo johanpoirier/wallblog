@@ -44,7 +44,7 @@ class PictureService {
         $item["file"] = $file_name;
         $item["description"] = $description;
         if (!$date) {
-            $exif_data = exif_read_data(self::$dir . "/" . $file_name);
+            $exif_data = @exif_read_data(self::$dir . "/" . $file_name);
             if ($exif_data !== false) {
                 if (isset($exif_data['DateTimeOriginal'])) {
                     $date = $exif_data['DateTimeOriginal'];
@@ -55,7 +55,7 @@ class PictureService {
                 self::$logger->debug("exif date of " . $file_name . " : " . $date);
             }
         }
-        $item["date"] = $date;
+        $item["date"] = ($date == null) ? date("Y-M-d") : $date;
 
         $this->resize(self::$dir . "/" . $file_name, 1024);
         $image_info = getimagesize(self::$dir . "/" . $file_name);

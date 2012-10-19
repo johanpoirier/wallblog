@@ -3,10 +3,11 @@ define(['underscore',
         'jquery',
         'pubsub',
         'views/picture',
+        'views/upload',
         'hbs!templates/grid',
         'resthub-handlebars'],
 
-function(_, Backbone, $, Pubsub, PictureView, gridTmpl) {
+function(_, Backbone, $, Pubsub, PictureView, UploadView, gridTmpl) {
 
     var Grid = Backbone.View.extend({
         template: gridTmpl,
@@ -32,6 +33,7 @@ function(_, Backbone, $, Pubsub, PictureView, gridTmpl) {
             //$(window).mousewheel(_.bind(this.loadMore, this));
 
             // fetch items
+            Pubsub.on(AppEvents.ITEMS_UPLOADED, this.fetchCurrent, this);
             this.collection.on("add", this.render, this);
             this.collection.on("reset", this.render, this);
             if(this.collection.length === 0) {
@@ -116,16 +118,20 @@ function(_, Backbone, $, Pubsub, PictureView, gridTmpl) {
             evt.preventDefault();
 
             var files = evt.dataTransfer.files;
-            if(files.length == 1) {
-                // Only process image files.
-                if (!files[0].type.match("image.*")) {
-                    alert("Only images are allowed!");
-                    return;
+            if(files.length <= 6) {
+                this.uploadPictures = [];
+                for(var i=0; i<files.length; i++) {
+                    var file = files[i];
+  
+                    if (!file.type.match("image.*")) {
+                        alert("Only images are allowed!");
+                        break;
+                    }
+                    
+                    var reader = new FileReader();
+                    reader.onload = this.handleFileUpload(file, (i === (files.length - 1)));
+                    reader.readAsDataURL(file);
                 }
-
-                var reader = new FileReader();
-                reader.onload = this.handleFileUpload(files[0]);
-                reader.readAsDataURL(files[0]);
             }
             else {
                 alert("Too many files! Only one allowed!");
@@ -138,19 +144,18 @@ function(_, Backbone, $, Pubsub, PictureView, gridTmpl) {
             evt.dataTransfer.dropEffect = 'copy';
         },
 
-        handleFileUpload: function(file) {
+        handleFileUpload: function(file, end) {
             return _.bind(function(e) {
-                var desc = prompt("Description de la photo ?");
-                if(desc && desc.length > 0) {
-                    $.ajax({
-                        type: "POST",
-                        url: "api/item",
-                        data: {
-                            data: e.target.result,
-                            filename: file.name,
-                            description: desc
-                        },
-                        success: _.bind(this.fetchCurrent, this)
+                this.uploadPictures.push({
+                    data: e.target.result,
+                    filename: file.name,
+                    id: (this.uploadPictures.length + 1)
+                });
+                
+                // last item, display interface
+                if(end) {
+                    new UploadView({
+                        pictures: this.uploadPictures
                     });
                 }
             }, this);

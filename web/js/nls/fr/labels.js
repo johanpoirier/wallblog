@@ -1,6 +1,7 @@
 define({
     "submitComment": "Poster",
     "cancel": "Annuler",
+    "validate": "Valider",
     "comments": "Commentaires",
     "addComment": "Ajouter un commentaire",
     "anyComment": "un commentaire ?",
@@ -8,5 +9,8 @@ define({
     "commentHint": "votre commentaire ici ...",
     "dateFormat": "D MMMM YYYY",
     "dateTimeFormat": "le DD/MM/YYYY à HH\\hmm",
-    "picturesToClickAndComment": "photos à cliquer et commenter."
+    "picturesToClickAndComment": "photos à cliquer et commenter.",
+    "enterDescription": "une description ?",
+    "uploadTitle": "Ajouter des photos",
+    "uploadPictures": "Charger les photos"
 });

@@ -50,9 +50,7 @@ function($, Backbone, key, tools, Picture, PictureCollection, Grid, PictureZoomV
         },
 
         login: function() {
-            new LoginView({
-                root: $("body")
-            });
+            new LoginView();
         },
 
         zoom: function(id) {

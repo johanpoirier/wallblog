@@ -1,8 +1,16 @@
-define(['underscore', 'backbone', 'pubsub', 'tools', 'hbs!templates/login'],
-    function(_, Backbone, Pubsub, tools, tmpl) {
+define(['underscore',
+        'backbone',
+        'pubsub',
+        'tools',
+        'i18n!nls/labels',
+        'hbs!templates/login'],
+    
+    function(_, Backbone, Pubsub, tools, labels, tmpl) {
         var LoginView = Backbone.View.extend({     
 
             template: tmpl,
+            root: "#modal",
+            labels: labels,
             strategy: "append",
             tagName: "div",
             className: "modal",

@@ -15,7 +15,7 @@ function(_, $, Backbone, Pubsub, tools, labels, tmpl, tmplZoom) {
         className: "navbar navbar-fixed-top navbar-inverse",
         
         events: {
-            "click img.beta": "login"
+            "click img.admin": "login"
         },
         
         initialize: function() {

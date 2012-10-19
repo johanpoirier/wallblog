@@ -16,18 +16,17 @@ class ApiController implements ControllerProviderInterface {
                     $start = $request->get('start');
                     $nb = $request->get('nb');
                     $getComments = $request->get('comments');
-                    
-                    if(!$start) {
+
+                    if (!$start) {
                         $start = 0;
                     }
-                    if(!$nb) {
+                    if (!$nb) {
                         $items = $app['picture_service']->getAll();
-                    }
-                    else {
+                    } else {
                         $items = $app['picture_service']->get($nb, $start);
                     }
-                    
-                    if($getComments) {
+
+                    if ($getComments) {
                         for ($i = 0; $i < sizeof($items); $i++) {
                             $comments = $app['comment_service']->getByItem($items[$i]['id']);
                             if (sizeof($comments) > 0) {
@@ -76,17 +75,16 @@ class ApiController implements ControllerProviderInterface {
                                 $img = str_replace('data:image/jpeg;base64,', '', $img);
                                 $img = str_replace(' ', '+', $img);
                                 $data = base64_decode($img);
-                                
+
                                 if (!in_array($app['picture_service']->getExtension($filename), $allowed_ext)) {
                                     return $app['json']->constructJsonResponse(array('status' => 'Only ' . implode(',', $allowed_ext) . ' files are allowed!'));
                                 }
-                                
-                                if(file_put_contents($upload_dir . $filename, $data)) {
+
+                                if (file_put_contents($upload_dir . $filename, $data)) {
                                     $item = $app['picture_service']->add($filename, $description);
                                     $app['monolog']->addDebug("[session " . $request->getSession()->getId() . "] " . $filename . " was succesfully uploaded");
                                     return $app['json']->constructJsonResponse($item);
-                                }
-                                else {
+                                } else {
                                     $app['monolog']->addDebug("[session " . $request->getSession()->getId() . "] problem during pic upload");
                                 }
                             } else {
@@ -96,6 +94,41 @@ class ApiController implements ControllerProviderInterface {
                             $app['monolog']->addDebug("[session " . $request->getSession()->getId() . "] can't upload, user " . $request->getSession()->get('email') . " not found in session");
                         }
                     } else {
+                        $app['monolog']->addDebug("can't upload, no session");
+                    }
+                });
+
+        $controllers->post('/items', function (Application $app, Request $request) {
+                    $jsonPictures = json_decode($request->getContent(), true);
+
+                    if ($request->hasSession()) {
+                        $user = $app['user_service']->getByEmail($request->getSession()->get('email'));
+                        if ($user) {
+                            $upload_dir = '../web/pictures/';
+                            $allowed_ext = array('jpg', 'jpeg', 'png', 'mp4');
+
+                            foreach ($jsonPictures as $picture) {
+                                if (in_array($app['picture_service']->getExtension($picture['filename']), $allowed_ext)) {
+                                    $img = $picture['data'];
+                                    $img = str_replace('data:image/png;base64,', '', $img);
+                                    $img = str_replace('data:image/jpeg;base64,', '', $img);
+                                    $img = str_replace(' ', '+', $img);
+                                    $data = base64_decode($img);
+
+                                    if (file_put_contents($upload_dir . $picture['filename'], $data)) {
+                                        $item = $app['picture_service']->add($picture['filename'], $picture['description']);
+                                    }
+                                    else {
+                                        $app['monolog']->addDebug("[session " . $request->getSession()->getId() . "] problem during pic upload");
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            $app['monolog']->addDebug("[session " . $request->getSession()->getId() . "] can't upload, user " . $request->getSession()->get('email') . " not found in session");
+                        }
+                    }
+                    else {
                         $app['monolog']->addDebug("can't upload, no session");
                     }
                 });

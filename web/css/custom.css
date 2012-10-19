@@ -190,6 +190,35 @@ header img.beta, header img.admin, header img.upload {
     text-align: center;
 }
 
+.largeModal {
+    height: auto;
+    margin-left: -40%;
+    width: 80%;
+}
+
+.largeModal .upload-image {
+    float: left;
+    margin: 10px;
+    text-align: center;
+}
+.largeModal .upload-image * {
+    max-width: 240px;
+}
+.largeModal .upload-image input {
+    width: 100%;
+}
+.largeModal .upload-image img {
+    max-height: 240px;
+}
+.largeModal .upload-image-zone {
+    border: 2px dashed lightgray;
+    height: 245px;
+    line-height: 240px;
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 245px;
+}
+
 @media (max-width: 620px) {
     .navbar-fixed-top {
         margin-bottom: 5px;

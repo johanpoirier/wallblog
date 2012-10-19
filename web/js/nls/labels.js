@@ -2,6 +2,7 @@ define({
     "root": {
         "submitComment": "OK",
         "cancel": "Cancel",
+        "validate": "OK",
         "comments": "Comments",
         "addComment": "Add comment",
         "anyComment": "any comment ?",
@@ -9,7 +10,10 @@ define({
         "commentHint": "your comment here...",
         "dateFormat": "MMMM DD YYYY",
         "dateTimeFormat": "MM/DD/YYYY, HH:mm",
-        "picturesToClickAndComment": "pictures : click & comment."
+        "picturesToClickAndComment": "pictures : click & comment.",
+        "enterDescription": "enter a description...",
+        "uploadTitle": "Add pictures",
+        "uploadPictures": "Upload"
     },
     "fr": true
 });
