@@ -219,6 +219,13 @@ header img.beta, header img.admin, header img.upload {
     width: 245px;
 }
 
+form {
+    text-align: center;
+}
+.pictures {
+    display: inline-block;
+}
+
 @media (max-width: 620px) {
     .navbar-fixed-top {
         margin-bottom: 5px;

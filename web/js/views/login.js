@@ -60,7 +60,7 @@ define(['underscore',
                 Backbone.history.navigate('/', false);
                 this.$el.modal('hide');
                 tools.setLoggedTime();
-                Pubsub.trigger(AppEvents.USER_LOGGED_IN, user);
+                Pubsub.trigger(AppEvents.USER_LOGGED_IN);
             },
             
             keyPressed: function(e) {
