@@ -187,6 +187,7 @@ header img.beta, header img.admin, header img.upload {
 }
 
 .picture {
+    cursor: pointer;
     text-align: center;
 }
 
@@ -217,6 +218,13 @@ header img.beta, header img.admin, header img.upload {
     margin-bottom: 10px;
     padding: 5px;
     width: 245px;
+}
+
+form {
+    text-align: center;
+}
+.pictures {
+    display: inline-block;
 }
 
 @media (max-width: 620px) {

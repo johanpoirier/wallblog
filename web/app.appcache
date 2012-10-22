@@ -1,10 +1,12 @@
 CACHE MANIFEST
-# version 2
+# version 3
 
 CACHE:
 js/libs/require.js
+img/admin.png
 img/beta.png
 img/comment.png
+img/upload.png
 img/transparent.png
 css/fonts/sansation_regular-webfont.eot
 css/fonts/sansation_regular-webfont.svg

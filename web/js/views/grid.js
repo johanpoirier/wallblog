@@ -2,12 +2,13 @@ define(['underscore',
         'backbone',
         'jquery',
         'pubsub',
+        'tools',
         'views/picture',
         'views/upload',
         'hbs!templates/grid',
         'resthub-handlebars'],
 
-function(_, Backbone, $, Pubsub, PictureView, UploadView, gridTmpl) {
+function(_, Backbone, $, Pubsub, tools, PictureView, UploadView, gridTmpl) {
 
     var Grid = Backbone.View.extend({
         template: gridTmpl,
@@ -23,6 +24,11 @@ function(_, Backbone, $, Pubsub, PictureView, UploadView, gridTmpl) {
             minColumnWidth: 160
         },
 
+        events: {
+            dragover: "handleDragOver",
+            drop: "handleFileSelect"
+        },
+        
         initialize: function() {
             // listen to window resize event
             this.screenWidth = $(window).width();
@@ -101,44 +107,46 @@ function(_, Backbone, $, Pubsub, PictureView, UploadView, gridTmpl) {
             }
             this.lastYOffset = window.pageYOffset;
         },
-        
-        activateDropFile: function() {
-            var dropZone = window.document.getElementById("main");
-            if(window.FileReader) {
-                dropZone.addEventListener("dragover", _.bind(this.handleDragOver, this), false);
-                dropZone.addEventListener("drop", _.bind(this.handleFileSelect, this), false);
-            }
-            /*else {
-                alert("Your browser does not support HTML5 file uploads!");
-            }*/
-        },
 
-        handleFileSelect: function(evt) {
+        handleFileSelect: function(e) {
+            var evt = e.originalEvent;
             evt.stopPropagation();
             evt.preventDefault();
+            
+            if(tools.isLogged()) {
+                if(window.FileReader) {
+                    var files = evt.dataTransfer.files;
+                    if(files.length <= 6) {
+                        this.uploadPictures = [];
+                        for(var i=0; i<files.length; i++) {
+                            var file = files[i];
 
-            var files = evt.dataTransfer.files;
-            if(files.length <= 6) {
-                this.uploadPictures = [];
-                for(var i=0; i<files.length; i++) {
-                    var file = files[i];
-  
-                    if (!file.type.match("image.*")) {
-                        alert("Only images are allowed!");
-                        break;
+                            if (!file.type.match("image.*")) {
+                                alert("Only images are allowed!");
+                                break;
+                            }
+
+                            var reader = new FileReader();
+                            reader.onload = this.handleFileUpload(file, (i === (files.length - 1)));
+                            reader.readAsDataURL(file);
+                        }
                     }
-                    
-                    var reader = new FileReader();
-                    reader.onload = this.handleFileUpload(file, (i === (files.length - 1)));
-                    reader.readAsDataURL(file);
+                    else {
+                        alert("Too many files! Only one allowed!");
+                    }
+                }
+                else {
+                    alert("Your browser does not support HTML5 file uploads!");
                 }
             }
             else {
-                alert("Too many files! Only one allowed!");
+                alert("You must be logged in to upload pictures.");
+                Backbone.history.navigate('/login', true);
             }
         },
 
-        handleDragOver: function(evt) {
+        handleDragOver: function(e) {
+            var evt = e.originalEvent;
             evt.stopPropagation();
             evt.preventDefault();
             evt.dataTransfer.dropEffect = 'copy';
@@ -164,6 +172,11 @@ function(_, Backbone, $, Pubsub, PictureView, UploadView, gridTmpl) {
         fetchCurrent: function() {
             this.collection.fetch({ data: { start: 0, nb: this.currentNbItems, comments: true }});
             Pubsub.trigger(AppEvents.ITEMS_ADDED, -1);
+        },
+        
+        remove: function() {
+            Grid.__super__.remove.apply(this);
+            
         }
     });
     return Grid;

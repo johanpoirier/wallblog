@@ -33,8 +33,7 @@ function($, Backbone, key, tools, Picture, PictureCollection, Grid, PictureZoomV
             }
 
             // display items on the grid
-            var grid = new Grid({ root: "#main", collection: window.items });
-            grid.activateDropFile();
+            new Grid({ root: "#main", collection: window.items });
 
             // admin shortcut
             if(!tools.isLogged()) {
