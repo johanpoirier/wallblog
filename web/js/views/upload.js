@@ -36,8 +36,11 @@ define(['backbone',
             
             submit: function(e) {
                 e.preventDefault();
+                
+                this.$(".btn").attr("disabled", "disabled");
+                this.$(".icon-white").removeClass("icon-white").addClass("icon-upload");
                 for(var i=0; i<this.options.pictures.length; i++) {
-                    this.options.pictures.description = this.$("input[name='description-" + this.options.pictures.id + "']").val();
+                    this.options.pictures[i].description = this.$("input[name='description-" + this.options.pictures[i].id + "']").val();
                 }
                 $.ajax({
                     type: "POST",

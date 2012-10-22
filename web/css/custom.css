@@ -165,6 +165,13 @@ header img.beta, header img.admin, header img.upload {
     line-height: 15px;
     padding-bottom: 10px;
 }
+.comment .delete {
+    cursor: pointer;
+    display: none;
+    margin-top: -3px;
+    position: absolute;
+    right: 23px;
+}
 
 .commentForm .hidden {
     display: none;

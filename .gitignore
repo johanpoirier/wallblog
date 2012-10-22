@@ -1,7 +1,6 @@
 nbproject/
 logs/
 src/config.jops.php
-web/pictures/
-web/videos/
 web-build/
+web/pictures/*_b.jpg
 tests/app.log

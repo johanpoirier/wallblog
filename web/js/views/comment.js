@@ -7,8 +7,20 @@ function(Backbone, labels, tmpl) {
         className: "span10 offset1 comment",
         strategy: "prepend",
         
+        events: {
+            "click .delete": "deleteComment"
+        },
+        
         initialize: function() {
+            this.model.on("destroy", this.remove, this);
             this.render();
+            if(this.options.admin) {
+                this.$("span.delete").show();
+            }
+        },
+        
+        deleteComment: function() {
+            this.model.destroy();
         }
     });
     return CommentView;

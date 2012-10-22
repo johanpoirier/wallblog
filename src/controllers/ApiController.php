@@ -60,6 +60,11 @@ class ApiController implements ControllerProviderInterface {
                     return $app['json']->constructJsonResponse($comment);
                 });
 
+        $controllers->delete('/item/{id}/comments/{idComment}', function (Application $app, Request $request, $idComment) {
+                    $comment = $app['comment_service']->delete($idComment);
+                    return new Response('Comment removed', 200);
+                });
+
         $controllers->post('/item', function (Application $app, Request $request) {
                     if ($request->hasSession()) {
                         $user = $app['user_service']->getByEmail($request->getSession()->get('email'));

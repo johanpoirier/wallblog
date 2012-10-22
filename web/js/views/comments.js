@@ -1,6 +1,6 @@
-define(['backbone', 'views/comment'],
+define(['backbone', 'tools', 'views/comment'],
 
-function(Backbone, CommentView) {
+function(Backbone, tools, CommentView) {
     var CommentsView = Backbone.View.extend({
 
         initialize: function() {
@@ -13,7 +13,7 @@ function(Backbone, CommentView) {
         },
         
         renderComment: function(comment) {
-            new CommentView({ model: comment, root: this.el });
+            new CommentView({ model: comment, root: this.el, admin: tools.isLogged() });
         }
     });
     return CommentsView;
