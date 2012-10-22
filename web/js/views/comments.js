@@ -10,14 +10,10 @@ function(Backbone, tools, CommentView) {
 
         render: function() {
             this.collection.each(this.renderComment, this);
-                        // admin
-            if(tools.isLogged()) {
-                this.$("span.delete").show();
-            }
         },
         
         renderComment: function(comment) {
-            new CommentView({ model: comment, root: this.el });
+            new CommentView({ model: comment, root: this.el, admin: tools.isLogged() });
         }
     });
     return CommentsView;

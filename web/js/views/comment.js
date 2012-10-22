@@ -14,6 +14,9 @@ function(Backbone, labels, tmpl) {
         initialize: function() {
             this.model.on("destroy", this.remove, this);
             this.render();
+            if(this.options.admin) {
+                this.$("span.delete").show();
+            }
         },
         
         deleteComment: function() {
