@@ -13,8 +13,10 @@ Stack
 - Silex
 - Doctrine DBAL
 - RequireJS
+- Backbone.js
 - jQuery
 - Handlebars
+- Twitter Bootstrap
 
 Optimization
 ------------
