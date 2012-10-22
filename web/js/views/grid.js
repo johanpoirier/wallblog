@@ -15,9 +15,9 @@ define(['underscore',
             className: "row-fluid",
             strategy: "replace",
         
-            currentNbItems: 12,
             loading: false,
             loadingIncrement: 6,
+            currentNbItems: 15,
         
             settings: {
                 initNbColumns: 3,
@@ -71,7 +71,15 @@ define(['underscore',
                     nbColumns: this.nbColumns, 
                     columnClass: columnClass
                 }]);
-
+            
+                
+                // first time on the site ?
+                if(this.collection.length === 0) {
+                    for(i=0; i<this.nbColumns; i++) {
+                        this.collection.add({ file: "empty.jpg", date: "2011-10-17 18:56:10", ratio: 1, reverseRatio: 1 }, { silent: true });
+                    }
+                }
+                
                 // render of items
                 this.collection.each(this.renderModel, this);
             },
@@ -114,86 +122,86 @@ define(['underscore',
                             comments: true
                         }
                     });
-                this.currentNbItems += this.loadingIncrement;
-            }
-            this.lastYOffset = window.pageYOffset;
-        },
+                    this.currentNbItems += this.loadingIncrement;
+                }
+                this.lastYOffset = window.pageYOffset;
+            },
         
-        activateDropFile: function() {
-            var dropZone = window.document.getElementById("main");
-            if(window.FileReader) {
-                dropZone.addEventListener("dragover", _.bind(this.handleDragOver, this), false);
-                dropZone.addEventListener("drop", _.bind(this.handleFileSelect, this), false);
-            }
-        /*else {
+            activateDropFile: function() {
+                var dropZone = window.document.getElementById("main");
+                if(window.FileReader) {
+                    dropZone.addEventListener("dragover", _.bind(this.handleDragOver, this), false);
+                    dropZone.addEventListener("drop", _.bind(this.handleFileSelect, this), false);
+                }
+            /*else {
                 alert("Your browser does not support HTML5 file uploads!");
             }*/
-        },
+            },
 
-        handleFileSelect: function(evt) {
-            evt.stopPropagation();
-            evt.preventDefault();
+            handleFileSelect: function(evt) {
+                evt.stopPropagation();
+                evt.preventDefault();
             
-            if(tools.isLogged()) {
-                var files = evt.dataTransfer.files;
-                if(files.length <= 6) {
-                    this.uploadPictures = [];
-                    for(var i=0; i<files.length; i++) {
-                        var file = files[i];
+                if(tools.isLogged()) {
+                    var files = evt.dataTransfer.files;
+                    if(files.length <= 6) {
+                        this.uploadPictures = [];
+                        for(var i=0; i<files.length; i++) {
+                            var file = files[i];
 
-                        if (!file.type.match("image.*")) {
-                            alert("Only images are allowed!");
-                            break;
-                        }
+                            if (!file.type.match("image.*")) {
+                                alert("Only images are allowed!");
+                                break;
+                            }
                     
-                        var reader = new FileReader();
-                        reader.onload = this.handleFileUpload(file, (i === (files.length - 1)));
-                        reader.readAsDataURL(file);
+                            var reader = new FileReader();
+                            reader.onload = this.handleFileUpload(file, (i === (files.length - 1)));
+                            reader.readAsDataURL(file);
+                        }
+                    }
+                    else {
+                        alert("Too many files! Only one allowed!");
                     }
                 }
                 else {
-                    alert("Too many files! Only one allowed!");
+                    alert("You must be logged in to upload pictures.");
+                    Backbone.history.navigate('/login', true);
                 }
-            }
-            else {
-                alert("You must be logged in to upload pictures.");
-                Backbone.history.navigate('/login', true);
-            }
-        },
+            },
 
-        handleDragOver: function(evt) {
-            evt.stopPropagation();
-            evt.preventDefault();
-            evt.dataTransfer.dropEffect = 'copy';
-        },
+            handleDragOver: function(evt) {
+                evt.stopPropagation();
+                evt.preventDefault();
+                evt.dataTransfer.dropEffect = 'copy';
+            },
 
-        handleFileUpload: function(file, end) {
-            return _.bind(function(e) {
-                this.uploadPictures.push({
-                    data: e.target.result,
-                    filename: file.name,
-                    id: (this.uploadPictures.length + 1)
-                });
-                
-                // last item, display interface
-                if(end) {
-                    new UploadView({
-                        pictures: this.uploadPictures
+            handleFileUpload: function(file, end) {
+                return _.bind(function(e) {
+                    this.uploadPictures.push({
+                        data: e.target.result,
+                        filename: file.name,
+                        id: (this.uploadPictures.length + 1)
                     });
-                }
-            }, this);
-        },
+                
+                    // last item, display interface
+                    if(end) {
+                        new UploadView({
+                            pictures: this.uploadPictures
+                        });
+                    }
+                }, this);
+            },
         
-        fetchCurrent: function() {
-            this.collection.fetch({
-                data: {
-                    start: 0, 
-                    nb: this.currentNbItems, 
-                    comments: true
-                }
-            });
-        Pubsub.trigger(AppEvents.ITEMS_ADDED, -1);
-        }
+            fetchCurrent: function() {
+                this.collection.fetch({
+                    data: {
+                        start: 0, 
+                        nb: this.currentNbItems, 
+                        comments: true
+                    }
+                });
+                Pubsub.trigger(AppEvents.ITEMS_ADDED, -1);
+            }
+        });
+        return Grid;
     });
-return Grid;
-});

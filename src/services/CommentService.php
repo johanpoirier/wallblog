@@ -38,6 +38,10 @@ class CommentService {
             return null;
         }
     }
+    
+    public function delete($id) {
+        self::$db->delete(self::$table_name, array("id" => $id));
+    }
 }
 
 ?>

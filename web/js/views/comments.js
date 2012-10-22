@@ -1,6 +1,6 @@
-define(['backbone', 'views/comment'],
+define(['backbone', 'tools', 'views/comment'],
 
-function(Backbone, CommentView) {
+function(Backbone, tools, CommentView) {
     var CommentsView = Backbone.View.extend({
 
         initialize: function() {
@@ -10,6 +10,10 @@ function(Backbone, CommentView) {
 
         render: function() {
             this.collection.each(this.renderComment, this);
+                        // admin
+            if(tools.isLogged()) {
+                this.$("span.delete").show();
+            }
         },
         
         renderComment: function(comment) {
