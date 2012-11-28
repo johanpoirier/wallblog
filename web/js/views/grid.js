@@ -51,6 +51,11 @@ define(['underscore',
                 }
             },
 
+            onDispose: function() {
+                $(window).unbind("resize");
+                $(window).unbind("scroll");
+            },
+
             render: function() {
                 this.loading = false;
                 this.lastYOffset = window.pageYOffset;
