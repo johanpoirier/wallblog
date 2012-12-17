@@ -26,14 +26,14 @@ function($, Backbone, key, tools, Picture, PictureCollection, Grid, PictureZoomV
         main: function() {
             // render header bar even if nb items is unknown
             window.headerView.render();
-            
+           
             // get items for the first load
             if(!window.items) {
                 window.items = new PictureCollection();
             }
 
             // display items on the grid
-            new Grid({ root: "#main", collection: window.items });
+            var grid = new Grid({ root: "#main", collection: window.items });
 
             // admin shortcut
             if(!tools.isLogged()) {
@@ -41,11 +41,12 @@ function($, Backbone, key, tools, Picture, PictureCollection, Grid, PictureZoomV
                     Backbone.history.navigate('/login', true);
                 });
             }
-            
+                
             // set last scroll position
             if(window.currentScollPosition) {
                 $(document).scrollTop(window.currentScollPosition);
             }
+            grid.listenToScroll();
         },
 
         login: function() {

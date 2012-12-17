@@ -33,10 +33,6 @@ define(['underscore',
                 // listen to window resize event
                 this.screenWidth = $(window).width();
                 $(window).resize(_.bind(this.screenResize, this));
-            
-                // scroll event
-                $(window).scroll(_.bind(this.loadMore, this));
-                //$(window).mousewheel(_.bind(this.loadMore, this));
 
                 // fetch items
                 Pubsub.on(AppEvents.ITEMS_UPLOADED, this.fetchCurrent, this);
@@ -47,6 +43,7 @@ define(['underscore',
                     this.fetchCurrent();
                 }
                 else {
+                    this.currentNbItems = this.collection.length;
                     this.render();
                 }
             },
@@ -214,6 +211,11 @@ define(['underscore',
                     }
                 });
                 Pubsub.trigger(AppEvents.ITEMS_ADDED, -1);
+            },
+            
+            listenToScroll: function() {
+                $(window).scroll(_.bind(this.loadMore, this));
+                //$(window).mousewheel(_.bind(this.loadMore, this));
             }
         });
         return Grid;
