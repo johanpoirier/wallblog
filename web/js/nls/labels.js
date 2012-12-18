@@ -12,6 +12,7 @@ define({
         "dateTimeFormat": "MM/DD/YYYY, HH:mm",
         "picturesToClickAndComment": "pictures : click & comment.",
         "enterDescription": "enter a description...",
+        "addDescription": "double click to add a description",
         "uploadTitle": "Add pictures",
         "uploadPictures": "Upload"
     },

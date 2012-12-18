@@ -59,12 +59,12 @@ function(_, $, Backbone, Pubsub, tools, labels, tmpl, tmplZoom, tmplEdit) {
         renderZoom: function(item) {
             this.template = tmplZoom;
             this.item = item;
-            HeaderView.__super__.render.apply(this, [ item.toJSON() ]);
+            HeaderView.__super__.render.apply(this, [{ "item": item.toJSON(), "admin": tools.isLogged() }]);
         },
 
         renderEdit: function() {
             this.template = tmplEdit;
-            HeaderView.__super__.render.apply(this, [ this.item.toJSON() ]);
+            HeaderView.__super__.render.apply(this, [{ "item": this.item.toJSON(), "admin": tools.isLogged() }]);
         },
         
         login: function() {

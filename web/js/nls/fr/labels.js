@@ -11,6 +11,7 @@ define({
     "dateTimeFormat": "le DD/MM/YYYY à HH\\hmm",
     "picturesToClickAndComment": "photos à cliquer et commenter.",
     "enterDescription": "une description ?",
+    "addDescription": "double clique pour ajouter une description",
     "uploadTitle": "Ajouter des photos",
     "uploadPictures": "Charger les photos"
 });
