@@ -47,13 +47,6 @@ class ApiController implements ControllerProviderInterface {
                     return $app['json']->constructJsonResponse($app['comment_service']->getByItem($id));
                 })->assert('id', '\d+');
 
-        $controllers->put('/item/{id}', function (Application $app, Request $request) {
-                    $app['monolog']->addDebug($request->getContent());
-                    $jsonItem = json_decode($request->getContent(), true);
-                    $item = $app['picture_service']->update($jsonItem);
-                    return $app['json']->constructJsonResponse($item);
-                });
-
         $controllers->post('/item/{id}/comments', function (Application $app, Request $request) {
                     $jsonComment = json_decode($request->getContent(), true);
                     $comment = $app['comment_service']->add($jsonComment);
@@ -103,6 +96,22 @@ class ApiController implements ControllerProviderInterface {
                     }
                 });
 
+        $controllers->put('/item/{id}', function (Application $app, Request $request, $id) {
+            $app['monolog']->addDebug($request->getContent());
+            if ($request->hasSession()) {
+                $user = $app['user_service']->getByEmail($request->getSession()->get('email'));
+                if ($user) {
+                    $item = json_decode($request->getContent(), true);
+                    if($item['id'] == $id) {
+                        unset($item['comments']);
+                        unset($item['like']);
+                        $app['picture_service']->update($item);
+                    }
+                }
+            }
+            return $app['json']->constructJsonResponse($item);
+        });
+        
         $controllers->post('/items', function (Application $app, Request $request) {
                     $jsonPictures = json_decode($request->getContent(), true);
 

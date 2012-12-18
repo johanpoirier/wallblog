@@ -5,9 +5,10 @@ define(['underscore',
         'tools',
         'i18n!nls/labels',
         'hbs!templates/header',
-        'hbs!templates/header-zoom'],
+        'hbs!templates/header-zoom',
+        'hbs!templates/header-edit'],
 
-function(_, $, Backbone, Pubsub, tools, labels, tmpl, tmplZoom) {
+function(_, $, Backbone, Pubsub, tools, labels, tmpl, tmplZoom, tmplEdit) {
 
     var HeaderView = Backbone.View.extend({
         template: tmpl,
@@ -15,7 +16,9 @@ function(_, $, Backbone, Pubsub, tools, labels, tmpl, tmplZoom) {
         className: "navbar navbar-fixed-top navbar-inverse",
         
         events: {
-            "click img.admin": "login"
+            "click img.admin": "login",
+            "dblclick .description": "editDescription",
+            "keypress input": "submitDescription"
         },
         
         initialize: function() {
@@ -55,12 +58,32 @@ function(_, $, Backbone, Pubsub, tools, labels, tmpl, tmplZoom) {
 
         renderZoom: function(item) {
             this.template = tmplZoom;
+            this.item = item;
             HeaderView.__super__.render.apply(this, [ item.toJSON() ]);
+        },
+
+        renderEdit: function() {
+            this.template = tmplEdit;
+            HeaderView.__super__.render.apply(this, [ this.item.toJSON() ]);
         },
         
         login: function() {
             if(!tools.isLogged()) {
                 Backbone.history.navigate('/login', true);
+            }
+        },
+        
+        editDescription: function() {
+            if(tools.isLogged()) {
+                this.renderEdit();
+            }
+        },
+        
+        submitDescription: function(e) {
+            if(tools.isLogged() && (e.keyCode === 13)) {
+                this.$("input[name='description']").val();
+                this.item.set("description", this.$("input[name='description']").val());
+                this.item.save();
             }
         }
     });

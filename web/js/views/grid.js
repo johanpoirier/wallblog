@@ -36,7 +36,7 @@ define(['underscore',
 
                 // fetch items
                 Pubsub.on(AppEvents.ITEMS_UPLOADED, this.fetchCurrent, this);
-                this.collection.on("add", this.render, this);
+                this.collection.on("add", this.renderModel, this);
                 this.collection.on("reset", this.render, this);
                 if(this.collection.length === 0) {
                     this.loading = true;
@@ -134,7 +134,10 @@ define(['underscore',
                             start: this.currentNbItems, 
                             nb: this.loadingIncrement, 
                             comments: true
-                        }
+                        },
+                        success: _.bind(function() {
+                            this.loading = false;
+                        }, this)
                     });
                     this.currentNbItems += this.loadingIncrement;
                 }
@@ -145,7 +148,7 @@ define(['underscore',
                 var evt = e.originalEvent;
                 evt.stopPropagation();
                 evt.preventDefault();
-            
+
                 if(tools.isLogged()) {
                     if(window.FileReader) {
                         var files = evt.dataTransfer.files;
