@@ -18,7 +18,9 @@ function(_, $, Backbone, Pubsub, tools, labels, tmpl, tmplZoom, tmplEdit) {
         events: {
             "click img.admin": "login",
             "dblclick .description": "editDescription",
-            "keypress input": "submitDescription"
+            "keypress input": "submitDescription",
+            "blur input": "escapeDescription",
+            "click .delete": "deletePicture"
         },
         
         initialize: function() {
@@ -65,6 +67,7 @@ function(_, $, Backbone, Pubsub, tools, labels, tmpl, tmplZoom, tmplEdit) {
         renderEdit: function() {
             this.template = tmplEdit;
             HeaderView.__super__.render.apply(this, [{ "item": this.item.toJSON(), "admin": tools.isLogged() }]);
+            this.$("input").focus();
         },
         
         login: function() {
@@ -80,10 +83,28 @@ function(_, $, Backbone, Pubsub, tools, labels, tmpl, tmplZoom, tmplEdit) {
         },
         
         submitDescription: function(e) {
-            if(tools.isLogged() && (e.keyCode === 13)) {
-                this.$("input[name='description']").val();
-                this.item.set("description", this.$("input[name='description']").val());
-                this.item.save();
+            if(tools.isLogged()) {
+                // Enter
+                if(e.keyCode === 13) {
+                    this.$("input[name='description']").val();
+                    this.item.set("description", this.$("input[name='description']").val());
+                    this.item.save();
+                }
+                // Escape
+                else if(e.keyCode === 27) {
+                    this.escapeDescription();
+                }
+            }
+        },
+        
+        escapeDescription: function() {
+            // force header to be rendered in normal mode
+            this.item.trigger("change");
+        },
+        
+        deletePicture: function() {
+            if(window.confirm(labels.confirmDeletePicture)) {
+                this.item.destroy();
             }
         }
     });

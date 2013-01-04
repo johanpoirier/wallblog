@@ -43,6 +43,19 @@ class ApiController implements ControllerProviderInterface {
                     return $app['json']->constructJsonResponse($item);
                 })->assert('id', '\d+');
 
+        $controllers->delete('/item/{id}', function (Application $app, Request $request, $id) {
+                    if ($request->hasSession()) {
+                        $user = $app['user_service']->getByEmail($request->getSession()->get('email'));
+                        if ($user) {
+                            $app['picture_service']->delete($id);
+                            return new Response('Item removed', 200);
+                        }
+                    }
+                    else {
+                        return new Response('Operation not authorized', 401);
+                    }
+                });
+                
         $controllers->get('/item/{id}/comments', function (Application $app, $id) {
                     return $app['json']->constructJsonResponse($app['comment_service']->getByItem($id));
                 })->assert('id', '\d+');
@@ -54,8 +67,16 @@ class ApiController implements ControllerProviderInterface {
                 });
 
         $controllers->delete('/item/{id}/comments/{idComment}', function (Application $app, Request $request, $idComment) {
-                    $comment = $app['comment_service']->delete($idComment);
-                    return new Response('Comment removed', 200);
+                    if ($request->hasSession()) {
+                        $user = $app['user_service']->getByEmail($request->getSession()->get('email'));
+                        if ($user) {
+                            $app['comment_service']->delete($idComment);
+                            return new Response('Comment removed', 200);
+                        }
+                    }
+                    else {
+                        return new Response('Operation not authorized', 401);
+                    }
                 });
 
         $controllers->post('/item', function (Application $app, Request $request) {

@@ -18,6 +18,7 @@ function(Backbone, Pubsub, labels, CommentsView, CommentFormView, tmpl) {
             
             this.model.on("change", this.render, this);
             this.model.on("change", this.fetchComments, this);
+            this.model.on("destroy", this.back, this);
             
             if(this.model.get("file")) {
                 this.render();

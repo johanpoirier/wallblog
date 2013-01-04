@@ -38,6 +38,7 @@ define(['underscore',
                 Pubsub.on(AppEvents.ITEMS_UPLOADED, this.fetchCurrent, this);
                 this.collection.on("add", this.renderModel, this);
                 this.collection.on("reset", this.render, this);
+                this.collection.on("remove", this.render, this);
                 if(this.collection.length === 0) {
                     this.loading = true;
                     this.fetchCurrent();

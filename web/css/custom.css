@@ -22,6 +22,14 @@ header .navbar .brand {
     margin: 0;
 }
 
+header .navbar .delete {
+    cursor: pointer;
+    display: none;
+    float: right;
+    line-height: 40px;
+    margin-right: 10px;
+}
+
 header .info {
     line-height: 40px;
     margin: 0;
@@ -241,6 +249,11 @@ form {
         position: relative;
     }
 
+    header .navbar .delete {
+        float: left;
+        margin-left: 10px;
+    }
+        
     header .info, header .beta {
         display: none;
     }

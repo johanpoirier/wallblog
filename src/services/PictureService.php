@@ -81,6 +81,11 @@ class PictureService {
         return false;
     }
 
+    public function delete($id) {
+        self::$logger->addDebug("deleting item : " . $id);
+        self::$db->delete(self::$table_name, array("id" => $id));
+    }
+
     public function getExtension($file_name) {
         $ext = explode('.', $file_name);
         $ext = array_pop($ext);

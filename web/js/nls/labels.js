@@ -14,7 +14,9 @@ define({
         "enterDescription": "enter a description...",
         "addDescription": "double click to add a description",
         "uploadTitle": "Add pictures",
-        "uploadPictures": "Upload"
+        "uploadPictures": "Upload",
+        "deletePicture": "Delete this picture",
+        "confirmDeletePicture": "Are you sure you want to delete this picture ?"
     },
     "fr": true
 });

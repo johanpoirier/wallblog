@@ -13,5 +13,7 @@ define({
     "enterDescription": "une description ?",
     "addDescription": "double clique pour ajouter une description",
     "uploadTitle": "Ajouter des photos",
-    "uploadPictures": "Charger les photos"
+    "uploadPictures": "Charger les photos",
+    "deletePicture": "Supprimer cette photo",
+    "confirmDeletePicture": "Etes-vous sûr de vouloir supprimer cette photo ?"
 });
