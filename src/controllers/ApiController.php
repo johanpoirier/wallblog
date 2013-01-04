@@ -47,6 +47,8 @@ class ApiController implements ControllerProviderInterface {
                     if ($request->hasSession()) {
                         $user = $app['user_service']->getByEmail($request->getSession()->get('email'));
                         if ($user) {
+                            $item = $app['picture_service']->getById($id);
+                            unlink('../web/pictures/' . $item['file']);
                             $app['picture_service']->delete($id);
                             return new Response('Item removed', 200);
                         }
