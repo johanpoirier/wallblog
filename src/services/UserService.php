@@ -51,6 +51,11 @@ class UserService {
         $sql = "DELETE FROM " . self::$table_name;
         return self::$db->exec($sql);
     }
+
+    public function count() {
+        $sql = "SELECT COUNT(*) FROM " . self::$table_name;
+        return self::$db->fetchColumn($sql);
+    }
 }
 
 ?>

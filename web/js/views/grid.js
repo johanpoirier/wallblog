@@ -95,8 +95,13 @@ define(['underscore',
                         });
                     }
                     
-                    // Display new user form
-                    Backbone.history.navigate('/new-user', true);
+                    // Check if no user in db
+                    $.get("/api/users/count", function(nbUsers) {
+                        if(parseInt(nbUsers) === 0) {
+                            // Display new user form
+                            Backbone.history.navigate('/new-user', true);
+                        }
+                    });
                 }
                 
                 // render of items

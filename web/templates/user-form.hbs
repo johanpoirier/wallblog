@@ -6,10 +6,11 @@
     <p>{{labels.infoNewUser}}</p>
     <p>&nbsp;</p>
     <form class="form-horizontal">
-        <div class="control-group">
+        <div class="control-group" id="groupEmail">
             <label class="control-label" for="email">{{labels.email}}</label>
             <div class="controls">
-                <input type="text" name="email" id="email" value="" placeholder="{{labels.email}}">
+                <input type="email" name="email" id="email" value="" placeholder="{{labels.email}}">
+                <span class="help-inline hide">{{labels.emailError}}</span>
             </div>
         </div>
         <div class="control-group">
@@ -18,10 +19,11 @@
                 <input type="password" name="password" id="password" value="" placeholder="{{labels.password}}">
             </div>
         </div>
-        <div class="control-group">
+        <div class="control-group" id="groupRepeatPassword">
             <label class="control-label" for="password">{{labels.repeatPassword}}</label>
             <div class="controls">
                 <input type="password" name="repeatPassword" id="repeatPassword" value="" placeholder="{{labels.password}}">
+                <span class="help-inline hide">{{labels.passwordsNotIdenticals}}</span>
             </div>
         </div>
     </form>

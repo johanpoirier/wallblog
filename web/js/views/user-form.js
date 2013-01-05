@@ -26,7 +26,8 @@ define(['underscore',
 
             events: {
                 "click .btn-primary": "submit",
-                "keypress #password": "keyPressed"
+                "keypress #password": "keyPressed",
+                "click input": "resetErrors"
             },
 
             initialize: function() {
@@ -40,19 +41,62 @@ define(['underscore',
             },
             
             submit: function() {
-                this.model.save({
-                    email: this.$("input[name='email']").val(),
-                    password: this.$("input[name='password']").val()
-                });
+                this.resetErrors();
                 
-                this.$el.modal('hide');
+                var email = this.$("input[name='email']").val();
+                var password = this.$("input[name='password']").val();
+                var passwordCheck = this.$("input[name='repeatPassword']").val();
+                
+                var error = false;
+                
+                if((email === "") || !this.validateEmail(email)) {
+                    this.$("#groupEmail").addClass("error");
+                    this.$("#groupEmail .help-inline").show();
+                    error = true;
+                }
+                
+                if((password === "") || (password !== passwordCheck)) {
+                    this.$("#groupRepeatPassword").addClass("error");
+                    this.$("#groupRepeatPassword .help-inline").show();
+                    error = true;
+                }
+                
+                if(error) {
+                    return;
+                }
+                
+                this.model.save({
+                    email: email,
+                    password: password
+                },
+                {
+                    success: _.bind(function() {
+                        this.$el.modal('hide');
+
+                        // Display login form
+                        Backbone.history.navigate('/login', true);
+                    }, this),
+                    error: function() {
+                        alert("Sorry, a problem occured during the creation of your account.");
+                    }
+                });
             },
-                       
+
+            resetErrors: function() {
+                this.$(".error").removeClass("error");
+                this.$(".help-inline").hide();
+            },
+            
             keyPressed: function(e) {
                 if(e.keyCode === 13) {
                     this.submit();
                 }
-            }
+            },
+            
+            validateEmail: function (email) { 
+                var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(email);
+            } 
         });
         return UserFormView;
     }

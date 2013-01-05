@@ -206,6 +206,15 @@ header img.beta, header img.admin, header img.upload {
     text-align: center;
 }
 
+.controls {
+    text-align: left;
+}
+
+.help-inline {
+    float: left;
+    clear: both;
+}
+
 .largeModal {
     height: auto;
     margin-left: -40%;

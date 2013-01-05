@@ -198,6 +198,10 @@ class ApiController implements ControllerProviderInterface {
                     $user = $app['user_service']->create($user);
                     return $app['json']->constructJsonResponse($user);
                 });
+
+        $controllers->get('/users/count', function (Application $app) {
+                    return $app['json']->constructJsonResponse($app['user_service']->count());
+                });
         return $controllers;
     }
 

@@ -20,5 +20,7 @@ define({
     "email": "Email",
     "password": "Mot de passe",
     "repeatPassword": "Confirmation",
-    "infoNewUser": "Vous devez créer un compte pour pouvoir charger des images sur le site, modérer les commentaires et modifier vos photos."
+    "infoNewUser": "Vous devez créer un compte pour pouvoir charger des images sur le site, modérer les commentaires et modifier vos photos.",
+    "passwordsNotIdenticals": "la confirmation doit être identique au mot de passe",
+    "emailError": "l'email n'est pas valide"
 });

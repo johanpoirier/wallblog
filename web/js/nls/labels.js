@@ -21,7 +21,9 @@ define({
         "email": "Email",
         "password": "Password",
         "repeatPassword": "Repeat password",
-        "infoNewUser": ""
+        "infoNewUser": "",
+        "passwordsNotIdenticals": "passwords are not the same",
+        "emailError": "email is not valid"
     },
     "fr": true
 });
