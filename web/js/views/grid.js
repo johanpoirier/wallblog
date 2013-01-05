@@ -79,10 +79,11 @@ define(['underscore',
                     nbColumns: this.nbColumns, 
                     columnClass: columnClass
                 }]);
-            
-                
+
+
                 // first time on the site ?
                 if(this.collection.length === 0) {
+                    // Display one default image per column
                     for(i=0; i<this.nbColumns; i++) {
                         this.collection.add({
                             file: "empty.jpg", 
@@ -93,6 +94,9 @@ define(['underscore',
                             silent: true
                         });
                     }
+                    
+                    // Display new user form
+                    Backbone.history.navigate('/new-user', true);
                 }
                 
                 // render of items

@@ -15,5 +15,10 @@ define({
     "uploadTitle": "Ajouter des photos",
     "uploadPictures": "Charger les photos",
     "deletePicture": "Supprimer cette photo",
-    "confirmDeletePicture": "Etes-vous sûr de vouloir supprimer cette photo ?"
+    "confirmDeletePicture": "Etes-vous sûr de vouloir supprimer cette photo ?",
+    "newUser": "Bienvenue sur votre blog photo !",
+    "email": "Email",
+    "password": "Mot de passe",
+    "repeatPassword": "Confirmation",
+    "infoNewUser": "Vous devez créer un compte pour pouvoir charger des images sur le site, modérer les commentaires et modifier vos photos."
 });

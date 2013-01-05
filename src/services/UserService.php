@@ -37,6 +37,7 @@ class UserService {
         $existingUser = self::getByEmail($user['email']);
         if (!$existingUser) {
             $user['email'] = strtolower($user['email']);
+            $user['password'] = md5($user['password']);
             $res = self::$db->insert(self::$table_name, $user);
             self::$logger->addDebug("creating new user : " . $user['email']);
             if ($res == 1) {

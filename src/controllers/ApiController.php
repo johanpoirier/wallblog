@@ -193,6 +193,11 @@ class ApiController implements ControllerProviderInterface {
                     }
                 });
 
+        $controllers->post('/user', function (Application $app, Request $request) {
+                    $user = json_decode($request->getContent(), true);
+                    $user = $app['user_service']->create($user);
+                    return $app['json']->constructJsonResponse($user);
+                });
         return $controllers;
     }
 

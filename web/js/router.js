@@ -7,9 +7,10 @@ define(['jquery',
         'views/grid',
         'views/picture-zoom',
         'views/login',
+        'views/user-form',
         'backbone-queryparams'],
 
-function($, Backbone, key, tools, Picture, PictureCollection, Grid, PictureZoomView, LoginView) {
+function($, Backbone, key, tools, Picture, PictureCollection, Grid, PictureZoomView, LoginView, UserFormView) {
 
     var AppRouter = Backbone.Router.extend({
 
@@ -19,6 +20,7 @@ function($, Backbone, key, tools, Picture, PictureCollection, Grid, PictureZoomV
 
         routes: {
             'login': 'login',
+            'new-user': 'newUser',
             'item/:id': 'zoom',
             '': 'main'
         },
@@ -51,6 +53,10 @@ function($, Backbone, key, tools, Picture, PictureCollection, Grid, PictureZoomV
 
         login: function() {
             new LoginView();
+        },
+
+        newUser: function() {
+            new UserFormView();
         },
 
         zoom: function(id) {

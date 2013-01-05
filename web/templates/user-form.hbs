@@ -1,8 +1,10 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">S'identifier</h3>
+    <h3 id="myModalLabel">{{labels.newUser}}</h3>
 </div>
 <div class="modal-body">
+    <p>{{labels.infoNewUser}}</p>
+    <p>&nbsp;</p>
     <form class="form-horizontal">
         <div class="control-group">
             <label class="control-label" for="email">{{labels.email}}</label>
@@ -14,6 +16,12 @@
             <label class="control-label" for="password">{{labels.password}}</label>
             <div class="controls">
                 <input type="password" name="password" id="password" value="" placeholder="{{labels.password}}">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="password">{{labels.repeatPassword}}</label>
+            <div class="controls">
+                <input type="password" name="repeatPassword" id="repeatPassword" value="" placeholder="{{labels.password}}">
             </div>
         </div>
     </form>

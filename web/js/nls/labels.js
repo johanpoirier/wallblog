@@ -16,7 +16,12 @@ define({
         "uploadTitle": "Add pictures",
         "uploadPictures": "Upload",
         "deletePicture": "Delete this picture",
-        "confirmDeletePicture": "Are you sure you want to delete this picture ?"
+        "confirmDeletePicture": "Are you sure you want to delete this picture ?",
+        "newUser": "Welcome to your WallBlog !",
+        "email": "Email",
+        "password": "Password",
+        "repeatPassword": "Repeat password",
+        "infoNewUser": ""
     },
     "fr": true
 });
