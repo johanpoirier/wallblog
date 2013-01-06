@@ -13,7 +13,7 @@ function(_, $, Backbone, Pubsub, tools, labels, tmpl, tmplZoom, tmplEdit) {
     var HeaderView = Backbone.View.extend({
         template: tmpl,
         labels: labels,
-        className: "navbar navbar-fixed-top navbar-inverse",
+        className: "navbar navbar-fixed-top",
         
         events: {
             "click img.admin": "login",
