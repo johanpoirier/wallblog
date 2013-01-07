@@ -21,7 +21,7 @@ function(_, Backbone, Comment, labels, tmpl) {
         
         showFullForm: function() {
             if(this.$(".hidden:hidden").length > 0) {
-                this.$(".hidden").slideToggle(400);
+                this.$(".hidden").slideToggle(300);
                 this.$("textarea").attr("rows", "3");
             }
         },

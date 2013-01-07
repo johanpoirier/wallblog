@@ -11,7 +11,7 @@
 }
 
 body {
-    background-color: #eee;
+    background-color: #222;
     font-family: 'SansationRegular', sans-serif;
     margin: 0;
     padding: 45px 0 0 0;
@@ -119,10 +119,10 @@ header img.beta, header img.admin, header img.upload {
 .commentBar {
     -moz-box-shadow: 0 0 2px 2px #bbb;
     -webkit-box-shadow: 0 0 2px 2px #bbb;
-    background-color: gray;
+    background-color: #fff;
     box-shadow: 0 0 2px 2px #bbb;
     text-align: center;
-    color: #fff;
+    color: #222;
 }
 
 .commentBar h4 {
@@ -188,6 +188,7 @@ header img.beta, header img.admin, header img.upload {
     margin-bottom: 5px;
 }
 .commentForm input, .commentForm textarea {
+    color: #222;
     width: 96%;
 }
 .commentForm .btn-success {
