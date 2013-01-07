@@ -62,6 +62,13 @@ function(_, $, Backbone, Pubsub, tools, labels, tmpl, tmplZoom, tmplEdit) {
             this.template = tmplZoom;
             this.item = item;
             HeaderView.__super__.render.apply(this, [{ "item": item.toJSON(), "admin": tools.isLogged() }]);
+            
+            if(tools.isLogged()) {
+                this.$("span.delete").show();
+            }
+            else {
+                this.$("span.delete").hide();
+            }
         },
 
         renderEdit: function() {
