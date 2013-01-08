@@ -21,9 +21,9 @@ Stack
 Optimization
 ------------
 
-In web/js, execute :
+In root folder, execute :
 
- node ../../r.js -o app.build.js
+ node r.js -o app.build.js
 
 Demo
 ----
