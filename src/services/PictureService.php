@@ -57,7 +57,11 @@ class PictureService {
         }
         $item["date"] = ($date == null) ? date("Y-M-d") : $date;
 
-        $this->resize(self::$dir . "/" . $file_name, 1024);
+        // resize in 2 sizes
+        $this->resize(self::$dir . "/" . $file_name, 1600, 85);
+        copy(self::$dir . "/" . $file_name, self::$dir . "/m_" . $file_name);
+        $this->resize(self::$dir . "/m_" . $file_name, 640, 75);
+        
         $image_info = getimagesize(self::$dir . "/" . $file_name);
         $item["ratio"] = $image_info[0] / $image_info[1];
         $item["reverseRatio"] = $image_info[1] / $image_info[0];
@@ -92,7 +96,7 @@ class PictureService {
         return strtolower($ext);
     }
 
-    public function resize($filename, $maxDimension) {
+    public function resize($filename, $maxDimension, $quality = 90) {
         $image_info = getimagesize($filename);
         $image_type = $image_info[2];
         //self::$logger->debug("image type : " . $image_type);
@@ -128,7 +132,7 @@ class PictureService {
             imagecopyresampled($new_image, $image, 0, 0, 0, 0, $new_image_width, $new_image_height, $image_width, $image_height);
 
             if ($image_type == IMAGETYPE_JPEG) {
-                imagejpeg($new_image, $filename, 90);
+                imagejpeg($new_image, $filename, $quality);
             } elseif ($image_type == IMAGETYPE_PNG) {
                 imagepng($new_image, $filename);
             }
@@ -139,8 +143,13 @@ class PictureService {
         $items = self::getAll();
         for ($i = 0; $i < sizeof($items); $i++) {
             $item = $items[$i];
-            $image_info = getimagesize(self::$dir . "/" . $item['file']);
-            self::$db->update(self::$table_name, array("ratio" => $image_info[0] / $image_info[1], "reverseRatio" => $image_info[1] / $image_info[0]), array('id' => $item['id']));
+            if(!file_exists(self::$dir . "/m_" . $item['file'])) {
+                self::$logger->addDebug("rebuilding item : " . $item['file']);
+                copy(self::$dir . "/" . $item['file'], self::$dir . "/m_" . $item['file']);
+                $this->resize(self::$dir . "/m_" . $item['file'], 640, 75);
+                $image_info = getimagesize(self::$dir . "/" . $item['file']);
+                self::$db->update(self::$table_name, array("ratio" => $image_info[0] / $image_info[1], "reverseRatio" => $image_info[1] / $image_info[0]), array('id' => $item['id']));
+            }
         }
     }
 }
