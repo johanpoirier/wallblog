@@ -13,7 +13,9 @@ define({
     "enterDescription": "une description ?",
     "addDescription": "double clique pour ajouter une description",
     "uploadTitle": "Ajouter des photos",
+    "uploadVideoTitle": "Ajouter une vidéo",
     "uploadPictures": "Charger les photos",
+    "uploadVideo": "Charger les vidéos",
     "deletePicture": "Supprimer cette photo",
     "confirmDeletePicture": "Etes-vous sûr de vouloir supprimer cette photo ?",
     "newUser": "Bienvenue sur votre blog photo !",
@@ -22,5 +24,8 @@ define({
     "repeatPassword": "Confirmation",
     "infoNewUser": "Vous devez créer un compte pour pouvoir charger des images sur le site, modérer les commentaires et modifier vos photos.",
     "passwordsNotIdenticals": "la confirmation doit être identique au mot de passe",
-    "emailError": "l'email n'est pas valide"
+    "emailError": "l'email n'est pas valide",
+    "video-webm": "WebM",
+    "video-ogv": "Ogg Vorbis",
+    "video-mp4": "MP4"
 });

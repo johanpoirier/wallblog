@@ -2,15 +2,15 @@ define(['jquery',
         'backbone',
         'keymaster',
         'tools',
-        'models/picture',
-        'collections/pictures',
+        'models/item',
+        'collections/items',
         'views/grid',
-        'views/picture-zoom',
+        'views/item-zoom',
         'views/login',
         'views/user-form',
         'backbone-queryparams'],
 
-function($, Backbone, key, tools, Picture, PictureCollection, Grid, PictureZoomView, LoginView, UserFormView) {
+function($, Backbone, key, tools, Item, ItemCollection, Grid, ItemZoomView, LoginView, UserFormView) {
 
     var AppRouter = Backbone.Router.extend({
 
@@ -31,7 +31,7 @@ function($, Backbone, key, tools, Picture, PictureCollection, Grid, PictureZoomV
            
             // get items for the first load
             if(!window.items) {
-                window.items = new PictureCollection();
+                window.items = new ItemCollection();
             }
 
             // display items on the grid
@@ -60,8 +60,8 @@ function($, Backbone, key, tools, Picture, PictureCollection, Grid, PictureZoomV
         },
 
         zoom: function(id) {
-           var picture = new Picture({id: id});
-           new PictureZoomView({ root: "#main", model: picture, availableWidth: $(window).width(), availableHeight: $(window).height() - 50});
+           var item = new Item({id: id});
+           new ItemZoomView({ root: "#main", model: item, availableWidth: $(window).width(), availableHeight: $(window).height() - 50});
         }
     });
 

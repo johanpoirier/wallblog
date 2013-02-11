@@ -28,6 +28,6 @@ AddType text/cache-manifest .appcache
   </IfModule>
 </IfModule>
 
-<filesMatch "\.(jpg|jpeg|png|gif|JPG|JPEG)$">
+<filesMatch "\.(jpg|jpeg|png|gif|JPG|JPEG|ogv|mp4|webm)$">
     Header set Cache-Control "max-age=290304000, public"
 </filesMatch>

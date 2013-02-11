@@ -14,7 +14,9 @@ define({
         "enterDescription": "enter a description...",
         "addDescription": "double click to add a description",
         "uploadTitle": "Add pictures",
+        "uploadVideoTitle": "Add video",
         "uploadPictures": "Upload",
+        "uploadVideo": "Upload",
         "deletePicture": "Delete this picture",
         "confirmDeletePicture": "Are you sure you want to delete this picture ?",
         "newUser": "Welcome to your WallBlog !",
@@ -23,7 +25,10 @@ define({
         "repeatPassword": "Repeat password",
         "infoNewUser": "",
         "passwordsNotIdenticals": "passwords are not the same",
-        "emailError": "email is not valid"
+        "emailError": "email is not valid",
+        "video-webm": "WebM",
+        "video-ogv": "Ogg Vorbis",
+        "video-mp4": "MP4"
     },
     "fr": true
 });

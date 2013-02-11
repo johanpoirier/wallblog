@@ -1,7 +1,11 @@
 define(['backbone', 'collections/comments'], function(Backbone, CommentCollection) {
-    var PictureModel = Backbone.Model.extend({
+    var ItemModel = Backbone.Model.extend({
         
         urlRoot: "/api/item",
+        
+        defaults: {
+            type: "picture"
+        },
         
         initialize: function() {
             this.comments = new CommentCollection({ item: this });
@@ -11,5 +15,5 @@ define(['backbone', 'collections/comments'], function(Backbone, CommentCollectio
             this.comments.fetch();
         }
     });
-    return PictureModel;
+    return ItemModel;
 });

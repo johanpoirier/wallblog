@@ -1,6 +1,6 @@
-define(['backbone', 'pubsub', 'i18n!nls/labels', 'views/comments', 'views/comment-form', 'hbs!templates/picture-zoom'],
+define(['backbone', 'pubsub', 'i18n!nls/labels', 'views/comments', 'views/comment-form', 'hbs!templates/item-zoom'],
 function(Backbone, Pubsub, labels, CommentsView, CommentFormView, tmpl) {
-    var PictureZoomView = Backbone.View.extend({
+    var ItemZoomView = Backbone.View.extend({
         template: tmpl,
         labels: labels,
         className: "row-fluid",
@@ -30,7 +30,7 @@ function(Backbone, Pubsub, labels, CommentsView, CommentFormView, tmpl) {
         },
 
         render: function() {
-            PictureZoomView.__super__.render.apply(this);
+            ItemZoomView.__super__.render.apply(this);
             if(this.availableWidth > this.minDesktopWidth) {
                 var ratio = parseFloat(this.model.get("ratio"));
                 this.$("img").width(Math.round(this.availableHeight * ratio));
@@ -57,5 +57,5 @@ function(Backbone, Pubsub, labels, CommentsView, CommentFormView, tmpl) {
             Backbone.history.navigate("/", true);
         }
     });
-    return PictureZoomView;
+    return ItemZoomView;
 });

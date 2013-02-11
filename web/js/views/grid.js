@@ -3,12 +3,12 @@ define(['underscore',
     'jquery',
     'pubsub',
     'tools',
-    'views/picture',
+    'views/item',
     'views/upload',
     'hbs!templates/grid',
     'resthub-handlebars'],
 
-    function(_, Backbone, $, Pubsub, tools, PictureView, UploadView, gridTmpl) {
+    function(_, Backbone, $, Pubsub, tools, ItemView, UploadView, gridTmpl) {
 
         var Grid = Backbone.View.extend({
             template: gridTmpl,
@@ -110,7 +110,7 @@ define(['underscore',
 
             renderModel: function(model) {
                 var shorterColumId = this.getShorterColumnId();
-                var view = new PictureView({
+                var view = new ItemView({
                     root: this.$("#column" + shorterColumId), 
                     model: model
                 });

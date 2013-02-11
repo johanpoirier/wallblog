@@ -2,13 +2,14 @@ define(['underscore',
         'jquery',
         'backbone',
         'pubsub',
+        'views/upload-video',
         'tools',
         'i18n!nls/labels',
         'hbs!templates/header',
         'hbs!templates/header-zoom',
         'hbs!templates/header-edit'],
 
-function(_, $, Backbone, Pubsub, tools, labels, tmpl, tmplZoom, tmplEdit) {
+function(_, $, Backbone, Pubsub, UploadVideoView, tools, labels, tmpl, tmplZoom, tmplEdit) {
 
     var HeaderView = Backbone.View.extend({
         template: tmpl,
@@ -17,6 +18,7 @@ function(_, $, Backbone, Pubsub, tools, labels, tmpl, tmplZoom, tmplEdit) {
         
         events: {
             "click img.admin": "login",
+            "click img.upload": "upload",
             "dblclick .description": "editDescription",
             "keypress input": "submitDescription",
             "blur input": "escapeDescription",
@@ -80,6 +82,15 @@ function(_, $, Backbone, Pubsub, tools, labels, tmpl, tmplZoom, tmplEdit) {
         login: function() {
             if(!tools.isLogged()) {
                 Backbone.history.navigate('/login', true);
+            }
+        },
+        
+        upload: function() {
+            if(!tools.isLogged()) {
+                Backbone.history.navigate('/login', true);
+            }
+            else {
+                new UploadVideoView();
             }
         },
         

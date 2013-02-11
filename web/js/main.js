@@ -52,6 +52,11 @@ require.config({
         },
         'keymaster': {
             exports: 'key'
+        },
+        'resumable': {
+            deps: [
+            'jquery'
+            ]
         }
     },
 
@@ -78,6 +83,7 @@ require.config({
         hbs: 'libs/resthub/require-handlebars',
         'moment': 'libs/moment',
         'moment-fr': 'libs/moment-lang/fr',
+        resumable: 'libs/resumable',
         templates: '../templates'
     }
 });
