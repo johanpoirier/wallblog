@@ -181,7 +181,7 @@ header img.beta, header img.admin, header img.upload {
     right: 23px;
 }
 
-.commentForm .hidden {
+.commentForm .masked {
     display: none;
 }
 .commentForm form {
@@ -194,6 +194,9 @@ header img.beta, header img.admin, header img.upload {
     background-color: #85C100;
     background-image: -moz-linear-gradient(center top , #85C100, #85B600);
     box-shadow: 0;
+}
+.commentForm .help-inline {
+    color: yellow;
 }
 
 .row-fluid.commentForm .span10 {

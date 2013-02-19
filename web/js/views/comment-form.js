@@ -20,24 +20,33 @@ function(_, Backbone, Comment, labels, tmpl) {
         },
         
         showFullForm: function() {
-            if(this.$(".hidden:hidden").length > 0) {
-                this.$(".hidden").slideToggle(400);
+            if(this.$(".masked:hidden").length > 0) {
+                this.$(".masked").slideToggle(400);
                 this.$("textarea").attr("rows", "3");
             }
         },
-        
+
         submit: function(event) {
             event.preventDefault();
-            this.model.save({
-                author: this.$("input[name='author']").val(),
-                text: this.$("textarea").val()
-            }, {
-                success: _.bind(this.submitSuccess, this)
-            });
+            
+            var author = this.$("input[name='author']").val();
+            var text = this.$("textarea").val();
+            
+            if(author === "") {
+                this.$(".help-inline").html("Veuillez entrer votre nom");
+            }
+            else {
+                this.model.save({
+                    "author": author,
+                    "text": text
+                }, {
+                    success: _.bind(this.submitSuccess, this)
+                });
+            }
         },
         
         cancel: function(event) {
-            if(this.$(".hidden:hidden").length == 0) {
+            if(this.$(".masked:hidden").length === 0) {
                 this.hideForm();
             }
         },
@@ -48,7 +57,9 @@ function(_, Backbone, Comment, labels, tmpl) {
         },
         
         hideForm: function() {
-            this.$(".hidden").slideToggle("fast").val("");
+            this.$(".masked").slideToggle("fast");
+            this.$(".help-inline").html("");
+            this.$("input[type='text']").val("");
             this.$("textarea").attr("rows", "1").val("");
         }
     });
