@@ -1,5 +1,23 @@
-define(['backbone', 'pubsub', 'i18n!nls/labels', 'views/comments', 'views/comment-form', 'hbs!templates/item-zoom'],
-function(Backbone, Pubsub, labels, CommentsView, CommentFormView, tmpl) {
+define(['underscore',
+        'backbone',
+        'pubsub',
+        'keymaster',
+        'i18n!nls/labels',
+        'models/item',
+        'views/comments',
+        'views/comment-form',
+        'hbs!templates/item-zoom'],
+    
+function(_,
+         Backbone,
+         Pubsub,
+         key,
+         labels,
+         Item,
+         CommentsView,
+         CommentFormView,
+         tmpl) {
+             
     var ItemZoomView = Backbone.View.extend({
         template: tmpl,
         labels: labels,
@@ -15,20 +33,39 @@ function(Backbone, Pubsub, labels, CommentsView, CommentFormView, tmpl) {
         initialize: function(options) {
             this.availableHeight = options.availableHeight || 200;
             this.availableWidth = options.availableWidth || this.minDesktopWidth;
-            
-            this.model.on("change", this.render, this);
-            this.model.on("change", this.fetchComments, this);
-            this.model.on("destroy", this.back, this);
-            
+             
             if(this.model.get("file")) {
                 this.render();
                 this.fetchComments();
             }
             else {
-                this.model.fetch();
+                this.fetchItem(this.model.id);
             }
+            
+            key("esc", this.back);
+            key("left", _.bind(function() {
+                var prevId = this.model.get('prevId');
+                if(prevId) {
+                    this.fetchItem(parseInt(this.model.get('prevId')));
+                    Backbone.history.navigate('/item/' + this.model.id, false);
+                }
+            }, this));
+            key("right", _.bind(function() {
+                var nextId = this.model.get('nextId');
+                if(nextId) {
+                    this.fetchItem(parseInt(this.model.get('nextId')));
+                    Backbone.history.navigate('/item/' + this.model.id, false);
+                }
+            }, this));
         },
 
+        fetchItem: function(id) {
+            this.model = new Item({ "id": id });
+            this.model.on("change", this.render, this);
+            this.model.on("destroy", this.back, this);
+            this.model.fetch();
+        },
+        
         render: function() {
             ItemZoomView.__super__.render.apply(this);
             if(this.availableWidth > this.minDesktopWidth) {
@@ -38,6 +75,7 @@ function(Backbone, Pubsub, labels, CommentsView, CommentFormView, tmpl) {
                 this.$(".commentBar").height(this.availableHeight);
             }
             new CommentFormView({ root: this.$(".commentForm"), item: this.model });
+            this.fetchComments();
         },
 
         fetchComments: function() {

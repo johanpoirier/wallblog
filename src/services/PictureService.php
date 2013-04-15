@@ -32,7 +32,30 @@ class PictureService {
 
     public function getById($id) {
         $sql = "SELECT * FROM " . self::$table_name . " WHERE id = ?";
-        return self::$db->fetchAssoc($sql, array($id));
+        $picture = self::$db->fetchAssoc($sql, array($id));
+        
+        // previous picture
+        $prev = false;
+        $prevId = $id - 1;
+        while(!$prev && $prevId > 0) {
+            $prev = self::$db->fetchAssoc($sql, array($prevId--));
+        }
+        if($prev) {
+            $picture['prevId'] = $prev['id'];
+        }
+        
+        // next picture
+        $next = false;
+        $nextId = $id + 1;
+        $maxId = $this->getMaxId();
+        while(!$next && $nextId < $maxId) {
+            $next = self::$db->fetchAssoc($sql, array($nextId++));
+        }
+        if($next) {
+            $picture['nextId'] = $next['id'];
+        }
+        
+        return $picture;
     }
 
     public function count() {
@@ -151,6 +174,11 @@ class PictureService {
                 self::$db->update(self::$table_name, array("ratio" => $image_info[0] / $image_info[1], "reverseRatio" => $image_info[1] / $image_info[0]), array('id' => $item['id']));
             }
         }
+    }
+    
+    public function getMaxId() {
+        $sql = "SELECT MAX(id) FROM " . self::$table_name;
+        return self::$db->fetchColumn($sql);
     }
 }
 ?>

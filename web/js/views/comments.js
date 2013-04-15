@@ -9,6 +9,7 @@ function(Backbone, tools, CommentView) {
         },
 
         render: function() {
+            this.$el.html("");
             this.collection.each(this.renderComment, this);
         },
         
