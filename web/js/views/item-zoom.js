@@ -44,17 +44,17 @@ function(_,
             
             key("esc", this.back);
             key("left", _.bind(function() {
-                var prevId = this.model.get('prevId');
-                if(prevId) {
-                    this.fetchItem(parseInt(this.model.get('prevId')));
-                    Backbone.history.navigate('/item/' + this.model.id, false);
+                var prevId = window.itemIds[--window.zoomCurrentIndex];
+                if(prevId >= 0) {
+                    this.fetchItem(parseInt(prevId));
+                    Backbone.history.navigate('/item/' + prevId, false);
                 }
             }, this));
             key("right", _.bind(function() {
-                var nextId = this.model.get('nextId');
-                if(nextId) {
-                    this.fetchItem(parseInt(this.model.get('nextId')));
-                    Backbone.history.navigate('/item/' + this.model.id, false);
+                var nextId = window.itemIds[++window.zoomCurrentIndex];
+                if(nextId < window.itemIds.length) {
+                    this.fetchItem(parseInt(nextId));
+                    Backbone.history.navigate('/item/' + nextId, false);
                 }
             }, this));
         },
@@ -76,6 +76,16 @@ function(_,
             }
             new CommentFormView({ root: this.$(".commentForm"), item: this.model });
             this.fetchComments();
+            
+            // find index in list of ids
+            if(window.zoomCurrentIndex == 0) {
+                for(var i = 0; i < window.itemIds.length; i++) {
+                    if(this.model.get("id") === window.itemIds[i]) {
+                        window.zoomCurrentIndex = i;
+                        break;
+                    }
+                }
+            }
         },
 
         fetchComments: function() {
@@ -92,6 +102,9 @@ function(_,
         },
 
         back: function() {
+            key.unbind("left");
+            key.unbind("right");
+            key.unbind("esc");
             Backbone.history.navigate("/", true);
         }
     });

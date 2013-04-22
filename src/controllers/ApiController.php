@@ -174,6 +174,10 @@ class ApiController implements ControllerProviderInterface {
                     return $app['json']->constructJsonResponse($app['picture_service']->count());
                 });
 
+        $controllers->get('/items/ids', function (Application $app) {
+                    return $app['json']->constructJsonResponse($app['picture_service']->listIds());
+                });
+
         $controllers->get('/items/rebuild', function (Application $app) {
                     return $app['picture_service']->rebuild();
                 });

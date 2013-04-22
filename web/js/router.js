@@ -28,6 +28,9 @@ function($, Backbone, key, tools, Item, ItemCollection, Grid, ItemZoomView, Logi
         main: function() {
             // render header bar even if nb items is unknown
             window.headerView.render();
+            
+            // list of all ids
+            window.zoomCurrentIndex = 0;
            
             // get items for the first load
             if(!window.items) {
@@ -49,8 +52,20 @@ function($, Backbone, key, tools, Item, ItemCollection, Grid, ItemZoomView, Logi
                 $(document).scrollTop(window.currentScollPosition);
             }
             grid.listenToScroll();
+            
+           // get list of all ids if not yet
+           if(!window.itemIds) {
+               window.zoomCurrentIndex = 0;
+               this.getListOfIds();
+           }
         },
 
+        getListOfIds: function() {
+            $.get("/api/items/ids", function(data) {
+                window.itemIds = data;
+            });
+        },
+        
         login: function() {
             new LoginView();
         },
@@ -60,6 +75,19 @@ function($, Backbone, key, tools, Item, ItemCollection, Grid, ItemZoomView, Logi
         },
 
         zoom: function(id) {
+           if(!window.itemIds) {
+               window.zoomCurrentIndex = 0;
+               $.get("/api/items/ids", _.bind(function(data) {
+                    window.itemIds = data;
+                    this.zoomDisplay(id);
+               }, this));
+           }
+           else {
+               this.zoomDisplay(id);
+           }
+        },
+        
+        zoomDisplay: function(id) {
            var item = new Item({id: id});
            new ItemZoomView({ root: "#main", model: item, availableWidth: $(window).width(), availableHeight: $(window).height() - 50});
         }

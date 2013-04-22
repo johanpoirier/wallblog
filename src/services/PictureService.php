@@ -28,6 +28,16 @@ class PictureService {
     public function getAll() {
         $sql = "SELECT * FROM " . self::$table_name . " ORDER BY date DESC";
         return self::$db->fetchAll($sql);
+    }  
+    
+    public function listIds() {
+        $sql = "SELECT id FROM " . self::$table_name . " ORDER BY date DESC";
+        $listIds = self::$db->fetchAll($sql);
+        $res = array();
+        foreach ($listIds as $value) {
+            $res[] = $value['id'];
+        }
+        return $res;
     }
 
     public function getById($id) {
