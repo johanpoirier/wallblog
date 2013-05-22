@@ -4,16 +4,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /** Bootstraping */
-require_once __DIR__ . '/../vendor/Silex/silex.phar';
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/services/JSonService.php';
+require_once __DIR__ . '/services/UserService.php';
+require_once __DIR__ . '/services/PictureService.php';
+require_once __DIR__ . '/services/CommentService.php';
+
 include __DIR__ . '/config.php';
 
 $app = new Silex\Application();
 $app['debug'] = true;
-
-/** Autoloading */
-$app['autoloader']->registerNamespace( 'services', __DIR__ . '/.' );
-$app['autoloader']->registerNamespace( 'controllers', __DIR__ . '/.' );
-
 
 /** Extensions */
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(

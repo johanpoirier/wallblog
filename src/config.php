@@ -1,6 +1,6 @@
 <?php
 $config["host"] = "localhost";
-$config["dbname"] = "wallblog";
+$config["dbname"] = "nirgal";
 $config["user"] = "root";
-$config["password"] = "";
+$config["password"] = "root";
 ?>

@@ -1,6 +1,7 @@
 <?php
 $wallblog = require __DIR__ . '/../src/wallblog.php';
-$wallblog->mount('/api', new controllers\ApiController());
+$api = require __DIR__ . '/../src/controllers/api.php';
+$wallblog->mount('/api', $api);
 
 $wallblog->run();
 ?>
