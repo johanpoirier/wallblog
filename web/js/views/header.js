@@ -104,9 +104,9 @@ function(_, $, Backbone, Pubsub, UploadVideoView, tools, labels, tmpl, tmplZoom,
             if(tools.isLogged()) {
                 // Enter
                 if(e.keyCode === 13) {
-                    this.$("input[name='description']").val();
                     this.item.set("description", this.$("input[name='description']").val());
                     this.item.save();
+                    this.renderZoom(this.item);
                 }
                 // Escape
                 else if(e.keyCode === 27) {

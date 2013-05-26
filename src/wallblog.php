@@ -46,14 +46,14 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 ));
 
 /** Services */
-$app['picture_service'] = $app->share(function() use ($app) {
-    return new services\PictureService($app['db'], $app['monolog']);
+$app['picture_service'] = $app->share(function() use ($app, $config) {
+    return new services\PictureService($app['db'], $app['monolog'], $config);
 });
-$app['user_service'] = $app->share(function() use ($app) {
-    return new services\UserService($app['db'], $app['monolog']);
+$app['user_service'] = $app->share(function() use ($app, $config) {
+    return new services\UserService($app['db'], $app['monolog'], $config);
 });
-$app['comment_service'] = $app->share(function() use ($app) {
-    return new services\CommentService($app['db'], $app['monolog']);
+$app['comment_service'] = $app->share(function() use ($app, $config) {
+    return new services\CommentService($app['db'], $app['monolog'], $config);
 });
 $app['json'] = $app->share(function() {
     return new services\JSonService();

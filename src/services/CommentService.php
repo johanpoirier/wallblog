@@ -10,12 +10,13 @@ namespace services;
 class CommentService {
 
     private static $db;
-    private static $table_name = "wallblog__comment";
+    private static $table_name;
     private static $logger;
 
-    public function __construct($db, $app_logger) {
+    public function __construct($db, $app_logger, $config) {
         self::$db = $db;
         self::$logger = $app_logger;
+        self::$table_name = $config["prefix"] . "__comment";
     }
 
     public function get($id) {
