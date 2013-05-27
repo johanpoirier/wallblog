@@ -11,7 +11,8 @@ class WallBlogTest extends WebTestCase {
     
     public function createApplication() {
         $app = require __DIR__ . '/../src/wallblog_tests.php';
-		$app->mount('/api', new controllers\ApiController());
+        $api = require __DIR__ . '/../src/controllers/api.php';
+        $app->mount('/api', $api);
         $app['debug'] = true;
         unset($app['exception_handler']);
         $app['session.storage'] = $app->share(function() {
