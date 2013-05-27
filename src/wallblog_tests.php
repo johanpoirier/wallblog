@@ -1,8 +1,5 @@
 <?php
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-
 /** Bootstraping */
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/services/JSonService.php';
@@ -11,6 +8,9 @@ require_once __DIR__ . '/services/PictureService.php';
 require_once __DIR__ . '/services/CommentService.php';
 
 include __DIR__ . '/config.php';
+
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 $app = new Silex\Application();
 $app['debug'] = true;

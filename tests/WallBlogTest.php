@@ -1,7 +1,9 @@
 <?php
 
+require_once __DIR__ . '/../vendor/silex/silex/src/Silex/WebTestCase.php';
+
 use Silex\WebTestCase;
-use Symfony\Component\HttpFoundation\SessionStorage\FilesystemSessionStorage;
+use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 
 class WallBlogTest extends WebTestCase {
 
@@ -16,7 +18,7 @@ class WallBlogTest extends WebTestCase {
         $app['debug'] = true;
         unset($app['exception_handler']);
         $app['session.storage'] = $app->share(function() {
-            return new FilesystemSessionStorage(sys_get_temp_dir());
+            return new MockFileSessionStorage(sys_get_temp_dir());
         });
         $app['session']->set('email', "darth.vader@gmail.com");
 
