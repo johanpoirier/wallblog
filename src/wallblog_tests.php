@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
 $app = new Silex\Application();
 $app['debug'] = true;
 
+date_default_timezone_set("Europe/Paris");
+
 /** Extensions */
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => array(
@@ -27,7 +29,6 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
 ));
 
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
-    'monolog.class_path' => __DIR__ . '/../vendor/monolog/src',
     'monolog.logfile' => __DIR__ . '/../tests/app.log',
     'monolog.name' => 'app',
     'monolog.level' => 100 // Logger::DEBUG
