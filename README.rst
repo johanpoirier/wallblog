@@ -1,4 +1,13 @@
-.. image:: https://secure.travis-ci.org/johanpoirier/wallblog.png
+Build Status
+------------
+
++-------------+----------------------------------------------------------------------------------------+
+| Master      | .. image:: https://secure.travis-ci.org/johanpoirier/wallblog.png?branch=master        |
+|             |    :target: https://travis-ci.org/johanpoirier/wallblog                                |
++-------------+----------------------------------------------------------------------------------------+
+| Development | .. image:: https://secure.travis-ci.org/johanpoirier/wallblog.png?branch=silex-upgrade |
+|             |    :target: https://travis-ci.org/johanpoirier/wallblog                                |
++-------------+----------------------------------------------------------------------------------------+
 
 Concept
 -------
