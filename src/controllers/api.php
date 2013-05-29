@@ -141,6 +141,7 @@ $api->put('/item/{id}', function (Application $app, Request $request, $id) {
 
 $api->post('/items', function (Application $app, Request $request) {
 	$jsonPictures = json_decode($request->getContent(), true);
+    $item = null;
 
 	if ($request->hasSession()) {
 		$user = $app['user_service']->getByEmail($request->getSession()->get('email'));
@@ -172,6 +173,13 @@ $api->post('/items', function (Application $app, Request $request) {
 	else {
 		$app['monolog']->addDebug("can't upload, no session");
 	}
+
+    if($item) {
+        return $app['json']->constructJsonResponse($item);
+    }
+    else {
+        return new Response("problem during picture upload", 500);
+    }
 });
 
 $api->get('/items/count', function (Application $app) {

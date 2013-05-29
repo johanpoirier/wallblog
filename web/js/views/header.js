@@ -123,6 +123,7 @@ function(_, $, Backbone, Pubsub, UploadVideoView, tools, labels, tmpl, tmplZoom,
         deletePicture: function() {
             if(window.confirm(labels.confirmDeletePicture)) {
                 this.item.destroy();
+                Backbone.history.navigate("/", true);
             }
         }
     });
