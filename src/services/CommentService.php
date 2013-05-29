@@ -43,6 +43,11 @@ class CommentService {
     public function delete($id) {
         self::$db->delete(self::$table_name, array("id" => $id));
     }
+
+    public function deleteAll() {
+        $sql = "DELETE FROM " . self::$table_name;
+        return self::$db->exec($sql);
+    }
 }
 
 ?>

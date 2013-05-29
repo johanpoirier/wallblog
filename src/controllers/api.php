@@ -4,6 +4,7 @@ use Silex\Application;
 use Silex\ControllerProviderInterface;
 use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 $api = $app['controllers_factory'];
 
@@ -43,7 +44,9 @@ $api->delete('/item/{id}', function (Application $app, Request $request, $id) {
 		$user = $app['user_service']->getByEmail($request->getSession()->get('email'));
 		if ($user) {
 			$item = $app['picture_service']->getById($id);
-			unlink('../web/pictures/' . $item['file']);
+			if(file_exists('../web/pictures/' . $item['file'])) {
+                unlink('../web/pictures/' . $item['file']);
+            }
 			$app['picture_service']->delete($id);
 			return new Response('Item removed', 200);
 		}
@@ -115,19 +118,25 @@ $api->post('/item', function (Application $app, Request $request) {
 });
 
 $api->put('/item/{id}', function (Application $app, Request $request, $id) {
-$app['monolog']->addDebug($request->getContent());
-if ($request->hasSession()) {
-$user = $app['user_service']->getByEmail($request->getSession()->get('email'));
-if ($user) {
-	$item = json_decode($request->getContent(), true);
-	if($item['id'] == $id) {
-		unset($item['comments']);
-		unset($item['like']);
-		$app['picture_service']->update($item);
-	}
-}
-}
-return $app['json']->constructJsonResponse($item);
+    $app['monolog']->addDebug("put item $id : " . $request->getContent());
+    if ($request->hasSession()) {
+        $user = $app['user_service']->getByEmail($request->getSession()->get('email'));
+        if ($user) {
+            $item = json_decode($request->getContent(), true);
+            if($item['id'] == $id) {
+                unset($item['comments']);
+                unset($item['like']);
+                $app['picture_service']->update($item);
+            }
+        }
+        else {
+            $app['monolog']->addInfo("user not found in session");
+        }
+    }
+    else {
+        $app['monolog']->addInfo("no session found");
+    }
+    return $app['json']->constructJsonResponse($item);
 });
 
 $api->post('/items', function (Application $app, Request $request) {

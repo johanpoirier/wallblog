@@ -53,6 +53,9 @@ $app['user_service'] = $app->share(function() use ($app, $config) {
 $app['comment_service'] = $app->share(function() use ($app, $config) {
     return new services\CommentService($app['db'], $app['monolog'], $config);
 });
+$app['json'] = $app->share(function() {
+    return new services\JSonService();
+});
 
 /** Routes */
 require __DIR__.'/routes.php';

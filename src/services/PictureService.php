@@ -100,6 +100,10 @@ class PictureService {
         $item["ratio"] = $image_info[0] / $image_info[1];
         $item["reverseRatio"] = $image_info[1] / $image_info[0];
 
+        return $this->insert($item);
+    }
+
+    public function insert($item) {
         $res = self::$db->insert(self::$table_name, $item);
         if ($res == 1) {
             $id = self::$db->lastInsertId(self::$table_name);
@@ -122,6 +126,11 @@ class PictureService {
     public function delete($id) {
         self::$logger->addDebug("deleting item : " . $id);
         self::$db->delete(self::$table_name, array("id" => $id));
+    }
+
+    public function deleteAll() {
+        $sql = "DELETE FROM " . self::$table_name;
+        return self::$db->exec($sql);
     }
 
     public function getExtension($file_name) {
