@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,8 +41,7 @@ $app->register(new Silex\Provider\SessionServiceProvider(), array(
 ));
 
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
-    'twig.path' => __DIR__.'/../views',
-    'twig.class_path' => __DIR__ . '/../vendor/Twig/lib'
+    'twig.path' => __DIR__.'/../views'
 ));
 
 /** Services */
