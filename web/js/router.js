@@ -87,9 +87,18 @@ function($, Backbone, key, tools, Item, ItemCollection, Grid, ItemZoomView, Logi
            }
         },
         
-        zoomDisplay: function(id) {
-           var item = new Item({id: id});
-           new ItemZoomView({ root: "#main", model: item, availableWidth: $(window).width(), availableHeight: $(window).height() - 50});
+        zoomDisplay: function(data) {
+           var id = data;
+           if(data.id) {
+              id = data.id;
+           }
+           var item = new Item({ id: id });
+           new ItemZoomView({
+               root: "#main",
+               model: item ,
+               availableWidth: $(window).width(),
+               availableHeight: $(window).height() - 50
+           });
         }
     });
 

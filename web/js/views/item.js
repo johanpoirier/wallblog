@@ -14,9 +14,9 @@ function($, Backbone, labels, ItemZoomView, pictureTmpl, videoTmpl) {
         className: "item",
         strategy: "append",
 
-        events: {
+        /*events: {
             "click": "zoom"
-        },
+        },*/
         
         initialize: function(options) {
             if(options.model.get("type") === "video") {

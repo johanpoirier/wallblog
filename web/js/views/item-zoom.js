@@ -33,7 +33,7 @@ function(_,
         initialize: function(options) {
             this.availableHeight = options.availableHeight || 200;
             this.availableWidth = options.availableWidth || this.minDesktopWidth;
-             
+
             if(this.model.get("file")) {
                 this.render();
                 this.fetchComments();

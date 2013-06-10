@@ -69,6 +69,12 @@ header img.beta, header img.admin, header img.upload {
     -moz-box-shadow: 1px 1px 5px #999;
     -webkit-box-shadow: 1px 1px 5px #999;
     box-shadow: 1px 1px 5px #999;
+
+    -webkit-transition: width 1s ease, height 1s ease;
+    -moz-transition: width 1s ease, height 1s ease;
+    -o-transition: width 1s ease, height 1s ease;
+    -ms-transition: width 1s ease, height 1s ease;
+    transition: width 1s ease, height 1s ease;
 }
 .column .item img:hover, .column .item video:hover {
     -moz-box-shadow: 2px 2px 6px #FFFFBC;
@@ -286,4 +292,12 @@ form {
     .span3.commentBar {
         margin-top: 10px;
     }
+}
+
+.fade {
+    opacity: 0;
+    -webkit-transition: opacity 0.25s linear;
+    -moz-transition: opacity 0.25s linear;
+    -o-transition: opacity 0.25s linear;
+    transition: opacity 0.25s linear;
 }

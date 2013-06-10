@@ -26,7 +26,8 @@ define(['underscore',
 
             events: {
                 dragover: "handleDragOver",
-                drop: "handleFileSelect"
+                drop: "handleFileSelect",
+                "click .item": "zoom"
             },
         
             initialize: function() {
@@ -228,7 +229,17 @@ define(['underscore',
             
             listenToScroll: function() {
                 $(window).scroll(_.bind(this.loadMore, this));
-                //$(window).mousewheel(_.bind(this.loadMore, this));
+            },
+
+            zoom: function(e) {
+                var item = this.$(e.currentTarget);
+                this.$(".item").addClass("fade");
+                item.css("opacity", 0.2);
+                window.setTimeout(function() {
+                    Backbone.history.navigate("/item/" + item.find("img").attr("id"), true);
+                }, 250);
+
+                return false;
             }
         });
         return Grid;
