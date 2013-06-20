@@ -16,7 +16,7 @@ AddType text/cache-manifest .appcache
     RewriteRule ^(templates)($|/) - [L]
     RewriteRule ^api/(.*)$ index.php [QSA,L]
     RewriteRule ^auth/(.*)$ index.php [QSA,L]
-    RewriteRule ^rss$ index.php [QSA,L]
+    RewriteRule ^rss(.*)$ index.php [QSA,L]
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^(.*)$ index.html [QSA,L]
 </IfModule>
