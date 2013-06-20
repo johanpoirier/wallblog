@@ -88,6 +88,10 @@ require.config({
     }
 });
 
+window.WallBlog = {
+    title: "Tan, Johan & Evan"
+};
+
 require(['router', 'views/header', 'bootstrap', 'events'],
 function(AppRouter, HeaderView) {
     // header

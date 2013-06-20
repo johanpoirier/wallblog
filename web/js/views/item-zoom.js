@@ -41,7 +41,7 @@ function(_,
             else {
                 this.fetchItem(this.model.id);
             }
-            
+
             key("esc", this.back);
             key("left", _.bind(function() {
                 var prevId = window.itemIds[--window.zoomCurrentIndex];

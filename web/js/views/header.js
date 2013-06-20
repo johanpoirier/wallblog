@@ -43,6 +43,14 @@ function(_, $, Backbone, Pubsub, UploadVideoView, tools, labels, tmpl, tmplZoom,
                     this.nbItems = nbItems;
                 }
             }
+
+            // update browser title
+            window.document.title = WallBlog.title;
+            if(this.nbItems > 0) {
+                window.document.title += " - " + this.nbItems + " photos";
+            }
+
+            // render header bar
             this.template = tmpl;
             HeaderView.__super__.render.apply(this, [{ nbItems: this.nbItems }]);
             
@@ -61,10 +69,16 @@ function(_, $, Backbone, Pubsub, UploadVideoView, tools, labels, tmpl, tmplZoom,
         },
 
         renderZoom: function(item) {
+            // update browser title
+            if(item.get("description")) {
+                window.document.title = item.get("description") + ", " + WallBlog.title;
+            }
+
+            // render with description in header bar
             this.template = tmplZoom;
             this.item = item;
             HeaderView.__super__.render.apply(this, [{ "item": item.toJSON(), "admin": tools.isLogged() }]);
-            
+
             if(tools.isLogged()) {
                 this.$("span.delete").show();
             }
