@@ -44,15 +44,15 @@ function(_,
 
             key("esc", this.back);
             key("left", _.bind(function() {
-                var prevId = window.itemIds[--window.zoomCurrentIndex];
-                if(prevId >= 0) {
+                if(window.zoomCurrentIndex > 0) {
+                    var prevId = window.itemIds[--window.zoomCurrentIndex];
                     this.fetchItem(parseInt(prevId));
                     Backbone.history.navigate('/item/' + prevId, false);
                 }
             }, this));
             key("right", _.bind(function() {
-                var nextId = window.itemIds[++window.zoomCurrentIndex];
-                if(nextId < window.itemIds.length) {
+                if(window.zoomCurrentIndex < window.itemIds.length) {
+                    var nextId = window.itemIds[++window.zoomCurrentIndex];
                     this.fetchItem(parseInt(nextId));
                     Backbone.history.navigate('/item/' + nextId, false);
                 }
@@ -76,7 +76,10 @@ function(_,
             }
             new CommentFormView({ root: this.$(".commentForm"), item: this.model });
             this.fetchComments();
-            
+
+            // focus on picture to listen on left & right keys
+            this.$("img").focus();
+
             // find index in list of ids
             if(window.zoomCurrentIndex == 0) {
                 for(var i = 0; i < window.itemIds.length; i++) {
