@@ -24,6 +24,11 @@ class CommentService {
         return self::$db->fetchAssoc($sql, array((int) $id));
     }
 
+    public function getLast($nb) {
+        $sql = "SELECT * FROM " . self::$table_name . " ORDER BY date DESC LIMIT ".$nb;
+        return self::$db->fetchAll($sql);
+    }
+    
     public function getByItem($idItem) {
         $sql = "SELECT * FROM " . self::$table_name . " WHERE idItem = ? ORDER BY date desc";
         return self::$db->fetchAll($sql, array($idItem));
