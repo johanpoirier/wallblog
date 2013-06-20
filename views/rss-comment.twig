@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rss version="2.0">
+    <channel>
+        <title>Tan, Johan &amp; Evan</title>
+        <link>http://life.jops-dev.com/rss</link>
+        <description>Derniers Commentaires</description>
+        <language>FR-fr</language>
+        <pubDate>{{now}}</pubDate>
+        <copyright>Copyright 2013 GBCreation</copyright>
+{% for item in items %}
+        <item>
+            <title>{{item.author}}</title>
+            <link>http://life.jops-dev.com/item/{{item.idItem}}</link>
+            <pubDate>{{item.date|date("D, d M Y H:i:s T")}}</pubDate>
+            <description>{{item.text}}</description>
+        </item>
+{% endfor %}
+    </channel>
+</rss>
