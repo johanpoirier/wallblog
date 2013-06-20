@@ -25,4 +25,11 @@ $app->get('/rss', function () use ($app) {
     return $app['twig']->render('rss.twig', array("now" => date("D, d M Y H:i:s T"), "items" => $items), $response);
 });
 
+$app->get('/rssComment', function () use ($app) {
+    $items = $app['comment_service']->getLast(7);
+    $response = new Response();
+    $response->headers->set('Content-type', 'application/rss+xml; charset=utf-8');
+    return $app['twig']->render('rss-comment.twig', array("now" => date("D, d M Y H:i:s T"), "items" => $items), $response);
+});
+
 ?>
