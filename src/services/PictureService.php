@@ -115,6 +115,8 @@ class PictureService {
 
     public function update($item) {
         self::$logger->addDebug("updating item : " . $item['id']);
+        unset($item['prevId']);
+        unset($item['nextId']);
         $res = self::$db->update(self::$table_name, $item, array('id' => $item['id']));
         self::$logger->addDebug("updating item result = " . $res);
         if ($res == 1) {
