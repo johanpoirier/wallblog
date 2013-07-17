@@ -48,6 +48,9 @@ define(['underscore',
                     this.currentNbItems = this.collection.length;
                     this.render();
                 }
+
+                // listen to filter
+                Pubsub.on(AppEvents.FILTER, this.filter, this);
             },
 
             onDispose: function() {
@@ -233,13 +236,13 @@ define(['underscore',
 
             zoom: function(e) {
                 var item = this.$(e.currentTarget);
-                this.$(".item").addClass("fade");
-                item.css("opacity", 0.2);
-                window.setTimeout(function() {
-                    Backbone.history.navigate("/item/" + item.find("img").attr("id"), true);
-                }, 250);
+                Backbone.history.navigate("/item/" + item.find("img").attr("id"), true);
 
                 return false;
+            },
+
+            filter: function(month, year) {
+                console.log(month + " " + year);
             }
         });
         return Grid;

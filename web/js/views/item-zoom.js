@@ -70,8 +70,9 @@ function(_,
             ItemZoomView.__super__.render.apply(this);
             if(this.availableWidth > this.minDesktopWidth) {
                 var ratio = parseFloat(this.model.get("ratio"));
-                this.$("img").width(Math.round(this.availableHeight * ratio));
-                this.$("img").height(Math.round(this.$("img").width() / ratio));
+                var width = Math.round(this.availableHeight * ratio);
+                this.$("img").width(width);
+                this.$("img").height(Math.round(width / ratio));
                 this.$(".commentBar").height(this.availableHeight);
             }
             new CommentFormView({ root: this.$(".commentForm"), item: this.model });

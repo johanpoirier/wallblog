@@ -1,0 +1,11 @@
+<div class="column month">
+{{#each months}}
+    <span{{#ifequals ../month this}} class="selected"{{/ifequals}}>{{this}}</span>
+{{/each}}
+</div>
+<div class="column year">
+{{#each years}}
+    <span{{#ifequals ../year this}} class="selected"{{/ifequals}}>{{this}}</span>
+{{/each}}
+</div>
+<button>OK</button>

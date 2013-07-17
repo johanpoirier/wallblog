@@ -3,5 +3,6 @@ AppEvents = {
     ITEMS_UPLOADED: 'ItemsUploaded',
     ITEM_ZOOMED:    'ItemZoomed',
     USER_LOGGED_IN: 'UserLoggedIn',
-    NO_IMAGE:       'NoImage'
+    NO_IMAGE:       'NoImage',
+    FILTER:         'Filter'
 };

@@ -69,12 +69,6 @@ header img.beta, header img.admin, header img.upload {
     -moz-box-shadow: 1px 1px 5px #999;
     -webkit-box-shadow: 1px 1px 5px #999;
     box-shadow: 1px 1px 5px #999;
-
-    -webkit-transition: width 1s ease, height 1s ease;
-    -moz-transition: width 1s ease, height 1s ease;
-    -o-transition: width 1s ease, height 1s ease;
-    -ms-transition: width 1s ease, height 1s ease;
-    transition: width 1s ease, height 1s ease;
 }
 .column .item img:hover, .column .item video:hover {
     -moz-box-shadow: 2px 2px 6px #FFFFBC;
@@ -300,4 +294,41 @@ form {
     -moz-transition: opacity 0.25s linear;
     -o-transition: opacity 0.25s linear;
     transition: opacity 0.25s linear;
+}
+
+.filter {
+    background-color: #eeeeee;
+    border-radius: 5px;
+    color: #000000;
+    cursor: pointer;
+    float: left;
+    font-style: italic;
+    line-height: 28px;
+    margin-left: 46%;
+    margin-top: 6px;
+    padding: 0 25px;
+    position: absolute;
+}
+
+.filter div.column {
+    cursor: default;
+    float: left;
+    padding: 10px 20px;
+}
+.filter div.column span {
+    background-color: #ffffff;
+    border-radius: 5px;
+    clear: both;
+    cursor: pointer;
+    float: left;
+    font-style: normal;
+    margin: 5px;
+    padding: 0 5px;
+}
+.filter div.column span.selected {
+    background-color: lightgreen;
+}
+.filter button {
+    clear: both;
+    float: left;
 }

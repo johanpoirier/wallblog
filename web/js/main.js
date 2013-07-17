@@ -84,13 +84,14 @@ require.config({
         'moment': 'libs/moment',
         'moment-fr': 'libs/moment-lang/fr',
         resumable: 'libs/resumable',
-        templates: '../templates'
+        'templates': '../templates'
     }
 });
 
 window.WallBlog = {
     title: "Tan, Johan & Evan"
 };
+window.document.title = window.WallBlog.title;
 
 require(['router', 'views/header', 'bootstrap', 'events'],
 function(AppRouter, HeaderView) {

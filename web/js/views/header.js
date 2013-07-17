@@ -3,13 +3,14 @@ define(['underscore',
         'backbone',
         'pubsub',
         'views/upload-video',
+        'views/filter-dates',
         'tools',
         'i18n!nls/labels',
         'hbs!templates/header',
         'hbs!templates/header-zoom',
         'hbs!templates/header-edit'],
 
-function(_, $, Backbone, Pubsub, UploadVideoView, tools, labels, tmpl, tmplZoom, tmplEdit) {
+function(_, $, Backbone, Pubsub, UploadVideoView, FilterDatesView, tools, labels, tmpl, tmplZoom, tmplEdit) {
 
     var HeaderView = Backbone.View.extend({
         template: tmpl,
@@ -20,8 +21,8 @@ function(_, $, Backbone, Pubsub, UploadVideoView, tools, labels, tmpl, tmplZoom,
             "click img.admin": "login",
             "click img.upload": "upload",
             "dblclick .description": "editDescription",
-            "keypress input": "submitDescription",
-            "blur input": "escapeDescription",
+            "keypress input[name='description']": "submitDescription",
+            "blur input[name='description']": "escapeDescription",
             "click .delete": "deletePicture"
         },
         
@@ -52,8 +53,8 @@ function(_, $, Backbone, Pubsub, UploadVideoView, tools, labels, tmpl, tmplZoom,
 
             // render header bar
             this.template = tmpl;
-            HeaderView.__super__.render.apply(this, [{ nbItems: this.nbItems }]);
-            
+            HeaderView.__super__.render.apply(this, [{ nbItems: this.nbItems, title: WallBlog.title }]);
+
             if(tools.isLogged()) {
                 this.$("img.admin").hide();
                 this.$("img.upload").show();
@@ -62,6 +63,8 @@ function(_, $, Backbone, Pubsub, UploadVideoView, tools, labels, tmpl, tmplZoom,
                 this.$("img.upload").hide();
                 this.$("img.admin").show();
             }
+
+            new FilterDatesView({ el: this.$(".filter") });
         },
         
         requestNbItems: function() {
