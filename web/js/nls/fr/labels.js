@@ -27,5 +27,6 @@ define({
     "emailError": "l'email n'est pas valide",
     "video-webm": "WebM",
     "video-ogv": "Ogg Vorbis",
-    "video-mp4": "MP4"
+    "video-mp4": "MP4",
+    "filter": "Filtrer..."
 });

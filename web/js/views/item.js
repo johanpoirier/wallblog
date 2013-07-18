@@ -14,10 +14,6 @@ function($, Backbone, labels, ItemZoomView, pictureTmpl, videoTmpl) {
         className: "item",
         strategy: "append",
 
-        /*events: {
-            "click": "zoom"
-        },*/
-        
         initialize: function(options) {
             if(options.model.get("type") === "video") {
                 this.template = videoTmpl;
@@ -28,14 +24,6 @@ function($, Backbone, labels, ItemZoomView, pictureTmpl, videoTmpl) {
             ItemView.__super__.render.apply(this, arguments);
             if(this.model.get("type") === "video") {
                 this.$el.attr("width", this.root.width());
-            }
-        },
-
-        zoom: function() {
-            if(this.model.get("type") === "picture") {
-                window.currentScollPosition = $(document).scrollTop();
-                Backbone.history.navigate('/item/' + this.model.id, false);
-                new ItemZoomView({ root: "#main", model: this.model, availableWidth: $(window).width(), availableHeight: $(window).height() - 50});
             }
         }
     });

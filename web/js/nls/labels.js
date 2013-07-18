@@ -28,7 +28,8 @@ define({
         "emailError": "email is not valid",
         "video-webm": "WebM",
         "video-ogv": "Ogg Vorbis",
-        "video-mp4": "MP4"
+        "video-mp4": "MP4",
+        "filter": "Filter..."
     },
     "fr": true
 });

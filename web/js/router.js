@@ -46,11 +46,7 @@ function($, Backbone, key, tools, Item, ItemCollection, Grid, ItemZoomView, Logi
                     Backbone.history.navigate('/login', true);
                 });
             }
-                
-            // set last scroll position
-            if(window.currentScollPosition) {
-                $(document).scrollTop(window.currentScollPosition);
-            }
+
             grid.listenToScroll();
             
            // get list of all ids if not yet
