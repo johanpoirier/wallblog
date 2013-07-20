@@ -249,6 +249,16 @@ function(_, Backbone, $, Pubsub, tools, ItemView, UploadView, gridTmpl) {
 
         filter: function(month, year) {
             console.log(month + " " + year);
+            var filterValue = year;
+            if(month) {
+                filterValue += "-" + month;
+            }
+            this.collection.fetch({
+                data: {
+                    filter: filterValue,
+                    comments: true
+                }
+            });
         }
     });
     return Grid;

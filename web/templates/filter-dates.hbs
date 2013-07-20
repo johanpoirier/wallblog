@@ -6,7 +6,7 @@
     </div>
     <div class="column month{{#unless year}} hidden{{/unless}}">
     {{#each months}}
-        <span{{#ifequals ../month this}} class="selected"{{/ifequals}}>{{this}}</span>
+        <span data-value="{{this.id}}"{{#ifequals ../month this}} class="selected"{{/ifequals}}>{{this.value}}</span>
     {{/each}}
     </div>
 </div>

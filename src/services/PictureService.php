@@ -26,6 +26,11 @@ class PictureService {
         return self::$db->fetchAll($sql);
     }
 
+    public function getByDate($value) {
+        $sql = "SELECT * FROM " . self::$table_name . " WHERE date LIKE '" . $value . "%' ORDER BY date DESC";
+        return self::$db->fetchAll($sql);
+    }
+
     public function getAll() {
         $sql = "SELECT * FROM " . self::$table_name . " ORDER BY date DESC";
         return self::$db->fetchAll($sql);

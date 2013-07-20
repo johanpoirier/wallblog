@@ -9,13 +9,26 @@ function(Backbone, $, PubSub, labels, tmpl, tmplMini) {
         month: null,
 
         years: [ "2013", "2012", "2011" ],
-        months: [ "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre" ],
+        months: [
+            { id: "01", value: "Janvier"},
+            { id: "02", value: "Février"},
+            { id: "03", value: "Mars"},
+            { id: "04", value: "Avril"},
+            { id: "05", value: "Mai" },
+            { id: "06", value: "Juin" },
+            { id: "07", value: "Juillet"},
+            { id: "08", value: "Août"},
+            { id: "09", value: "Septembre"},
+            { id: "10", value: "Octobre"},
+            { id: "11", value: "Novembre"},
+            { id: "12", value: "Décembre" }],
 
         events: {
-            "click": "displayDates",
+            "click span.text": "displayDates",
             "click .month span": "selectMonth",
             "click .year span": "selectYear",
-            "click button": "filter"
+            "click button": "filter",
+            "click i": "clearFilter"
         },
 
         initialize: function() {
@@ -44,10 +57,12 @@ function(Backbone, $, PubSub, labels, tmpl, tmplMini) {
             if(!this.month || this.month !== month.html()) {
                 this.$(e.currentTarget).addClass("selected");
                 this.month = month.html();
+                this.monthId = month.data("value");
             }
             else {
                 this.$(e.currentTarget).removeClass("selected");
                 this.month = null;
+                this.monthId = null;
             }
         },
 
@@ -66,6 +81,7 @@ function(Backbone, $, PubSub, labels, tmpl, tmplMini) {
                 this.$(e.currentTarget).removeClass("selected");
                 this.year = null;
                 this.month = null;
+                this.monthId = null;
                 this.$(".column.month").hide();
                 this.$el.removeClass("expanded");
             }
@@ -73,7 +89,7 @@ function(Backbone, $, PubSub, labels, tmpl, tmplMini) {
 
         filter: function(e) {
             e.stopImmediatePropagation();
-            PubSub.trigger(AppEvents.FILTER, this.month, this.year);
+            PubSub.trigger(AppEvents.FILTER, this.monthId, this.year);
             this.$el.removeClass("expanded");
             this.template = tmplMini;
             if(this.year) {
@@ -82,6 +98,15 @@ function(Backbone, $, PubSub, labels, tmpl, tmplMini) {
             else {
                 this.render({ value: labels.filter, clear: false });
             }
+        },
+
+        clearFilter: function(e) {
+            e.stopImmediatePropagation();
+            this.render({ value: labels.filter, clear: false });
+            this.year = null;
+            this.month = null;
+            this.monthId = null;
+            PubSub.trigger(AppEvents.ITEMS_UPLOADED);
         }
     });
     return FilterDatesView;

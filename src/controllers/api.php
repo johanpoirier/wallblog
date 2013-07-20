@@ -11,13 +11,19 @@ $api = $app['controllers_factory'];
 $api->get('/item', function (Application $app, Request $request) {
 	$start = $request->get('start');
 	$nb = $request->get('nb');
+    $filter = $request->get('filter');
 	$getComments = $request->get('comments');
 
 	if (!$start) {
 		$start = 0;
 	}
 	if (!$nb) {
-		$items = $app['picture_service']->getAll();
+        if($filter) {
+            $items = $app['picture_service']->getByDate($filter);
+        }
+        else {
+            $items = $app['picture_service']->getAll();
+        }
 	} else {
 		$items = $app['picture_service']->get($nb, $start);
 	}
