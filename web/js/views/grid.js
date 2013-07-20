@@ -50,7 +50,7 @@ function(_, Backbone, $, Pubsub, tools, ItemView, UploadView, gridTmpl) {
             }
 
             // listen to filter
-            Pubsub.on(AppEvents.FILTER, this.filter, this);
+            Pubsub.on(AppEvents.FILTER, this.filterItems, this);
         },
 
         onDispose: function() {
@@ -144,7 +144,7 @@ function(_, Backbone, $, Pubsub, tools, ItemView, UploadView, gridTmpl) {
         },
 
         loadMore: function() {
-            if(!this.loading && ((window.pageYOffset - this.lastYOffset) > 0) && (($(window).scrollTop() - ($(document).height() - $(window).height())) <= 0)) {
+            if(!this.filter && !this.loading && ((window.pageYOffset - this.lastYOffset) > 0) && (($(window).scrollTop() - ($(document).height() - $(window).height())) <= 0)) {
                 //console.log("Loading more items");
                 this.loading = true;
                 this.collection.fetch({
@@ -225,6 +225,7 @@ function(_, Backbone, $, Pubsub, tools, ItemView, UploadView, gridTmpl) {
         },
 
         fetchCurrent: function() {
+            this.filter = false;
             this.collection.fetch({
                 data: {
                     start: 0,
@@ -247,8 +248,8 @@ function(_, Backbone, $, Pubsub, tools, ItemView, UploadView, gridTmpl) {
             return false;
         },
 
-        filter: function(month, year) {
-            console.log(month + " " + year);
+        filterItems: function(month, year) {
+            this.filter = true;
             var filterValue = year;
             if(month) {
                 filterValue += "-" + month;

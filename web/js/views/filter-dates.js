@@ -7,6 +7,7 @@ function(Backbone, $, PubSub, labels, tmpl, tmplMini) {
 
         year: null,
         month: null,
+        monthId: null,
 
         years: [ "2013", "2012", "2011" ],
         months: [
