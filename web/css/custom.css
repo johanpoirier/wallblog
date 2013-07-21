@@ -259,35 +259,6 @@ form {
     display: inline-block;
 }
 
-@media (max-width: 620px) {
-    .navbar-fixed-top {
-        margin-bottom: 5px;
-        margin-top: -45px;
-        position: relative;
-    }
-
-    header .navbar .delete {
-        float: left;
-        margin-left: 10px;
-    }
-        
-    header .info, header .beta {
-        display: none;
-    }
-
-    header .date, header .description {
-        font-size: medium;
-    }
-
-    .span9.picture, .span3.commentBar {
-        width: 98%;
-    }
-
-    .span3.commentBar {
-        margin-top: 10px;
-    }
-}
-
 .fade {
     opacity: 0;
     -webkit-transition: opacity 0.25s linear;
@@ -355,4 +326,39 @@ form {
 
 .hidden {
     display: none;
+}
+
+@media (max-width: 700px) {
+    .filter {
+        display: none;
+    }
+}
+
+@media (max-width: 620px) {
+    .navbar-fixed-top {
+        margin-bottom: 5px;
+        margin-top: -45px;
+        position: relative;
+    }
+
+    header .navbar .delete {
+        float: left;
+        margin-left: 10px;
+    }
+
+    header .info, header .beta {
+        display: none;
+    }
+
+    header .date, header .description {
+        font-size: medium;
+    }
+
+    .span9.picture, .span3.commentBar {
+        width: 98%;
+    }
+
+    .span3.commentBar {
+        margin-top: 10px;
+    }
 }
