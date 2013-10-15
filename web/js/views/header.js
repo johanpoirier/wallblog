@@ -30,6 +30,8 @@ function(_, $, Backbone, Pubsub, UploadVideoView, FilterDatesView, tools, labels
             Pubsub.on(AppEvents.ITEMS_ADDED, this.render, this);
             Pubsub.on(AppEvents.ITEM_ZOOMED, this.renderZoom, this);
             Pubsub.on(AppEvents.USER_LOGGED_IN, this.render, this);
+            Pubsub.on(AppEvents.FILTER, this.saveFilter, this);
+            Pubsub.on(AppEvents.CLEAR_FILTER, this.clearFilter, this);
             this.nbItems = 0;
             this.admin = false;
         },
@@ -64,7 +66,7 @@ function(_, $, Backbone, Pubsub, UploadVideoView, FilterDatesView, tools, labels
                 this.$("img.admin").show();
             }
 
-            new FilterDatesView({ el: this.$(".filter") });
+            new FilterDatesView({ el: this.$(".filter"), filter: this.filter });
         },
         
         requestNbItems: function() {
@@ -142,6 +144,17 @@ function(_, $, Backbone, Pubsub, UploadVideoView, FilterDatesView, tools, labels
                 this.item.destroy();
                 Backbone.history.navigate("/", true);
             }
+        },
+
+        saveFilter: function(monthId, year) {
+            this.filter = {
+                "year": year,
+                "monthId": monthId
+            };
+        },
+
+        clearFilter: function() {
+            this.filter = null;
         }
     });
     return HeaderView;

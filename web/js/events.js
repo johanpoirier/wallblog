@@ -4,5 +4,6 @@ AppEvents = {
     ITEM_ZOOMED:    'ItemZoomed',
     USER_LOGGED_IN: 'UserLoggedIn',
     NO_IMAGE:       'NoImage',
-    FILTER:         'Filter'
+    FILTER:         'Filter',
+    CLEAR_FILTER:   'ClearFilter'
 };

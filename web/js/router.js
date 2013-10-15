@@ -16,6 +16,9 @@ function($, Backbone, key, tools, Item, ItemCollection, Grid, ItemZoomView, Logi
 
         initialize: function() {
             Backbone.history.start({ pushState: true, root: "/" });
+
+            Pubsub.on(AppEvents.FILTER, this.saveFilter, this);
+            Pubsub.on(AppEvents.CLEAR_FILTER, this.clearFilter, this);
         },
 
         routes: {
@@ -27,7 +30,7 @@ function($, Backbone, key, tools, Item, ItemCollection, Grid, ItemZoomView, Logi
 
         main: function() {
             // render header bar even if nb items is unknown
-            window.headerView.render();
+            window.headerView.render({ filter: this.filter });
             
             // list of all ids
             window.zoomCurrentIndex = 0;
@@ -38,7 +41,7 @@ function($, Backbone, key, tools, Item, ItemCollection, Grid, ItemZoomView, Logi
             }
 
             // display items on the grid
-            var grid = new Grid({ root: "#main", collection: window.items });
+            var grid = new Grid({ root: "#main", collection: window.items, filter: this.filter });
 
             // admin shortcut
             if(!tools.isLogged()) {
@@ -95,6 +98,17 @@ function($, Backbone, key, tools, Item, ItemCollection, Grid, ItemZoomView, Logi
                availableWidth: $(window).width(),
                availableHeight: $(window).height() - 50
            });
+        },
+
+        saveFilter: function(monthId, year) {
+            this.filter = {
+                "year": year,
+                "monthId": monthId
+            };
+        },
+
+        clearFilter: function() {
+            this.filter = null;
         }
     });
 

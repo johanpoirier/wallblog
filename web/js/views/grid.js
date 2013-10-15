@@ -30,7 +30,7 @@ function(_, Backbone, $, Pubsub, tools, ItemView, UploadView, gridTmpl) {
             "click .item": "zoom"
         },
 
-        initialize: function() {
+        initialize: function(options) {
             // listen to window resize event
             this.screenWidth = $(window).width();
             $(window).resize(_.bind(this.screenResize, this));
@@ -50,7 +50,12 @@ function(_, Backbone, $, Pubsub, tools, ItemView, UploadView, gridTmpl) {
             }
 
             // listen to filter
+            if(options.filter) {
+                this.filter = true;
+                this.filterValue = options.filter.year + "-" + options.filter.month;
+            }
             Pubsub.on(AppEvents.FILTER, this.filterItems, this);
+            Pubsub.on(AppEvents.CLEAR_FILTER, this.clearFilter, this);
         },
 
         onDispose: function() {
@@ -228,6 +233,7 @@ function(_, Backbone, $, Pubsub, tools, ItemView, UploadView, gridTmpl) {
             this.filter = false;
             this.collection.fetch({
                 data: {
+                    filter: this.filter ? this.filterValue : null,
                     start: 0,
                     nb: this.currentNbItems,
                     comments: true
@@ -260,6 +266,11 @@ function(_, Backbone, $, Pubsub, tools, ItemView, UploadView, gridTmpl) {
                     comments: true
                 }
             });
+        },
+
+        clearFilter: function() {
+            this.filter = false;
+            this.fetchCurrent();
         }
     });
     return Grid;

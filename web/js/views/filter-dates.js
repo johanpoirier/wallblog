@@ -32,8 +32,17 @@ function(Backbone, $, PubSub, labels, tmpl, tmplMini) {
             "click i": "clearFilter"
         },
 
-        initialize: function() {
-            this.render({ value: labels.filter, clear: false });
+        initialize: function(options) {
+            if(options.filter) {
+                this.template = tmplMini;
+                this.year = options.filter.year;
+                this.monthId = options.filter.monthId;
+                this.month = this.monthId ? this.months[parseInt(this.monthId) - 1].value : "";
+                this.render({ value: this.month + " " + (this.year ? this.year : ""), clear: true });
+            }
+            else {
+                this.render({ value: labels.filter, clear: false });
+            }
         },
 
         displayDates: function(e) {
@@ -107,7 +116,7 @@ function(Backbone, $, PubSub, labels, tmpl, tmplMini) {
             this.year = null;
             this.month = null;
             this.monthId = null;
-            PubSub.trigger(AppEvents.ITEMS_UPLOADED);
+            PubSub.trigger(AppEvents.CLEAR_FILTER);
         }
     });
     return FilterDatesView;
