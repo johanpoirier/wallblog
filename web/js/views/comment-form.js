@@ -53,6 +53,7 @@ function(_, Backbone, Comment, labels, tmpl) {
         
         submitSuccess: function(comment) {
             this.item.comments.add(comment);
+            this.model = new Comment({ idItem: this.item.get("id") });
             this.hideForm();
         },
         

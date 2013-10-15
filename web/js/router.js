@@ -30,7 +30,7 @@ function($, Backbone, key, tools, Item, ItemCollection, Grid, ItemZoomView, Logi
 
         main: function() {
             // render header bar even if nb items is unknown
-            window.headerView.render({ filter: this.filter });
+            window.headerView.render();
             
             // list of all ids
             window.zoomCurrentIndex = 0;
