@@ -96,10 +96,12 @@ class PictureService {
         }
         $item["date"] = ($date == null) ? date("Y-M-d") : $date;
 
-        // resize in 2 sizes
+        // resize in 3 sizes
         $this->resize(self::$dir . "/" . $file_name, 1600, 85);
-        copy(self::$dir . "/" . $file_name, self::$dir . "/m_" . $file_name);
-        $this->resize(self::$dir . "/m_" . $file_name, 640, 75);
+        copy(self::$dir . "/" . $file_name, self::$dir . "/m1_" . $file_name);
+        $this->resize(self::$dir . "/m1_" . $file_name, 1024, 75);
+        copy(self::$dir . "/" . $file_name, self::$dir . "/m2_" . $file_name);
+        $this->resize(self::$dir . "/m2_" . $file_name, 640, 75);
         
         $image_info = getimagesize(self::$dir . "/" . $file_name);
         $item["ratio"] = $image_info[0] / $image_info[1];
@@ -193,10 +195,12 @@ class PictureService {
         $items = self::getAll();
         for ($i = 0; $i < sizeof($items); $i++) {
             $item = $items[$i];
-            if(!file_exists(self::$dir . "/m_" . $item['file'])) {
+            if(!file_exists(self::$dir . "/m1_" . $item['file'])) {
                 self::$logger->addDebug("rebuilding item : " . $item['file']);
-                copy(self::$dir . "/" . $item['file'], self::$dir . "/m_" . $item['file']);
-                $this->resize(self::$dir . "/m_" . $item['file'], 640, 75);
+                copy(self::$dir . "/" . $item['file'], self::$dir . "/m1_" . $item['file']);
+                $this->resize(self::$dir . "/m1_" . $item['file'], 1024, 75);
+                copy(self::$dir . "/" . $item['file'], self::$dir . "/m2_" . $item['file']);
+                $this->resize(self::$dir . "/m2_" . $item['file'], 640, 75);
                 $image_info = getimagesize(self::$dir . "/" . $item['file']);
                 self::$db->update(self::$table_name, array("ratio" => $image_info[0] / $image_info[1], "reverseRatio" => $image_info[1] / $image_info[0]), array('id' => $item['id']));
             }

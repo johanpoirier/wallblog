@@ -15,6 +15,7 @@ function($, Backbone, labels, ItemZoomView, pictureTmpl, videoTmpl) {
         strategy: "append",
 
         initialize: function(options) {
+            this.model.set("quality", options.quality);
             if(options.model.get("type") === "video") {
                 this.template = videoTmpl;
             }
