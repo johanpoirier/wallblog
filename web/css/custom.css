@@ -151,6 +151,7 @@ header img.beta, header img.admin, header img.upload {
 }
 
 .row-fluid .span10.comment {
+    margin-bottom: 3%;
     margin-left: 3%;
     width: 94%;
 }

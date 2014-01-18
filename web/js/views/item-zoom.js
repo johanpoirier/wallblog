@@ -57,6 +57,8 @@ function(_,
                     Backbone.history.navigate('/item/' + nextId, false);
                 }
             }, this));
+
+            $(window).resize(_.bind(this.screenResize, this));
         },
 
         fetchItem: function(id) {
@@ -68,11 +70,25 @@ function(_,
         
         render: function() {
             ItemZoomView.__super__.render.apply(this);
+            this.availableWidth -= this.$(".commentBar").width();
             if(this.availableWidth > this.minDesktopWidth) {
-                var ratio = parseFloat(this.model.get("ratio"));
-                var width = Math.round(this.availableHeight * ratio);
-                this.$("img").width(width);
-                this.$("img").height(Math.round(width / ratio));
+                var imgEl = this.$("img");
+                var imgRatio = parseFloat(this.model.get("ratio"));
+                var displayRatio = this.availableWidth / this.availableHeight;
+
+                // picture taller than display
+                if(displayRatio > imgRatio) {
+                    imgEl.height(this.availableHeight);
+                    imgEl.width(this.availableHeight * imgRatio);
+                }
+                // display taller than picture
+                else {
+                    var newHeight = this.availableWidth / imgRatio;
+                    imgEl.width(this.availableWidth);
+                    imgEl.height(newHeight);
+                    imgEl.css("margin-top", (this.availableHeight - newHeight) / 2);
+                }
+
                 this.$(".commentBar").height(this.availableHeight);
             }
             new CommentFormView({ root: this.$(".commentForm"), item: this.model });
@@ -110,6 +126,12 @@ function(_,
             key.unbind("right");
             key.unbind("esc");
             Backbone.history.navigate("/", true);
+        },
+
+        screenResize: function () {
+            this.availableWidth = $(window).width();
+            this.availableHeight = $(window).height() - 50;
+            this.render();
         }
     });
     return ItemZoomView;
