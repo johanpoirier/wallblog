@@ -11,7 +11,9 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class JSonService {
     public function constructJsonResponse($data) {
-        return new Response(json_encode($data), 200, array('Content-type' => 'application/json'));
+        $response = new Response(json_encode($data), 200, array('Content-type' => 'application/json;charset=UTF-8'));
+        $response->headers->set('Access-Control-Allow-Origin', 'http://127.0.0.1:3030');
+        return $response;
     }
 }
 ?>
