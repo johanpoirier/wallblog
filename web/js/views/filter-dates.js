@@ -9,7 +9,7 @@ function(Backbone, $, PubSub, labels, tmpl, tmplMini) {
         month: null,
         monthId: null,
 
-        years: [ "2013", "2012", "2011" ],
+        years: [ "2014", "2013", "2012", "2011" ],
         months: [
             { id: "01", value: "Janvier"},
             { id: "02", value: "Février"},
