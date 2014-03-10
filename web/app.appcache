@@ -1,13 +1,17 @@
 ﻿CACHE MANIFEST
-# version 11
+# version 15
 
 CACHE:
 js/libs/require.js
 img/admin.png
 img/beta.png
 img/comment.png
-img/upload.png
+img/fluidicon.png
 img/transparent.png
+img/upload.png
+img/wallblog-icon-114.png
+img/wallblog-icon-144.png
+img/windows-tile.png
 css/fonts/sansation_regular-webfont.eot
 css/fonts/sansation_regular-webfont.svg
 css/fonts/sansation_regular-webfont.ttf

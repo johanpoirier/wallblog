@@ -71,11 +71,11 @@ function(_,
         
         render: function() {
             ItemZoomView.__super__.render.apply(this);
-            this.availableWidth -= this.$(".commentBar").width();
-            if(this.availableWidth > this.minDesktopWidth) {
+            var availableWidth = this.availableWidth - this.$(".commentBar").width();
+            if(availableWidth > this.minDesktopWidth) {
                 var imgEl = this.$("img");
                 var imgRatio = parseFloat(this.model.get("ratio"));
-                var displayRatio = this.availableWidth / this.availableHeight;
+                var displayRatio = availableWidth / this.availableHeight;
 
                 // picture taller than display
                 if(displayRatio > imgRatio) {
@@ -85,7 +85,7 @@ function(_,
                 // display taller than picture
                 else {
                     var newHeight = this.availableWidth / imgRatio;
-                    imgEl.width(this.availableWidth);
+                    imgEl.width(availableWidth);
                     imgEl.height(newHeight);
                     imgEl.css("margin-top", (this.availableHeight - newHeight) / 2);
                 }
