@@ -6,3 +6,4 @@ web-build/
 web/pictures/*
 web/videos/*
 tests/app.log
+*.iml

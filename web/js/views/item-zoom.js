@@ -42,6 +42,7 @@ function(_,
                 this.fetchItem(this.model.id);
             }
 
+            // keyboard shortcuts
             key("esc", this.back);
             key("left", _.bind(function() {
                 if(window.zoomCurrentIndex > 0) {
