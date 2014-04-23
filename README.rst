@@ -33,6 +33,7 @@ Optimization
 In root folder, execute :
 
  npm install
+ 
  grunt build (require a analytics.js file)
 
  or
