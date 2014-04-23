@@ -1,9 +1,10 @@
 .idea/
-nbproject/
+node_modules/
 logs/
 src/config.jops.php
 web-build/
 web/pictures/*
 web/videos/*
+web/analytics.js
 tests/app.log
 *.iml

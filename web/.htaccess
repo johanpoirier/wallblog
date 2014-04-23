@@ -1,4 +1,4 @@
-﻿SetEnv PHP_VER 5_4
+SetEnv PHP_VER 5_4
 
 AddType video/ogg  .ogv
 AddType video/mp4  .mp4

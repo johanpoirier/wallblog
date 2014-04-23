@@ -1,0 +1,23 @@
+{
+    "name": "Wallblog",
+    "version": "1.0.0",
+    "repository": "https://github.com/johanpoirier/wallblog",
+    "private": true,
+    "scripts": {
+        "test": "mocha --recursive"
+    },
+    "devDependencies": {
+        "grunt": "~0.4.2",
+        "grunt-contrib-clean": "~0.5.0",
+        "grunt-contrib-copy": "~0.5.0",
+        "grunt-contrib-cssmin": "~0.9.0",
+        "grunt-contrib-requirejs": "~0.4.3",
+        "grunt-processhtml": "~0.3.3",
+        "grunt-mocha-test": "~0.10.0",
+        "grunt-uncss": "~0.3.3",
+        "load-grunt-tasks": "~0.4.0",
+        "mocha": "~1.17.1",
+        "should": "~3.1.3",
+        "time-grunt": "~0.3.1"
+    }
+}
