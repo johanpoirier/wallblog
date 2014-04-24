@@ -32,13 +32,6 @@ module.exports = function (grunt) {
             }
         },
 
-        "uncss": {
-            build: {
-                src: ['web/index.html'],
-                dest: 'web-build/css/main.css'
-            }
-        },
-
         "processhtml": {
             dev: {
                 files: {
@@ -70,6 +63,24 @@ module.exports = function (grunt) {
             }
         },
 
+        "uncss": {
+            clean: {
+                files: {
+                    'web-build/css/main.css': [
+                        'phantom/home.htm',
+                        'phantom/zoom.htm',
+                        'phantom/login.htm',
+                        'phantom/upload.htm',
+                        'phantom/filter.htm'
+                    ]
+                },
+                options: {
+                    report: 'min',
+                    stylesheets: ['../web/css/bootstrap.css', '../web/css/custom.css']
+                }
+            }
+        },
+
         "cssmin": {
             combine: {
                 options: {
@@ -83,6 +94,18 @@ module.exports = function (grunt) {
                         'web/css/custom.css'
                     ]
                 }
+            },
+            minify: {
+                options: {
+                    compatibility: 'ie8',
+                    keepSpecialComments: 0,
+                    report: 'min'
+                },
+                files: {
+                    'web-build/css/main.min.css': [
+                        'web-build/css/main.css'
+                    ]
+                }
             }
         },
 
@@ -93,7 +116,8 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('dev', [ 'clean', 'cssmin', 'copy', 'requirejs', 'processhtml:dev' ]);
-    grunt.registerTask('build', [ 'clean', 'cssmin', 'copy', 'requirejs', 'processhtml:build' ]);
+    grunt.registerTask('css', [ 'clean', 'uncss:clean', 'cssmin:minify' ]);
+    grunt.registerTask('dev', [ 'clean', 'cssmin:combine', 'copy', 'requirejs', 'processhtml:dev' ]);
+    grunt.registerTask('build', [ 'clean', 'cssmin:combine', 'copy', 'requirejs', 'processhtml:build' ]);
     grunt.registerTask('test', ['mochaTest']);
 }
