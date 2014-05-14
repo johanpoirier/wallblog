@@ -1,5 +1,5 @@
 ﻿CACHE MANIFEST
-# version 16
+# version 17
 
 CACHE:
 js/libs/require.js
@@ -9,8 +9,10 @@ img/comment.png
 img/fluidicon.png
 img/transparent.png
 img/upload.png
+img/icon-128.png
 img/wallblog-icon-114.png
 img/wallblog-icon-144.png
+img/icon-256.png
 img/windows-tile.png
 css/fonts/sansation_regular-webfont.eot
 css/fonts/sansation_regular-webfont.svg

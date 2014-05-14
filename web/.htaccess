@@ -1,4 +1,4 @@
-﻿SetEnv PHP_VER 5_4
+SetEnv PHP_VER 5_4
 
 AddType video/ogg  .ogv
 AddType video/mp4  .mp4
@@ -7,6 +7,7 @@ AddType application/vnd.ms-fontobject .eot
 AddType font/ttf .ttf
 AddType font/otf .otf
 AddType text/cache-manifest .appcache
+AddType application/x-web-app-manifest+json .webapp
 
 <IfModule mod_rewrite.c>
     Options -MultiViews

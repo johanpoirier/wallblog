@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" manifest="/app.appcache">
+<html lang="fr" manifest="/manifest.appcache">
 <head>
     <meta charset="utf-8">
     <title>Wallblog</title>
@@ -18,10 +18,15 @@
     <link rel="apple-touch-icon" sizes="114x114" href="/img/wallblog-icon-114.png"/>
     <link rel="apple-touch-icon" sizes="144x144" href="/img/wallblog-icon-144.png"/>
     <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
-    <link href="/css/main.css" rel="stylesheet">
+    <!-- build:css /css/main.css -->
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/custom.css" rel="stylesheet">
+    <!-- /build -->
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <!-- build:include:build analytics.js -->
+    <!-- /build -->
 </head>
 
 <body>

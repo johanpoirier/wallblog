@@ -32,7 +32,13 @@ Optimization
 
 In root folder, execute :
 
- node r.js -o app.build.js
+ npm install
+ 
+ grunt build (require a analytics.js file)
+
+ or
+
+ grunt dev (without analytics)
 
 Demo
 ----

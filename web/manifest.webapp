@@ -1,0 +1,18 @@
+{
+  "version": "0.1",
+  "name": "Wallblog",
+  "description": "Blog photos",
+  "icons": {
+    "128": "/img/icon-128.png",
+    "256": "/img/icon-256.png",
+    "512": "/img/windows-tile.png"
+  },
+  "developer": {
+    "name": "Johan Poirier",
+    "url": "https://github.com/johanpoirier"
+  },
+  "launch_path": "/",
+  "installs_allowed_from": ["http://wallblog.jops-dev.com"],
+  "appcache_path": "/manifest.appcache",
+  "permissions": {}
+}
