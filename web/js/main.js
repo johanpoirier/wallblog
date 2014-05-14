@@ -1,5 +1,5 @@
 window.WallBlog = {
-    title: "Tan, Johan & Evan"
+    title: "Tan, Johan, Evan & Lyam"
 };
 window.document.title = window.WallBlog.title;
 

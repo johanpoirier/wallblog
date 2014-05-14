@@ -71,7 +71,9 @@ module.exports = function (grunt) {
                         'phantom/zoom.htm',
                         'phantom/login.htm',
                         'phantom/upload.htm',
-                        'phantom/filter.htm'
+                        'phantom/upload_in_progress.htm',
+                        'phantom/filter.htm',
+                        'phantom/filtered.htm'
                     ]
                 },
                 options: {
