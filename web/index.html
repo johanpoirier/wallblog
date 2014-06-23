@@ -10,31 +10,36 @@
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="expires" content="0">
-    <meta name="msapplication-TileImage" content="/img/windows-tile.png"/>
+    <meta name="msapplication-TileImage" content="img/windows-tile.png"/>
     <meta name="msapplication-TileColor" content="#ffffff"/>
-    <link rel="fluid-icon" href="/img/fluidicon.png" title="Wallblog"/>
-    <link rel="apple-touch-icon" sizes="57x57" href="/img/wallblog-icon-114.png"/>
-    <link rel="apple-touch-icon" sizes="72x72" href="/img/wallblog-icon-144.png"/>
-    <link rel="apple-touch-icon" sizes="114x114" href="/img/wallblog-icon-114.png"/>
-    <link rel="apple-touch-icon" sizes="144x144" href="/img/wallblog-icon-144.png"/>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
-    <!-- build:css /css/main.css -->
-    <link href="/css/bootstrap.css" rel="stylesheet">
-    <link href="/css/custom.css" rel="stylesheet">
-    <!-- /build -->
+    <link rel="fluid-icon" href="img/fluidicon.png" title="Wallblog"/>
+    <link rel="apple-touch-icon" sizes="57x57" href="img/wallblog-icon-114.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="img/wallblog-icon-144.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="img/wallblog-icon-114.png"/>
+    <link rel="apple-touch-icon" sizes="144x144" href="img/wallblog-icon-144.png"/>
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico"/>
+    <link href="css/main.css" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <!-- build:include:build analytics.js -->
-    <!-- /build -->
 </head>
 
 <body>
-    <header></header>
-    <div id="main"></div>
-    <footer></footer>
+    <script type="text/x-handlebars">
+        <header>Wallblog</header>
+        <div id="main">{{outlet}}</div>
+    </script>
 
-    <div id="modal"></div>
-    <script data-main="/js/main" src="/js/libs/require.js"></script>
+    <script src="vendor/jquery/dist/jquery.js"></script>
+    <script src="vendor/handlebars/handlebars.min.js"></script>
+    <script src="vendor/ember/ember.js"></script>
+    <script src="vendor/ember-data/ember-data.js"></script>
+    <script src="vendor/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="vendor/momentjs/min/moment-with-langs.js"></script>
+
+    <script src="js/templates.js"></script>
+    <script src="js/wallblog.js"></script>
+
+    <script src="http://localhost:35729/livereload.js"></script>
 </body>
 </html>

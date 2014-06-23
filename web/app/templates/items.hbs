@@ -1,0 +1,9 @@
+<div class="row">
+{{#for 1 3}}
+    <div id="column{{this}}" class="column col-md-4">
+    {{#each}}
+        {{partial 'picture'}}
+    {{/each}}
+    </div>
+{{/for}}
+</div>

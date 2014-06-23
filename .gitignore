@@ -6,5 +6,6 @@ web-build/
 web/pictures/*
 web/videos/*
 web/analytics.js
+web/vendor
 tests/app.log
 *.iml

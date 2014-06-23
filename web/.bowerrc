@@ -1,0 +1,5 @@
+{
+  "directory": "vendor",
+  "proxy":"http://proxy.priv.atos.fr:3128",
+  "https-proxy":"http://proxy.priv.atos.fr:3128"
+}
