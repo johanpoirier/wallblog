@@ -4,8 +4,8 @@
     {{#if date}}
         <span class="date">{{format-date date 'D MMMM YYYY'}}</span>
     {{/if}}
-    {{#if comments}}
-        <span class="nb-comments">{{comments.length}}</span>
+    {{#if hasComments}}
+        <span class="nb-comments">{{nbComments}}</span>
     {{/if}}
     {{#if description}}
         <span class="description">{{description}}</span>

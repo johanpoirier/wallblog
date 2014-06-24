@@ -8,7 +8,8 @@ Wallblog.ItemsRoute = Ember.Route.extend({
         controller.set('title', "Tan, Johan & Evan");
         controller.set('items', this.store.find('item', {
             limit: 12,
-            offset: 0
+            offset: 0,
+            comments: true
         }));
     }
 });

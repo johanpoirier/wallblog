@@ -216,24 +216,16 @@ function program1(depth0,data) {
   return buffer;
   }
 
-function program3(depth0,data) {
-  
-  var buffer = '', stack1;
-  stack1 = helpers._triageMustache.call(depth0, "nbItems", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
-  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push(" ");
-  stack1 = helpers._triageMustache.call(depth0, "labels.picturesToClickAndComment", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
-  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  return buffer;
-  }
-
   data.buffer.push("<header>\r\n    <div class=\"navbar navbar-fixed-top navbar-inverse\">\r\n        <div class=\"navbar-inner\">\r\n            ");
   stack1 = (helper = helpers['link-to'] || (depth0 && depth0['link-to']),options={hash:{
     'class': ("navbar-brand")
   },hashTypes:{'class': "STRING"},hashContexts:{'class': depth0},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0],types:["STRING"],data:data},helper ? helper.call(depth0, "items", options) : helperMissing.call(depth0, "link-to", "items", options));
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\r\n            <p class=\"info pull-right\">");
-  stack1 = (helper = helpers.unlessequals || (depth0 && depth0.unlessequals),options={hash:{},hashTypes:{},hashContexts:{},inverse:self.noop,fn:self.program(3, program3, data),contexts:[depth0,depth0],types:["ID","INTEGER"],data:data},helper ? helper.call(depth0, "nbItems", 0, options) : helperMissing.call(depth0, "unlessequals", "nbItems", 0, options));
+  stack1 = helpers._triageMustache.call(depth0, "nbItems", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
+  if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
+  data.buffer.push(" ");
+  stack1 = helpers._triageMustache.call(depth0, "labels.picturesToClickAndComment", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("</p>\r\n            <div class=\"filter\">Filtrer...</div>\r\n            <img alt=\"Admin\" title=\"Ajout de photos, modération des commentaires\" src=\"img/admin.png\" class=\"admin\" />\r\n            <img alt=\"Upload\" title=\"Ajout de photos\" src=\"img/upload.png\" class=\"upload\" />\r\n        </div>\r\n    </div>\r\n</header>");
   return buffer;
@@ -247,7 +239,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 function program1(depth0,data) {
   
   var buffer = '';
-  data.buffer.push("\r\n                <img src=\"http://life.jops-dev.com/pictures/");
+  data.buffer.push("\r\n                <img src=\"http://wallblog.jops-dev.com/pictures/");
   data.buffer.push(escapeExpression(helpers.unbound.call(depth0, "file", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data})));
   data.buffer.push("\" alt=\"\" />\r\n            ");
   return buffer;
@@ -334,7 +326,7 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 function program1(depth0,data) {
   
   var buffer = '', stack1;
-  data.buffer.push("\r\n        <img src=\"http://life.jops-dev.com/pictures/m2_");
+  data.buffer.push("\r\n        <img src=\"http://wallblog.jops-dev.com/pictures/m2_");
   data.buffer.push(escapeExpression(helpers.unbound.call(depth0, "file", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data})));
   data.buffer.push("\" alt=\"");
   data.buffer.push(escapeExpression(helpers.unbound.call(depth0, "file", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data})));
@@ -344,7 +336,7 @@ function program1(depth0,data) {
   stack1 = helpers['if'].call(depth0, "date", {hash:{},hashTypes:{},hashContexts:{},inverse:self.noop,fn:self.program(2, program2, data),contexts:[depth0],types:["ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\r\n    ");
-  stack1 = helpers['if'].call(depth0, "comments", {hash:{},hashTypes:{},hashContexts:{},inverse:self.noop,fn:self.program(4, program4, data),contexts:[depth0],types:["ID"],data:data});
+  stack1 = helpers['if'].call(depth0, "hasComments", {hash:{},hashTypes:{},hashContexts:{},inverse:self.noop,fn:self.program(4, program4, data),contexts:[depth0],types:["ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\r\n    ");
   stack1 = helpers['if'].call(depth0, "description", {hash:{},hashTypes:{},hashContexts:{},inverse:self.noop,fn:self.program(6, program6, data),contexts:[depth0],types:["ID"],data:data});
@@ -365,7 +357,7 @@ function program4(depth0,data) {
   
   var buffer = '', stack1;
   data.buffer.push("\r\n        <span class=\"nb-comments\">");
-  stack1 = helpers._triageMustache.call(depth0, "comments.length", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
+  stack1 = helpers._triageMustache.call(depth0, "nbComments", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("</span>\r\n    ");
   return buffer;

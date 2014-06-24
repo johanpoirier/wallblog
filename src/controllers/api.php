@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 $api = $app['controllers_factory'];
 
-$api->get('/item', function (Application $app, Request $request) {
+$api->get('/items', function (Application $app, Request $request) {
 	$start = $request->get('offset');
 	$nb = $request->get('limit');
     $filter = $request->get('filter');
@@ -39,13 +39,13 @@ $api->get('/item', function (Application $app, Request $request) {
 	return $app['json']->constructJsonResponse($items);
 });
 
-$api->get('/item/{id}', function (Application $app, $id) {
+$api->get('/items/{id}', function (Application $app, $id) {
 	$item = $app['picture_service']->getById($id);
 	$item['comments'] = $app['comment_service']->getByItem($id);
 	return $app['json']->constructJsonResponse($item);
 })->assert('id', '\d+');
 
-$api->delete('/item/{id}', function (Application $app, Request $request, $id) {
+$api->delete('/items/{id}', function (Application $app, Request $request, $id) {
 	if ($request->hasSession()) {
 		$user = $app['user_service']->getByEmail($request->getSession()->get('email'));
 		if ($user) {
@@ -62,17 +62,17 @@ $api->delete('/item/{id}', function (Application $app, Request $request, $id) {
 	}
 });
 
-$api->get('/item/{id}/comments', function (Application $app, $id) {
+$api->get('/items/{id}/comments', function (Application $app, $id) {
 	return $app['json']->constructJsonResponse($app['comment_service']->getByItem($id));
 })->assert('id', '\d+');
 
-$api->post('/item/{id}/comments', function (Application $app, Request $request) {
+$api->post('/items/{id}/comments', function (Application $app, Request $request) {
 	$jsonComment = json_decode($request->getContent(), true);
 	$comment = $app['comment_service']->add($jsonComment);
 	return $app['json']->constructJsonResponse($comment);
 });
 
-$api->delete('/item/{id}/comments/{idComment}', function (Application $app, Request $request, $idComment) {
+$api->delete('/items/{id}/comments/{idComment}', function (Application $app, Request $request, $idComment) {
 	if ($request->hasSession()) {
 		$user = $app['user_service']->getByEmail($request->getSession()->get('email'));
 		if ($user) {
@@ -85,7 +85,7 @@ $api->delete('/item/{id}/comments/{idComment}', function (Application $app, Requ
 	}
 });
 
-$api->post('/item', function (Application $app, Request $request) {
+$api->post('/items', function (Application $app, Request $request) {
 	if ($request->hasSession()) {
 		$user = $app['user_service']->getByEmail($request->getSession()->get('email'));
 		if ($user) {
@@ -123,7 +123,7 @@ $api->post('/item', function (Application $app, Request $request) {
 	}
 });
 
-$api->put('/item/{id}', function (Application $app, Request $request, $id) {
+$api->put('/items/{id}', function (Application $app, Request $request, $id) {
     $app['monolog']->addDebug("put item $id : " . $request->getContent());
     if ($request->hasSession()) {
         $user = $app['user_service']->getByEmail($request->getSession()->get('email'));
