@@ -9,8 +9,8 @@ use Symfony\Component\HttpFoundation\Response;
 $api = $app['controllers_factory'];
 
 $api->get('/item', function (Application $app, Request $request) {
-	$start = $request->get('start');
-	$nb = $request->get('nb');
+	$start = $request->get('offset');
+	$nb = $request->get('limit');
     $filter = $request->get('filter');
 	$getComments = $request->get('comments');
 

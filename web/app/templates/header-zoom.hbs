@@ -1,14 +1,18 @@
-<div class="navbar-inner">
-    <a href="/" class="brand">
-        <img src="/img/logo_m.png" alt="Logo" />
-    </a>
-    <span class="date">{{formatDate item.date labels.dateFormat}}</span>
-    <span class="description">
-    {{#if item.description}} : {{item.description}} {{else}}
-        {{#if admin}} : {{labels.addDescription}} {{/if}}
-    {{/if}}
-    </span>
-    <span class="delete" style="display: inline;">
-        {{labels.deletePicture}}
-    </span>
-</div>
+<header>
+    <div class="navbar navbar-fixed-top navbar-inverse">
+        <div class="navbar-inner">
+            {{#link-to 'items' class="navbar-brand"}}
+                <img src="img/logo_m.png" alt="Logo" />
+            {{/link-to}}
+            <span class="date">{{format-date date 'D MMMM YYYY'}}</span>
+            <span class="description">
+            {{#if description}} : {{description}} {{else}}
+                {{#if admin}} : {{labels.addDescription}} {{/if}}
+            {{/if}}
+            </span>
+            <span class="delete" style="display: inline;">
+                {{labels.deletePicture}}
+            </span>
+        </div>
+    </div>
+</header>

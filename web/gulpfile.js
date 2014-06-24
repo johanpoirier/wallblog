@@ -6,9 +6,9 @@ var gulp       = require('gulp'),
     gutil      = require('gulp-util');
 
 var paths = {
-  scripts:   ['app/wallblog.js', 'app/**/*.js'],
+  scripts: ['app/wallblog.js', 'app/**/*.js'],
   templates: 'app/templates/*.hbs',
-  less: 'less/*.less'
+  less: 'less/*'
 };
 
 gulp.task('scripts', function() {

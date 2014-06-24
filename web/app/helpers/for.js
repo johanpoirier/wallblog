@@ -1,4 +1,4 @@
-Handlebars.registerHelper('for', function(start, end, options) {
+Ember.Handlebars.registerHelper('for', function(start, end, options) {
     var fn = options.fn, inverse = options.inverse;
     var isStartValid = (start != undefined && !isNaN(parseInt(start)) && start >= 0);
     var isEndValid = (end != undefined && !isNaN(parseInt(end)) && end >= 0);

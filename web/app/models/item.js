@@ -1,7 +1,7 @@
 Wallblog.Item = DS.Model.extend({
     file: DS.attr('string'),
     description: DS.attr('string'),
-    date: DS.attr('date'),
+    date: DS.attr('string'),
     ratio: DS.attr('number'),
     reverseRatio: DS.attr('number'),
     type: DS.attr('string')

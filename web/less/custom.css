@@ -14,12 +14,41 @@ body {
     background-color: #eee;
     font-family: 'SansationRegular', sans-serif;
     margin: 0;
-    padding: 45px 0 0 0;
+    padding: 55px 0 0 0;
 }
 
-header .navbar .brand {
-    padding: 0 5px;
+header .navbar {
+    min-height: 40px;
     margin: 0;
+}
+
+header .navbar-inverse {
+    background-color: inherit;
+    border-color: inherit;
+    color: #fff;
+}
+
+header .navbar-fixed-top {
+    border: 0;
+}
+
+header .navbar-inverse .navbar-inner {
+    background-color: #999;
+    background-image: -moz-linear-gradient(top,#999,#888);
+    background-image: -webkit-gradient(linear,0 0,0 100%,from(#999),to(#888));
+    background-image: -webkit-linear-gradient(top,#999,#888);
+    background-image: -o-linear-gradient(top,#999,#888);
+    background-image: linear-gradient(to bottom,#999,#888);
+    background-repeat: repeat-x;
+    border-color: #bbb;
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ff999999', endColorstr='#ff888888', GradientType=0);
+    min-height: 40px;
+}
+
+header .navbar .navbar-brand {
+    height: 40px;
+    margin: 0;
+    padding: 2px 5px;
 }
 
 header .navbar .delete {
@@ -52,6 +81,10 @@ header img.beta, header img.admin, header img.upload {
     right: 0;
     top: 0;
     z-index: 1031;
+}
+
+.main  {
+    margin-top: -10px;
 }
 
 .column .item {
@@ -123,6 +156,7 @@ header img.beta, header img.admin, header img.upload {
     box-shadow: 0 0 2px 2px #bbb;
     text-align: center;
     color: #fff;
+    margin-left: -5px;
 }
 
 .commentBar h4 {

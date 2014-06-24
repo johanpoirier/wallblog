@@ -1,6 +1,33 @@
 var Wallblog = Ember.Application.create();
 
-Wallblog.ApplicationAdapter = DS.FixtureAdapter.extend();
+//Wallblog.ApplicationAdapter = DS.FixtureAdapter.extend();
+
+(function(Wallblog) {
+    moment.lang("fr");
+
+    Wallblog.ApplicationAdapter = DS.ActiveModelAdapter.extend({
+        namespace: 'api',
+        host: 'http://life.jops-dev.com'
+    });
+
+    Wallblog.ApplicationController = Ember.Controller.extend();
+
+    Wallblog.ItemSerializer = DS.RESTSerializer.extend({
+        normalizePayload: function(type, payload) {
+            var response = {};
+            response[type.typeKey] = payload;
+            return response;
+        }
+    });
+
+    Ember.Inflector.inflector.rules = {
+        plurals:  [],
+        singular: [],
+        irregular: {},
+        irregularInverse: {},
+        uncountable: {}
+    };
+})(Wallblog);
 AppEvents = {
     ITEMS_ADDED:    'ItemsAdded',
     ITEMS_UPLOADED: 'ItemsUploaded',
@@ -12,14 +39,19 @@ AppEvents = {
 };
 Wallblog.Router.map(function() {
     this.resource('items', { path: '/' });
+    this.resource('item', { path: 'item/:item_id'});
 });
 
 Wallblog.ItemsRoute = Ember.Route.extend({
-    model: function() {
-        return this.store.find('item');
+    setupController: function(controller) {
+        controller.set('title', "Tan, Johan & Evan");
+        controller.set('items', this.store.find('item', {
+            limit: 12,
+            offset: 0
+        }));
     }
 });
-Handlebars.registerHelper('for', function(start, end, options) {
+Ember.Handlebars.registerHelper('for', function(start, end, options) {
     var fn = options.fn, inverse = options.inverse;
     var isStartValid = (start != undefined && !isNaN(parseInt(start)) && start >= 0);
     var isEndValid = (end != undefined && !isNaN(parseInt(end)) && end >= 0);
@@ -35,8 +67,44 @@ Handlebars.registerHelper('for', function(start, end, options) {
 
     return ret;
 });
-Handlebars.registerHelper('format-date', function(date, end, options) {
-    return moment(date).fromNow();
+Ember.Handlebars.helper('format-date', function(timestamp, outputPattern, inputPattern) {
+    var defaultPattern = 'YYYY-MM-DD HH:mm:ss';
+    var momentDate;
+
+    if(timestamp) {
+        if((timestamp instanceof Date) || (timestamp instanceof Array)) {
+            momentDate = moment(timestamp);
+        }
+        else if(typeof(timestamp) === 'string') {
+            if(!inputPattern || (typeof(inputPattern) !== 'string')) {
+                inputPattern = defaultPattern;
+            }
+            momentDate = moment(timestamp, inputPattern);
+        }
+        else {
+            return timestamp;
+        }
+    }
+    else {
+        return "";
+    }
+
+    return momentDate.format(outputPattern ? outputPattern : defaultPattern);
+});
+Ember.Handlebars.registerHelper('ifequals', function(value1, value2, options) {
+    if (value1 === value2) {
+        return options.fn(this);
+    } else {
+        return options.inverse(this);
+    }
+});
+
+Ember.Handlebars.registerHelper('unlessequals', function(value1, value2, options) {
+    var fn = options.fn;
+    options.fn = options.inverse;
+    options.inverse = fn;
+
+    return Ember.Handlebars.helpers['ifequals'].call(this, value1, value2, options);
 });
 Wallblog.Column = DS.Model.extend();
 
@@ -54,7 +122,7 @@ Wallblog.Column.FIXTURES = [
 Wallblog.Item = DS.Model.extend({
     file: DS.attr('string'),
     description: DS.attr('string'),
-    date: DS.attr('date'),
+    date: DS.attr('string'),
     ratio: DS.attr('number'),
     reverseRatio: DS.attr('number'),
     type: DS.attr('string')
