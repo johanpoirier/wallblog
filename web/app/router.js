@@ -11,7 +11,7 @@ Wallblog.ItemsRoute = Ember.Route.extend({
             offset: 0,
             comments: true
         }).then(function(items) {
-            controller.set('model', items);
+            controller.set('items', items);
             controller.set('nbItems', items.meta['total']);
         });
     }

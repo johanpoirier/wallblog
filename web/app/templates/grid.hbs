@@ -1,0 +1,7 @@
+{{#each view.columns}}
+    <div id="column{{unbound id}}" class="column {{unbound class}}">
+        {{#each items itemController='item'}}
+            {{partial 'picture'}}
+        {{/each}}
+    </div>
+{{/each}}

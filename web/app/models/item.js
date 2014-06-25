@@ -4,8 +4,17 @@ Wallblog.Item = DS.Model.extend({
     date: DS.attr('string'),
     ratio: DS.attr('number'),
     reverseRatio: DS.attr('number'),
+    like: DS.attr('number'),
     type: DS.attr('string'),
     comments: DS.hasMany('comment')
+});
+
+Wallblog.ItemSerializer = DS.RESTSerializer.extend({
+    normalizeHash: {
+        reverseRatio: function(hash) {
+            return hash;
+        }
+    }
 });
 
 Wallblog.Item.FIXTURES = [
