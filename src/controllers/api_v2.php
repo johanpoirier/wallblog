@@ -6,11 +6,11 @@ use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-$api = $app['controllers_factory'];
+$api2 = $app['controllers_factory'];
 
-$api->get('/item', function (Application $app, Request $request) {
-	$start = $request->get('start');
-	$nb = $request->get('nb');
+$api2->get('/items', function (Application $app, Request $request) {
+	$start = $request->get('offset');
+	$nb = $request->get('limit');
     $filter = $request->get('filter');
 	$getComments = $request->get('comments');
 
@@ -39,13 +39,13 @@ $api->get('/item', function (Application $app, Request $request) {
 	return $app['json']->constructJsonResponse($items);
 });
 
-$api->get('/item/{id}', function (Application $app, $id) {
+$api2->get('/items/{id}', function (Application $app, $id) {
 	$item = $app['picture_service']->getById($id);
 	$item['comments'] = $app['comment_service']->getByItem($id);
 	return $app['json']->constructJsonResponse($item);
 })->assert('id', '\d+');
 
-$api->delete('/item/{id}', function (Application $app, Request $request, $id) {
+$api2->delete('/items/{id}', function (Application $app, Request $request, $id) {
 	if ($request->hasSession()) {
 		$user = $app['user_service']->getByEmail($request->getSession()->get('email'));
 		if ($user) {
@@ -62,17 +62,17 @@ $api->delete('/item/{id}', function (Application $app, Request $request, $id) {
 	}
 });
 
-$api->get('/item/{id}/comments', function (Application $app, $id) {
+$api2->get('/items/{id}/comments', function (Application $app, $id) {
 	return $app['json']->constructJsonResponse($app['comment_service']->getByItem($id));
 })->assert('id', '\d+');
 
-$api->post('/item/{id}/comments', function (Application $app, Request $request) {
+$api2->post('/items/{id}/comments', function (Application $app, Request $request) {
 	$jsonComment = json_decode($request->getContent(), true);
 	$comment = $app['comment_service']->add($jsonComment);
 	return $app['json']->constructJsonResponse($comment);
 });
 
-$api->delete('/item/{id}/comments/{idComment}', function (Application $app, Request $request, $idComment) {
+$api2->delete('/items/{id}/comments/{idComment}', function (Application $app, Request $request, $idComment) {
 	if ($request->hasSession()) {
 		$user = $app['user_service']->getByEmail($request->getSession()->get('email'));
 		if ($user) {
@@ -85,7 +85,7 @@ $api->delete('/item/{id}/comments/{idComment}', function (Application $app, Requ
 	}
 });
 
-$api->post('/item', function (Application $app, Request $request) {
+$api2->post('/items', function (Application $app, Request $request) {
 	if ($request->hasSession()) {
 		$user = $app['user_service']->getByEmail($request->getSession()->get('email'));
 		if ($user) {
@@ -123,7 +123,7 @@ $api->post('/item', function (Application $app, Request $request) {
 	}
 });
 
-$api->put('/item/{id}', function (Application $app, Request $request, $id) {
+$api2->put('/items/{id}', function (Application $app, Request $request, $id) {
     $app['monolog']->addDebug("put item $id : " . $request->getContent());
     if ($request->hasSession()) {
         $user = $app['user_service']->getByEmail($request->getSession()->get('email'));
@@ -145,7 +145,7 @@ $api->put('/item/{id}', function (Application $app, Request $request, $id) {
     return $app['json']->constructJsonResponse($item);
 });
 
-$api->post('/items', function (Application $app, Request $request) {
+$api2->post('/items', function (Application $app, Request $request) {
 	$jsonPictures = json_decode($request->getContent(), true);
     $item = null;
 
@@ -188,19 +188,19 @@ $api->post('/items', function (Application $app, Request $request) {
     }
 });
 
-$api->get('/items/count', function (Application $app) {
+$api2->get('/items/count', function (Application $app) {
 	return $app['json']->constructJsonResponse($app['picture_service']->count());
 });
 
-$api->get('/items/ids', function (Application $app) {
+$api2->get('/items/ids', function (Application $app) {
 	return $app['json']->constructJsonResponse($app['picture_service']->listIds());
 });
 
-$api->get('/items/rebuild', function (Application $app) {
+$api2->get('/items/rebuild', function (Application $app) {
 	return $app['picture_service']->rebuild();
 });
 
-$api->get('/user', function(Request $request) use($app) {
+$api2->get('/user', function(Request $request) use($app) {
 	$user = false;
 	if ($request->hasSession()) {
 		$loggedUserEmail = $request->getSession()->get('email');
@@ -215,15 +215,15 @@ $api->get('/user', function(Request $request) use($app) {
 	}
 });
 
-$api->post('/user', function (Application $app, Request $request) {
+$api2->post('/user', function (Application $app, Request $request) {
 	$user = json_decode($request->getContent(), true);
 	$user = $app['user_service']->create($user);
 	return $app['json']->constructJsonResponse($user);
 });
 
-$api->get('/users/count', function (Application $app) {
+$api2->get('/users/count', function (Application $app) {
 	return $app['json']->constructJsonResponse($app['user_service']->count());
 });
 
-return $api;
+return $api2;
 ?>

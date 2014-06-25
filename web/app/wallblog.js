@@ -7,7 +7,7 @@ var Wallblog = Ember.Application.create();
 
     Wallblog.ApplicationAdapter = DS.ActiveModelAdapter.extend({
         //host: 'http://wallblog.jops-dev.com',
-        namespace: 'api'
+        namespace: 'api/2'
     });
 
     Wallblog.ApplicationController = Ember.Controller.extend();

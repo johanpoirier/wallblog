@@ -3,6 +3,8 @@ node_modules/
 logs/
 src/config.jops.php
 web-build/
+web/css/*
+web/js/*
 web/pictures/*
 web/videos/*
 web/analytics.js
