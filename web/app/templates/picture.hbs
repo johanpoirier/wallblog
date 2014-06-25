@@ -2,10 +2,10 @@
     {{#link-to 'item' this}}
         <img src="http://wallblog.jops-dev.com/pictures/m2_{{unbound file}}" alt="{{unbound file}}" id="{{unbound id}}" class="wall" />
     {{#if date}}
-        <span class="date">{{format-date date 'D MMMM YYYY'}}</span>
+        <span class="date">{{format-date date dateFormat}}</span>
     {{/if}}
     {{#if hasComments}}
-        <span class="nb-comments">{{nbComments}}</span>
+        <span class="nb-comments">{{unbound nbComments}}</span>
     {{/if}}
     {{#if description}}
         <span class="description">{{description}}</span>

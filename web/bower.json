@@ -1,22 +1,23 @@
 {
-  "name": "Wallblog",
-  "version": "2.0",
-  "authors": [
-    "Johan Poirier <johan.poirier@gmail.com>"
-  ],
-  "main": "index.html",
-  "license": "(c) JoPs",
-  "private": true,
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "vendor"
-  ],
-  "dependencies": {
-    "ember": "~1.5.1",
-    "ember-data": "1.0.0-beta.7",
-    "bootstrap": "~3.1.1",
-    "font-awesome": "~4.0.3",
-    "momentjs": "~2.6.0"
-  }
+    "name": "Wallblog",
+    "version": "2.0",
+    "authors": [
+        "Johan Poirier <johan.poirier@gmail.com>"
+    ],
+    "main": "index.html",
+    "license": "(c) JoPs",
+    "private": true,
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "vendor"
+    ],
+    "dependencies": {
+        "ember": "~1.5.1",
+        "ember-data": "1.0.0-beta.7",
+        "ember-i18n": "2.0.0",
+        "bootstrap": "~3.1.1",
+        "font-awesome": "~4.0.3",
+        "momentjs": "~2.6.0"
+    }
 }

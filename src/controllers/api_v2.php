@@ -9,15 +9,16 @@ use Symfony\Component\HttpFoundation\Response;
 $api2 = $app['controllers_factory'];
 
 $api2->get('/items', function (Application $app, Request $request) {
-	$start = $request->get('offset');
-	$nb = $request->get('limit');
+	$offset = $request->get('offset');
+	$limit = $request->get('limit');
     $filter = $request->get('filter');
 	$getComments = $request->get('comments');
+	$response = array("items" => []);
 
-	if (!$start) {
-		$start = 0;
+	if (!$offset) {
+		$offset = 0;
 	}
-	if (!$nb) {
+	if (!$limit) {
         if($filter) {
             $items = $app['picture_service']->getByDate($filter);
         }
@@ -25,18 +26,24 @@ $api2->get('/items', function (Application $app, Request $request) {
             $items = $app['picture_service']->getAll();
         }
 	} else {
-		$items = $app['picture_service']->get($nb, $start);
+		$items = $app['picture_service']->get($limit, $offset);
 	}
 
 	if ($getComments) {
 		for ($i = 0; $i < sizeof($items); $i++) {
 			$comments = $app['comment_service']->getByItem($items[$i]['id']);
-			if (sizeof($comments) > 0) {
-				$items[$i]['comments'] = $comments;
+			foreach ($comments as $comment) {
+                $items[$i]['comment_ids'][] = $comment["id"];
+                unset($comment["idItem"]);
+                $response["comments"][] = $comment;
 			}
 		}
 	}
-	return $app['json']->constructJsonResponse($items);
+
+	$response["items"] = $items;
+	$response["meta"] = array("total" => $app['picture_service']->count());
+
+	return $app['json']->constructJsonResponse($response);
 });
 
 $api2->get('/items/{id}', function (Application $app, $id) {
@@ -186,10 +193,6 @@ $api2->post('/items', function (Application $app, Request $request) {
     else {
         return new Response("problem during picture upload", 500);
     }
-});
-
-$api2->get('/items/count', function (Application $app) {
-	return $app['json']->constructJsonResponse($app['picture_service']->count());
 });
 
 $api2->get('/items/ids', function (Application $app) {

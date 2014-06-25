@@ -1,6 +1,6 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">{{labels.uploadVideoTitle}}</h3>
+    <h3 id="myModalLabel">{{t '.uploadVideoTitle'}}</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" enctype="multipart/form-data" method="post" action="">
@@ -13,8 +13,8 @@
         {{/each}}
         </div>
         <div class="control-group">
-            <button type="button" class="btn" data-dismiss="modal" aria-hidden="true">{{labels.cancel}}</button>
-            <button type="submit" class="btn btn-success"><i class="icon-ok icon-white"></i> {{labels.uploadVideo}}</button>
+            <button type="button" class="btn" data-dismiss="modal" aria-hidden="true">{{t 'cancel'}}</button>
+            <button type="submit" class="btn btn-success"><i class="icon-ok icon-white"></i> {{t 'uploadVideo'}}</button>
         </div>
     </form>
 </div>

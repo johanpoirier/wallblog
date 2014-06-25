@@ -5786,6 +5786,9 @@ body {
   margin: 0;
   padding: 55px 0 0 0;
 }
+.hidden {
+  display: none;
+}
 header .navbar {
   min-height: 40px;
   margin: 0;
