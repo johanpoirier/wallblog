@@ -8,15 +8,39 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   data.buffer.push(escapeExpression((helper = helpers.translateAttr || (depth0 && depth0.translateAttr),options={hash:{
     'placeholder': ("anyComment")
   },hashTypes:{'placeholder': "STRING"},hashContexts:{'placeholder': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "translateAttr", options))));
-  data.buffer.push(" rows=\"1\" tabindex=\"1\"></textarea>\r\n    <div class=\"masked\">\r\n        <span class=\"help-inline\"></span>\r\n        <input type=\"text\" class=\"form-control\" name=\"author\" value=\"\" ");
-  data.buffer.push(escapeExpression((helper = helpers.translateAttr || (depth0 && depth0.translateAttr),options={hash:{
-    'placeholder': ("authorHint")
-  },hashTypes:{'placeholder': "STRING"},hashContexts:{'placeholder': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "translateAttr", options))));
-  data.buffer.push(" tabindex=\"2\" />\r\n\r\n        <button type=\"button\" class=\"btn\" tabindex=\"4\">");
+  data.buffer.push(" rows=\"1\" tabindex=\"1\" ");
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "expand", {hash:{
+    'on': ("click"),
+    'target': ("view")
+  },hashTypes:{'on': "STRING",'target': "STRING"},hashContexts:{'on': depth0,'target': depth0},contexts:[depth0],types:["STRING"],data:data})));
+  data.buffer.push("></textarea>\r\n    <div ");
+  data.buffer.push(escapeExpression(helpers['bind-attr'].call(depth0, {hash:{
+    'class': ("view.isExpanded::hidden")
+  },hashTypes:{'class': "STRING"},hashContexts:{'class': depth0},contexts:[],types:[],data:data})));
+  data.buffer.push(">\r\n        <span class=\"help-inline\"></span>\r\n        ");
+  data.buffer.push(escapeExpression((helper = helpers.input || (depth0 && depth0.input),options={hash:{
+    'type': ("text"),
+    'class': ("form-control"),
+    'name': ("author"),
+    'value': ("author"),
+    'placeholderTranslation': ("authorHint"),
+    'tabindex': ("2")
+  },hashTypes:{'type': "STRING",'class': "STRING",'name': "STRING",'value': "ID",'placeholderTranslation': "STRING",'tabindex': "STRING"},hashContexts:{'type': depth0,'class': depth0,'name': depth0,'value': depth0,'placeholderTranslation': depth0,'tabindex': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "input", options))));
+  data.buffer.push("\r\n\r\n        <button type=\"button\" class=\"btn\" tabindex=\"4\" ");
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "contract", {hash:{
+    'on': ("click"),
+    'target': ("view")
+  },hashTypes:{'on': "STRING",'target': "STRING"},hashContexts:{'on': depth0,'target': depth0},contexts:[depth0],types:["STRING"],data:data})));
+  data.buffer.push(">\r\n            ");
   data.buffer.push(escapeExpression((helper = helpers.t || (depth0 && depth0.t),options={hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data},helper ? helper.call(depth0, "cancel", options) : helperMissing.call(depth0, "t", "cancel", options))));
-  data.buffer.push("</button>\r\n        <button type=\"submit\" class=\"btn btn-success\" tabindex=\"3\"><i class=\"icon-ok icon-white\"></i> ");
+  data.buffer.push("\r\n        </button>\r\n        <button type=\"submit\" class=\"btn btn-success\" tabindex=\"3\" ");
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "submitComment", {hash:{
+    'on': ("click"),
+    'target': ("view")
+  },hashTypes:{'on': "STRING",'target': "STRING"},hashContexts:{'on': depth0,'target': depth0},contexts:[depth0],types:["STRING"],data:data})));
+  data.buffer.push(">\r\n            <i class=\"icon-ok icon-white\"></i>\r\n            ");
   data.buffer.push(escapeExpression((helper = helpers.t || (depth0 && depth0.t),options={hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data},helper ? helper.call(depth0, "submitComment", options) : helperMissing.call(depth0, "t", "submitComment", options))));
-  data.buffer.push("</button>\r\n    </div>\r\n</form>");
+  data.buffer.push("\r\n        </button>\r\n    </div>\r\n</form>");
   return buffer;
   
 });
@@ -301,10 +325,10 @@ function program3(depth0,data) {
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\r\n            </div>\r\n        </div>\r\n        <div class=\"col-md-3 commentBar\">\r\n            <h4>");
   data.buffer.push(escapeExpression((helper = helpers.t || (depth0 && depth0.t),options={hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data},helper ? helper.call(depth0, "comments", options) : helperMissing.call(depth0, "t", "comments", options))));
-  data.buffer.push("</h4>\r\n            <div class=\"row commentForm\">\r\n                ");
-  data.buffer.push(escapeExpression((helper = helpers.partial || (depth0 && depth0.partial),options={hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data},helper ? helper.call(depth0, "comment-form", options) : helperMissing.call(depth0, "partial", "comment-form", options))));
-  data.buffer.push("\r\n            </div>\r\n            <div class=\"row comments\">\r\n            ");
-  stack1 = helpers.each.call(depth0, "comments", {hash:{},hashTypes:{},hashContexts:{},inverse:self.noop,fn:self.program(3, program3, data),contexts:[depth0],types:["ID"],data:data});
+  data.buffer.push("</h4>\r\n            ");
+  data.buffer.push(escapeExpression(helpers.view.call(depth0, "Wallblog.CommentFormView", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data})));
+  data.buffer.push("\r\n            <div class=\"row comments\">\r\n            ");
+  stack1 = helpers.each.call(depth0, "sortedComments", {hash:{},hashTypes:{},hashContexts:{},inverse:self.noop,fn:self.program(3, program3, data),contexts:[depth0],types:["ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
   data.buffer.push("\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>");
   return buffer;

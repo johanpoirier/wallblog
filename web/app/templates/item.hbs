@@ -10,11 +10,9 @@
         </div>
         <div class="col-md-3 commentBar">
             <h4>{{t 'comments'}}</h4>
-            <div class="row commentForm">
-                {{partial 'comment-form'}}
-            </div>
+            {{view 'Wallblog.CommentFormView'}}
             <div class="row comments">
-            {{#each comments}}
+            {{#each sortedComments}}
                 {{partial 'comment'}}
             {{/each}}
             </div>

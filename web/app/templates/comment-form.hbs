@@ -1,10 +1,15 @@
 <form>
-    <textarea name="text" class="form-control" {{translateAttr placeholder="anyComment"}} rows="1" tabindex="1"></textarea>
-    <div class="masked">
+    <textarea name="text" class="form-control" {{translateAttr placeholder="anyComment"}} rows="1" tabindex="1" {{action "expand" on="click" target="view"}}></textarea>
+    <div {{bind-attr class="view.isExpanded::hidden"}}>
         <span class="help-inline"></span>
-        <input type="text" class="form-control" name="author" value="" {{translateAttr placeholder="authorHint"}} tabindex="2" />
+        {{input type="text" class="form-control" name="author" value=author placeholderTranslation="authorHint" tabindex="2" }}
 
-        <button type="button" class="btn" tabindex="4">{{t 'cancel'}}</button>
-        <button type="submit" class="btn btn-success" tabindex="3"><i class="icon-ok icon-white"></i> {{t 'submitComment'}}</button>
+        <button type="button" class="btn" tabindex="4" {{action "contract" on="click" target="view"}}>
+            {{t 'cancel'}}
+        </button>
+        <button type="submit" class="btn btn-success" tabindex="3" {{action "submitComment" on="click" target="view"}}>
+            <i class="icon-ok icon-white"></i>
+            {{t 'submitComment'}}
+        </button>
     </div>
 </form>

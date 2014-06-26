@@ -82,13 +82,13 @@ $api2->get('/items/{id}/comments', function (Application $app, $id) {
 	return $app['json']->constructJsonResponse($app['comment_service']->getByItem($id));
 })->assert('id', '\d+');
 
-$api2->post('/items/{id}/comments', function (Application $app, Request $request) {
+$api2->post('/comments', function (Application $app, Request $request) {
 	$jsonComment = json_decode($request->getContent(), true);
-	$comment = $app['comment_service']->add($jsonComment);
-	return $app['json']->constructJsonResponse($comment);
+	$comment = $app['comment_service']->add($jsonComment["comment"]);
+	return $app['json']->constructJsonResponse(array("comment" => $comment));
 });
 
-$api2->delete('/items/{id}/comments/{idComment}', function (Application $app, Request $request, $idComment) {
+$api2->delete('/comments/{idComment}', function (Application $app, Request $request, $idComment) {
 	if ($request->hasSession()) {
 		$user = $app['user_service']->getByEmail($request->getSession()->get('email'));
 		if ($user) {
