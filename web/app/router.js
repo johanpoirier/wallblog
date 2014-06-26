@@ -7,7 +7,7 @@ Wallblog.ItemsRoute = Ember.Route.extend({
     setupController: function(controller) {
         controller.set('title', "Tan, Johan & Evan");
         this.store.find('item', {
-            limit: 12,
+            limit: 9,
             offset: 0,
             comments: true
         }).then(function(items) {

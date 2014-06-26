@@ -5606,7 +5606,9 @@ button.close {
 .panel-body:before,
 .panel-body:after,
 .modal-footer:before,
-.modal-footer:after {
+.modal-footer:after,
+.wrapper:before,
+.wrapper:after {
   content: " ";
   display: table;
 }
@@ -5623,7 +5625,8 @@ button.close {
 .navbar-collapse:after,
 .pager:after,
 .panel-body:after,
-.modal-footer:after {
+.modal-footer:after,
+.wrapper:after {
   clear: both;
 }
 .center-block {
@@ -5780,14 +5783,46 @@ button.close {
   font-style: normal;
   -webkit-font-smoothing: antialiased;
 }
+html {
+  height: 100%;
+}
 body {
   background-color: #eee;
   font-family: 'SansationRegular', sans-serif;
   margin: 0;
+  height: 100%;
   padding: 55px 0 0 0;
 }
 .hidden {
   display: none;
+}
+.wrapper {
+  margin-left: -3px;
+  margin-right: -3px;
+}
+.column-s4 {
+  position: relative;
+  float: left;
+  width: 33.33333333%;
+  min-height: 1px;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+.column-s6 {
+  position: relative;
+  float: left;
+  width: 50%;
+  min-height: 1px;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+.column-s12 {
+  position: relative;
+  float: left;
+  width: 100%;
+  min-height: 1px;
+  padding-left: 6px;
+  padding-right: 6px;
 }
 header .navbar {
   min-height: 40px;
@@ -5826,6 +5861,7 @@ header .navbar .delete {
   margin-right: 10px;
 }
 header .info {
+  font-size: 1.2em;
   line-height: 40px;
   margin: 0;
   padding-right: 50px;
@@ -5849,7 +5885,18 @@ header img.upload {
   z-index: 1031;
 }
 .main {
+  height: 100%;
   margin-top: -10px;
+}
+.ember-view,
+.full-height {
+  height: 100%;
+}
+.picture img {
+  height: auto;
+  max-height: 100%;
+  max-width: 100%;
+  width: auto;
 }
 .column .item {
   position: relative;
@@ -5917,13 +5964,14 @@ header img.upload {
   z-index: 2;
 }
 .commentBar {
-  -moz-box-shadow: 0 0 2px 2px #bbb;
-  -webkit-box-shadow: 0 0 2px 2px #bbb;
   background-color: gray;
   box-shadow: 0 0 2px 2px #bbb;
-  text-align: center;
+  -moz-box-shadow: 0 0 2px 2px #bbb;
+  -webkit-box-shadow: 0 0 2px 2px #bbb;
   color: #fff;
+  min-height: 100%;
   margin-left: -5px;
+  text-align: center;
 }
 .commentBar h4 {
   line-height: 8px;
@@ -5931,7 +5979,7 @@ header img.upload {
   padding-top: 3px;
   text-align: left;
 }
-.row-fluid .span3.commentBar {
+.row .span3.commentBar {
   margin-left: 0.7%;
 }
 .comment {
@@ -5947,7 +5995,7 @@ header img.upload {
   -webkit-box-shadow: 0 0 2px 2px #FFF;
   box-shadow: 0 0 2px 2px #FFF;
 }
-.row-fluid .span10.comment {
+.row .comment {
   margin-bottom: 3%;
   margin-left: 3%;
   width: 94%;
@@ -5981,23 +6029,26 @@ header img.upload {
   display: none;
 }
 .commentForm form {
+  font-size: 1.1em;
   margin-bottom: 5px;
+  margin-left: 3%;
+  width: 98%;
 }
-.commentForm input,
-.commentForm textarea {
+.commentForm form button {
+  font-size: 1em;
+}
+.commentForm form input,
+.commentForm form textarea {
+  margin-bottom: 8px;
   width: 96%;
 }
-.commentForm .btn-success {
+.commentForm form .btn-success {
   background-color: #85C100;
   background-image: -moz-linear-gradient(center top, #85c100, #85b600);
   box-shadow: 0;
 }
-.commentForm .help-inline {
+.commentForm form .help-inline {
   color: yellow;
-}
-.row-fluid.commentForm .span10 {
-  margin-left: 3%;
-  width: 94%;
 }
 .picture {
   cursor: pointer;
@@ -6132,11 +6183,11 @@ form {
   header .description {
     font-size: medium;
   }
-  .span9.picture,
-  .span3.commentBar {
+  .col-md-9.picture,
+  .col-md-3.commentBar {
     width: 98%;
   }
-  .span3.commentBar {
+  .col-md-3.commentBar {
     margin-top: 10px;
   }
 }

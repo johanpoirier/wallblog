@@ -1,45 +1,73 @@
 Wallblog.GridView = Ember.View.extend({
-    init: function() {
-        this._super();
-        this.width = $(window).width();
-
-        /*var view = this;
-        var resizeHandler = function() {
-            view.rerender();
-        };
-        this.set('resizeHandler', resizeHandler);
-
-        $(window).bind('resize', this.get('resizeHandler'));*/
-    },
-
-    /*willDestroy: function() {
-        $(window).unbind('resize', this.get('resizeHandler'));
-    },*/
 
     tagName: 'div',
-    classNames: ['row'],
+    classNames: ['wrapper'],
     templateName: 'grid',
+    renderTimerHandler: null,
 
-    itemsDidChange: function() {
-        console.debug("items did change");
+    settings: {
+        initNbColumns: 3,
+        minColumnWidth: 300
+    },
+
+    init: function () {
+        this._super();
+
+        $(window).on('resize', _.bind(this.screenResize, this));
+    },
+
+    willDestroy: function () {
+        $(window).off('resize', _.bind(this.screenResize, this));
+    },
+
+    /**
+     * New items : re render the grid
+     */
+    itemsDidChange: function () {
+        Ember.run.once(this, function () {
+            this.nbColumns = this.computeNbColumns();
+            this.submitRender();
+        });
+    }.observes('controller.items'),
+
+    screenResize: function () {
+        var nbColumns = this.computeNbColumns();
+        if(nbColumns !== this.nbColumns) {
+            this.nbColumns = this.computeNbColumns();
+            this.submitRender();
+        }
+    },
+
+    submitRender: function () {
+        if (this.renderTimerHandler) {
+            clearTimeout(this.renderTimerHandler);
+        }
+        this.renderTimerHandler = setTimeout(_.bind(this.preRender, this), 300);
+    },
+
+    preRender: function () {
         this.computeColumns();
         this.rerender();
-    }.observes('controller.items'),
+    },
 
     columns: [],
     columnHeights: [],
-    computeColumns: function() {
-        var cols = [];
+    nbColumns: 0,
 
-        // compute number of columns
-        var nbColumns = 3;
-        while ((Math.round(this.width / nbColumns) < 200) && (nbColumns > 1)) {
+    computeNbColumns: function() {
+        var nbColumns = this.settings.initNbColumns;
+        while ((Math.round($(window).width() / nbColumns) < this.settings.minColumnWidth) && (nbColumns > 1)) {
             nbColumns--;
         }
+        return nbColumns;
+    },
+
+    computeColumns: function () {
+        var cols = [];
 
         // save columns heights
-        var columnHeights = [];
-        for (var i = 0; i < nbColumns; i++) {
+        this.columnHeights = [];
+        for (var i = 0; i < this.nbColumns; i++) {
             this.columnHeights[i] = {
                 id: i + 1,
                 value: 0
@@ -47,30 +75,30 @@ Wallblog.GridView = Ember.View.extend({
         }
 
         // columns definition
-        var columnClass = "col-md-" + new String(Math.round(12 / nbColumns));
-        for(var i = 1; i <= nbColumns; i++) {
+        var columnClass = "column-s" + new String(Math.round(12 / this.nbColumns));
+        for (var i = 1; i <= this.nbColumns; i++) {
             cols.push({
                 'id': i,
                 'class': columnClass,
                 'items': []
             });
         }
-        this.set('columns', cols);
 
         // equally distribute items
         var items = this.get('controller').get('items');
-        items.forEach((function(item) {
+        items.forEach((function (item) {
             var shorterColumnId = this.getShorterColumnId();
-            this.get('columns')[shorterColumnId - 1]["items"].push(item);
-            this.get('columnHeights')[shorterColumnId - 1].value += parseFloat(item.get("reverseRatio"));
+            cols[shorterColumnId - 1]["items"].push(item);
+            this.columnHeights[shorterColumnId - 1].value += parseFloat(item.get("reverseRatio"));
         }).bind(this));
 
-        console.debug("nb columns : " + nbColumns);
         this.set('columns', cols);
+
+        return true;
     },
 
     getShorterColumnId: function () {
-        return _.reduceRight(this.get('columnHeights'), function (a, b) {
+        return _.reduceRight(this.get('columnHeights'),function (a, b) {
             return (a.value < b.value) ? a : b;
         }).id;
     }

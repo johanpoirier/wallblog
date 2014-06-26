@@ -33,7 +33,7 @@ $api2->get('/items', function (Application $app, Request $request) {
 		for ($i = 0; $i < sizeof($items); $i++) {
 			$comments = $app['comment_service']->getByItem($items[$i]['id']);
 			foreach ($comments as $comment) {
-                $items[$i]['comment_ids'][] = $comment["id"];
+                $items[$i]['comments'][] = $comment["id"];
                 unset($comment["idItem"]);
                 $response["comments"][] = $comment;
 			}
@@ -47,9 +47,18 @@ $api2->get('/items', function (Application $app, Request $request) {
 });
 
 $api2->get('/items/{id}', function (Application $app, $id) {
-	$item = $app['picture_service']->getById($id);
-	$item['comments'] = $app['comment_service']->getByItem($id);
-	return $app['json']->constructJsonResponse($item);
+    $item = $app['picture_service']->getById($id);
+
+    $comments = $app['comment_service']->getByItem($id);
+    foreach ($comments as $comment) {
+        $item['comments'][] = $comment["id"];
+        unset($comment["idItem"]);
+        $response["comments"][] = $comment;
+    }
+
+    $response["item"] = $item;
+
+	return $app['json']->constructJsonResponse($response);
 })->assert('id', '\d+');
 
 $api2->delete('/items/{id}', function (Application $app, Request $request, $id) {
@@ -200,7 +209,8 @@ $api2->get('/items/ids', function (Application $app) {
 });
 
 $api2->get('/items/rebuild', function (Application $app) {
-	return $app['picture_service']->rebuild();
+	$app['picture_service']->rebuild();
+    return new Response("ok", 200);
 });
 
 $api2->get('/user', function(Request $request) use($app) {

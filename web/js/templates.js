@@ -4,11 +4,15 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   var buffer = '', helper, options, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
 
 
-  data.buffer.push("<form>\r\n    <textarea name=\"text\" placeholder=\"");
-  data.buffer.push(escapeExpression((helper = helpers.t || (depth0 && depth0.t),options={hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data},helper ? helper.call(depth0, "anyComment", options) : helperMissing.call(depth0, "t", "anyComment", options))));
-  data.buffer.push("\" rows=\"1\" tabindex=\"1\"></textarea>\r\n    <div class=\"masked\">\r\n        <span class=\"help-inline\"></span>\r\n        <input type=\"text\" name=\"author\" value=\"\" placeholder=\"");
-  data.buffer.push(escapeExpression((helper = helpers.t || (depth0 && depth0.t),options={hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data},helper ? helper.call(depth0, "authorHint", options) : helperMissing.call(depth0, "t", "authorHint", options))));
-  data.buffer.push("\" tabindex=\"2\" />\r\n\r\n        <button type=\"button\" class=\"btn\" tabindex=\"4\">");
+  data.buffer.push("<form>\r\n    <textarea name=\"text\" class=\"form-control\" ");
+  data.buffer.push(escapeExpression((helper = helpers.translateAttr || (depth0 && depth0.translateAttr),options={hash:{
+    'placeholder': ("anyComment")
+  },hashTypes:{'placeholder': "STRING"},hashContexts:{'placeholder': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "translateAttr", options))));
+  data.buffer.push(" rows=\"1\" tabindex=\"1\"></textarea>\r\n    <div class=\"masked\">\r\n        <span class=\"help-inline\"></span>\r\n        <input type=\"text\" class=\"form-control\" name=\"author\" value=\"\" ");
+  data.buffer.push(escapeExpression((helper = helpers.translateAttr || (depth0 && depth0.translateAttr),options={hash:{
+    'placeholder': ("authorHint")
+  },hashTypes:{'placeholder': "STRING"},hashContexts:{'placeholder': depth0},contexts:[],types:[],data:data},helper ? helper.call(depth0, options) : helperMissing.call(depth0, "translateAttr", options))));
+  data.buffer.push(" tabindex=\"2\" />\r\n\r\n        <button type=\"button\" class=\"btn\" tabindex=\"4\">");
   data.buffer.push(escapeExpression((helper = helpers.t || (depth0 && depth0.t),options={hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data},helper ? helper.call(depth0, "cancel", options) : helperMissing.call(depth0, "t", "cancel", options))));
   data.buffer.push("</button>\r\n        <button type=\"submit\" class=\"btn btn-success\" tabindex=\"3\"><i class=\"icon-ok icon-white\"></i> ");
   data.buffer.push(escapeExpression((helper = helpers.t || (depth0 && depth0.t),options={hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data},helper ? helper.call(depth0, "submitComment", options) : helperMissing.call(depth0, "t", "submitComment", options))));
@@ -22,15 +26,15 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
   var buffer = '', stack1, helper, options, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
 
 
-  data.buffer.push("<span class=\"author\">");
+  data.buffer.push("<div class=\"col-md-11 comment\">\r\n    <span class=\"author\">");
   stack1 = helpers._triageMustache.call(depth0, "author", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("</span>\r\n<span class=\"delete\"><i class=\"icon-remove\"></i></span>\r\n<span class=\"date\">");
-  data.buffer.push(escapeExpression((helper = helpers.formatDate || (depth0 && depth0.formatDate),options={hash:{},hashTypes:{},hashContexts:{},contexts:[depth0,depth0],types:["ID","ID"],data:data},helper ? helper.call(depth0, "date", "dateFormat", options) : helperMissing.call(depth0, "formatDate", "date", "dateFormat", options))));
-  data.buffer.push("</span>\r\n<span>");
+  data.buffer.push("</span>\r\n    <span class=\"delete\"><i class=\"icon-remove\"></i></span>\r\n    <span class=\"date\">");
+  data.buffer.push(escapeExpression((helper = helpers['format-date'] || (depth0 && depth0['format-date']),options={hash:{},hashTypes:{},hashContexts:{},contexts:[depth0,depth0],types:["ID","ID"],data:data},helper ? helper.call(depth0, "date", "dateFormat", options) : helperMissing.call(depth0, "format-date", "date", "dateFormat", options))));
+  data.buffer.push("</span>\r\n    <span>");
   stack1 = helpers._triageMustache.call(depth0, "text", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("</span>");
+  data.buffer.push("</span>\r\n</div>");
   return buffer;
   
 });
@@ -276,20 +280,33 @@ helpers = this.merge(helpers, Ember.Handlebars.helpers); data = data || {};
 function program1(depth0,data) {
   
   var buffer = '';
-  data.buffer.push("\r\n                <img src=\"http://wallblog.jops-dev.com/pictures/");
+  data.buffer.push("\r\n                    <img src=\"http://wallblog.jops-dev.com/pictures/");
   data.buffer.push(escapeExpression(helpers.unbound.call(depth0, "file", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data})));
-  data.buffer.push("\" alt=\"\" />\r\n            ");
+  data.buffer.push("\" alt=\"\" />\r\n                ");
+  return buffer;
+  }
+
+function program3(depth0,data) {
+  
+  var buffer = '', helper, options;
+  data.buffer.push("\r\n                ");
+  data.buffer.push(escapeExpression((helper = helpers.partial || (depth0 && depth0.partial),options={hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data},helper ? helper.call(depth0, "comment", options) : helperMissing.call(depth0, "partial", "comment", options))));
+  data.buffer.push("\r\n            ");
   return buffer;
   }
 
   data.buffer.push(escapeExpression((helper = helpers.partial || (depth0 && depth0.partial),options={hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data},helper ? helper.call(depth0, "header-zoom", options) : helperMissing.call(depth0, "partial", "header-zoom", options))));
-  data.buffer.push("\r\n<div class=\"main container-fluid\">\r\n    <div class=\"row\">\r\n        <div class=\"col-md-9 picture\">\r\n            ");
+  data.buffer.push("\r\n<div class=\"main container-fluid\">\r\n    <div class=\"row full-height\">\r\n        <div class=\"col-md-9\">\r\n            <div class=\"picture\">\r\n                ");
   stack1 = (helper = helpers['link-to'] || (depth0 && depth0['link-to']),options={hash:{},hashTypes:{},hashContexts:{},inverse:self.noop,fn:self.program(1, program1, data),contexts:[depth0],types:["STRING"],data:data},helper ? helper.call(depth0, "items", options) : helperMissing.call(depth0, "link-to", "items", options));
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("\r\n        </div>\r\n        <div class=\"col-md-3 commentBar\">\r\n            <h4>");
-  stack1 = helpers._triageMustache.call(depth0, "labels.comments", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["ID"],data:data});
+  data.buffer.push("\r\n            </div>\r\n        </div>\r\n        <div class=\"col-md-3 commentBar\">\r\n            <h4>");
+  data.buffer.push(escapeExpression((helper = helpers.t || (depth0 && depth0.t),options={hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data},helper ? helper.call(depth0, "comments", options) : helperMissing.call(depth0, "t", "comments", options))));
+  data.buffer.push("</h4>\r\n            <div class=\"row commentForm\">\r\n                ");
+  data.buffer.push(escapeExpression((helper = helpers.partial || (depth0 && depth0.partial),options={hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data},helper ? helper.call(depth0, "comment-form", options) : helperMissing.call(depth0, "partial", "comment-form", options))));
+  data.buffer.push("\r\n            </div>\r\n            <div class=\"row comments\">\r\n            ");
+  stack1 = helpers.each.call(depth0, "comments", {hash:{},hashTypes:{},hashContexts:{},inverse:self.noop,fn:self.program(3, program3, data),contexts:[depth0],types:["ID"],data:data});
   if(stack1 || stack1 === 0) { data.buffer.push(stack1); }
-  data.buffer.push("</h4>\r\n            <div class=\"row-fluid commentForm\"></div>\r\n            <div class=\"row-fluid comments\"></div>\r\n        </div>\r\n    </div>\r\n</div>");
+  data.buffer.push("\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>");
   return buffer;
   
 });
