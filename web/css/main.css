@@ -2367,8 +2367,8 @@ input[type="button"].btn-block {
 }
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url('../fonts/glyphicons-halflings-regular.eot');
-  src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+  src: url('../vendor/bootstrap/fonts/glyphicons-halflings-regular.eot');
+  src: url('../vendor/bootstrap/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../vendor/bootstrap/fonts/glyphicons-halflings-regular.woff') format('woff'), url('../vendor/bootstrap/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../vendor/bootstrap/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
 .glyphicon {
   position: relative;
@@ -5875,10 +5875,10 @@ header .description {
 header .description {
   font-weight: bold;
 }
-header img.beta,
 header img.admin,
 header img.upload {
   border: 0;
+  cursor: pointer;
   position: absolute;
   right: 0;
   top: 0;
@@ -6020,10 +6020,9 @@ header img.upload {
 }
 .comment .delete {
   cursor: pointer;
-  display: none;
-  margin-top: -3px;
   position: absolute;
-  right: 23px;
+  right: 6px;
+  top: 6px;
 }
 .commentForm .masked {
   display: none;
@@ -6069,6 +6068,20 @@ header img.upload {
 .videos .upload-video {
   margin: 0px 0 25px 0;
   text-align: center;
+}
+.modal {
+  display: block;
+  margin-top: 100px;
+  overflow: hidden;
+}
+.overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1035;
 }
 .largeModal .upload-image {
   float: left;
@@ -6159,6 +6172,9 @@ form {
 }
 .hidden {
   display: none;
+}
+.close {
+  font-family: Helvetica;
 }
 @media (max-width: 700px) {
   .filter {

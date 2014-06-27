@@ -6,30 +6,42 @@ Wallblog.CommentFormView = Ember.View.extend({
     classNames: ['row commentForm'],
     templateName: 'comment-form',
 
-    isExpanded: false,
+    // form state vars
+    nbRows: 1,
+    isExpanded: function() {
+        return this.get("nbRows") === 3;
+    }.property("nbRows"),
+
+    // new comment data
+    author: "",
+    text: "",
 
     actions: {
         expand: function() {
-            this.$("textarea").attr("rows", "3");
-            this.set("isExpanded", true);
+            this.set('nbRows', 3);
         },
 
         contract: function() {
-            this.$("textarea").attr("rows", "1");
-            this.$("input,textarea").val("");
-            this.set("isExpanded", false);
+            // clean comment form
+            this.setProperties({
+                'nbRows': 1,
+                'author': "",
+                'text': ""
+            });
         },
 
         submitComment: function() {
-            var newComment = {
-                author: this.$("input[name='author']").val(),
-                text: this.$("textarea").val()
-            }
-            this.get('controller').send("createComment", newComment);
+            this.get('controller').send("createComment", {
+                author: this.get('author'),
+                text: this.get('text')
+            });
 
-            this.$("textarea").attr("rows", "1");
-            this.$("input,textarea").val("");
-            this.set("isExpanded", false);
+            // clean comment form
+            this.setProperties({
+                'nbRows': 1,
+                'author': "",
+                'text': ""
+            });
         }
     }
 });

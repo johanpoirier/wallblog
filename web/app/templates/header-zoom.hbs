@@ -7,12 +7,14 @@
             <span class="date">{{format-date date 'D MMMM YYYY'}}</span>
             <span class="description">
             {{#if description}} : {{description}} {{else}}
-                {{#if admin}} : {{t addDescription}} {{/if}}
+                {{#if controllers.application.isLogged}} : {{t addDescription}} {{/if}}
             {{/if}}
             </span>
+        {{#if controllers.application.isLogged}}
             <span class="delete" style="display: inline;">
-                {{labels.deletePicture}}
+                {{t 'deletePicture'}}
             </span>
+        {{/if}}
         </div>
     </div>
 </header>

@@ -12,7 +12,7 @@
             <h4>{{t 'comments'}}</h4>
             {{view 'Wallblog.CommentFormView'}}
             <div class="row comments">
-            {{#each sortedComments}}
+            {{#each sortedComments itemController='comment'}}
                 {{partial 'comment'}}
             {{/each}}
             </div>

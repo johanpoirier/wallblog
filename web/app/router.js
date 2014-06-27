@@ -3,6 +3,23 @@ Wallblog.Router.map(function() {
     this.resource('item', { path: 'item/:item_id'});
 });
 
+Wallblog.ApplicationRoute = Ember.Route.extend({
+    actions: {
+        openModal: function(modalName) {
+            return this.render(modalName, {
+                into: 'application',
+                outlet: 'modal'
+            });
+        },
+        closeModal: function() {
+            return this.disconnectOutlet({
+                outlet: 'modal',
+                parentView: 'application'
+            });
+        }
+    }
+});
+
 Wallblog.ItemsRoute = Ember.Route.extend({
     setupController: function(controller) {
         controller.set('title', "Tan, Johan & Evan");

@@ -1,8 +1,9 @@
 <form>
-    <textarea name="text" class="form-control" {{translateAttr placeholder="anyComment"}} rows="1" tabindex="1" {{action "expand" on="click" target="view"}}></textarea>
+    {{view Wallblog.TextArea name="text" class="form-control" placeholderTranslation="anyComment" valueBinding=view.text rows=view.nbRows tabindex="1"}}
+
     <div {{bind-attr class="view.isExpanded::hidden"}}>
         <span class="help-inline"></span>
-        {{input type="text" class="form-control" name="author" value=author placeholderTranslation="authorHint" tabindex="2" }}
+        {{input type="text" class="form-control" name="author" value=view.author placeholderTranslation="authorHint" tabindex="2" }}
 
         <button type="button" class="btn" tabindex="4" {{action "contract" on="click" target="view"}}>
             {{t 'cancel'}}

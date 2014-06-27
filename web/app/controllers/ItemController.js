@@ -1,5 +1,7 @@
 Wallblog.ItemController = Ember.ObjectController.extend({
 
+    needs: ['application'],
+
     // Computed properties
     dateFormat: function() {
         return Ember.I18n.translations["dateFormat"];

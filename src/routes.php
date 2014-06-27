@@ -7,14 +7,19 @@ $app->post('/auth/login', function(Request $request) use($app) {
     $email = $app->escape($request->get('email'));
     $password = $request->get('password');
     $user = $app['user_service']->login($email, $password);
-    
+
     if ($user) {
         $app['session']->set('email', $user['email']);
         $app['monolog']->addDebug("Login success : session " . $request->getSession()->getId());
-        return new Response($user['id'], 200);
+
+        $response = new Response($user['id'], 200);
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        return $response;
     } else {
         $app['monolog']->addDebug("Login failed : user not found");
-        return new Response("user not found", 404);
+        $response = new Response("user not found", 404);
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        return $response;
     }
 });
 

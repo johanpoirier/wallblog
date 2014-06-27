@@ -1,4 +1,5 @@
 @import "../vendor/bootstrap/less/bootstrap";
+@icon-font-path: "../vendor/bootstrap/fonts/";
 
 @font-face {
   font-family: 'SansationRegular';
@@ -100,8 +101,9 @@ header .description {
   font-weight: bold;
 }
 
-header img.beta, header img.admin, header img.upload {
+header img.admin, header img.upload {
   border: 0;
+  cursor: pointer;
   position: absolute;
   right: 0;
   top: 0;
@@ -254,10 +256,9 @@ header img.beta, header img.admin, header img.upload {
 
 .comment .delete {
   cursor: pointer;
-  display: none;
-  margin-top: -3px;
   position: absolute;
-  right: 23px;
+  right: 6px;
+  top: 6px;
 }
 
 .commentForm .masked {
@@ -313,6 +314,22 @@ header img.beta, header img.admin, header img.upload {
 .videos .upload-video {
   margin: 0px 0 25px 0;
   text-align: center;
+}
+
+.modal {
+  display: block;
+  margin-top: 100px;
+  overflow: hidden;
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1035;
 }
 
 .largeModal .upload-image {
@@ -422,6 +439,10 @@ form {
 
 .hidden {
   display: none;
+}
+
+.close {
+  font-family: Helvetica;
 }
 
 @media (max-width: 700px) {

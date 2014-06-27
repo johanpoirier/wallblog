@@ -7,7 +7,7 @@ var gulp       = require('gulp'),
 
 var paths = {
   scripts: ['app/wallblog.js', 'app/**/*.js'],
-  templates: 'app/templates/*.hbs',
+  templates: 'app/templates/**/*.hbs',
   less: 'less/*'
 };
 

@@ -1,6 +1,8 @@
 <div class="col-md-11 comment">
     <span class="author">{{author}}</span>
-    <span class="delete"><i class="icon-remove"></i></span>
+{{#if controllers.application.isLogged}}
+    <span class="delete glyphicon glyphicon-remove" alt="delete" {{translateAttr title="deleteComment"}} {{action "delete"}}></span>
+{{/if}}
     <span class="date">{{format-date date dateFormat}}</span>
     <span>{{text}}</span>
 </div>
