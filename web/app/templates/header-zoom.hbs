@@ -6,8 +6,12 @@
             {{/link-to}}
             <span class="date">{{format-date date 'D MMMM YYYY'}}</span>
             <span class="description">
-            {{#if description}} : {{description}} {{else}}
-                {{#if controllers.application.isLogged}} : {{t addDescription}} {{/if}}
+            {{#if isEditing}}
+                : {{input type="text" name="description" value=model.description placeholderTranslation="enterDescription" size="40" focus-out="unedit" action="update"}}
+            {{else}}
+                : <span {{action "edit" on="doubleClick"}}>
+                    {{#if description}} {{description}} {{else}} {{t addDescription}} {{/if}}
+                </span>
             {{/if}}
             </span>
         {{#if controllers.application.isLogged}}

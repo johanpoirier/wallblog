@@ -2,6 +2,8 @@ Wallblog.ItemController = Ember.ObjectController.extend({
 
     needs: ['application'],
 
+    isEditing: false,
+
     // Computed properties
     dateFormat: function() {
         return Ember.I18n.translations["dateFormat"];
@@ -31,6 +33,22 @@ Wallblog.ItemController = Ember.ObjectController.extend({
             newComment["date"] = moment().format("YYYY-MM-DD HH:mm:ss");
             var comment = this.store.createRecord('Comment', newComment);
             comment.save();
+        },
+
+        edit: function() {
+            this.set("isEditing", true);
+        },
+
+        unedit: function() {
+            this.set("isEditing", false);
+        },
+
+        update: function() {
+            var item = this.get("model");
+            console.debug(item.get("description"));
+            item.save().then(_.bind(function() {
+                this.set("isEditing", false);
+            }, this));
         }
     }
 });
