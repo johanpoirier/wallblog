@@ -36,7 +36,9 @@ Wallblog.ItemController = Ember.ObjectController.extend({
         },
 
         edit: function() {
-            this.set("isEditing", true);
+            if(this.get("controllers.application").get("isLogged")) {
+                this.set("isEditing", true);
+            }
         },
 
         unedit: function() {
@@ -45,10 +47,20 @@ Wallblog.ItemController = Ember.ObjectController.extend({
 
         update: function() {
             var item = this.get("model");
-            console.debug(item.get("description"));
             item.save().then(_.bind(function() {
                 this.set("isEditing", false);
             }, this));
+        },
+
+        delete: function() {
+            if(window.confirm(Ember.I18n.translations["confirmDeletePicture"])) {
+                var item = this.get("model");
+                item.deleteRecord();
+                item.save();
+
+                // bubble action to router
+                return true;
+            }
         }
     }
 });

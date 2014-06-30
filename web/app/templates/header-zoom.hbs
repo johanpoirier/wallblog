@@ -15,7 +15,7 @@
             {{/if}}
             </span>
         {{#if controllers.application.isLogged}}
-            <span class="delete" style="display: inline;">
+            <span class="delete" style="display: inline;" {{action "delete"}}>
                 {{t 'deletePicture'}}
             </span>
         {{/if}}

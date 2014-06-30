@@ -288,7 +288,9 @@ function program8(depth0,data) {
 function program10(depth0,data) {
   
   var buffer = '', helper, options;
-  data.buffer.push("\r\n            <span class=\"delete\" style=\"display: inline;\">\r\n                ");
+  data.buffer.push("\r\n            <span class=\"delete\" style=\"display: inline;\" ");
+  data.buffer.push(escapeExpression(helpers.action.call(depth0, "delete", {hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data})));
+  data.buffer.push(">\r\n                ");
   data.buffer.push(escapeExpression((helper = helpers.t || (depth0 && depth0.t),options={hash:{},hashTypes:{},hashContexts:{},contexts:[depth0],types:["STRING"],data:data},helper ? helper.call(depth0, "deletePicture", options) : helperMissing.call(depth0, "t", "deletePicture", options))));
   data.buffer.push("\r\n            </span>\r\n        ");
   return buffer;

@@ -144,12 +144,11 @@ $api2->put('/items/{id}', function (Application $app, Request $request, $id) {
     if ($request->hasSession()) {
         $user = $app['user_service']->getByEmail($request->getSession()->get('email'));
         if ($user) {
-            $item = json_decode($request->getContent(), true);
-            if($item['id'] == $id) {
-                unset($item['comments']);
-                unset($item['like']);
-                $app['picture_service']->update($item);
-            }
+            $itemRoot = json_decode($request->getContent(), true);
+            $itemRoot['item']['id'] = $id;
+            $item = $itemRoot["item"];
+            unset($item['like']);
+            $app['picture_service']->update($item);
         }
         else {
             $app['monolog']->addInfo("user not found in session");
@@ -158,7 +157,7 @@ $api2->put('/items/{id}', function (Application $app, Request $request, $id) {
     else {
         $app['monolog']->addInfo("no session found");
     }
-    return $app['json']->constructJsonResponse($item);
+    return $app['json']->constructJsonResponse($itemRoot);
 });
 
 $api2->post('/items', function (Application $app, Request $request) {

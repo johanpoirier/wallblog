@@ -33,3 +33,12 @@ Wallblog.ItemsRoute = Ember.Route.extend({
         });
     }
 });
+
+Wallblog.ItemRoute = Ember.Route.extend({
+    actions: {
+        delete: function() {
+            console.debug("transition to items");
+            this.transitionTo('items');
+        }
+    }
+});
