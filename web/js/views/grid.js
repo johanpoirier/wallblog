@@ -27,7 +27,9 @@ define(['underscore',
             events: {
                 dragover: "handleDragOver",
                 drop: "handleFileSelect",
-                "click .item": "zoom"
+                "click .item": "zoom",
+                "touchstart .item": "touchstart",
+                "touchend .item": "touchend"
             },
 
             initialize: function (options) {
@@ -263,11 +265,31 @@ define(['underscore',
             },
 
             zoom: function (e) {
+                e.originalEvent.preventDefault();
+
                 var item = this.$(e.currentTarget);
                 window.currentScollPosition = $(document).scrollTop();
                 Backbone.history.navigate("/item/" + item.find("img").attr("id"), true);
 
                 return false;
+            },
+
+            touchstart: function(e) {
+                this.touchStartPoint = {
+                    x: e.originalEvent.changedTouches[0].pageX,
+                    y: e.originalEvent.changedTouches[0].pageY
+                };
+            },
+
+            touchend: function(e) {
+                var touchEndPoint = {
+                    x: e.originalEvent.changedTouches[0].pageX,
+                    y: e.originalEvent.changedTouches[0].pageY
+                };
+                if(Math.abs(touchEndPoint.y - this.touchStartPoint.y) < 10) {
+                    this.zoom(e);
+                }
+                this.touchStartPoint = null;
             },
 
             filterItems: function (month, year) {
