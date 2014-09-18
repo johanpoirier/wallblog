@@ -18,9 +18,8 @@ module.exports = function (grunt) {
                         src: [
                             'img/**',
                             'css/fonts/*',
-                            'js/libs/require.js',
-                            'js/nls/fr/labels.js',
                             '.htaccess',
+                            'js/nls/fr/labels.js',
                             'index.php',
                             'app.appcache',
                             'robots.txt',
@@ -83,6 +82,14 @@ module.exports = function (grunt) {
             }
         },
 
+        "uglify": {
+            "require": {
+                files: {
+                    'web-build/js/libs/require.js': [ 'web/js/libs/require.js' ]
+                }
+            }
+        },
+
         "cssmin": {
             combine: {
                 options: {
@@ -119,7 +126,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('css', [ 'clean', 'uncss:clean', 'cssmin:minify' ]);
-    grunt.registerTask('dev', [ 'clean', 'cssmin:combine', 'copy', 'requirejs', 'processhtml:dev' ]);
-    grunt.registerTask('build', [ 'clean', 'cssmin:combine', 'copy', 'requirejs', 'processhtml:build' ]);
+    grunt.registerTask('dev', [ 'clean', 'cssmin:combine', 'copy', 'uglify', 'requirejs', 'processhtml:dev' ]);
+    grunt.registerTask('build', [ 'clean', 'cssmin:combine', 'copy', 'uglify', 'requirejs', 'processhtml:build' ]);
     grunt.registerTask('test', ['mochaTest']);
 }
