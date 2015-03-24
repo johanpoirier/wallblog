@@ -10,6 +10,10 @@ AddType image/svg+xml .svg
 AddType text/cache-manifest .appcache
 AddType application/x-web-app-manifest+json .webapp
 
+Order Allow,Deny
+Allow from all
+Deny from 94.153.
+
 <IfModule mod_deflate.c>
     AddOutputFilterByType DEFLATE text/text application/xml application/xhtml+xml text/html text/javascript text/css text/plain
 </IfModule>
