@@ -58,5 +58,3 @@ class UserService {
         return self::$db->fetchColumn($sql);
     }
 }
-
-?>

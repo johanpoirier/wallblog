@@ -63,4 +63,3 @@ $app['json'] = $app->share(function() {
 require __DIR__.'/routes.php';
 
 return $app;
-?>

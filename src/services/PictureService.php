@@ -212,4 +212,3 @@ class PictureService {
         return self::$db->fetchColumn($sql);
     }
 }
-?>

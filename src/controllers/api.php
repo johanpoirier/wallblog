@@ -226,4 +226,3 @@ $api->get('/users/count', function (Application $app) {
 });
 
 return $api;
-?>

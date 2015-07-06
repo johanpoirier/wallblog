@@ -54,5 +54,3 @@ class CommentService {
         return self::$db->exec($sql);
     }
 }
-
-?>

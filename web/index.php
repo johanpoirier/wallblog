@@ -4,4 +4,3 @@ $api = require __DIR__ . '/../src/controllers/api.php';
 $wallblog->mount('/api', $api);
 
 $wallblog->run();
-?>
