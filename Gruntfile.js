@@ -55,7 +55,7 @@ module.exports = function (grunt) {
                     mainConfigFile: "web/js/config.js",
                     name:'main',
                     out: "web-build/js/main.js",
-                    optimize: "none",
+                    optimize: "uglify2",
                     preserveLicenseComments: false,
                     findNestedDependencies: true,
                     inlineText: true
