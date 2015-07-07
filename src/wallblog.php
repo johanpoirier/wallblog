@@ -4,6 +4,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/services/JSonService.php';
 require_once __DIR__ . '/services/UserService.php';
 require_once __DIR__ . '/services/PictureService.php';
+require_once __DIR__ . '/services/VideoService.php';
 require_once __DIR__ . '/services/CommentService.php';
 
 include __DIR__ . '/config.php';
@@ -48,6 +49,9 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 /** Services */
 $app['picture_service'] = $app->share(function() use ($app, $config) {
     return new services\PictureService($app['db'], $app['monolog'], $config);
+});
+$app['video_service'] = $app->share(function() use ($app, $config) {
+    return new services\VideoService($app['db'], $app['monolog'], $config);
 });
 $app['user_service'] = $app->share(function() use ($app, $config) {
     return new services\UserService($app['db'], $app['monolog'], $config);

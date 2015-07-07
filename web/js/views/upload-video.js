@@ -24,7 +24,7 @@ define(['backbone',
             },
 
             initialize: function() {
-                this.formats = [ { ext: "ogv", label: labels["video-ogv"] }, { ext: "mp4", label: labels["video-mp4"] }, { ext: "webm", label: labels["video-webm"] } ]
+                this.formats = [ { ext: "dm", label: labels["video-dm"], placeholder: labels["videoUrlPlaceholder"] } ]
                 this.render();
                 this.$el.modal();
             },
@@ -41,12 +41,22 @@ define(['backbone',
                 this.$(".btn").attr("disabled", "disabled");
                 this.$(".icon-white").removeClass("icon-white").addClass("icon-upload");
 
+                var videos = [];
+                var videoInputs = this.$el.find("input[type='url']");
+                var el = this.$el;
+                videoInputs.each(function() {
+                    videos.push({
+                        'url': $(this).val(),
+                        'date': el.find("input[name='" + $(this).attr('id') + "-date']").val()
+                    });
+                });
+
                 $.ajax({
                     type: "POST",
-                    url: "api/items",
+                    url: "api/videos",
                     dataType: "json",
                     contentType: "application/json",
-                    data: JSON.stringify(this.options.pictures),
+                    data: JSON.stringify(videos),
                     success: _.bind(function() {
                         this.$el.modal('hide');
                         Pubsub.trigger(AppEvents.ITEMS_UPLOADED);

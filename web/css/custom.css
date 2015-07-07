@@ -229,6 +229,9 @@ header img.beta, header img.admin, header img.upload {
     margin: 0px 0 25px 0;
     text-align: center;
 }
+.upload-video input {
+    width: 95%;
+}
 
 .largeModal .upload-image {
     float: left;

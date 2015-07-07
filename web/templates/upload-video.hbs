@@ -3,12 +3,13 @@
     <h3 id="myModalLabel">{{labels.uploadVideoTitle}}</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" enctype="multipart/form-data" method="post" action="">
+    <form class="form-horizontal" method="post" action="">
         <div class="videos">
         {{#each formats}}
             <div class="upload-video">
-                <label for="video-{{this.ext}}">{{this.label}}</label>
-                <input type="file" name="video-{{this.ext}}" id="video-{{this.ext}}" />
+                <label for="video-{{this.ext}}-datetime">{{this.label}}</label>
+                <input type="date" name="video-{{this.ext}}-date" placeholder="Date de la vidéo (ex: 2015/05/12)" />
+                <input type="url" name="video-{{this.ext}}" id="video-{{this.ext}}" placeholder="{{this.placeholder}}" />
             </div>
         {{/each}}
         </div>

@@ -188,6 +188,28 @@ $api->post('/items', function (Application $app, Request $request) {
     }
 });
 
+$api->post('/videos', function (Application $app, Request $request) {
+	if ($request->hasSession()) {
+		$user = $app['user_service']->getByEmail($request->getSession()->get('email'));
+		if ($user) {
+			$videos = json_decode($request->getContent(), true);
+			foreach ($videos as $video) {
+				$item = $app['video_service']->add($video['url'], /*$video['description']*/ null, $video['date']);
+			}
+		}
+	}
+	else {
+		$app['monolog']->addDebug("[session " . $request->getSession()->getId() . "] can't upload video, user " . $request->getSession()->get('email') . " not found in session");
+	}
+
+	if($item) {
+		return $app['json']->constructJsonResponse($item);
+	}
+	else {
+		return new Response("problem during video upload", 500);
+	}
+});
+
 $api->get('/items/count', function (Application $app) {
 	return $app['json']->constructJsonResponse($app['picture_service']->count());
 });

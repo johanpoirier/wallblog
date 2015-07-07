@@ -9,36 +9,36 @@ namespace services;
  */
 class PictureService {
 
-    private static $db;
-    private static $table_name;
-    private static $logger;
-    private static $dir;
+    protected $db;
+    protected $table_name;
+    protected $logger;
+    protected $dir;
 
     public function __construct($db, $app_logger, $config) {
-        self::$db = $db;
-        self::$logger = $app_logger;
-        self::$table_name = $config["prefix"] . "__item";
-        self::$dir = __DIR__ . '/../../web/pictures';
+        $this->db = $db;
+        $this->logger = $app_logger;
+        $this->table_name = $config["prefix"] . "__item";
+        $this->dir = __DIR__ . '/../../web/pictures';
     }
 
     public function get($nb, $index) {
-        $sql = "SELECT * FROM " . self::$table_name . " ORDER BY date DESC" . " LIMIT " . $index . ", " . $nb;
-        return self::$db->fetchAll($sql);
+        $sql = "SELECT * FROM " . $this->table_name . " ORDER BY date DESC" . " LIMIT " . $index . ", " . $nb;
+        return $this->db->fetchAll($sql);
     }
 
     public function getByDate($value) {
-        $sql = "SELECT * FROM " . self::$table_name . " WHERE date LIKE '" . $value . "%' ORDER BY date DESC";
-        return self::$db->fetchAll($sql);
+        $sql = "SELECT * FROM " . $this->table_name . " WHERE date LIKE '" . $value . "%' ORDER BY date DESC";
+        return $this->db->fetchAll($sql);
     }
 
     public function getAll() {
-        $sql = "SELECT * FROM " . self::$table_name . " ORDER BY date DESC";
-        return self::$db->fetchAll($sql);
+        $sql = "SELECT * FROM " . $this->table_name . " ORDER BY date DESC";
+        return $this->db->fetchAll($sql);
     }  
     
     public function listIds() {
-        $sql = "SELECT id FROM " . self::$table_name . " ORDER BY date DESC";
-        $listIds = self::$db->fetchAll($sql);
+        $sql = "SELECT id FROM " . $this->table_name . " ORDER BY date DESC";
+        $listIds = $this->db->fetchAll($sql);
         $res = array();
         foreach ($listIds as $value) {
             $res[] = $value['id'];
@@ -47,14 +47,14 @@ class PictureService {
     }
 
     public function getById($id) {
-        $sql = "SELECT * FROM " . self::$table_name . " WHERE id = ?";
-        $picture = self::$db->fetchAssoc($sql, array($id));
+        $sql = "SELECT * FROM " . $this->table_name . " WHERE id = ?";
+        $picture = $this->db->fetchAssoc($sql, array($id));
         
         // previous picture
         $prev = false;
         $prevId = $id - 1;
         while(!$prev && $prevId > 0) {
-            $prev = self::$db->fetchAssoc($sql, array($prevId--));
+            $prev = $this->db->fetchAssoc($sql, array($prevId--));
         }
         if($prev) {
             $picture['prevId'] = $prev['id'];
@@ -65,7 +65,7 @@ class PictureService {
         $nextId = $id + 1;
         $maxId = $this->getMaxId();
         while(!$next && $nextId < $maxId) {
-            $next = self::$db->fetchAssoc($sql, array($nextId++));
+            $next = $this->db->fetchAssoc($sql, array($nextId++));
         }
         if($next) {
             $picture['nextId'] = $next['id'];
@@ -75,15 +75,15 @@ class PictureService {
     }
 
     public function count() {
-        $sql = "SELECT COUNT(*) FROM " . self::$table_name;
-        return self::$db->fetchColumn($sql);
+        $sql = "SELECT COUNT(*) FROM " . $this->table_name;
+        return $this->db->fetchColumn($sql);
     }
 
     public function add($file_name, $description = null, $date = null) {
         $item["file"] = $file_name;
         $item["description"] = $description;
         if (!$date) {
-            $exif_data = @exif_read_data(self::$dir . "/" . $file_name);
+            $exif_data = @exif_read_data($this->dir . "/" . $file_name);
             if ($exif_data !== false) {
                 if (isset($exif_data['DateTimeOriginal'])) {
                     $date = $exif_data['DateTimeOriginal'];
@@ -91,19 +91,19 @@ class PictureService {
                 if (empty($date) && isset($exif_data['DateTime'])) {
                     $date = $exif_data['DateTime'];
                 }
-                self::$logger->debug("exif date of " . $file_name . " : " . $date);
+                $this->logger->debug("exif date of " . $file_name . " : " . $date);
             }
         }
         $item["date"] = ($date == null) ? date("Y-M-d") : $date;
 
         // resize in 3 sizes
-        $this->resize(self::$dir . "/" . $file_name, 1600, 85);
-        copy(self::$dir . "/" . $file_name, self::$dir . "/m1_" . $file_name);
-        $this->resize(self::$dir . "/m1_" . $file_name, 1024, 75);
-        copy(self::$dir . "/" . $file_name, self::$dir . "/m2_" . $file_name);
-        $this->resize(self::$dir . "/m2_" . $file_name, 640, 75);
+        $this->resize($this->dir . "/" . $file_name, 1600, 85);
+        copy($this->dir . "/" . $file_name, $this->dir . "/m1_" . $file_name);
+        $this->resize($this->dir . "/m1_" . $file_name, 1024, 75);
+        copy($this->dir . "/" . $file_name, $this->dir . "/m2_" . $file_name);
+        $this->resize($this->dir . "/m2_" . $file_name, 640, 75);
         
-        $image_info = getimagesize(self::$dir . "/" . $file_name);
+        $image_info = getimagesize($this->dir . "/" . $file_name);
         $item["ratio"] = $image_info[0] / $image_info[1];
         $item["reverseRatio"] = $image_info[1] / $image_info[0];
 
@@ -111,9 +111,9 @@ class PictureService {
     }
 
     public function insert($item) {
-        $res = self::$db->insert(self::$table_name, $item);
+        $res = $this->db->insert($this->table_name, $item);
         if ($res == 1) {
-            $id = self::$db->lastInsertId(self::$table_name);
+            $id = $this->db->lastInsertId($this->table_name);
             return $this->getById($id);
         } else {
             return null;
@@ -121,11 +121,11 @@ class PictureService {
     }
 
     public function update($item) {
-        self::$logger->addDebug("updating item : " . $item['id']);
+        $this->logger->addDebug("updating item : " . $item['id']);
         unset($item['prevId']);
         unset($item['nextId']);
-        $res = self::$db->update(self::$table_name, $item, array('id' => $item['id']));
-        self::$logger->addDebug("updating item result = " . $res);
+        $res = $this->db->update($this->table_name, $item, array('id' => $item['id']));
+        $this->logger->addDebug("updating item result = " . $res);
         if ($res == 1) {
             return self::getById($item['id']);
         }
@@ -133,13 +133,13 @@ class PictureService {
     }
 
     public function delete($id) {
-        self::$logger->addDebug("deleting item : " . $id);
-        self::$db->delete(self::$table_name, array("id" => $id));
+        $this->logger->addDebug("deleting item : " . $id);
+        $this->db->delete($this->table_name, array("id" => $id));
     }
 
     public function deleteAll() {
-        $sql = "DELETE FROM " . self::$table_name;
-        return self::$db->exec($sql);
+        $sql = "DELETE FROM " . $this->table_name;
+        return $this->db->exec($sql);
     }
 
     public function getExtension($file_name) {
@@ -151,7 +151,7 @@ class PictureService {
     public function resize($filename, $maxDimension, $quality = 90) {
         $image_info = getimagesize($filename);
         $image_type = $image_info[2];
-        //self::$logger->debug("image type : " . $image_type);
+        //$this->logger->debug("image type : " . $image_type);
         if ($image_type == IMAGETYPE_JPEG) {
             $image = imagecreatefromjpeg($filename);
         } elseif ($image_type == IMAGETYPE_PNG) {
@@ -161,7 +161,7 @@ class PictureService {
         $image_width = imagesx($image);
         $image_height = imagesy($image);
         $image_ratio = $image_width / $image_height;
-        //self::$logger->debug("image ratio : " . $image_ratio);
+        //$this->logger->debug("image ratio : " . $image_ratio);
         $resize_ratio = 1;
         if ($image_ratio >= 1) {
             if ($maxDimension < $image_width) {
@@ -176,8 +176,8 @@ class PictureService {
                 $new_image_width = $resize_ratio * $image_width;
             }
         }
-        //self::$logger->debug("resize ratio : " . $resize_ratio);
-        //self::$logger->debug("new dimensions : " . $new_image_width . " x " . $new_image_height);
+        //$this->logger->debug("resize ratio : " . $resize_ratio);
+        //$this->logger->debug("new dimensions : " . $new_image_width . " x " . $new_image_height);
 
         if ($resize_ratio != 1) {
             $new_image = imagecreatetruecolor($new_image_width, $new_image_height);
@@ -195,20 +195,20 @@ class PictureService {
         $items = self::getAll();
         for ($i = 0; $i < sizeof($items); $i++) {
             $item = $items[$i];
-            if(!file_exists(self::$dir . "/m1_" . $item['file'])) {
-                self::$logger->addDebug("rebuilding item : " . $item['file']);
-                copy(self::$dir . "/" . $item['file'], self::$dir . "/m1_" . $item['file']);
-                $this->resize(self::$dir . "/m1_" . $item['file'], 1024, 75);
-                copy(self::$dir . "/" . $item['file'], self::$dir . "/m2_" . $item['file']);
-                $this->resize(self::$dir . "/m2_" . $item['file'], 640, 75);
-                $image_info = getimagesize(self::$dir . "/" . $item['file']);
-                self::$db->update(self::$table_name, array("ratio" => $image_info[0] / $image_info[1], "reverseRatio" => $image_info[1] / $image_info[0]), array('id' => $item['id']));
+            if(!file_exists($this->dir . "/m1_" . $item['file'])) {
+                $this->logger->addDebug("rebuilding item : " . $item['file']);
+                copy($this->dir . "/" . $item['file'], $this->dir . "/m1_" . $item['file']);
+                $this->resize($this->dir . "/m1_" . $item['file'], 1024, 75);
+                copy($this->dir . "/" . $item['file'], $this->dir . "/m2_" . $item['file']);
+                $this->resize($this->dir . "/m2_" . $item['file'], 640, 75);
+                $image_info = getimagesize($this->dir . "/" . $item['file']);
+                $this->db->update($this->table_name, array("ratio" => $image_info[0] / $image_info[1], "reverseRatio" => $image_info[1] / $image_info[0]), array('id' => $item['id']));
             }
         }
     }
     
     public function getMaxId() {
-        $sql = "SELECT MAX(id) FROM " . self::$table_name;
-        return self::$db->fetchColumn($sql);
+        $sql = "SELECT MAX(id) FROM " . $this->table_name;
+        return $this->db->fetchColumn($sql);
     }
 }

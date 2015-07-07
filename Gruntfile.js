@@ -21,9 +21,10 @@ module.exports = function (grunt) {
                             '.htaccess',
                             'js/nls/fr/labels.js',
                             'index.php',
-                            'app.appcache',
+                            '*.appcache',
                             'robots.txt',
-                            '*.ico'
+                            '*.ico',
+                            'pictures/*'
                         ],
                         dest: 'web-build'
                     }
@@ -54,7 +55,7 @@ module.exports = function (grunt) {
                     mainConfigFile: "web/js/config.js",
                     name:'main',
                     out: "web-build/js/main.js",
-                    optimize: "uglify2",
+                    optimize: "none",
                     preserveLicenseComments: false,
                     findNestedDependencies: true,
                     inlineText: true

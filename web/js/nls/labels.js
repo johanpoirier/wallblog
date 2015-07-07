@@ -17,6 +17,7 @@ define({
         "uploadVideoTitle": "Add video",
         "uploadPictures": "Upload",
         "uploadVideo": "Upload",
+        "videoUrlPlaceholder": "Please paste the URL of your video here",
         "deletePicture": "Delete this picture",
         "confirmDeletePicture": "Are you sure you want to delete this picture ?",
         "newUser": "Welcome to your WallBlog !",
@@ -26,9 +27,7 @@ define({
         "infoNewUser": "",
         "passwordsNotIdenticals": "passwords are not the same",
         "emailError": "email is not valid",
-        "video-webm": "WebM",
-        "video-ogv": "Ogg Vorbis",
-        "video-mp4": "MP4",
+        "video-dm": "DailyMotion",
         "filter": "Filter..."
     },
     "fr": true
