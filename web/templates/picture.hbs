@@ -1,10 +1,10 @@
-<img src="/pictures/m{{quality}}_{{file}}" alt="{{file}}" id="{{id}}" class="wall" />
-{{#if date}}
-    <span class="date">{{formatDate date labels.dateFormat}}</span>
+<img src="/pictures/m{{model.quality}}_{{model.file}}" alt="{{model.file}}" id="{{model.id}}" class="wall" />
+{{#if model.date}}
+    <span class="date">{{formatDate model.date labels.dateFormat}}</span>
 {{/if}}
-{{#if comments}}
-    <span class="nb-comments">{{comments.length}}</span>
+{{#if model.comments}}
+    <span class="nb-comments">{{model.comments.length}}</span>
 {{/if}}
-{{#if description}}
-    <span class="description">{{description}}</span>
+{{#if model.description}}
+    <span class="description">{{model.description}}</span>
 {{/if}}
