@@ -60,17 +60,17 @@ header img.beta, header img.admin, header img.upload {
     margin-bottom: 2%;
 }
 
-.column .item img, .column .item video {
+.column .item img, .column .item video, .column .item iframe {
     cursor: pointer;
     position: relative;
     width: 100%;
 }
-.column .item img, .column .item video, .picture img {
+.column .item img, .column .item video, .column .item iframe, .picture img {
     -moz-box-shadow: 1px 1px 5px #999;
     -webkit-box-shadow: 1px 1px 5px #999;
     box-shadow: 1px 1px 5px #999;
 }
-.column .item img:hover, .column .item video:hover {
+.column .item img:hover, .column .item video:hover, .column .item iframe:hover {
     -moz-box-shadow: 2px 2px 6px #FFFFBC;
     -webkit-box-shadow: 2px 2px 6px #FFFFBC;
     box-shadow: 2px 2px 6px #FFFFBC;

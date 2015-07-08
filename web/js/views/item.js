@@ -22,7 +22,13 @@ function($, Backbone, labels, ItemZoomView, pictureTmpl, videoTmpl) {
             this.model.set("quality", options.quality);
             if(this.model.get("type") === "video") {
                 this.template = videoTmpl;
+                this.context.width = this.root.width();
+                this.context.height = Math.round(this.root.width() * this.model.get("reverseRatio"));
             }
+        },
+
+        render: function() {
+            ItemView.__super__.render.apply(this, arguments);
         }
     });
     return ItemView;

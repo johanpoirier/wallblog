@@ -28,6 +28,8 @@ class VideoService extends PictureService {
         $item["file"] = $url;
         $item["description"] = $description;
         $item["type"] = 'video';
+        $item["ratio"] = 1280 / 720;
+        $item["reverseRatio"] = 720 / 1280;
         $item["date"] = $date . " 00:00:00" || date("Y-M-d H:i:s");
 
         return $this->insert($item);

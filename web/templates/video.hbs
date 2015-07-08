@@ -1,6 +1,12 @@
-<iframe src="//www.dailymotion.com/embed/video/{{model.file}}?api={{apiKey}}&html=true"
-        width="300"
-        height="200"
+<iframe src="//www.dailymotion.com/embed/video/{{model.file}}?api={{apiKey}}&html=1&info=0&logo=0&related=0"
+        width="{{width}}"
+        height="{{height}}"
         frameborder="0"
-        allowfullscreen>
+        webkitallowfullscreen mozallowfullscreen allowfullscreen>
 </iframe>
+{{#if model.date}}
+    <span class="date">{{formatDate model.date labels.dateFormat}}</span>
+{{/if}}
+{{#if model.description}}
+    <span class="description">{{model.description}}</span>
+{{/if}}
