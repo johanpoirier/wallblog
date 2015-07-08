@@ -46,7 +46,7 @@ define(['backbone',
                 var el = this.$el;
                 videoInputs.each(function() {
                     videos.push({
-                        'url': $(this).val(),
+                        'url': $(this).val().split("/").pop(),
                         'date': el.find("input[name='" + $(this).attr('id') + "-date']").val()
                     });
                 });

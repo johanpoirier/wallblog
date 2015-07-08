@@ -189,6 +189,7 @@ $api->post('/items', function (Application $app, Request $request) {
 });
 
 $api->post('/videos', function (Application $app, Request $request) {
+	$item = null;
 	if ($request->hasSession()) {
 		$user = $app['user_service']->getByEmail($request->getSession()->get('email'));
 		if ($user) {
@@ -197,9 +198,9 @@ $api->post('/videos', function (Application $app, Request $request) {
 				$item = $app['video_service']->add($video['url'], /*$video['description']*/ null, $video['date']);
 			}
 		}
-	}
-	else {
-		$app['monolog']->addDebug("[session " . $request->getSession()->getId() . "] can't upload video, user " . $request->getSession()->get('email') . " not found in session");
+		else {
+			$app['monolog']->addDebug("[session " . $request->getSession()->getId() . "] can't upload video, user " . $request->getSession()->get('email') . " not found in session");
+		}
 	}
 
 	if($item) {

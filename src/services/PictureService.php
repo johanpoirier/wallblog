@@ -94,7 +94,7 @@ class PictureService {
                 $this->logger->debug("exif date of " . $file_name . " : " . $date);
             }
         }
-        $item["date"] = ($date == null) ? date("Y-M-d") : $date;
+        $item["date"] = ($date == null) ? date("Y-M-d H:i:s") : $date;
 
         // resize in 3 sizes
         $this->resize($this->dir . "/" . $file_name, 1600, 85);
