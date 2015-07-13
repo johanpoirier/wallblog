@@ -28,7 +28,6 @@ define(['underscore',
             events: {
                 dragover: "handleDragOver",
                 drop: "handleFileSelect",
-                "click .item": "zoom",
                 "touchstart .item": "touchstart",
                 "touchend .item": "touchend"
             },
@@ -271,16 +270,6 @@ define(['underscore',
 
             listenToScroll: function () {
                 $(window).scroll(_.bind(this.loadMore, this));
-            },
-
-            zoom: function (e) {
-                e.originalEvent.preventDefault();
-
-                var item = this.$(e.currentTarget);
-                window.currentScollPosition = $(document).scrollTop();
-                Backbone.history.navigate("/item/" + item.find("img").attr("id"), true);
-
-                return false;
             },
 
             touchstart: function(e) {

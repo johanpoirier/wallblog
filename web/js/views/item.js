@@ -10,11 +10,21 @@ function($, Backbone, labels, ItemZoomView, pictureTmpl) {
         
         template: pictureTmpl,
         labels: labels,
-        className: "item",
-        strategy: "append",
+        className: 'item',
+        strategy: 'append',
+
+        events: {
+            'click': 'zoom'
+        },
 
         initialize: function(options) {
-            this.model.set("quality", options.quality);
+            this.model.set('quality', options.quality);
+        },
+
+        zoom: function () {
+            window.currentScollPosition = $(document).scrollTop();
+            Backbone.history.navigate('/item/' + this.model.get('id'), true);
+            return false;
         }
     });
     return ItemView;

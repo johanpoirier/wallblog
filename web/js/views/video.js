@@ -22,6 +22,11 @@ function($, Item, labels, videoTmpl) {
                 dailymotion: (url.match(/dailymotion/) !== null),
                 videoId: url.split('/').pop()
             };
+        },
+
+        zoom: function() {
+            // remove description block which prevent the user from using player interface
+            this.$el.find('.description').remove();
         }
     });
     return VideoView;

@@ -26,6 +26,8 @@ define({
     "infoNewUser": "Vous devez créer un compte pour pouvoir charger des images sur le site, modérer les commentaires et modifier vos photos.",
     "passwordsNotIdenticals": "la confirmation doit être identique au mot de passe",
     "emailError": "l'email n'est pas valide",
-    "video-dm": "DailyMotion",
+    "video-dailymotion": "DailyMotion",
+    "video-youtube": "Youtube",
+    "video-vimeo": "Vimeo",
     "filter": "Filtrer..."
 });
