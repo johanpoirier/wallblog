@@ -1,4 +1,12 @@
-<iframe src="//www.dailymotion.com/embed/video/{{model.file}}?api={{apiKey}}&html=1&info=0&logo=0&related=0"
+{{#if dailymotion}}
+<iframe src="//www.dailymotion.com/embed/video/{{videoId}}?html=1&info=0&logo=0&related=0"
+{{/if}}
+{{#if youtube}}
+    <iframe id="ytplayer" type="text/html" src="http://www.youtube.com/embed/{{videoId}}?autoplay=0&showinfo=0&playsinline=1"
+{{/if}}
+{{#if vimeo}}
+    <iframe src="//player.vimeo.com/video/{{videoId}}?title=0"
+{{/if}}
         width="{{width}}"
         height="{{height}}"
         frameborder="0"

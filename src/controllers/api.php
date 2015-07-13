@@ -195,7 +195,7 @@ $api->post('/videos', function (Application $app, Request $request) {
 		if ($user) {
 			$videos = json_decode($request->getContent(), true);
 			foreach ($videos as $video) {
-				$item = $app['video_service']->add($video['url'], /*$video['description']*/ null, $video['date']);
+				$item = $app['video_service']->add($video['url'], $video['description'], $video['date']);
 			}
 		}
 		else {

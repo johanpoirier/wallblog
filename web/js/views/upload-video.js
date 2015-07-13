@@ -1,16 +1,17 @@
 define(['backbone',
-    'i18n!nls/labels',
-    'hbs!templates/upload-video'],
+        'jquery',
+        'i18n!nls/labels',
+        'hbs!templates/upload-video'],
 
-    function(Backbone, labels, tmpl) {
+    function(Backbone, $, labels, tmpl) {
         var UploadVideoView = Backbone.View.extend({
-        
+
             template: tmpl,
             labels: labels,
             root: "#modal",
             tagName: "div",
             className: "modal",
-            
+
             attributes: {
                 id: "uploadModal",
                 tabindex: "-1",
@@ -18,13 +19,17 @@ define(['backbone',
                 "aria-labelledby": "Upload videos",
                 "aria-hidden": "true"
             },
-            
+
             events: {
                 submit: "submit"
             },
 
             initialize: function() {
-                this.formats = [ { ext: "dm", label: labels["video-dm"], placeholder: labels["videoUrlPlaceholder"] } ]
+                this.formats = [
+                    { ext: "dailymotion", label: labels["video-dailymotion"], placeholder: labels["videoUrlPlaceholder"] },
+                    { ext: "youtube", label: labels["video-youtube"], placeholder: labels["videoUrlPlaceholder"] },
+                    { ext: "vimeo", label: labels["video-vimeo"], placeholder: labels["videoUrlPlaceholder"] }
+                ]
                 this.render();
                 this.$el.modal();
             },
@@ -34,10 +39,10 @@ define(['backbone',
                     formats: this.formats
                 }]);
             },
-            
+
             submit: function(e) {
                 e.preventDefault();
-                
+
                 this.$(".btn").attr("disabled", "disabled");
                 this.$(".icon-white").removeClass("icon-white").addClass("icon-upload");
 
@@ -45,10 +50,15 @@ define(['backbone',
                 var videoInputs = this.$el.find("input[type='url']");
                 var el = this.$el;
                 videoInputs.each(function() {
-                    videos.push({
-                        'url': $(this).val().split("/").pop(),
-                        'date': el.find("input[name='" + $(this).attr('id') + "-date']").val()
-                    });
+                    var inputEl = $(this);
+                    if (inputEl.val().length > 0) {
+                        videos.push({
+                            'url': inputEl.val(),
+                            'type': inputEl.attr('id').split('-').pop(),
+                            'date': el.find("input[name='" + inputEl.attr('id') + "-date']").val(),
+                            'description': el.find("input[name='" + inputEl.attr('id') + "-description']").val()
+                        });
+                    }
                 });
 
                 $.ajax({

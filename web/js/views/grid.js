@@ -4,11 +4,12 @@ define(['underscore',
     'pubsub',
     'tools',
     'views/item',
+    'views/video',
     'views/upload',
     'hbs!templates/grid',
     'resthub-handlebars'],
 
-    function (_, Backbone, $, Pubsub, tools, ItemView, UploadView, gridTmpl) {
+    function (_, Backbone, $, Pubsub, tools, ItemView, VideoView, UploadView, gridTmpl) {
 
         var Grid = Backbone.View.extend({
             template: gridTmpl,
@@ -134,11 +135,19 @@ define(['underscore',
 
             renderModel: function (model) {
                 var shorterColumId = this.getShorterColumnId();
-                var view = new ItemView({
-                    root: this.$("#column" + shorterColumId),
-                    quality: this.thumbnailQuality,
-                    model: model
-                });
+                var view;
+                if (model.get('type') === 'video') {
+                    view = new VideoView({
+                        root: this.$("#column" + shorterColumId),
+                        model: model
+                    });
+                } else {
+                    view = new ItemView({
+                        root: this.$("#column" + shorterColumId),
+                        quality: this.thumbnailQuality,
+                        model: model
+                    });
+                }
                 this.columnsSize[shorterColumId - 1].value += parseFloat(model.get("reverseRatio"));
 
                 view.render();

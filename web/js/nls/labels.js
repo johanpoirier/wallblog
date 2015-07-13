@@ -27,7 +27,9 @@ define({
         "infoNewUser": "",
         "passwordsNotIdenticals": "passwords are not the same",
         "emailError": "email is not valid",
-        "video-dm": "DailyMotion",
+        "video-dailymotion": "DailyMotion",
+        "video-youtube": "Youtube",
+        "video-vimeo": "Vimeo",
         "filter": "Filter..."
     },
     "fr": true
