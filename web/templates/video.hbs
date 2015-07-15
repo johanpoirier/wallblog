@@ -1,5 +1,6 @@
+<div class="click-overlay" style="width:{{width}}px;height:{{height}}px;"></div>
 {{#if dailymotion}}
-<iframe src="//www.dailymotion.com/embed/video/{{videoId}}?html=1&info=0&logo=0&related=0&chromeless=1"
+    <iframe src="//www.dailymotion.com/embed/video/{{videoId}}?html=1&info=0&logo=0&related=0&chromeless=1"
 {{/if}}
 {{#if youtube}}
     <iframe id="ytplayer" type="text/html" src="http://www.youtube.com/embed/{{videoId}}?autoplay=0&showinfo=0&playsinline=1&fs=0&rel=0&theme=light"
@@ -11,7 +12,7 @@
         height="{{height}}"
         frameborder="0"
         webkitallowfullscreen mozallowfullscreen allowfullscreen>
-</iframe>
+    </iframe>
 {{#if model.date}}
     <span class="date">{{formatDate model.date labels.dateFormat}}</span>
 {{/if}}

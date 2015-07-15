@@ -22,9 +22,7 @@ define(['jquery',
       },
 
       zoom: function () {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        window.currentScollPosition = $(document).scrollTop();
+        window.currentScollPosition = $(window.document).scrollTop();
         Backbone.history.navigate('/item/' + this.model.get('id'), true);
         return false;
       }

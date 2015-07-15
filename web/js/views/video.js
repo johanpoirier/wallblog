@@ -12,6 +12,10 @@ define(['jquery',
       className: "item",
       strategy: "append",
 
+      events: {
+        'click .click-overlay': 'zoom'
+      },
+
       initialize: function () {
         var url = this.model.get('file');
         this.context = {
