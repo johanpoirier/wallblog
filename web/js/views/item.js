@@ -1,31 +1,33 @@
 define(['jquery',
-        'backbone',
-        'i18n!nls/labels',
-        'views/item-zoom',
-        'hbs!templates/picture'],
+    'backbone',
+    'i18n!nls/labels',
+    'views/item-zoom',
+    'hbs!templates/picture'],
 
-function($, Backbone, labels, ItemZoomView, pictureTmpl) {
-    
+  function ($, Backbone, labels, ItemZoomView, pictureTmpl) {
+
     var ItemView = Backbone.View.extend({
-        
-        template: pictureTmpl,
-        labels: labels,
-        className: 'item',
-        strategy: 'append',
 
-        events: {
-            'click': 'zoom'
-        },
+      template: pictureTmpl,
+      labels: labels,
+      className: 'item',
+      strategy: 'append',
 
-        initialize: function(options) {
-            this.model.set('quality', options.quality);
-        },
+      events: {
+        'click': 'zoom'
+      },
 
-        zoom: function () {
-            window.currentScollPosition = $(document).scrollTop();
-            Backbone.history.navigate('/item/' + this.model.get('id'), true);
-            return false;
-        }
+      initialize: function (options) {
+        this.model.set('quality', options.quality);
+      },
+
+      zoom: function () {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        window.currentScollPosition = $(document).scrollTop();
+        Backbone.history.navigate('/item/' + this.model.get('id'), true);
+        return false;
+      }
     });
     return ItemView;
-});
+  });

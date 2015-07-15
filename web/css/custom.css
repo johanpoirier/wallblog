@@ -65,7 +65,7 @@ header img.beta, header img.admin, header img.upload {
     position: relative;
     width: 100%;
 }
-.column .item img, .column .item video, .column .item iframe, .picture img {
+.column .item img, .column .item video, .column .item iframe, .picture img, .picture iframe {
     -moz-box-shadow: 1px 1px 5px #999;
     -webkit-box-shadow: 1px 1px 5px #999;
     box-shadow: 1px 1px 5px #999;
