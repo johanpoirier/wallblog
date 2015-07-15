@@ -74,9 +74,9 @@ define(['underscore',
       },
 
       render: function () {
+        this.context.picture = (this.model.get('type') === 'picture');
         if (this.model.get('type') === 'video') {
           var url = this.model.get('file');
-          this.context.picture = false;
           this.context.youtube = (url.match(/youtu/) !== null);
           this.context.vimeo = (url.match(/vimeo/) !== null);
           this.context.dailymotion = (url.match(/dailymotion/) !== null);
