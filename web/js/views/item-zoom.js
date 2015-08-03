@@ -62,8 +62,6 @@ define(['underscore',
             Backbone.history.navigate('/item/' + nextId, false);
           }
         }, this));
-
-        $(window).resize(_.bind(this.screenResize, this));
       },
 
       fetchItem: function (id) {
@@ -75,6 +73,10 @@ define(['underscore',
 
       render: function () {
         this.context.picture = (this.model.get('type') === 'picture');
+        if (this.context.picture) {
+          $(window).resize(_.bind(this.screenResize, this));
+        }
+
         if (this.model.get('type') === 'video') {
           var url = this.model.get('file');
           this.context.youtube = (url.match(/youtu/) !== null);
@@ -86,24 +88,27 @@ define(['underscore',
         ItemZoomView.__super__.render.apply(this);
 
         var localAvailableWidth = this.$el.find('.picture').outerWidth();
-        if (localAvailableWidth > this.minDesktopWidth) {
-          var itemEl = this.$("img, iframe");
-          var itemRatio = parseFloat(this.model.get("ratio"));
-          var displayRatio = localAvailableWidth / this.availableHeight;
 
-          // picture taller than display
-          if (displayRatio > itemRatio) {
-            itemEl.height(this.availableHeight);
-            itemEl.width(Math.round(this.availableHeight * itemRatio));
-          }
-          // display taller than picture
-          else {
-            var newHeight = Math.round(localAvailableWidth / itemRatio);
-            itemEl.width(localAvailableWidth);
-            itemEl.height(newHeight);
+        var itemEl = this.$("img, iframe");
+        var itemRatio = parseFloat(this.model.get("ratio"));
+        var displayRatio = localAvailableWidth / this.availableHeight;
+
+        // picture taller than display
+        if (displayRatio > itemRatio) {
+          itemEl.height(this.availableHeight);
+          itemEl.width(Math.round(this.availableHeight * itemRatio));
+        }
+        // display taller than picture
+        else {
+          var newHeight = Math.round(localAvailableWidth / itemRatio);
+          itemEl.width(localAvailableWidth);
+          itemEl.height(newHeight);
+          if (localAvailableWidth > this.minDesktopWidth) {
             itemEl.css("margin-top", Math.round((this.availableHeight - newHeight) / 2));
           }
+        }
 
+        if (localAvailableWidth > this.minDesktopWidth) {
           this.$(".commentBar").height(this.availableHeight);
         }
         new CommentFormView({ root: this.$(".commentForm"), item: this.model });

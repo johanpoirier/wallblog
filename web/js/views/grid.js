@@ -27,9 +27,7 @@ define(['underscore',
 
             events: {
                 dragover: "handleDragOver",
-                drop: "handleFileSelect",
-                "touchstart .item": "touchstart",
-                "touchend .item": "touchend"
+                drop: "handleFileSelect"
             },
 
             initialize: function (options) {
@@ -270,24 +268,6 @@ define(['underscore',
 
             listenToScroll: function () {
                 $(window).scroll(_.bind(this.loadMore, this));
-            },
-
-            touchstart: function(e) {
-                this.touchStartPoint = {
-                    x: e.originalEvent.changedTouches[0].pageX,
-                    y: e.originalEvent.changedTouches[0].pageY
-                };
-            },
-
-            touchend: function(e) {
-                var touchEndPoint = {
-                    x: e.originalEvent.changedTouches[0].pageX,
-                    y: e.originalEvent.changedTouches[0].pageY
-                };
-                if(Math.abs(touchEndPoint.y - this.touchStartPoint.y) < 10) {
-                    this.zoom(e);
-                }
-                this.touchStartPoint = null;
             },
 
             filterItems: function (month, year) {
