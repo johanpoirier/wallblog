@@ -10,7 +10,7 @@ define({
         "commentHint": "your comment here...",
         "dateFormat": "MMMM DD YYYY",
         "dateTimeFormat": "MM/DD/YYYY, HH:mm",
-        "picturesToClickAndComment": "pictures : click & comment.",
+        "picturesToComment": "pictures to comment.",
         "enterDescription": "enter a description...",
         "addDescription": "double click to add a description",
         "uploadTitle": "Add pictures",

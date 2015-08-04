@@ -1,5 +1,5 @@
 ﻿CACHE MANIFEST
-# version 17
+# version 18
 
 CACHE:
 js/libs/require.js
@@ -18,6 +18,11 @@ css/fonts/sansation_regular-webfont.eot
 css/fonts/sansation_regular-webfont.svg
 css/fonts/sansation_regular-webfont.ttf
 css/fonts/sansation_regular-webfont.woff
+css/fonts/handyhandy-webfont.eot
+css/fonts/handyhandy-webfont.svg
+css/fonts/handyhandy-webfont.ttf
+css/fonts/handyhandy-webfont.woff
+css/fonts/handyhandy-webfont.woff2
 
 NETWORK:
 *

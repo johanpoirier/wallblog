@@ -10,6 +10,18 @@
     -webkit-font-smoothing: antialiased;
 }
 
+@font-face {
+    font-family: 'HandyHandyRegular';
+    src: url('fonts/handyhandy-webfont.eot');
+    src: url('fonts/handyhandy-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/handyhandy-webfont.woff2') format('woff2'),
+    url('fonts/handyhandy-webfont.woff') format('woff'),
+    url('fonts/handyhandy-webfont.ttf') format('truetype'),
+    url('fonts/handyhandy-webfont.svg#handyhandyregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
     background-color: #eee;
     font-family: 'SansationRegular', sans-serif;
@@ -18,8 +30,11 @@ body {
 }
 
 header .navbar .brand {
-    padding: 0 5px;
+    color: #ffffff;
+    font-family: 'HandyHandyRegular';
+    font-size: 1.9rem;
     margin: 0;
+    padding: 0 5px;
 }
 
 header .navbar .delete {
@@ -339,9 +354,19 @@ form {
     z-index: 500;
 }
 
+@media (max-width: 1024px) {
+    header .navbar .brand {
+        font-size: 1.7rem;
+    }
+}
+
 @media (max-width: 700px) {
     .filter {
         display: none;
+    }
+
+    header .navbar .brand {
+        font-size: 1.5rem;
     }
 }
 
@@ -350,6 +375,10 @@ form {
         margin-bottom: 5px;
         margin-top: -45px;
         position: relative;
+    }
+
+    header .navbar .brand {
+        font-size: 1.3rem;
     }
 
     header .navbar .delete {
