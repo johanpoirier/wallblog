@@ -23,14 +23,28 @@
 }
 
 body {
-    background-color: #eee;
+    background-color: #f9f9f9;
     font-family: 'SansationRegular', sans-serif;
     margin: 0;
     padding: 45px 0 0 0;
 }
 
+header .navbar-inverse .navbar-inner {
+    background-color: #ffffff;
+    background-image: -moz-linear-gradient(top, #ffffff, #fbfbfb);
+    background-image: -webkit-gradient(linear,0 0,0 100%, from(#ffffff), to(#fbfbfb));
+    background-image: -webkit-linear-gradient(top, #ffffff, #fbfbfb);
+    background-image: -o-linear-gradient(top, #ffffff, #fbfbfb);
+    background-image: linear-gradient(to bottom, #ffffff, #fbfbfb);
+    border-color: transparent;
+}
+
+header .navbar-fixed-top .navbar-inner {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
+}
+
 header .navbar .brand {
-    color: #ffffff;
+    color: #03160a;
     font-family: 'HandyHandyRegular';
     font-size: 1.9rem;
     margin: 0;
@@ -287,9 +301,9 @@ form {
 }
 
 .filter {
-    background-color: #eeeeee;
+    background-color: #5d5d5d;
     border-radius: 5px;
-    color: #000000;
+    color: #ffffff;
     cursor: pointer;
     float: left;
     font-style: italic;
@@ -323,6 +337,7 @@ form {
 .filter div.column span {
     background-color: #ffffff;
     border-radius: 5px;
+    color: #000000;
     cursor: pointer;
     float: left;
     font-style: normal;
