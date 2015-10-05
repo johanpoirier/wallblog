@@ -39,6 +39,10 @@ header .navbar-inverse .navbar-inner {
     border-color: transparent;
 }
 
+header .navbar-inner {
+    color: #03160a;
+}
+
 header .navbar-fixed-top .navbar-inner {
     box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
 }
