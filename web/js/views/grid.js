@@ -13,8 +13,9 @@ define(['underscore',
 
         var Grid = Backbone.View.extend({
             template: gridTmpl,
-            className: "row-fluid",
+            className: "grid",
             strategy: "replace",
+            tagName: "section",
 
             loading: false,
             loadingIncrement: 6,

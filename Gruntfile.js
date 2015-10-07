@@ -55,7 +55,7 @@ module.exports = function (grunt) {
                     mainConfigFile: "web/js/config.js",
                     name:'main',
                     out: "web-build/js/main.js",
-                    optimize: "uglify2",
+                    optimize: "none",
                     preserveLicenseComments: false,
                     findNestedDependencies: true,
                     inlineText: true
@@ -78,7 +78,7 @@ module.exports = function (grunt) {
                 },
                 options: {
                     report: 'min',
-                    stylesheets: ['../web/css/bootstrap.css', '../web/css/custom.css']
+                    stylesheets: ['../web/css/custom.css']
                 }
             }
         },

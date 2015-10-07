@@ -12,6 +12,7 @@ define(['jquery',
       labels: labels,
       className: 'item',
       strategy: 'append',
+      tagName: 'article',
 
       events: {
         'click': 'zoom'

@@ -15,7 +15,7 @@ function(_, $, Backbone, Pubsub, UploadVideoView, FilterDatesView, tools, labels
     var HeaderView = Backbone.View.extend({
         template: tmpl,
         labels: labels,
-        className: "navbar navbar-fixed-top navbar-inverse",
+        className: 'headbar',
         
         events: {
             "click img.admin": "login",

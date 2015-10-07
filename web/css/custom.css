@@ -83,6 +83,14 @@ header img.beta, header img.admin, header img.upload {
     z-index: 1031;
 }
 
+.grid {
+    display: flex;
+}
+
+.grid .column {
+    padding-left: 0.5rem;
+}
+
 .column .item {
     position: relative;
     margin-top: 2%;
