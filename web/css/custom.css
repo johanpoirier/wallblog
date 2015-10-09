@@ -26,56 +26,57 @@ body {
     background-color: #f9f9f9;
     font-family: 'SansationRegular', sans-serif;
     margin: 0;
-    padding: 45px 0 0 0;
+    padding: 0;
 }
 
-header .navbar-inverse .navbar-inner {
-    background-color: #ffffff;
-    background-image: -moz-linear-gradient(top, #ffffff, #fbfbfb);
-    background-image: -webkit-gradient(linear,0 0,0 100%, from(#ffffff), to(#fbfbfb));
-    background-image: -webkit-linear-gradient(top, #ffffff, #fbfbfb);
-    background-image: -o-linear-gradient(top, #ffffff, #fbfbfb);
-    background-image: linear-gradient(to bottom, #ffffff, #fbfbfb);
-    border-color: transparent;
+a {
+    text-decoration: none;
 }
 
-header .navbar-fixed-top .navbar-inner {
+.headbar {
+    align-items: center;
     box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
+    display: flex;
+    height: 35px;
+    justify-content: space-between;
+    margin-bottom: 0.3rem;
 }
 
-header .navbar .brand {
+.headbar .brand {
     color: #03160a;
+    display: flex;
     font-family: 'HandyHandyRegular';
-    font-size: 1.9rem;
+    font-size: 1.8rem;
+    height: 35px;
+    line-height: 35px;
     margin: 0;
     padding: 0 5px;
 }
 
-header .navbar .delete {
+.headbar .delete {
     cursor: pointer;
     display: none;
-    float: right;
     line-height: 40px;
     margin-right: 10px;
 }
 
-header .info {
+.headbar .info {
     line-height: 40px;
     margin: 0;
     padding-right: 50px;
 }
 
-header .date, header .description {
+.headbar .date, .headbar .description {
     font-size: large;
     line-height: 40px;
     margin: 0;
 }
 
-header .description {
+.headbar .description {
     font-weight: bold;
 }
 
-header img.beta, header img.admin, header img.upload {
+.headbar img.beta, .headbar img.admin, .headbar img.upload {
     border: 0;
     position: absolute;
     right: 0;
@@ -88,13 +89,16 @@ header img.beta, header img.admin, header img.upload {
 }
 
 .grid .column {
-    padding-left: 0.5rem;
+    padding-left: 0.6rem;
+}
+
+.column:last-child {
+    padding-right: 0.6rem;
 }
 
 .column .item {
     position: relative;
-    margin-top: 2%;
-    margin-bottom: 2%;
+    margin-top: 1%;
 }
 
 .column .item img, .column .item video, .column .item iframe {
@@ -313,18 +317,17 @@ form {
     border-radius: 5px;
     color: #ffffff;
     cursor: pointer;
-    float: left;
     font-style: italic;
+    height: 28px;
     line-height: 28px;
-    margin-left: 46%;
-    margin-top: 6px;
     padding: 0 25px;
-    position: absolute;
     text-align: center;
+    z-index: 10;
 }
 
 .filter.expanded {
-    margin-left: 40%;
+    height: auto;
+    transform: translateY(110px);
 }
 
 .filter i {

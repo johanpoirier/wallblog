@@ -37,8 +37,8 @@ function(Backbone, $, PubSub, labels, tmpl, tmplMini) {
                 this.template = tmplMini;
                 this.year = options.filter.year;
                 this.monthId = options.filter.monthId;
-                this.month = this.monthId ? this.months[parseInt(this.monthId) - 1].value : "";
-                this.render({ value: this.month + " " + (this.year ? this.year : ""), clear: true });
+                this.month = this.monthId ? this.months[parseInt(this.monthId, 10) - 1].value : "";
+                this.render({ value: this.month + " " + (this.year || ""), clear: true });
             }
             else {
                 this.render({ value: labels.filter, clear: false });
@@ -54,9 +54,7 @@ function(Backbone, $, PubSub, labels, tmpl, tmplMini) {
                 "year": this.year,
                 "month": this.month
             });
-            if(this.year) {
-                this.$el.addClass("expanded");
-            }
+            this.$el.addClass("expanded");
         },
 
         selectMonth: function(e) {
@@ -103,7 +101,7 @@ function(Backbone, $, PubSub, labels, tmpl, tmplMini) {
             this.$el.removeClass("expanded");
             this.template = tmplMini;
             if(this.year) {
-                this.render({ value: (this.month ? this.month : "") + " " + (this.year ? this.year : ""), clear: true });
+                this.render({ value: (this.month || "") + " " + (this.year || ""), clear: true });
             }
             else {
                 this.render({ value: labels.filter, clear: false });
