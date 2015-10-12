@@ -1,0 +1,24 @@
+<div>
+    <header>
+        <h2>{{labels.uploadVideoTitle}}</h2>
+        <button class="icon" title="Fermer" id="modalClose"><i class="icon-close"></i></button>
+    </header>
+    <section>
+        <form class="horizontal" method="post" action="">
+            <div class="videos">
+            {{#each formats}}
+                <div class="upload-video">
+                    <label for="video-{{this.ext}}-datetime">{{this.label}}</label>
+                    <input type="date" name="video-{{this.ext}}-date" placeholder="Date de la vidéo (ex: 2015/05/12)"/>
+                    <input type="text" name="video-{{this.ext}}-description" placeholder="Description de la vidéo"/>
+                    <input type="url" name="video-{{this.ext}}" id="video-{{this.ext}}" placeholder="{{this.placeholder}}"/>
+                </div>
+            {{/each}}
+            </div>
+        </form>
+    </section>
+    <footer class="control-group">
+        <button id="modalCancel">{{labels.cancel}}</button>
+        <button id="modalSubmit" class="primary">{{labels.uploadVideo}}</button>
+    </footer>
+</div>

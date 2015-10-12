@@ -1,0 +1,10 @@
+{
+  "name": "wallblog",
+  "version": "1.0.9",
+  "dependencies": {
+    "handlebars": "~4.0.2",
+    "requirejs": "~2.1.20",
+    "keymaster": "~1.6.3",
+    "jquery-2.1.4": "http://code.jquery.com/jquery-2.1.4.js"
+  }
+}
