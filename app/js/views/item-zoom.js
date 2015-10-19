@@ -21,7 +21,7 @@ define(['underscore',
     var ItemZoomView = Backbone.View.extend({
       template: tmpl,
       labels: labels,
-      className: "row-fluid",
+      className: "zoom",
       strategy: "replace",
 
       minDesktopWidth: 620,

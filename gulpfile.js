@@ -148,6 +148,9 @@ gulp.task('compile-scripts', ['copy-nls'], function () {
 
 gulp.task('compile-html', function () {
   var context = {};
+  if (debug) {
+    context.DEBUG = true;
+  }
   return gulp.src(paths.html)
     .pipe(plugins.preprocess({ 'context': context }))
     .pipe(gulpif(!debug, plugins.htmlmin({ 'collapseWhitespace': true })))

@@ -3,7 +3,7 @@
     <span class="date">{{formatDate model.date labels.dateFormat}}</span>
 {{/if}}
 {{#if model.comments}}
-    <span class="nb-comments">{{model.comments.length}}</span>
+    <span class="nb-comments">{{model.comments.length}} <i class="icon-comment"></i></span>
 {{/if}}
 {{#if model.description}}
     <span class="description">{{model.description}}</span>

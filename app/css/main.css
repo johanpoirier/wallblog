@@ -61,6 +61,10 @@ button.icon:active {
     margin-bottom: 0.3rem;
 }
 
+.headbar.zoom {
+    justify-content: flex-start;
+}
+
 .headbar .brand {
     color: #03160a;
     display: flex;
@@ -110,10 +114,12 @@ button.icon:active {
 
 .grid {
     display: flex;
+    width: 100%;
 }
 
 .grid .column {
     padding-left: 0.6rem;
+    width: 100%;
 }
 
 .column:last-child {
@@ -169,12 +175,9 @@ button.icon:active {
 }
 
 .column .item .nb-comments {
-    background-image: url('../img/comment.png');
-    background-position: right;
-    background-repeat: no-repeat;
     bottom: auto;
     font-size: medium;
-    padding: 4px 30px 4px 5px;
+    padding: 4px 0 4px 5px;
     right: 0;
     top: 0;
     width: auto;
@@ -270,6 +273,10 @@ button.icon:active {
     width: 94%;
 }
 
+.zoom {
+    display: flex;
+}
+
 .picture {
     cursor: pointer;
     text-align: center;
@@ -298,21 +305,21 @@ button.icon:active {
     width: 95%;
 }
 
-.largeModal .upload-image {
+.large .upload-image {
     float: left;
     margin: 10px;
     text-align: center;
 }
-.largeModal .upload-image * {
+.large .upload-image * {
     max-width: 240px;
 }
-.largeModal .upload-image input {
+.large .upload-image input {
     width: 100%;
 }
-.largeModal .upload-image img {
+.large .upload-image img {
     max-height: 240px;
 }
-.largeModal .upload-image-zone {
+.large .upload-image-zone {
     border: 2px dashed lightgray;
     height: 245px;
     line-height: 240px;
@@ -361,8 +368,11 @@ form input[type='text'], form input[type='email'], form input[type='password'], 
     transition: border linear .2s,box-shadow linear .2s;
 }
 
-.pictures {
-    display: inline-block;
+
+form.pictures {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .fade {

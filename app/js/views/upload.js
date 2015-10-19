@@ -8,16 +8,18 @@ define(['backbone',
 
       template: template,
       labels: labels,
-      root: "body",
+      strategy: 'append',
+      root: 'body',
+      className: 'large modal',
 
       attributes: {
-        id: "uploadModal"
+        id: 'uploadModal'
       },
 
       events: {
         'click #modalClose': 'close',
         'click #modalCancel': 'close',
-        'submit': "submit"
+        'click #modalSubmit': 'submit'
       },
 
       initialize: function () {
@@ -34,22 +36,27 @@ define(['backbone',
       submit: function (e) {
         e.preventDefault();
 
-        this.$(".btn").attr("disabled", "disabled");
-        this.$(".icon-white").removeClass("icon-white").addClass("icon-upload");
-        for (var i = 0; i < this.options.pictures.length; i++) {
+        this.$('button').attr('disabled', 'disabled');
+        this.$('button.primary').addClass('upload');
+        var i = 0;
+        for (i; i < this.options.pictures.length; i += 1) {
           this.options.pictures[i].description = this.$("input[name='description-" + this.options.pictures[i].id + "']").val();
         }
         $.ajax({
-          type: "POST",
-          url: "api/items",
-          dataType: "json",
-          contentType: "application/json",
+          type: 'POST',
+          url: 'api/items',
+          dataType: 'json',
+          contentType: 'application/json',
           data: JSON.stringify(this.options.pictures),
-          success: _.bind(function () {
-            this.$el.modal('hide');
+          success: function () {
+            this.close();
             Pubsub.trigger(AppEvents.ITEMS_UPLOADED);
-          }, this)
+          }.bind(this)
         });
+      },
+
+      close: function () {
+        this.remove();
       }
     });
     return UploadView;

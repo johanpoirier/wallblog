@@ -90,14 +90,11 @@ define(['underscore',
                 }
 
                 // render of columns
-                var columnClass = "span" + new String(Math.round(12 / this.nbColumns));
                 Grid.__super__.render.apply(this, [
                     {
-                        nbColumns: this.nbColumns,
-                        columnClass: columnClass
+                        nbColumns: this.nbColumns
                     }
                 ]);
-
 
                 // first time on the site ?
                 if (this.collection.length === 0) {

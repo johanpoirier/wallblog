@@ -19,7 +19,7 @@ define(['backbone',
       events: {
         'click #modalClose': 'close',
         'click #modalCancel': 'close',
-        'submit': 'submit'
+        'click #modalSubmit': 'submit'
       },
 
       initialize: function () {
