@@ -74,7 +74,7 @@ define(['underscore',
       render: function () {
         this.context.picture = (this.model.get('type') === 'picture');
         if (this.context.picture) {
-          $(window).resize(_.bind(this.screenResize, this));
+          $(window).resize(_.debounce(this.screenResize.bind(this), 100));
         }
 
         if (this.model.get('type') === 'video') {
@@ -149,8 +149,9 @@ define(['underscore',
       },
 
       screenResize: function () {
-        this.availableWidth = $(window).width();
-        this.availableHeight = $(window).height() - 50;
+        var win = $(window);
+        this.availableWidth = win.width();
+        this.availableHeight = win.height() - 44;
         this.render();
       }
     });

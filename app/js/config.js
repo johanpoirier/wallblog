@@ -59,7 +59,9 @@ require.config({
   paths: {
     'jquery': 'vendor/jquery-2.1.4/index',
     'keymaster': 'vendor/keymaster/keymaster',
-    'handlebars': 'vendor/handlebars/handlebars.amd',
+    'handlebars': 'vendor/handlebars/handlebars',
+    'moment': 'vendor/moment/moment',
+    'moment-fr': 'vendor/moment/locale/fr',
 
     'underscore': 'libs/underscore',
     'underscore.string': 'libs/underscore.string',
@@ -76,8 +78,6 @@ require.config({
     'backbone-paginator': 'libs/backbone.paginator',
     'async': 'libs/async',
     'hbs': 'libs/resthub/require-handlebars',
-    'moment': 'libs/moment',
-    'moment-fr': 'libs/moment-lang/fr',
     'resumable': 'libs/resumable',
     'templates': '../templates'
   }

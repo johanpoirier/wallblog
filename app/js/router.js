@@ -92,11 +92,12 @@ function($, Backbone, key, tools, Item, ItemCollection, Grid, ItemZoomView, Logi
               id = data.id;
            }
            var item = new Item({ id: id });
+           var win = $(window);
            new ItemZoomView({
                root: "#main",
                model: item ,
-               availableWidth: $(window).width(),
-               availableHeight: $(window).height() - 50
+               availableWidth: win.width(),
+               availableHeight: win.height() - 44
            });
         },
 

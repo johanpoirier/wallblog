@@ -59,7 +59,8 @@ var paths = {
   images: ['./app/img/*.png'],
   pictures: [
     './app/pictures/empty.jpg',
-    './app/pictures/m*.*'
+    './app/pictures/m*.*',
+    './app/pictures/2015_03*.*'
   ],
   html: ['./app/*.html'],
   templates: ['./app/templates/*'],
