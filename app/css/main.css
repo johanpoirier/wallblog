@@ -112,6 +112,21 @@ button.icon:active {
     flex-direction: row;
 }
 
+.btn {
+    background-color: #9e9e9e;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1rem;
+    height: 2rem;
+    line-height: 2rem;
+    margin: 0 .5rem;
+    outline: 0;
+    padding: 0 1rem;
+    text-align: center;
+}
+
 .grid {
     display: flex;
     width: 100%;
@@ -195,9 +210,10 @@ button.icon:active {
 }
 
 .commentBar h4 {
-    line-height: 8px;
-    padding-left: 8px;
-    padding-top: 3px;
+    line-height: 2rem;
+    margin: 0;
+    padding-left: 0.5rem;
+    padding-top: 0.2rem;
     text-align: left;
 }
 
@@ -251,6 +267,9 @@ button.icon:active {
     right: 23px;
 }
 
+.commentForm {
+    padding: 0.4rem;
+}
 .commentForm .masked {
     display: none;
 }
@@ -258,20 +277,16 @@ button.icon:active {
     margin-bottom: 5px;
 }
 .commentForm input, .commentForm textarea {
-    width: 96%;
+    width: 92%;
+}
+.commentForm form .btn {
+    margin-top: 0.5rem;
 }
 .commentForm .btn-success {
     background-color: #85C100;
-    background-image: -moz-linear-gradient(center top , #85C100, #85B600);
-    box-shadow: 0;
 }
 .commentForm .help-inline {
     color: yellow;
-}
-
-.row-fluid.commentForm .span10 {
-    margin-left: 3%;
-    width: 94%;
 }
 
 .zoom {
@@ -370,6 +385,15 @@ form input[type='text'], form input[type='email'], form input[type='password'], 
     transition: border linear .2s,box-shadow linear .2s;
 }
 
+form textarea {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    color: #555;
+    font-size: 14px;
+    padding: 4px 6px;
+}
+
 
 form.pictures {
     display: flex;
@@ -454,8 +478,16 @@ form.pictures {
 }
 
 @media (max-width: 1024px) {
-    header .navbar .brand {
+    .headbar .brand {
         font-size: 1.7rem;
+    }
+
+    .headbar .info {
+        font-size: 1.2rem;
+    }
+
+    .filter {
+        font-size: 1.1rem;
     }
 }
 
@@ -464,40 +496,46 @@ form.pictures {
         display: none;
     }
 
-    header .navbar .brand {
+    .headbar .brand {
         font-size: 1.5rem;
+    }
+
+    .headbar .info {
+        font-size: 1.1rem;
+    }
+
+    .zoom {
+        flex-wrap: wrap;
+    }
+
+    .zoom .picture, .zoom .commentBar {
+        width: 100%;
     }
 }
 
 @media (max-width: 620px) {
-    .navbar-fixed-top {
-        margin-bottom: 5px;
-        margin-top: -45px;
+    .headbar {
         position: relative;
     }
 
-    header .navbar .brand {
+    .headbar .brand {
         font-size: 1.3rem;
     }
 
-    header .navbar .delete {
+    .headbar .delete {
         float: left;
         margin-left: 10px;
     }
 
-    header .info, header .beta {
+    .headbar .info {
         display: none;
     }
 
-    header .date, header .description {
-        font-size: medium;
-    }
-
-    .span9.picture, .span3.commentBar {
+    .picture, .commentBar {
         width: 98%;
     }
 
-    .span3.commentBar {
+    .commentBar {
         margin-top: 10px;
     }
 }

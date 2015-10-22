@@ -4,7 +4,6 @@ function(_, Backbone, Comment, labels, tmpl) {
     var CommentFormView = Backbone.View.extend({
         template: tmpl,
         labels: labels,
-        className: "span10 offset1",
         strategy: "append",
         
         events: {

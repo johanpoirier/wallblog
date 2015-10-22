@@ -111,7 +111,7 @@ define(['underscore',
         if (localAvailableWidth > this.minDesktopWidth) {
           this.$(".commentBar").height(this.availableHeight);
         }
-        new CommentFormView({ root: this.$(".commentForm"), item: this.model });
+        new CommentFormView({ el: this.$(".commentForm"), item: this.model });
         this.fetchComments();
 
         // focus on picture to listen on left & right keys
