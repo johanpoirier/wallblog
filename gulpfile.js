@@ -27,9 +27,9 @@ if (env === undefined) {
   debug = true;
 }
 
-console.log(" --> environment : " + env);
-console.log(" --> debug : " + debug);
-console.log("");
+console.log(' --> environment : ' + env);
+console.log(' --> debug : ' + debug);
+console.log('');
 
 
 /***************** *****************/
@@ -47,7 +47,10 @@ var paths = {
   ],
   js: ['./app/js/**/*.js'],
   require: ['./app/js/vendor/requirejs/require.js'],
-  nls: ['./app/js/nls/**/*.js'],
+  nls: {
+    'all': ['./app/js/nls/**/*.js'],
+    'fr': ['./app/js/nls/fr/labels.js']
+  },
   extra: [
     './app/.htaccess',
     './app/favicon.ico',
@@ -125,24 +128,21 @@ gulp.task('copy-extra', function () {
     .pipe(gulp.dest(paths.dist.root));
 });
 
-gulp.task('copy-nls', function () {
-  return gulp.src(paths.nls)
-    .pipe(gulp.dest(paths.dist.nls));
-});
-
-gulp.task('compile-scripts', ['copy-nls'], function () {
+gulp.task('compile-scripts', function () {
   return gulp.src('./app/js/main.js')
     .pipe(requirejsOptimize({
-      baseUrl: "./app/js",
-      name: "main",
-      mainConfigFile: "./app/js/config.js",
+      baseUrl: './app/js',
+      name: 'main',
+      mainConfigFile: './app/js/config.js',
       preserveLicenseComments: false,
       findNestedDependencies: true,
       inlineText: true,
-      optimize: "none"
+      optimize: 'none',
+      optimizeCss: 'none',
+      include: ['nls/labels', 'nls/fr/labels']
     }))
     .pipe(addsrc.prepend(paths.require))
-    .pipe(plugins.concat("wallblog.js"))
+    .pipe(plugins.concat('wallblog.js'))
     .pipe(gulpif(!debug, plugins.uglify()))
     .pipe(gulp.dest(paths.dist.js));
 });

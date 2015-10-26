@@ -62,6 +62,7 @@ require.config({
     'handlebars': 'vendor/handlebars/handlebars',
     'moment': 'vendor/moment/moment',
     'moment-fr': 'vendor/moment/locale/fr',
+    'i18n': 'vendor/i18n/i18n',
 
     'underscore': 'libs/underscore',
     'underscore.string': 'libs/underscore.string',
@@ -69,7 +70,6 @@ require.config({
     'backbone': 'libs/resthub/backbone.ext',
     'localstorage': 'libs/localstorage',
     'text': 'libs/text',
-    'i18n': 'libs/i18n',
     'pubsub': 'libs/resthub/pubsub',
     'backbone-validation-orig': 'libs/backbone-validation',
     'backbone-validation': 'libs/resthub/backbone-validation.ext',
@@ -79,6 +79,7 @@ require.config({
     'async': 'libs/async',
     'hbs': 'libs/resthub/require-handlebars',
     'resumable': 'libs/resumable',
+
     'templates': '../templates'
   }
 });

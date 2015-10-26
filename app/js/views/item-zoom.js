@@ -24,7 +24,7 @@ define(['underscore',
       className: "zoom",
       strategy: "replace",
 
-      minDesktopWidth: 620,
+      minDesktopWidth: 700,
 
       context: {
         picture: true
@@ -74,7 +74,7 @@ define(['underscore',
       render: function () {
         this.context.picture = (this.model.get('type') === 'picture');
         if (this.context.picture) {
-          $(window).resize(_.debounce(this.screenResize.bind(this), 100));
+          $(window).resize(_.debounce(this.screenResize.bind(this), 200));
         }
 
         if (this.model.get('type') === 'video') {
@@ -87,7 +87,7 @@ define(['underscore',
 
         ItemZoomView.__super__.render.apply(this);
 
-        var localAvailableWidth = this.$el.find('.picture').outerWidth();
+        var localAvailableWidth = this.$el.find('.picture').outerWidth() * 0.99;
 
         var itemEl = this.$("img, iframe");
         var itemRatio = parseFloat(this.model.get("ratio"));
@@ -109,9 +109,9 @@ define(['underscore',
         }
 
         if (localAvailableWidth > this.minDesktopWidth) {
-          this.$(".commentBar").height(this.availableHeight);
+          this.$(".comment-bar").height(this.availableHeight);
         }
-        new CommentFormView({ el: this.$(".commentForm"), item: this.model });
+        new CommentFormView({ el: this.$(".comment-form"), item: this.model });
         this.fetchComments();
 
         // focus on picture to listen on left & right keys

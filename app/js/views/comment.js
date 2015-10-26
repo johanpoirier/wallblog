@@ -4,18 +4,18 @@ function(Backbone, labels, tmpl) {
     var CommentView = Backbone.View.extend({
         template: tmpl,
         labels: labels,
-        className: "span10 offset1 comment",
-        strategy: "prepend",
+        className: 'comment',
+        strategy: 'prepend',
         
         events: {
-            "click .delete": "deleteComment"
+            'click .delete': 'deleteComment'
         },
         
         initialize: function() {
-            this.model.on("destroy", this.remove, this);
+            this.model.on('destroy', this.remove, this);
             this.render();
             if(this.options.admin) {
-                this.$("span.delete").show();
+                this.$('span.delete').show();
             }
         },
         
