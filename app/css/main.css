@@ -296,7 +296,6 @@ form input[type='text'], form input[type='email'], form input[type='password'], 
     color: #555;
     font-size: 14px;
     height: 20px;
-    min-width: 15rem;
     padding: 1rem 0.5rem;
     -webkit-transition: border linear .2s,box-shadow linear .2s;
     -moz-transition: border linear .2s,box-shadow linear .2s;

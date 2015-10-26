@@ -17,7 +17,7 @@
 }
 
 .comments {
-    padding: 0 1rem;
+    padding: 0 0.5rem;
     width: 100%;
 }
 
@@ -61,7 +61,7 @@
 
 .comment-form {
     margin-bottom: 2rem;
-    padding: 0 1rem;
+    padding: 0 0.5rem;
     width: 100%;
 }
 .comment-form .masked {
