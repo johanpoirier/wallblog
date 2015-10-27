@@ -3,7 +3,9 @@ node_modules/
 logs/
 src/config.jops.php
 dist/
-app/pictures/*
+app/pictures/20*
+app/pictures/m1_20*
+app/pictures/m2_20*
 app/videos/*
 app/analytics.js
 tests/app.log
