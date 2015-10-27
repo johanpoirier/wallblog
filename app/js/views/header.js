@@ -22,7 +22,10 @@ define(['underscore',
         "dblclick .description": "editDescription",
         "keypress input[name='description']": "submitDescription",
         "blur input[name='description']": "escapeDescription",
-        "click .delete": "deletePicture"
+        "click .delete": "deletePicture",
+        'click #loginCancel': 'hideLogin',
+        'click #loginSubmit': 'login',
+        'keypress #password': 'keyPressed'
       },
 
       initialize: function () {
@@ -80,6 +83,7 @@ define(['underscore',
           window.document.title = item.get("description") + ", " + WallBlog.title;
         }
 
+        this.hideLogin();
         this.$el.addClass('zoom');
 
         // render with description in header bar
@@ -96,11 +100,57 @@ define(['underscore',
 
       upload: function () {
         if (!tools.isLogged()) {
-          Backbone.history.navigate('/login', true);
+          this.showLogin();
         }
         else {
           new UploadVideoView();
         }
+      },
+
+      showLogin: function () {
+        this.$el.addClass('login');
+        Backbone.history.navigate('/login', false);
+      },
+
+      hideLogin: function (e) {
+        if (e) {
+          e.preventDefault();
+        }
+        this.$el.removeClass('login');
+      },
+
+      keyPressed: function (e) {
+        if (e.keyCode === 13) {
+          this.login(e);
+        }
+      },
+
+      login: function (e) {
+        e.preventDefault();
+
+        var email = this.$el.find("input[name='email']").val();
+        var password = this.$el.find("input[name='password']").val();
+
+        $.ajax({
+          type: 'POST',
+          url: '/auth/login',
+          data: {
+            'email': email,
+            'password': password
+          },
+          success: this.loginSuccess.bind(this),
+          error: function () {
+            alert('Email et/ou mot de passe incorrects.');
+            Backbone.history.navigate('/', false);
+          }
+        });
+      },
+
+      loginSuccess: function () {
+        Backbone.history.navigate('/', false);
+        this.hideLogin();
+        tools.setLoggedTime();
+        Pubsub.trigger(AppEvents.USER_LOGGED_IN);
       },
 
       editDescription: function () {
