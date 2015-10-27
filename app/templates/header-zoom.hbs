@@ -1,0 +1,12 @@
+<a href="/" class="brand">
+    <img src="/img/logo_m.png" alt="Logo" />
+</a>
+<span class="date">{{formatDate item.date labels.dateFormat}}</span>
+<span class="description">
+{{#if item.description}}&nbsp;: {{item.description}} {{else}}
+    {{#if admin}} : {{labels.addDescription}} {{/if}}
+{{/if}}
+</span>
+{{#if admin}}
+<span class="delete">{{labels.deletePicture}}</span>
+{{/if}}

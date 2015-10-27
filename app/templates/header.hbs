@@ -1,0 +1,26 @@
+<div class="side front">
+    <a href="/" class="brand">
+        <img src="/img/logo_m.png" alt="Logo" /> {{title}}
+    </a>
+    <div class="filter">Filtrer...</div>
+    <div class="extra">
+        <p class="info">{{#unlessequals nbItems 0}}{{nbItems}} {{labels.picturesToComment}}{{/unlessequals}}</p>
+        <button class="icon" id="add-item" title="Ajout de photos"><i class="icon-plus"></i></button>
+    </div>
+</div>
+<div class="side back">
+    <form class="horizontal">
+        <div class="form-field">
+            <label class="form-field-label" for="email">{{labels.email}}</label>
+            <input type="email" name="email" id="email" value="" placeholder="{{labels.email}}">
+        </div>
+        <div class="form-field">
+            <label class="form-field-label" for="password">{{labels.password}}</label>
+            <input type="password" name="password" id="password" value="" placeholder="{{labels.password}}">
+        </div>
+        <div class="form-field">
+            <button id="loginCancel" class="btn">{{labels.cancel}}</button>
+            <button id="loginSubmit" class="btn primary">{{labels.validate}}</button>
+        </div>
+    </form>
+</div>

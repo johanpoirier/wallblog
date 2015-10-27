@@ -1,0 +1,90 @@
+.comment-bar {
+    -moz-box-shadow: 1px 1px 5px #999;
+    -webkit-box-shadow: 1px 1px 5px #999;
+    background-color: gray;
+    box-shadow: 1px 1px 5px #999;
+    color: #fff;
+    margin-right: 0.2rem;
+    width: 20%;
+}
+
+.comment-bar h4 {
+    line-height: 2rem;
+    margin: 0;
+    padding-left: 0.5rem;
+    padding-top: 0.2rem;
+    text-align: left;
+}
+
+.comments {
+    padding: 0 0.5rem;
+    width: 100%;
+}
+
+.comment {
+    background-color: #FFFFFF;
+    border-radius: 3px;
+    color: #111;
+    float: left;
+    font-size: medium;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    padding: 6px;
+    text-align: left;
+    width: 100%;
+}
+
+.comment > * {
+    clear: both;
+    float: left;
+    margin: 0;
+}
+.comment .author {
+    border-bottom: 2px solid grey;
+    font-size: large;
+    font-weight: bold;
+    width: 100%;
+}
+.comment .date {
+    float: right;
+    font-size: x-small;
+    font-weight: normal;
+    line-height: 15px;
+    padding-bottom: 10px;
+}
+.comment .delete {
+    cursor: pointer;
+    margin-top: -3px;
+    position: absolute;
+    right: 23px;
+}
+
+.comment-form {
+    margin-bottom: 2rem;
+    padding: 0 0.5rem;
+    width: 100%;
+}
+.comment-form .masked {
+    display: none;
+}
+.comment-form input, .comment-form textarea {
+    width: 100%;
+}
+.comment-form .btn {
+    margin-top: 0.5rem;
+}
+.comment-form .btn-success {
+    background-color: #85C100;
+}
+.comment-form .help-inline {
+    color: yellow;
+}
+
+
+@media (max-width: 700px) {
+    .comment-bar {
+        margin-right: 0;
+        margin-top: 10px;
+        width: 100%;
+    }
+}

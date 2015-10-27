@@ -1,0 +1,10 @@
+<a href="/" class="brand">
+    <img src="/img/logo_m.png" alt="Logo"/>
+</a>
+<span class="date">{{formatDate item.date labels.dateFormat}}</span> :
+{{#if admin}}
+<input type="text" name="description" value="{{item.description}}" placeholder="{{labels.enterDescription}}" />
+<span class="delete">{{labels.deletePicture}}</span>
+{{else}}
+    <span class="description">{{item.description}}</span>
+{{/if}}

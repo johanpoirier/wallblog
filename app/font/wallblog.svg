@@ -1,0 +1,16 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>Copyright (C) 2015 by original authors @ fontello.com</metadata>
+<defs>
+<font id="wallblog" horiz-adv-x="1000" >
+<font-face font-family="wallblog" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
+<missing-glyph horiz-adv-x="1000" />
+<glyph glyph-name="plus" unicode="&#xe800;" d="m714 314v72q0 14-10 25t-25 10h-179v179q0 15-11 25t-25 11h-71q-15 0-25-11t-11-25v-179h-178q-15 0-26-10t-10-25v-72q0-14 10-25t26-10h178v-179q0-14 11-25t25-11h71q15 0 25 11t11 25v179h179q14 0 25 10t10 25z m143 304v-536q0-66-47-113t-114-48h-535q-67 0-114 48t-47 113v536q0 66 47 113t114 48h535q67 0 114-48t47-113z" horiz-adv-x="857.1" />
+<glyph glyph-name="clear" unicode="&#xe801;" d="m612 248l-81-82q-6-5-13-5t-13 5l-76 77-77-77q-5-5-13-5t-13 5l-81 82q-6 5-6 13t6 13l76 76-76 76q-6 6-6 13t6 13l81 82q6 5 13 5t13-5l77-77 76 77q6 5 13 5t13-5l81-82q6-5 6-13t-6-13l-76-76 76-76q6-6 6-13t-6-13z m120 102q0 83-41 152t-110 111-152 41-153-41-110-111-41-152 41-152 110-111 153-41 152 41 110 111 41 152z m125 0q0-117-57-215t-156-156-215-58-216 58-155 156-58 215 58 215 155 156 216 58 215-58 156-156 57-215z" horiz-adv-x="857.1" />
+<glyph glyph-name="search" unicode="&#xe802;" d="m772 78q30-34 6-62l-46-46q-36-32-68 0l-190 190q-74-42-156-42-128 0-223 95t-95 223 90 219 218 91 224-95 96-223q0-88-46-162z m-678 358q0-88 68-156t156-68 151 63 63 153q0 88-68 155t-156 67-151-63-63-151z" horiz-adv-x="789" />
+<glyph glyph-name="comment" unicode="&#xe803;" d="m781 662l-625 0q-21 0-37-15t-15-36l0-365q0-21 15-37t37-16l157 0 0-8 8 8 460 0q22 0 37 16t16 37l0 365q0 21-16 36t-37 15z m0 105q65 0 111-46t46-110l0-365q0-65-46-111t-111-46l-416 0-156-156 0 156-53 0q-65 0-110 46t-46 111l0 365q0 65 46 110t110 46l625 0z" horiz-adv-x="938" />
+<glyph glyph-name="close" unicode="&#xe804;" d="m452 194q18-18 18-43t-18-43q-18-16-43-16t-43 16l-132 152-132-152q-18-16-43-16t-43 16q-16 18-16 43t16 43l138 156-138 158q-16 18-16 43t16 43q18 16 43 16t43-16l132-152 132 152q18 16 43 16t43-16q18-18 18-43t-18-43l-138-158z" horiz-adv-x="470" />
+</font>
+</defs>
+</svg>

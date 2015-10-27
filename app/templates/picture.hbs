@@ -1,0 +1,10 @@
+<img src="/pictures/m{{model.quality}}_{{model.file}}" alt="{{model.file}}" id="{{model.id}}" class="wall" />
+{{#if model.date}}
+    <span class="date">{{formatDate model.date labels.dateFormat}}</span>
+{{/if}}
+{{#if model.comments}}
+    <span class="nb-comments">{{model.comments.length}} <i class="icon-comment"></i></span>
+{{/if}}
+{{#if model.description}}
+    <span class="description">{{model.description}}</span>
+{{/if}}

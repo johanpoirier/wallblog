@@ -1,0 +1,22 @@
+﻿CACHE MANIFEST
+# version 22
+
+CACHE:
+img/fluidicon.png
+img/icon-128.png
+img/wallblog-icon-114.png
+img/wallblog-icon-144.png
+img/icon-256.png
+img/windows-tile.png
+font/sansation_regular-webfont.eot
+font/sansation_regular-webfont.svg
+font/sansation_regular-webfont.ttf
+font/sansation_regular-webfont.woff
+font/handyhandy-webfont.eot
+font/handyhandy-webfont.svg
+font/handyhandy-webfont.ttf
+font/handyhandy-webfont.woff
+font/handyhandy-webfont.woff2
+
+NETWORK:
+*
