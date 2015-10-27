@@ -25,20 +25,18 @@ Stack
 - Backbone.js
 - jQuery
 - Handlebars
-- Twitter Bootstrap
 
-Optimization
+Build
 ------------
 
 In root folder, execute :
 
  npm install
  
- grunt build (require a analytics.js file)
+ bower install
+ 
+ gulp
 
- or
-
- grunt dev (without analytics)
 
 Demo
 ----
