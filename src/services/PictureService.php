@@ -111,21 +111,33 @@ class PictureService {
     protected function samplePicture($fileName) {
         $fileNameInfo = pathinfo($fileName);
 
-        $filePath1600 = sprintf('%s/%s', $this->dir, $fileName);
+        $filePathSource = sprintf('%s/%s', $this->dir, $fileName);
+        $filePath1600 = sprintf('%s/%s-%s.%s', $this->dir, $fileNameInfo['filename'], '1600', $fileNameInfo['extension']);
         $filePath1024 = sprintf('%s/%s-%s.%s', $this->dir, $fileNameInfo['filename'], '1024', $fileNameInfo['extension']);
         $filePath640 = sprintf('%s/%s-%s.%s', $this->dir, $fileNameInfo['filename'], '640', $fileNameInfo['extension']);
         $filePath320 = sprintf('%s/%s-%s.%s', $this->dir, $fileNameInfo['filename'], '320', $fileNameInfo['extension']);
 
-        $this->resize($filePath1600, 1600, 85);
+        $this->resize($filePathSource, 2048, 80);
 
-        copy($filePath1600, $filePath1024);
-        $this->resize($filePath1024, 1024, 75);
+        if (!file_exists($filePath1600)) {
+            copy($filePathSource, $filePath1600);
+            $this->resize($filePath1600, 1600, 80);
+        }
 
-        copy($filePath1600, $filePath640);
-        $this->resize($filePath640, 640, 75);
+        if (!file_exists($filePath1024)) {
+            copy($filePathSource, $filePath1024);
+            $this->resize($filePath1024, 1024, 75);
+        }
 
-        copy($filePath1600, $filePath320);
-        $this->resize($filePath320, 320, 70);
+        if (!file_exists($filePath640)) {
+            copy($filePathSource, $filePath640);
+            $this->resize($filePath640, 640, 75);
+        }
+
+        if (!file_exists($filePath320)) {
+            copy($filePathSource, $filePath320);
+            $this->resize($filePath320, 320, 75);
+        }
     }
 
     public function insert($item) {
@@ -211,7 +223,7 @@ class PictureService {
 
     public function rebuild() {
         set_time_limit(0);
-        $items = self::getByDate('2015');//self::getAll();
+        $items = self::getAll();
         for ($i = 0; $i < sizeof($items); $i++) {
             $item = $items[$i];
 
