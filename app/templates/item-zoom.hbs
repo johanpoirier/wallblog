@@ -1,6 +1,11 @@
 <div class="picture">
 {{#if picture}}
-    <img src="/pictures/{{model.file}}" alt="" />
+    <img src="/pictures/{{model.file}}" alt=""
+         srcset="/pictures/{{model.filename}}-320.{{model.extension}} 320w,
+                 /pictures/{{model.filename}}-640.{{model.extension}} 640w,
+                 /pictures/{{model.filename}}-1024.{{model.extension}} 1024w,
+                 /pictures/{{model.file}} 1600w"
+         sizes="75vw" />
 {{else}}
     {{#if dailymotion}}
         <iframe src="//www.dailymotion.com/embed/video/{{videoId}}?html=1&info=0&logo=0&related=0&autoplay=1"

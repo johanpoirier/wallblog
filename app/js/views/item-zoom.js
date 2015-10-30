@@ -75,6 +75,10 @@ define(['underscore',
         this.context.picture = (this.model.get('type') === 'picture');
         if (this.context.picture) {
           $(window).resize(_.debounce(this.screenResize.bind(this), 200));
+
+          var filenameInfo = this.model.get('file').split('.');
+          this.model.set('extension', filenameInfo.pop());
+          this.model.set('filename', filenameInfo.join('.'));
         }
 
         if (this.model.get('type') === 'video') {

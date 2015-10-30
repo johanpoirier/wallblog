@@ -79,11 +79,12 @@ class PictureService {
         return $this->db->fetchColumn($sql);
     }
 
-    public function add($file_name, $description = null, $date = null) {
-        $item["file"] = $file_name;
+    public function add($fileName, $description = null, $date = null) {
+        // create item
+        $item["file"] = $fileName;
         $item["description"] = $description;
         if (!$date) {
-            $exif_data = @exif_read_data($this->dir . "/" . $file_name);
+            $exif_data = @exif_read_data($this->dir . "/" . $fileName);
             if ($exif_data !== false) {
                 if (isset($exif_data['DateTimeOriginal'])) {
                     $date = $exif_data['DateTimeOriginal'];
@@ -91,23 +92,40 @@ class PictureService {
                 if (empty($date) && isset($exif_data['DateTime'])) {
                     $date = $exif_data['DateTime'];
                 }
-                $this->logger->debug("exif date of " . $file_name . " : " . $date);
+                $this->logger->debug("exif date of " . $fileName . " : " . $date);
             }
         }
         $item["date"] = ($date == null) ? date("Y-M-d H:i:s") : $date;
 
-        // resize in 3 sizes
-        $this->resize($this->dir . "/" . $file_name, 1600, 85);
-        copy($this->dir . "/" . $file_name, $this->dir . "/m1_" . $file_name);
-        $this->resize($this->dir . "/m1_" . $file_name, 1024, 75);
-        copy($this->dir . "/" . $file_name, $this->dir . "/m2_" . $file_name);
-        $this->resize($this->dir . "/m2_" . $file_name, 640, 75);
-        
-        $image_info = getimagesize($this->dir . "/" . $file_name);
+        // resize in 4 sizes
+        $this->samplePicture($fileName);
+
+        // compute ratio
+        $image_info = getimagesize(sprintf('%s/%s', $this->dir, $fileName));
         $item["ratio"] = $image_info[0] / $image_info[1];
-        $item["reverseRatio"] = $image_info[1] / $image_info[0];
+        $item["reverseRatio"] = 1 / $item["ratio"];
 
         return $this->insert($item);
+    }
+
+    protected function samplePicture($fileName) {
+        $fileNameInfo = pathinfo($fileName);
+
+        $filePath1600 = sprintf('%s/%s', $this->dir, $fileName);
+        $filePath1024 = sprintf('%s/%s-%s.%s', $this->dir, $fileNameInfo['filename'], '1024', $fileNameInfo['extension']);
+        $filePath640 = sprintf('%s/%s-%s.%s', $this->dir, $fileNameInfo['filename'], '640', $fileNameInfo['extension']);
+        $filePath320 = sprintf('%s/%s-%s.%s', $this->dir, $fileNameInfo['filename'], '320', $fileNameInfo['extension']);
+
+        $this->resize($filePath1600, 1600, 85);
+
+        copy($filePath1600, $filePath1024);
+        $this->resize($filePath1024, 1024, 75);
+
+        copy($filePath1600, $filePath640);
+        $this->resize($filePath640, 640, 75);
+
+        copy($filePath1600, $filePath320);
+        $this->resize($filePath320, 320, 70);
     }
 
     public function insert($item) {
@@ -151,17 +169,19 @@ class PictureService {
     public function resize($filename, $maxDimension, $quality = 90) {
         $image_info = getimagesize($filename);
         $image_type = $image_info[2];
-        //$this->logger->debug("image type : " . $image_type);
+
         if ($image_type == IMAGETYPE_JPEG) {
             $image = imagecreatefromjpeg($filename);
         } elseif ($image_type == IMAGETYPE_PNG) {
             $image = imagecreatefrompng($filename);
+        } else {
+            return;
         }
 
         $image_width = imagesx($image);
         $image_height = imagesy($image);
         $image_ratio = $image_width / $image_height;
-        //$this->logger->debug("image ratio : " . $image_ratio);
+
         $resize_ratio = 1;
         if ($image_ratio >= 1) {
             if ($maxDimension < $image_width) {
@@ -176,8 +196,6 @@ class PictureService {
                 $new_image_width = $resize_ratio * $image_width;
             }
         }
-        //$this->logger->debug("resize ratio : " . $resize_ratio);
-        //$this->logger->debug("new dimensions : " . $new_image_width . " x " . $new_image_height);
 
         if ($resize_ratio != 1) {
             $new_image = imagecreatetruecolor($new_image_width, $new_image_height);
@@ -192,16 +210,17 @@ class PictureService {
     }
 
     public function rebuild() {
-        $items = self::getAll();
+        set_time_limit(0);
+        $items = self::getByDate('2015');//self::getAll();
         for ($i = 0; $i < sizeof($items); $i++) {
             $item = $items[$i];
-            if(!file_exists($this->dir . "/m1_" . $item['file'])) {
+
+            if ($item['type'] == 'picture') {
                 $this->logger->addDebug("rebuilding item : " . $item['file']);
-                copy($this->dir . "/" . $item['file'], $this->dir . "/m1_" . $item['file']);
-                $this->resize($this->dir . "/m1_" . $item['file'], 1024, 75);
-                copy($this->dir . "/" . $item['file'], $this->dir . "/m2_" . $item['file']);
-                $this->resize($this->dir . "/m2_" . $item['file'], 640, 75);
-                $image_info = getimagesize($this->dir . "/" . $item['file']);
+
+                $this->samplePicture($item['file']);
+                $image_info = getimagesize(sprintf('%s/%s', $this->dir, $item['file']));
+
                 $this->db->update($this->table_name, array("ratio" => $image_info[0] / $image_info[1], "reverseRatio" => $image_info[1] / $image_info[0]), array('id' => $item['id']));
             }
         }

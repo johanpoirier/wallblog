@@ -18,8 +18,10 @@ define(['jquery',
         'click': 'zoom'
       },
 
-      initialize: function (options) {
-        this.model.set('quality', options.quality);
+      initialize: function () {
+        var filenameInfo = this.model.get('file').split('.');
+        this.model.set('extension', filenameInfo.pop());
+        this.model.set('filename', filenameInfo.join('.'));
       },
 
       zoom: function () {

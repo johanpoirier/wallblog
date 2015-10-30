@@ -136,11 +136,11 @@ $api->put('/item/{id}', function (Application $app, Request $request, $id) {
             }
         }
         else {
-            $app['monolog']->addInfo("user not found in session");
+            $app['monolog']->addInfo('user not found in session');
         }
     }
     else {
-        $app['monolog']->addInfo("no session found");
+        $app['monolog']->addInfo('no session found');
     }
     return $app['json']->constructJsonResponse($item);
 });
@@ -184,7 +184,7 @@ $api->post('/items', function (Application $app, Request $request) {
         return $app['json']->constructJsonResponse($item);
     }
     else {
-        return new Response("problem during picture upload", 500);
+        return new Response('problem during picture upload', 500);
     }
 });
 
@@ -207,7 +207,7 @@ $api->post('/videos', function (Application $app, Request $request) {
 		return $app['json']->constructJsonResponse($item);
 	}
 	else {
-		return new Response("problem during video upload", 500);
+		return new Response('problem during video upload', 500);
 	}
 });
 
@@ -220,7 +220,8 @@ $api->get('/items/ids', function (Application $app) {
 });
 
 $api->get('/items/rebuild', function (Application $app) {
-	return $app['picture_service']->rebuild();
+	$app['picture_service']->rebuild();
+	return new Response('OK', 204);
 });
 
 $api->get('/user', function(Request $request) use($app) {
@@ -234,7 +235,7 @@ $api->get('/user', function(Request $request) use($app) {
 	if ($user) {
 		return json_encode($user);
 	} else {
-		return new Response("user not logged", 500);
+		return new Response('user not logged', 500);
 	}
 });
 
