@@ -112,12 +112,12 @@ class PictureService {
         $fileNameInfo = pathinfo($fileName);
 
         $filePathSource = sprintf('%s/%s', $this->dir, $fileName);
-        $filePath1600 = sprintf('%s/%s-%s.%s', $this->dir, $fileNameInfo['filename'], '1600', $fileNameInfo['extension']);
-        $filePath1024 = sprintf('%s/%s-%s.%s', $this->dir, $fileNameInfo['filename'], '1024', $fileNameInfo['extension']);
-        $filePath640 = sprintf('%s/%s-%s.%s', $this->dir, $fileNameInfo['filename'], '640', $fileNameInfo['extension']);
-        $filePath320 = sprintf('%s/%s-%s.%s', $this->dir, $fileNameInfo['filename'], '320', $fileNameInfo['extension']);
+        $filePath1600 = sprintf('%s/%s--%s.%s', $this->dir, $fileNameInfo['filename'], '1600', $fileNameInfo['extension']);
+        $filePath1024 = sprintf('%s/%s--%s.%s', $this->dir, $fileNameInfo['filename'], '1024', $fileNameInfo['extension']);
+        $filePath640 = sprintf('%s/%s--%s.%s', $this->dir, $fileNameInfo['filename'], '640', $fileNameInfo['extension']);
+        $filePath320 = sprintf('%s/%s--%s.%s', $this->dir, $fileNameInfo['filename'], '320', $fileNameInfo['extension']);
 
-        $this->resize($filePathSource, 2048, 80);
+        $this->resize($filePathSource, 2048);
 
         if (!file_exists($filePath1600)) {
             copy($filePathSource, $filePath1600);
@@ -178,7 +178,7 @@ class PictureService {
         return strtolower($ext);
     }
 
-    public function resize($filename, $maxDimension, $quality = 90) {
+    public function resize($filename, $maxWidth, $quality = 85) {
         $image_info = getimagesize($filename);
         $image_type = $image_info[2];
 
@@ -192,21 +192,10 @@ class PictureService {
 
         $image_width = imagesx($image);
         $image_height = imagesy($image);
-        $image_ratio = $image_width / $image_height;
-
-        $resize_ratio = 1;
-        if ($image_ratio >= 1) {
-            if ($maxDimension < $image_width) {
-                $resize_ratio = $maxDimension / $image_width;
-                $new_image_width = $maxDimension;
-                $new_image_height = $resize_ratio * $image_height;
-            }
-        } else {
-            if ($maxDimension < $image_height) {
-                $resize_ratio = $maxDimension / $image_height;
-                $new_image_height = $maxDimension;
-                $new_image_width = $resize_ratio * $image_width;
-            }
+        if ($image_width > $maxWidth) {
+            $resize_ratio = $maxWidth / $image_width;
+            $new_image_width = $maxWidth;
+            $new_image_height = $resize_ratio * $image_height;
         }
 
         if ($resize_ratio != 1) {

@@ -19,9 +19,12 @@ define(['jquery',
       },
 
       initialize: function () {
-        var filenameInfo = this.model.get('file').split('.');
-        this.model.set('extension', filenameInfo.pop());
-        this.model.set('filename', filenameInfo.join('.'));
+        var file = encodeURIComponent(this.model.get('file')), filenameInfo = file.split('.');
+        this.model.set({
+          'file': encodeURIComponent(file),
+          'filename': filenameInfo.join('.'),
+          'extension': filenameInfo.pop()
+        }, { silent: true });
       },
 
       zoom: function () {
