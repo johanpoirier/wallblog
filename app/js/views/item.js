@@ -22,8 +22,8 @@ define(['jquery',
         var file = encodeURIComponent(this.model.get('file')), filenameInfo = file.split('.');
         this.model.set({
           'file': encodeURIComponent(file),
-          'filename': filenameInfo.join('.'),
-          'extension': filenameInfo.pop()
+          'extension': filenameInfo.pop(),
+          'filename': filenameInfo.join('.')
         }, { silent: true });
       },
 

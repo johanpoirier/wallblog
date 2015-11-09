@@ -25,7 +25,7 @@ function(Backbone, $, PubSub, labels, tmpl, tmplMini) {
             { id: "12", value: "Décembre" }],
 
         events: {
-            "click span.text": "displayDates",
+            "click": "displayDates",
             "click .month span": "selectMonth",
             "click .year span": "selectYear",
             "click button": "filter",
@@ -46,15 +46,17 @@ function(Backbone, $, PubSub, labels, tmpl, tmplMini) {
         },
 
         displayDates: function(e) {
-            e.stopImmediatePropagation();
-            this.template = tmpl;
-            this.render({
-                "years": this.years,
-                "months": this.months,
-                "year": this.year,
-                "month": this.month
-            });
-            this.$el.addClass("expanded");
+            if (!this.$el.hasClass("expanded")) {
+              e.stopImmediatePropagation();
+              this.template = tmpl;
+              this.render({
+                  "years": this.years,
+                  "months": this.months,
+                  "year": this.year,
+                  "month": this.month
+              });
+              this.$el.addClass("expanded");
+            }
         },
 
         selectMonth: function(e) {
@@ -82,7 +84,7 @@ function(Backbone, $, PubSub, labels, tmpl, tmplMini) {
             if(!this.year || this.year !== year.html()) {
                 this.$(e.currentTarget).addClass("selected");
                 this.year = year.html();
-                this.$(".column.month").show();
+                this.$(".column.month").removeClass('hidden');
                 this.$el.addClass("expanded");
             }
             else {
@@ -90,7 +92,7 @@ function(Backbone, $, PubSub, labels, tmpl, tmplMini) {
                 this.year = null;
                 this.month = null;
                 this.monthId = null;
-                this.$(".column.month").hide();
+                this.$(".column.month").addClass('hidden');
                 this.$el.removeClass("expanded");
             }
         },

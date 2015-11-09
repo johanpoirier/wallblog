@@ -1,4 +1,4 @@
-<div>
+<div class="filter-selection">
     <div class="column year">
     {{#each years}}
         <span class="alone{{#ifequals ../year this}} selected{{/ifequals}}">{{this}}</span>
@@ -10,4 +10,4 @@
     {{/each}}
     </div>
 </div>
-<button class="btn">{{labels.validate}}</button>
+<button class="filter-selection-button btn">{{labels.validate}}</button>

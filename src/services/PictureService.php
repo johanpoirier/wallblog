@@ -121,22 +121,22 @@ class PictureService {
 
         if (!file_exists($filePath1600)) {
             copy($filePathSource, $filePath1600);
-            $this->resize($filePath1600, 1600, 80);
+            $this->resize($filePath1600, 1600);
         }
 
         if (!file_exists($filePath1024)) {
             copy($filePathSource, $filePath1024);
-            $this->resize($filePath1024, 1024, 75);
+            $this->resize($filePath1024, 1024);
         }
 
         if (!file_exists($filePath640)) {
             copy($filePathSource, $filePath640);
-            $this->resize($filePath640, 640, 75);
+            $this->resize($filePath640, 640);
         }
 
         if (!file_exists($filePath320)) {
             copy($filePathSource, $filePath320);
-            $this->resize($filePath320, 320, 75);
+            $this->resize($filePath320, 320);
         }
     }
 
