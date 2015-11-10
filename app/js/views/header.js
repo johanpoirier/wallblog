@@ -109,12 +109,14 @@ define(['underscore',
 
       showLogin: function () {
         this.$el.addClass('login');
+        this.$el.find("input[type='email']").focus();
         Backbone.history.navigate('/login', false);
       },
 
       hideLogin: function (e) {
         if (e) {
           e.preventDefault();
+          Backbone.history.navigate('/', false);
         }
         this.$el.removeClass('login');
       },

@@ -82,7 +82,7 @@ header {
 .headbar .side {
     align-items: center;
     backface-visibility:hidden;
-    background-color: white;
+    background-color: #ffffff;
     display: flex;
     position: absolute;
     height: 100%;
@@ -99,8 +99,10 @@ header {
 }
 
 .headbar .back {
-    transform: rotateX(90deg) translateZ(1.1rem);
+    background-color: #03160a;
+    color: #ffffff;
     justify-content: center;
+    transform: rotateX(90deg) translateZ(1.1rem);
 }
 
 .headbar .brand {
@@ -458,6 +460,10 @@ form.pictures {
         font-size: 1.2rem;
     }
 
+    .headbar.login .form-field {
+        margin-right: 0.5rem;
+    }
+
     .filter {
         font-size: 1.1rem;
     }
@@ -468,12 +474,41 @@ form.pictures {
         display: none;
     }
 
+    .headbar {
+        transition: none;
+    }
+
     .headbar .brand {
         font-size: 1.5rem;
     }
 
     .headbar .info {
         font-size: 1.1rem;
+    }
+
+    .headbar.login {
+        height: 6.6rem;
+    }
+
+    .headbar.login form.horizontal {
+        flex-wrap: wrap;
+    }
+
+    .headbar.login .form-field {
+        width: 100%;
+    }
+    .headbar.login .form-field:last-child {
+        justify-content: center;
+    }
+
+    .headbar.login label {
+        flex-shrink: 0;
+        text-align: right;
+        width: 8rem;
+    }
+
+    .headbar.login input {
+        flex-grow: 1;
     }
 
     .zoom {
