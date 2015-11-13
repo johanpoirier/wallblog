@@ -4,7 +4,7 @@
         <button class="icon" title="Fermer" id="modalClose"><i class="icon-close"></i></button>
     </header>
     <section>
-        <form class="pictures">
+        <form>
         {{#each pictures}}
             <div class="upload-image">
                 <div class="upload-image-zone">
@@ -16,7 +16,7 @@
         </form>
     </section>
     <footer>
-        <button id="modalCancel">{{labels.cancel}}</button>
-        <button id="modalSubmit" class="primary">{{labels.uploadPictures}}</button>
+        <button id="modalCancel" class="btn">{{labels.cancel}}</button>
+        <button id="modalSubmit" class="btn primary">{{labels.uploadPictures}}</button>
     </footer>
 </div>

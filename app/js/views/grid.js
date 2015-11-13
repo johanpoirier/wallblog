@@ -20,6 +20,7 @@ define(['underscore',
       loading: false,
       loadingIncrement: 6,
       currentNbItems: 15,
+      maxItemsToUpload: 12,
 
       settings: {
         initNbColumns: 3,
@@ -187,7 +188,7 @@ define(['underscore',
         if (tools.isLogged()) {
           if (window.FileReader) {
             var files = evt.dataTransfer.files;
-            if (files.length <= 6) {
+            if (files.length <= this.maxItemsToUpload) {
               this.uploadPictures = [];
               for (var i = 0; i < files.length; i++) {
                 var file = files[i];

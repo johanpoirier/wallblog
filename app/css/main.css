@@ -58,7 +58,7 @@ button.icon:active {
     color: #0c7b10;
 }
 
-header {
+body > header {
     perspective: 99999px;
     perspective-origin: top;
     position: fixed;
@@ -273,12 +273,6 @@ header {
     clear: both;
 }
 
-.largeModal {
-    height: auto;
-    margin-left: -40%;
-    width: 80%;
-}
-
 .videos .upload-video {
     margin: 0px 0 25px 0;
     text-align: center;
@@ -287,27 +281,31 @@ header {
     width: 95%;
 }
 
-.large .upload-image {
-    float: left;
+.modal form {
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
+}
+.modal .upload-image {
     margin: 10px;
     text-align: center;
+    width: 260px;
 }
-.large .upload-image * {
-    max-width: 240px;
-}
-.large .upload-image input {
+.modal .upload-image input {
     width: 100%;
 }
-.large .upload-image img {
+.modal .upload-image img {
     max-height: 240px;
+    max-width: 240px;
+    margin: auto;
 }
-.large .upload-image-zone {
+.modal .upload-image-zone {
     border: 2px dashed lightgray;
-    height: 245px;
-    line-height: 240px;
+    display: flex;
+    height: 260px;
+    line-height: 260px;
     margin-bottom: 10px;
-    padding: 5px;
-    width: 245px;
+    width: 260px;
 }
 
 form {
@@ -521,7 +519,7 @@ form.pictures {
 }
 
 @media (max-width: 620px) {
-    header {
+    body > header {
         position: relative;
     }
 
