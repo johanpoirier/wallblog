@@ -149,12 +149,6 @@ define(['underscore',
         var reRender = (this.screenWidth !== currentScreenWidth);
         this.screenWidth = currentScreenWidth;
 
-        // thumbnails quality
-        this.thumbnailQuality = 2;
-        if (this.screenWidth / this.nbColumns > 500) {
-          this.thumbnailQuality = 1;
-        }
-
         if (reRender) {
           this.render();
         }
@@ -162,7 +156,6 @@ define(['underscore',
 
       loadMore: function () {
         if (!this.filter && !this.loading && ((window.pageYOffset - this.lastYOffset) > 0) && (($(window).scrollTop() - ($(document).height() - $(window).height())) <= 0)) {
-          //console.log("Loading more items");
           this.loading = true;
           this.collection.fetch({
             add: true,
@@ -190,21 +183,10 @@ define(['underscore',
             var files = evt.dataTransfer.files;
             if (files.length <= this.maxItemsToUpload) {
               this.uploadPictures = [];
-              for (var i = 0; i < files.length; i++) {
-                var file = files[i];
-
-                if (!file.type.match("image.*")) {
-                  alert("Only images are allowed!");
-                  break;
-                }
-
-                var reader = new FileReader();
-                reader.onload = this.handleFileUpload(file, (i === (files.length - 1)));
-                reader.readAsDataURL(file);
-              }
+              this.uploadFiles(files, 0);
             }
             else {
-              alert("Too many files! Only 6 allowed!");
+              alert("Too many files! Only " + this.maxItemsToUpload + " allowed!");
             }
           }
           else {
@@ -224,21 +206,33 @@ define(['underscore',
         evt.dataTransfer.dropEffect = 'copy';
       },
 
-      handleFileUpload: function (file, end) {
-        return _.bind(function (e) {
+      uploadFiles: function (files, index) {
+        if (index >= files.length) {
+          new UploadView({
+            pictures: this.uploadPictures
+          });
+          return;
+        }
+
+        var file = files[index];
+        index += 1;
+
+        if (!file.type.match("image.*")) {
+          alert("Only images are allowed!");
+          this.uploadFiles(files, index);
+          return;
+        }
+
+        var reader = new FileReader();
+        reader.onload = function (e) {
           this.uploadPictures.push({
             data: e.target.result,
             filename: file.name,
             id: (this.uploadPictures.length + 1)
           });
-
-          // last item, display interface
-          if (end) {
-            new UploadView({
-              pictures: this.uploadPictures
-            });
-          }
-        }, this);
+          this.uploadFiles(files, index);
+        }.bind(this);
+        reader.readAsDataURL(file);
       },
 
       fetchCurrent: function () {
