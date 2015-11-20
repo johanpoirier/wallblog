@@ -62,8 +62,7 @@ var paths = {
   images: ['./app/img/*.png'],
   pictures: [
     './app/pictures/empty.jpg',
-    './app/pictures/m*.*',
-    './app/pictures/2015_03*.*'
+    './app/pictures/empty--*.jpg'
   ],
   html: ['./app/*.html'],
   templates: ['./app/templates/*'],
@@ -180,7 +179,7 @@ gulp.task('watch-codebase', function () {
 /************ MAIN TASKS ************/
 /****************** *****************/
 
-var buildTasks = ['copy-extra', 'copy-fonts', 'copy-images', 'compile-html', 'compile-css', 'compile-scripts'];
+var buildTasks = ['copy-extra', 'copy-fonts', 'copy-images', 'copy-pictures', 'compile-html', 'compile-css', 'compile-scripts'];
 gulp.task('build', buildTasks);
 
 gulp.task('default', function () {

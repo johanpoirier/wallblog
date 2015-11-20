@@ -1,6 +1,8 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
+USE `nirgal`;
+
 CREATE TABLE IF NOT EXISTS `wallblog__comment` (
   `id` int(9) NOT NULL auto_increment,
   `idItem` int(9) NOT NULL,
@@ -29,3 +31,5 @@ CREATE TABLE IF NOT EXISTS `wallblog__user` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+
+INSERT INTO `wallblog__user` (`id`, `email`, `password`) VALUES (1, 'wall@blog.fr', 'f71dbe52628a3f83a77ab494817525c6');
