@@ -90,7 +90,7 @@ define(['underscore',
         // first time on the site ?
         if (this.collection.length === 0) {
           // Display one default image per column
-          for (i = 0; i < this.nbColumns; i++) {
+          for (i = 0; i < this.nbColumns * 3; i++) {
             this.collection.add({
               file: "empty.jpg",
               date: "2011-10-17 18:56:10",
