@@ -41,7 +41,9 @@ Docker build
 ------------
 
  cd docker
+
  ./build.sh
+
  ./run.sh
 
 Logs
