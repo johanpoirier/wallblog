@@ -26,7 +26,7 @@ Stack
 - jQuery
 - Handlebars
 
-Build
+Local build
 ------------
 
 In root folder, execute :
@@ -37,6 +37,18 @@ In root folder, execute :
  
  gulp
 
+Docker build
+------------
+
+ cd docker
+ ./build.sh
+ ./run.sh
+
+Logs
+----
+
+- logs/app.log: php app logs
+- logs/gulp.log: gulp build logs
 
 Demo
 ----
