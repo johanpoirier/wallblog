@@ -18,7 +18,7 @@ class PictureService {
         $this->db = $db;
         $this->logger = $app_logger;
         $this->table_name = $config["prefix"] . "__item";
-        $this->dir = __DIR__ . '/../../web/pictures';
+        $this->dir = __DIR__ . '/../../dist/pictures';
     }
 
     public function get($nb, $index) {
@@ -84,6 +84,7 @@ class PictureService {
         $item["file"] = $fileName;
         $item["description"] = $description;
         if (!$date) {
+            $this->logger->info("file path: " . $this->dir . "/" . $fileName);
             $exif_data = @exif_read_data($this->dir . "/" . $fileName);
             if ($exif_data !== false) {
                 if (isset($exif_data['DateTimeOriginal'])) {
@@ -92,7 +93,7 @@ class PictureService {
                 if (empty($date) && isset($exif_data['DateTime'])) {
                     $date = $exif_data['DateTime'];
                 }
-                $this->logger->debug("exif date of " . $fileName . " : " . $date);
+                $this->logger->info("exif date of " . $fileName . " : " . $date);
             }
         }
         $item["date"] = ($date == null) ? date("Y-M-d H:i:s") : $date;

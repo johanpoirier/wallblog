@@ -152,7 +152,7 @@ $api->post('/items', function (Application $app, Request $request) {
 	if ($request->hasSession()) {
 		$user = $app['user_service']->getByEmail($request->getSession()->get('email'));
 		if ($user) {
-			$upload_dir = '../web/pictures/';
+			$upload_dir = '../dist/pictures/';
 			$allowed_ext = array('jpg', 'jpeg', 'png', 'mp4');
 
 			foreach ($jsonPictures as $picture) {

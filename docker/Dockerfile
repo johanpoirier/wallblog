@@ -3,7 +3,9 @@ FROM php:5.6-fpm
 MAINTAINER Johan Poirier, johan.poirier@gmail.com
 
 # PHP modules
-RUN docker-php-ext-install pdo pdo_mysql
+RUN apt-get update && apt-get install -y libjpeg-dev libpng-dev
+RUN docker-php-ext-configure gd --enable-gd-native-ttf --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu
+RUN docker-php-ext-install pdo pdo_mysql gd exif
 
 # Supervisor
 RUN apt-get update && apt-get install -y supervisor && mkdir -p /var/log/supervisor

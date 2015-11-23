@@ -28,3 +28,4 @@ CONTAINER_ID=$(cat "$CID_FILE")
 CONTAINER_IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $CONTAINER_ID)
 
 echo "Go to http://${CONTAINER_IP} to test wallblog"
+echo "Credentials for uploading pictures: wall@blog.fr / toto"
