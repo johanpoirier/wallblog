@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'wallblog';
-  src: url('../font/wallblog.eot?87565555');
-  src: url('../font/wallblog.eot?87565555#iefix') format('embedded-opentype'),
-       url('../font/wallblog.woff?87565555') format('woff'),
-       url('../font/wallblog.ttf?87565555') format('truetype'),
-       url('../font/wallblog.svg?87565555#wallblog') format('svg');
+  src: url('../font/wallblog.eot?24041392');
+  src: url('../font/wallblog.eot?24041392#iefix') format('embedded-opentype'),
+       url('../font/wallblog.woff?24041392') format('woff'),
+       url('../font/wallblog.ttf?24041392') format('truetype'),
+       url('../font/wallblog.svg?24041392#wallblog') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -14,7 +14,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'wallblog';
-    src: url('../font/wallblog.svg?87565555#wallblog') format('svg');
+    src: url('../font/wallblog.svg?24041392#wallblog') format('svg');
   }
 }
 */
@@ -59,3 +59,4 @@
 .icon-search:before { content: '\e802'; } /* '' */
 .icon-comment:before { content: '\e803'; } /* '' */
 .icon-close:before { content: '\e804'; } /* '' */
+.icon-upload:before { content: '\e805'; } /* '' */

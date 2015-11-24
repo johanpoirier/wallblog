@@ -37,6 +37,7 @@ define(['jquery',
         // get items for the first load
         if (!window.items) {
           window.items = new ItemCollection();
+          window.items.on('remove', this.main, this);
         }
 
         // display items on the grid

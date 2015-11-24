@@ -71,3 +71,9 @@
     flex-shrink: 0;
     justify-content: flex-end;
 }
+
+.modal button:disabled {
+    cursor: not-allowed;
+    -webkit-filter: grayscale(0.5);
+    filter: grayscale(0.5);
+}

@@ -58,6 +58,17 @@ button.icon:active {
     color: #0c7b10;
 }
 
+button.upload::before {
+    content: '\e805';
+    display: inline-block;
+    font-family: "wallblog";
+    font-style: normal;
+    font-weight: normal;
+    margin-right: .2em;
+    text-align: center;
+    width: 1em;
+}
+
 body > header {
     perspective: 99999px;
     perspective-origin: top;

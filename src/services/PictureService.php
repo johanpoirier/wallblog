@@ -84,7 +84,6 @@ class PictureService {
         $item["file"] = $fileName;
         $item["description"] = $description;
         if (!$date) {
-            $this->logger->info("file path: " . $this->dir . "/" . $fileName);
             $exif_data = @exif_read_data($this->dir . "/" . $fileName);
             if ($exif_data !== false) {
                 if (isset($exif_data['DateTimeOriginal'])) {
@@ -96,7 +95,9 @@ class PictureService {
                 $this->logger->info("exif date of " . $fileName . " : " . $date);
             }
         }
-        $item["date"] = ($date == null) ? date("Y-M-d H:i:s") : $date;
+        $this->logger->info("file date: " . $date);
+        $item["date"] = ($date == null) ? date("Y-m-d H:i:s") : $date;
+        $this->logger->info("item date: " . $item["date"]);
 
         // resize in 4 sizes
         $this->samplePicture($fileName);
@@ -191,8 +192,8 @@ class PictureService {
             return;
         }
 
-        $image_width = imagesx($image);
-        $image_height = imagesy($image);
+        $image_width = $new_image_width = imagesx($image);
+        $image_height = $new_image_height = imagesy($image);
         if ($image_width > $maxWidth) {
             $resize_ratio = $maxWidth / $image_width;
             $new_image_width = $maxWidth;

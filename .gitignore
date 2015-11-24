@@ -4,10 +4,8 @@ logs/
 src/config.jops.php
 dist/
 app/pictures/20*
-app/pictures/m1_20*
-app/pictures/m2_20*
 app/videos/*
-app/analytics.js
+app/js/analytics.js
 tests/app.log
 *.iml
 app/js/vendor

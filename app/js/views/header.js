@@ -183,8 +183,8 @@ define(['underscore',
 
       deletePicture: function () {
         if (window.confirm(labels.confirmDeletePicture)) {
+          window.items.remove(this.item);
           this.item.destroy();
-          Backbone.history.navigate("/", true);
         }
       },
 

@@ -57,7 +57,8 @@ var paths = {
     './app/manifest.*',
     './app/robots.txt',
     './app/sitemap.xml',
-    './app/index.php'
+    './app/index.php',
+    './app/js/analytics.js'
   ],
   images: ['./app/img/*.png'],
   pictures: [
@@ -106,13 +107,13 @@ gulp.task('copy-fonts', function () {
 
 gulp.task('copy-images', function () {
   return gulp.src(paths.images)
-    .pipe(plugins.imagemin({
+    .pipe(gulpif(!debug, plugins.imagemin({
       progressive: true,
       svgoPlugins: [
         { removeViewBox: false }
       ],
       use: [pngquant()]
-    }))
+    })))
     .pipe(gulp.dest(paths.dist.images))
     .pipe(plugins.connect.reload());
 });
