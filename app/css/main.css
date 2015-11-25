@@ -150,14 +150,6 @@ body > header {
     font-weight: bold;
 }
 
-.headbar img.beta, .headbar img.admin, .headbar img.upload {
-    border: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: 1031;
-}
-
 .headbar .extra {
     display: flex;
     flex-direction: row;
@@ -252,7 +244,6 @@ body > header {
     left: 0;
     top: 0;
     width: auto;
-    z-index: 2;
 }
 
 .column .item .nb-comments {
@@ -262,7 +253,6 @@ body > header {
     right: 0;
     top: 0;
     width: auto;
-    z-index: 2;
 }
 
 .zoom {
