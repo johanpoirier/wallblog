@@ -29,7 +29,9 @@ define(['jquery',
 
       zoom: function () {
         window.currentScollPosition = $(window.document).scrollTop();
-        Backbone.history.navigate('/item/' + this.model.get('id'), true);
+        if (this.model.get('id') !== undefined) {
+          Backbone.history.navigate('/item/' + this.model.get('id'), true);
+        }
         return false;
       }
     });
