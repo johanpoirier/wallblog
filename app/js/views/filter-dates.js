@@ -100,23 +100,31 @@ function(Backbone, $, PubSub, labels, tmpl, tmplMini) {
         filter: function(e) {
             e.stopImmediatePropagation();
             PubSub.trigger(AppEvents.FILTER, this.monthId, this.year);
-            this.$el.removeClass("expanded");
-            this.template = tmplMini;
-            if(this.year) {
-                this.render({ value: (this.month || "") + " " + (this.year || ""), clear: true });
-            }
-            else {
-                this.render({ value: labels.filter, clear: false });
-            }
+            this.renderMini({ 'monthId': this.monthId, 'year': this.year });
+        },
+
+        renderMini: function (values) {
+          values = values || {};
+          if (values.monthId) {
+            values.month = this.months[parseInt(values.monthId, 10) - 1].value;
+          }
+          this.$el.removeClass("expanded");
+          this.template = tmplMini;
+          if(values.year) {
+            this.render({ value: (values.month || "") + " " + (values.year || ""), clear: true });
+          }
+          else {
+            this.render({ value: labels.filter, clear: false });
+          }
         },
 
         clearFilter: function(e) {
-            e.stopImmediatePropagation();
-            this.render({ value: labels.filter, clear: false });
-            this.year = null;
-            this.month = null;
-            this.monthId = null;
-            PubSub.trigger(AppEvents.CLEAR_FILTER);
+          e.stopImmediatePropagation();
+          this.year = null;
+          this.month = null;
+          this.monthId = null;
+          this.render({ value: labels.filter, clear: false });
+          PubSub.trigger(AppEvents.CLEAR_FILTER);
         }
     });
     return FilterDatesView;

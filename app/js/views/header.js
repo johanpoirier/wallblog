@@ -25,7 +25,8 @@ define(['underscore',
         "click .delete": "deletePicture",
         'click #loginCancel': 'hideLogin',
         'click #loginSubmit': 'login',
-        'keypress #password': 'keyPressed'
+        'keypress #password': 'keyPressed',
+        'click': 'hideFilter'
       },
 
       initialize: function () {
@@ -61,16 +62,8 @@ define(['underscore',
         this.template = tmpl;
         HeaderView.__super__.render.apply(this, [{ nbItems: this.nbItems, title: WallBlog.title }]);
 
-        if (tools.isLogged()) {
-          this.$("img.admin").hide();
-          this.$("img.upload").show();
-        }
-        else {
-          this.$("img.upload").hide();
-          this.$("img.admin").show();
-        }
-
-        new FilterDatesView({ el: this.$(".filter"), filter: this.filter });
+        // Filter button
+        this.filterView = new FilterDatesView({ el: this.$(".filter"), filter: this.filter });
       },
 
       requestNbItems: function () {
@@ -197,6 +190,12 @@ define(['underscore',
 
       clearFilter: function () {
         this.filter = null;
+      },
+
+      hideFilter: function (e) {
+        if (e.target.classList.contains('side')) {
+          this.filterView.renderMini(this.filter);
+        }
       }
     });
     return HeaderView;
