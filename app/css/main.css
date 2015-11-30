@@ -122,28 +122,32 @@ body > header {
     font-family: 'HandyHandyRegular';
     font-size: 1.8rem;
     height: 35px;
-    line-height: 35px;
+    line-height: 36px;
     margin: 0;
     padding: 0 5px;
 }
 
 .headbar .delete {
     cursor: pointer;
-    line-height: 34px;
+    line-height: 36px;
     position: absolute;
     right: 1rem;
 }
 
 .headbar .info {
-    line-height: 35px;
+    line-height: 36px;
     margin: 0;
     padding-right: 1rem;
 }
 
 .headbar .date, .headbar .description {
     font-size: large;
-    line-height: 40px;
+    line-height: 36px;
     margin: 0;
+}
+
+.headbar .date.short {
+    display: none;
 }
 
 .headbar .description {
@@ -455,7 +459,7 @@ form.pictures {
         font-size: 1.7rem;
     }
 
-    .headbar .info {
+    .headbar .info, .headbar .date, .headbar .description {
         font-size: 1.2rem;
     }
 
@@ -481,8 +485,16 @@ form.pictures {
         font-size: 1.5rem;
     }
 
-    .headbar .info {
-        font-size: 1.1rem;
+    .headbar .info, .headbar .date.short, .headbar .description {
+        font-size: 0.9rem;
+    }
+
+    .headbar .date {
+        display: none;
+    }
+
+    .headbar .date.short {
+        display: block;
     }
 
     .headbar.login {
