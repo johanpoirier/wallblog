@@ -63,6 +63,7 @@ require.config({
     'moment': 'vendor/moment/moment',
     'moment-fr': 'vendor/moment/locale/fr',
     'i18n': 'vendor/i18n/i18n',
+    'hammer': 'vendor/hammerjs/hammer',
 
     'underscore': 'libs/underscore',
     'underscore.string': 'libs/underscore.string',

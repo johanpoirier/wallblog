@@ -2,6 +2,7 @@ define(['underscore',
     'backbone',
     'pubsub',
     'keymaster',
+    'hammer',
     'i18n!nls/labels',
     'models/item',
     'views/comments',
@@ -12,6 +13,7 @@ define(['underscore',
             Backbone,
             Pubsub,
             key,
+            Hammer,
             labels,
             Item,
             CommentsView,
@@ -48,20 +50,36 @@ define(['underscore',
 
         // keyboard shortcuts
         key("esc", this.back);
-        key("left", _.bind(function () {
-          if (window.zoomCurrentIndex > 0) {
-            var prevId = window.itemIds[--window.zoomCurrentIndex];
-            this.fetchItem(parseInt(prevId));
-            Backbone.history.navigate('/item/' + prevId, false);
-          }
-        }, this));
-        key("right", _.bind(function () {
-          if (window.zoomCurrentIndex < window.itemIds.length) {
-            var nextId = window.itemIds[++window.zoomCurrentIndex];
-            this.fetchItem(parseInt(nextId));
-            Backbone.history.navigate('/item/' + nextId, false);
-          }
-        }, this));
+        key("left", this.previousItem.bind(this));
+        key("right", this.nextItem.bind(this));
+
+        // gestures
+        this.setupHammer(this.$el[0]);
+      },
+
+      setupHammer: function(element) {
+        var hammertime = new Hammer(element);
+        hammertime.get('swipe').set({ threshold: 10, velocity: 0.3, direction: Hammer.DIRECTION_HORIZONTAL });
+        hammertime.on('swipeleft', this.nextItem.bind(this));
+        hammertime.on('swiperight', this.previousItem.bind(this));
+
+        return hammertime;
+      },
+
+      previousItem: function() {
+        if (window.zoomCurrentIndex > 0) {
+          var prevId = window.itemIds[--window.zoomCurrentIndex];
+          this.fetchItem(parseInt(prevId));
+          Backbone.history.navigate('/item/' + prevId, false);
+        }
+      },
+
+      nextItem: function() {
+        if (window.zoomCurrentIndex < window.itemIds.length) {
+          var nextId = window.itemIds[++window.zoomCurrentIndex];
+          this.fetchItem(parseInt(nextId));
+          Backbone.history.navigate('/item/' + nextId, false);
+        }
       },
 
       fetchItem: function (id) {

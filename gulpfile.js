@@ -95,6 +95,7 @@ gulp.task('clean', function (cb) {
 gulp.task('compile-css', function () {
   return gulp.src(paths.css)
     .pipe(gulpif(!debug, plugins.cssmin()))
+    .pipe(gulpif(!debug, plugins.autoprefixer()))
     .pipe(plugins.concat('main.css'))
     .pipe(gulp.dest(paths.dist.css))
     .pipe(plugins.connect.reload());
