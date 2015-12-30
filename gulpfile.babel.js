@@ -2,17 +2,27 @@
 /*********** DEPENDENCIES **********/
 /***************** *****************/
 
-var gulp = require('gulp');
-var plugins = require('gulp-load-plugins')();
-var gulpif = require('gulp-if');
-var args = require('yargs').argv;
-var del = require('del');
-var pngquant = require('imagemin-pngquant');
-var requirejsOptimize = require('gulp-requirejs-optimize');
-var addsrc = require('gulp-add-src');
-var path = require('path');
-var runSequence = require('run-sequence');
-var exec = require('child_process').exec;
+import gulp from 'gulp';
+import addsrc from 'gulp-add-src';
+import autoprefixer from 'gulp-autoprefixer';
+import babel from 'gulp-babel';
+import concat from 'gulp-concat';
+import connect from 'gulp-connect';
+import cssmin from 'gulp-cssmin';
+import gulpif from 'gulp-if';
+import imagemin from 'gulp-imagemin';
+import htmlmin from 'gulp-htmlmin';
+import preprocess from 'gulp-preprocess';
+import requirejsOptimize from 'gulp-requirejs-optimize';
+import uglify from 'gulp-uglify';
+import sourcemaps from 'gulp-sourcemaps';
+
+import del from 'del';
+import path from 'path';
+import runSequence from 'run-sequence';
+import pngquant from 'imagemin-pngquant';
+import { argv as args } from 'yargs';
+import exec from 'child_process';
 
 
 /***************** *****************/
@@ -27,8 +37,8 @@ if (env === undefined) {
   debug = true;
 }
 
-console.log(' --> environment : ' + env);
-console.log(' --> debug : ' + debug);
+console.log(` --> environment : ${env}`);
+console.log(` --> debug : ${debug}`);
 console.log('');
 
 
@@ -36,7 +46,7 @@ console.log('');
 /************** PATH ***************/
 /***************** *****************/
 
-var paths = {
+const paths = {
   css: ['./app/css/*.css'],
   fonts: [
     './app/font/*.eot',
@@ -92,23 +102,23 @@ gulp.task('clean', function (cb) {
 /************** BUILD **************/
 /***************** *****************/
 
-gulp.task('compile-css', function () {
+gulp.task('compile-css', () => {
   return gulp.src(paths.css)
-    .pipe(gulpif(!debug, plugins.cssmin()))
-    .pipe(gulpif(!debug, plugins.autoprefixer()))
-    .pipe(plugins.concat('main.css'))
+    .pipe(gulpif(!debug, cssmin()))
+    .pipe(gulpif(!debug, autoprefixer()))
+    .pipe(concat('main.css'))
     .pipe(gulp.dest(paths.dist.css))
-    .pipe(plugins.connect.reload());
+    .pipe(connect.reload());
 });
 
-gulp.task('copy-fonts', function () {
+gulp.task('copy-fonts', () => {
   return gulp.src(paths.fonts)
     .pipe(gulp.dest(paths.dist.fonts));
 });
 
-gulp.task('copy-images', function () {
+gulp.task('copy-images', () => {
   return gulp.src(paths.images)
-    .pipe(gulpif(!debug, plugins.imagemin({
+    .pipe(gulpif(!debug, imagemin({
       progressive: true,
       svgoPlugins: [
         { removeViewBox: false }
@@ -116,21 +126,23 @@ gulp.task('copy-images', function () {
       use: [pngquant()]
     })))
     .pipe(gulp.dest(paths.dist.images))
-    .pipe(plugins.connect.reload());
+    .pipe(connect.reload());
 });
 
-gulp.task('copy-pictures', function () {
+gulp.task('copy-pictures', () => {
   return gulp.src(paths.pictures)
     .pipe(gulp.dest(paths.dist.pictures));
 });
 
-gulp.task('copy-extra', function () {
+gulp.task('copy-extra', () => {
   return gulp.src(paths.extra)
     .pipe(gulp.dest(paths.dist.root));
 });
 
-gulp.task('compile-scripts', function () {
+gulp.task('compile-scripts', () => {
   return gulp.src('./app/js/main.js')
+    .pipe(sourcemaps.init())
+    .pipe(babel())
     .pipe(requirejsOptimize({
       baseUrl: './app/js',
       name: 'main',
@@ -143,21 +155,22 @@ gulp.task('compile-scripts', function () {
       include: ['nls/labels', 'nls/fr/labels']
     }))
     .pipe(addsrc.prepend(paths.require))
-    .pipe(plugins.concat('wallblog.js'))
-    .pipe(gulpif(!debug, plugins.uglify()))
+    .pipe(concat('wallblog.js'))
+    .pipe(gulpif(!debug, uglify()))
+    .pipe(sourcemaps.write("."))
     .pipe(gulp.dest(paths.dist.js));
 });
 
-gulp.task('compile-html', function () {
+gulp.task('compile-html', () => {
   var context = {};
   if (debug) {
     context.DEBUG = true;
   }
   return gulp.src(paths.html)
-    .pipe(plugins.preprocess({ 'context': context }))
-    .pipe(gulpif(!debug, plugins.htmlmin({ 'collapseWhitespace': true })))
+    .pipe(preprocess({ 'context': context }))
+    .pipe(gulpif(!debug, htmlmin({ 'collapseWhitespace': true })))
     .pipe(gulp.dest(paths.dist.root))
-    .pipe(plugins.connect.reload());
+    .pipe(connect.reload());
 });
 
 
@@ -165,7 +178,7 @@ gulp.task('compile-html', function () {
 /*************** TOOLS **************/
 /****************** *****************/
 
-gulp.task('watch-codebase', function () {
+gulp.task('watch-codebase', () => {
   if (debug) {
     gulp.watch(paths.css, ['compile-css']);
     gulp.watch(paths.extra, ['copy-extra']);
@@ -184,14 +197,14 @@ gulp.task('watch-codebase', function () {
 var buildTasks = ['copy-extra', 'copy-fonts', 'copy-images', 'copy-pictures', 'compile-html', 'compile-css', 'compile-scripts'];
 gulp.task('build', buildTasks);
 
-gulp.task('default', function () {
+gulp.task('default', () => {
   if (debug) {
     buildTasks.push('copy-pictures');
   }
   runSequence('clean', 'build', 'web-server', 'watch-codebase');
 });
 
-gulp.task('package', function () {
+gulp.task('package', () => {
   debug = false;
   runSequence('clean', 'build');
 });
@@ -201,8 +214,8 @@ gulp.task('package', function () {
 /************ WEB SERVER ************/
 /****************** *****************/
 
-gulp.task('web-server', function () {
-  return plugins.connect.server({
+gulp.task('web-server', () => {
+  return connect.server({
     root: paths.dist.root,
     livereload: true
   });
