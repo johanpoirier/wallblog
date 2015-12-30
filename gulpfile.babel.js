@@ -5,7 +5,6 @@
 import gulp from 'gulp';
 import addsrc from 'gulp-add-src';
 import autoprefixer from 'gulp-autoprefixer';
-import babel from 'gulp-babel';
 import concat from 'gulp-concat';
 import connect from 'gulp-connect';
 import cssmin from 'gulp-cssmin';
@@ -142,7 +141,7 @@ gulp.task('copy-extra', () => {
 gulp.task('compile-scripts', () => {
   return gulp.src('./app/js/main.js')
     .pipe(sourcemaps.init())
-    .pipe(babel())
+    //.pipe(babel())
     .pipe(requirejsOptimize({
       baseUrl: './app/js',
       name: 'main',

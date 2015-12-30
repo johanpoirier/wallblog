@@ -57,6 +57,8 @@ require.config({
 
   // Libraries
   paths: {
+    'es6': 'vendor/requirejs-babel/es6',
+    'babel': 'vendor/requirejs-babel/babel-5.8.34.min',
     'jquery': 'vendor/jquery-2.1.4/index',
     'keymaster': 'vendor/keymaster/keymaster',
     'handlebars': 'vendor/handlebars/handlebars',

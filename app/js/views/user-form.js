@@ -1,7 +1,7 @@
 define(['underscore',
         'backbone',
         'pubsub',
-        'tools',
+        'es6!tools',
         'models/user',
         'i18n!nls/labels',
         'hbs!templates/user-form'],

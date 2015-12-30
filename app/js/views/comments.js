@@ -1,4 +1,4 @@
-define(['backbone', 'tools', 'views/comment'],
+define(['backbone', 'es6!tools', 'views/comment'],
 
 function(Backbone, tools, CommentView) {
     var CommentsView = Backbone.View.extend({
