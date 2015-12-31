@@ -5,7 +5,7 @@
 <span class="date short">{{formatDate item.date labels.shortDateFormat}}</span>
 <span class="description">
 {{#if item.description}}&nbsp;: {{item.description}} {{else}}
-    {{#if admin}} : {{labels.addDescription}} {{/if}}
+    {{#if admin}}&nbsp;: {{labels.addDescription}} {{/if}}
 {{/if}}
 </span>
 {{#if admin}}
