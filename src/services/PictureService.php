@@ -154,6 +154,8 @@ class PictureService {
 
     public function update($item) {
         $this->logger->addDebug("updating item : " . $item['id']);
+        unset($item['filename']);
+        unset($item['extension']);
         unset($item['prevId']);
         unset($item['nextId']);
         $res = $this->db->update($this->table_name, $item, array('id' => $item['id']));
