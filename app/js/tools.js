@@ -11,7 +11,7 @@ define(function() {
                lastLogin = window.lastLogin;
            }
             var now = new Date();
-            return (lastLogin != 0) && ((now.getTime() - lastLogin) < 600000);
+            return (lastLogin != 0) && ((now.getTime() - lastLogin) < 3600000);
        },
        
        setLoggedTime: function() {
