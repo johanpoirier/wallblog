@@ -1,4 +1,4 @@
-define(['underscore', 'backbone', 'models/comment', 'i18n!nls/labels', 'hbs!templates/comment-form'],
+define(['underscore', 'backbone', 'es6!models/comment', 'i18n!nls/labels', 'hbs!templates/comment-form'],
 
   function (_, Backbone, Comment, labels, tmpl) {
     var CommentFormView = Backbone.View.extend({

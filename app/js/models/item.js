@@ -1,4 +1,4 @@
-import backbone from 'backbone';
+import Backbone from 'backbone';
 import CommentCollection from 'collections/comments';
 
 export default Backbone.Model.extend({

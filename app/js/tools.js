@@ -14,10 +14,10 @@ var isLogged = () => {
 var setLoggedTime = () => {
   let now = Date.now();
   if (window.sessionStorage) {
-    window.sessionStorage.setItem(LAST_LOGIN_KEY, now.getTime());
+    window.sessionStorage.setItem(LAST_LOGIN_KEY, now);
   }
   else {
-    window.lastLogin = now.getTime();
+    window.lastLogin = now;
   }
 };
 

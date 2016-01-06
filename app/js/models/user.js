@@ -1,8 +1,5 @@
-define(['backbone'], function(Backbone) {
-    var UserModel = Backbone.Model.extend({
-        
-        urlRoot: "/api/user"
+import Backbone from 'backbone';
 
-    });
-    return UserModel;
+export default Backbone.Model.extend({
+  urlRoot: "/api/user"
 });
