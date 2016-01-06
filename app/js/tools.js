@@ -8,7 +8,7 @@ var isLogged = () => {
   else {
     lastLogin = window.lastLogin;
   }
-  return (lastLogin != 0) && ((Date.now() - lastLogin) < 600000);
+  return (lastLogin != 0) && ((Date.now() - lastLogin) < 3600000);
 };
 
 var setLoggedTime = () => {

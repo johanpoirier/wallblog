@@ -75,24 +75,27 @@ define(['jquery',
       },
 
       zoom: function (id) {
+        var item;
+        if (!window.items) {
+          window.items = new ItemCollection();
+          item = new Item({ 'id': id });
+        } else {
+          item = window.items.get(id);
+        }
+
         if (!window.itemIds) {
           window.zoomCurrentIndex = 0;
-          $.get("/api/items/ids", _.bind(function (data) {
+          $.get("/api/items/ids", function (data) {
             window.itemIds = data;
-            this.zoomDisplay(id);
-          }, this));
+            this.zoomDisplay(item);
+          }.bind(this));
         }
         else {
-          this.zoomDisplay(id);
+          this.zoomDisplay(item);
         }
       },
 
-      zoomDisplay: function (data) {
-        var id = data;
-        if (data.id) {
-          id = data.id;
-        }
-        var item = new Item({ id: id });
+      zoomDisplay: function (item) {
         var win = $(window);
         new ItemZoomView({
           root: "#main",

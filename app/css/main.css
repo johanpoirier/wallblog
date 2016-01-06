@@ -154,6 +154,12 @@ body > header {
     font-weight: bold;
 }
 
+.headbar input[name='description'] {
+    margin-top: 4px;
+    margin-left: 0.5rem;
+    width: 20rem;
+}
+
 .headbar .extra {
     display: flex;
     flex-direction: row;
@@ -335,7 +341,7 @@ form .form-field-label {
     margin-right: 1rem;
 }
 
-form input[type='text'], form input[type='email'], form input[type='password'], form input[type='url'], form input[type='date'] {
+input[type='text'], input[type='email'], input[type='password'], input[type='url'], input[type='date'] {
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 3px;
@@ -349,7 +355,7 @@ form input[type='text'], form input[type='email'], form input[type='password'], 
     transition: border linear .2s,box-shadow linear .2s;
 }
 
-form textarea {
+textarea {
     border: 1px solid #ccc;
     border-radius: 3px;
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
