@@ -1,7 +1,7 @@
-define(['backbone', 'es6!models/item'], function(Backbone, Item) {
-    var ItemCollection = Backbone.Collection.extend({
-        model: Item,
-        url: 'api/item'
-    });
-    return ItemCollection;
+import backbone from 'backbone';
+import Item from 'models/item';
+
+export default Backbone.Collection.extend({
+  model: Item,
+  url: 'api/item'
 });

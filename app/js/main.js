@@ -1,18 +1,16 @@
 window.WallBlog = {
-    title: "Tan, Johan, Evan & Lyam"
+  title: "Tan, Johan, Evan & Lyam"
 };
 window.document.title = window.WallBlog.title;
 
-require(["config"], function() {
-    require(['router', 'views/header', 'events'],
-        function(AppRouter, HeaderView) {
-            // header
-            window.headerView = new HeaderView({
-                root: "header"
-            });
+import AppRouter from 'router';
+import HeaderView from 'views/header';
+import Events from 'events';
 
-            // create and initialize our router
-            new AppRouter();
-        }
-    );
+// header
+window.headerView = new HeaderView({
+  root: "header"
 });
+
+// create and initialize our router
+new AppRouter();

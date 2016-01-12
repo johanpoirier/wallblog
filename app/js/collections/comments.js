@@ -1,10 +1,10 @@
-define(['backbone', 'es6!models/comment'], function(Backbone, Comment) {
-    var CommentCollection = Backbone.Collection.extend({
-        model: Comment,
+import backbone from 'backbone';
+import Comment from 'models/comment';
 
-        initialize: function(options) {
-            this.url = "/api/item/" + options.item.get("id") + "/comments";
-        }
-    });
-    return CommentCollection;
+export default Backbone.Collection.extend({
+  model: Comment,
+
+  initialize: function (options) {
+    this.url = "/api/item/" + options.item.get("id") + "/comments";
+  }
 });

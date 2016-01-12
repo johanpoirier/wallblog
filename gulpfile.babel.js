@@ -3,6 +3,7 @@
 /***************** *****************/
 
 import gulp from 'gulp';
+import webpack from 'webpack';
 import addsrc from 'gulp-add-src';
 import autoprefixer from 'gulp-autoprefixer';
 import concat from 'gulp-concat';
@@ -13,8 +14,9 @@ import imagemin from 'gulp-imagemin';
 import htmlmin from 'gulp-htmlmin';
 import preprocess from 'gulp-preprocess';
 import requirejsOptimize from 'gulp-requirejs-optimize';
-import uglify from 'gulp-uglify';
 import sourcemaps from 'gulp-sourcemaps';
+import uglify from 'gulp-uglify';
+import util from 'gulp-util';
 
 import del from 'del';
 import path from 'path';
@@ -22,6 +24,8 @@ import runSequence from 'run-sequence';
 import pngquant from 'imagemin-pngquant';
 import { argv as args } from 'yargs';
 import exec from 'child_process';
+
+//var webpackConfig = require('webpack.config');
 
 
 /***************** *****************/
@@ -141,7 +145,6 @@ gulp.task('copy-extra', () => {
 gulp.task('compile-scripts', () => {
   return gulp.src('./app/js/main.js')
     .pipe(sourcemaps.init())
-    //.pipe(babel())
     .pipe(requirejsOptimize({
       baseUrl: './app/js',
       name: 'main',
@@ -158,6 +161,17 @@ gulp.task('compile-scripts', () => {
     .pipe(gulpif(!debug, uglify()))
     .pipe(sourcemaps.write("."))
     .pipe(gulp.dest(paths.dist.js));
+});
+
+gulp.task("webpack", function(callback) {
+  // run webpack
+  webpack(Object.create(webpackConfig), function(err, stats) {
+    if(err) throw new util.PluginError("webpack", err);
+    util.log("[webpack]", stats.toString({
+      // output options
+    }));
+    callback();
+  });
 });
 
 gulp.task('compile-html', () => {
@@ -182,7 +196,6 @@ gulp.task('watch-codebase', () => {
     gulp.watch(paths.css, ['compile-css']);
     gulp.watch(paths.extra, ['copy-extra']);
     gulp.watch(paths.images, ['copy-images']);
-    gulp.watch(paths.js, ['compile-scripts']);
     gulp.watch(paths.templates, ['compile-scripts']);
     gulp.watch(paths.html, ['compile-html']);
   }
@@ -193,7 +206,7 @@ gulp.task('watch-codebase', () => {
 /************ MAIN TASKS ************/
 /****************** *****************/
 
-var buildTasks = ['copy-extra', 'copy-fonts', 'copy-images', 'copy-pictures', 'compile-html', 'compile-css', 'compile-scripts'];
+var buildTasks = ['copy-extra', 'copy-fonts', 'copy-images', 'copy-pictures', 'compile-html', 'compile-css'];
 gulp.task('build', buildTasks);
 
 gulp.task('default', () => {

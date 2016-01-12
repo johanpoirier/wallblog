@@ -1,4 +1,4 @@
-AppEvents = {
+window.AppEvents = {
     ITEMS_ADDED:    'ItemsAdded',
     ITEMS_UPLOADED: 'ItemsUploaded',
     ITEM_ZOOMED:    'ItemZoomed',

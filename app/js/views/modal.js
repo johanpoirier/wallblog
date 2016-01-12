@@ -1,17 +1,14 @@
-define(['backbone', 'hbs!templates/modal'],
+import Backbone from 'backbone';
+import template from 'templates/modal';
 
-  function (Backbone, template) {
-    var ModalView = Backbone.View.extend({
-      template: template,
-      className: 'modal',
-      events: {
-        'click #modalClose': 'close'
-      },
+export default Backbone.View.extend({
+  template: template,
+  className: 'modal',
+  events: {
+    'click #modalClose': 'close'
+  },
 
-      close: function () {
-        this.$el.remove();
-      }
-    });
-
-    return ModalView;
-  });
+  close: function () {
+    this.$el.remove();
+  }
+});

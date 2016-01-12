@@ -1,103 +1,101 @@
-define(['underscore',
-        'backbone',
-        'pubsub',
-        'es6!tools',
-        'es6!models/user',
-        'i18n!nls/labels',
-        'hbs!templates/user-form'],
-    
-    function(_, Backbone, Pubsub, tools, User, labels, tmpl) {
-        var UserFormView = Backbone.View.extend({     
+import _ from 'underscore';
+import Backbone from 'backbone';
+import PubSub from 'pubsub';
+import tools from 'tools';
+import User from 'models/user';
+import labels from 'nls/labels';
+import template from 'templates/user-form';
 
-            template: tmpl,
-            root: "#modal",
-            labels: labels,
-            strategy: "append",
-            tagName: "div",
-            className: "modal",
-            
-            attributes: {
-                id: "userFormModal",
-                tabindex: "-1",
-                role: "dialog",
-                "aria-labelledby": "myModalLabel",
-                "aria-hidden": "true"
-            },
+var UserFormView = Backbone.View.extend({
 
-            events: {
-                "click .btn-primary": "submit",
-                "keypress #password": "keyPressed",
-                "click input": "resetErrors"
-            },
+  template: template,
+  root: "#modal",
+  labels: labels,
+  strategy: "append",
+  tagName: "div",
+  className: "modal",
 
-            initialize: function() {
-                this.model = new User();
-                this.render();
-                this.$el.modal();
-                this.$("#email").focus();
-                this.$el.on("hidden", function() {
-                    Backbone.history.navigate('/', false);
-                });
-            },
-            
-            submit: function() {
-                this.resetErrors();
-                
-                var email = this.$("input[name='email']").val();
-                var password = this.$("input[name='password']").val();
-                var passwordCheck = this.$("input[name='repeatPassword']").val();
-                
-                var error = false;
-                
-                if((email === "") || !this.validateEmail(email)) {
-                    this.$("#groupEmail").addClass("error");
-                    this.$("#groupEmail .help-inline").show();
-                    error = true;
-                }
-                
-                if((password === "") || (password !== passwordCheck)) {
-                    this.$("#groupRepeatPassword").addClass("error");
-                    this.$("#groupRepeatPassword .help-inline").show();
-                    error = true;
-                }
-                
-                if(error) {
-                    return;
-                }
-                
-                this.model.save({
-                    email: email,
-                    password: password
-                },
-                {
-                    success: _.bind(function() {
-                        this.$el.modal('hide');
+  attributes: {
+    id: "userFormModal",
+    tabindex: "-1",
+    role: "dialog",
+    "aria-labelledby": "myModalLabel",
+    "aria-hidden": "true"
+  },
 
-                        // Display login form
-                        Backbone.history.navigate('/login', true);
-                    }, this),
-                    error: function() {
-                        alert("Sorry, a problem occured during the creation of your account.");
-                    }
-                });
-            },
+  events: {
+    "click .btn-primary": "submit",
+    "keypress #password": "keyPressed",
+    "click input": "resetErrors"
+  },
 
-            resetErrors: function() {
-                this.$(".error").removeClass("error");
-                this.$(".help-inline").hide();
-            },
-            
-            keyPressed: function(e) {
-                if(e.keyCode === 13) {
-                    this.submit();
-                }
-            },
-            
-            validateEmail: function (email) { 
-                var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                return re.test(email);
-            } 
-        });
-        return UserFormView;
+  initialize: function () {
+    this.model = new User();
+    this.render();
+    this.$el.modal();
+    this.$("#email").focus();
+    this.$el.on("hidden", function () {
+      Backbone.history.navigate('/', false);
+    });
+  },
+
+  submit: function () {
+    this.resetErrors();
+
+    var email = this.$("input[name='email']").val();
+    var password = this.$("input[name='password']").val();
+    var passwordCheck = this.$("input[name='repeatPassword']").val();
+
+    var error = false;
+
+    if ((email === "") || !this.validateEmail(email)) {
+      this.$("#groupEmail").addClass("error");
+      this.$("#groupEmail .help-inline").show();
+      error = true;
     }
-);
+
+    if ((password === "") || (password !== passwordCheck)) {
+      this.$("#groupRepeatPassword").addClass("error");
+      this.$("#groupRepeatPassword .help-inline").show();
+      error = true;
+    }
+
+    if (error) {
+      return;
+    }
+
+    this.model.save({
+        email: email,
+        password: password
+      },
+      {
+        success: _.bind(function () {
+          this.$el.modal('hide');
+
+          // Display login form
+          Backbone.history.navigate('/login', true);
+        }, this),
+        error: function () {
+          alert("Sorry, a problem occured during the creation of your account.");
+        }
+      });
+  },
+
+  resetErrors: function () {
+    this.$(".error").removeClass("error");
+    this.$(".help-inline").hide();
+  },
+
+  keyPressed: function (e) {
+    if (e.keyCode === 13) {
+      this.submit();
+    }
+  },
+
+  validateEmail: function (email) {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
+});
+
+export default UserFormView;
