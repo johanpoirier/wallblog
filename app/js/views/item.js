@@ -24,6 +24,15 @@ export default Backbone.View.extend({
     }, { silent: true });
   },
 
+  render: function () {
+    var context = {
+      'model': this.model.toJSON(),
+      'labels': labels
+    };
+    this.$el.html(pictureTmpl(context));
+    return this;
+  },
+
   zoom: function () {
     window.currentScollPosition = $(window.document).scrollTop();
     if (this.model.get('id') !== undefined) {

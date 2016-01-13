@@ -26,7 +26,7 @@ var HeaderView = Backbone.View.extend({
     'click': 'hideFilter'
   },
 
-  initialize: function (options) {
+  initialize: function () {
     Pubsub.on(AppEvents.ITEMS_ADDED, this.render, this);
     Pubsub.on(AppEvents.ITEM_ZOOMED, this.renderZoom, this);
     Pubsub.on(AppEvents.USER_LOGGED_IN, this.render, this);
@@ -34,7 +34,6 @@ var HeaderView = Backbone.View.extend({
     Pubsub.on(AppEvents.CLEAR_FILTER, this.clearFilter, this);
     this.nbItems = 0;
     this.admin = false;
-    this.root = $(options.root);
   },
 
   render: function (nbItems) {
@@ -62,8 +61,6 @@ var HeaderView = Backbone.View.extend({
 
     // Filter button
     this.filterView = new FilterDatesView({ el: this.$(".filter"), filter: this.filter });
-
-    this.root.html(this.el);
   },
 
   requestNbItems: function () {

@@ -7,8 +7,6 @@ var UploadView = ModalView.extend({
 
   template: template,
   labels: labels,
-  strategy: 'append',
-  root: 'body',
   className: 'large modal',
 
   attributes: {
@@ -27,10 +25,12 @@ var UploadView = ModalView.extend({
     this.$el.css('opacity', '1');
   },
 
-  render: function () {
-    UploadView.__super__.render.apply(this, [{
-      pictures: this.options.pictures
-    }]);
+  render: function (pictures) {
+    this.pictures = pictures;
+    this.$el.html(template({
+      'pictures': pictures,
+      'labels': labels
+    }));
   },
 
   submit: function (e) {
@@ -39,15 +39,15 @@ var UploadView = ModalView.extend({
     this.$('button').attr('disabled', 'disabled');
     this.$('button.primary').addClass('upload');
     var i = 0;
-    for (i; i < this.options.pictures.length; i += 1) {
-      this.options.pictures[i].description = this.$("input[name='description-" + this.options.pictures[i].id + "']").val();
+    for (i; i < this.pictures.length; i += 1) {
+      this.pictures[i].description = this.$("input[name='description-" + this.pictures[i].id + "']").val();
     }
     $.ajax({
       type: 'POST',
       url: 'api/items',
       dataType: 'json',
       contentType: 'application/json',
-      data: JSON.stringify(this.options.pictures),
+      data: JSON.stringify(this.pictures),
       success: function () {
         this.close();
         Pubsub.trigger(AppEvents.ITEMS_UPLOADED);

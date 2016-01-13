@@ -1,5 +1,5 @@
 import _ from 'underscore';
-import backbone from 'backbone';
+import Backbone from 'backbone';
 import PubSub from 'pubsub';
 import tools from 'tools';
 import ItemView from 'views/item';
@@ -81,7 +81,7 @@ var Grid = Backbone.View.extend({
     }
 
     // render of columns
-    Grid.__super__.render.apply(this, [{ nbColumns: this.nbColumns }]);
+    this.$el.html(template({ nbColumns: this.nbColumns }));
 
     // first time on the site ?
     if (this.collection.length === 0) {
@@ -113,25 +113,26 @@ var Grid = Backbone.View.extend({
     if (window.currentScollPosition) {
       $(document).scrollTop(window.currentScollPosition);
     }
+
+    return this;
   },
 
   renderModel: function (model) {
     var shorterColumId = this.getShorterColumnId();
     var view;
+    var root = this.$("#column" + shorterColumId);
     if (model.get('type') === 'video') {
       view = new VideoView({
-        root: this.$("#column" + shorterColumId),
         model: model
       });
     } else {
       view = new ItemView({
-        'root': this.$("#column" + shorterColumId),
         'model': model
       });
     }
     this.columnsSize[shorterColumId - 1].value += parseFloat(model.get("reverseRatio"));
 
-    view.render();
+    root.append(view.render().el);
   },
 
   getShorterColumnId: function () {
@@ -204,9 +205,9 @@ var Grid = Backbone.View.extend({
 
   uploadFiles: function (files, index) {
     if (index >= files.length) {
-      new UploadView({
-        pictures: this.uploadPictures
-      });
+      var uploadView = new UploadView();
+      uploadView.render(this.uploadPictures);
+      $('body').append(uploadView.el);
       return;
     }
 
@@ -239,7 +240,8 @@ var Grid = Backbone.View.extend({
         start: 0,
         nb: this.currentNbItems,
         comments: true
-      }
+      },
+      reset: true
     });
     Pubsub.trigger(AppEvents.ITEMS_ADDED, -1);
   },

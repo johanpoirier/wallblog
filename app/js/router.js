@@ -26,6 +26,7 @@ var AppRouter = Backbone.Router.extend({
   main: function () {
     // render header bar even if nb items is unknown
     window.headerView.render();
+    $('header').html(window.headerView.el);
 
     // list of all ids
     window.zoomCurrentIndex = 0;
@@ -37,7 +38,8 @@ var AppRouter = Backbone.Router.extend({
     }
 
     // display items on the grid
-    var grid = new Grid({ root: "#main", collection: window.items, filter: this.filter });
+    var grid = new Grid({ collection: window.items, filter: this.filter });
+    $('#main').html(grid.el);
 
     // admin shortcut
     if (!tools.isLogged()) {
@@ -93,12 +95,12 @@ var AppRouter = Backbone.Router.extend({
 
   zoomDisplay: function (item) {
     var win = $(window);
-    new ItemZoomView({
-      root: "#main",
+    var view = new ItemZoomView({
       model: item,
       availableWidth: win.width(),
       availableHeight: win.height() - 44
     });
+    $('#main').html(view.el);
   },
 
   saveFilter: function (monthId, year) {

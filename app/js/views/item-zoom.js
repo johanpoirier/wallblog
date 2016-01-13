@@ -3,20 +3,17 @@ import Backbone from 'backbone';
 import PubSub from 'pubsub';
 import key from 'keymaster';
 import Hammer from 'hammer';
-
-import UploadVideoView from 'views/upload-video';
-import FilterDatesView from 'views/filter-dates';
+import Item from 'models/item';
+import CommentsView from 'views/comments';
+import CommentFormView from 'views/comment-form';
 import tools from 'tools';
 import labels from 'nls/labels';
-import tmpl from 'templates/header';
-import tmplZoom from 'templates/header-zoom';
-import tmplEdit from 'templates/header-edit';
+import template from 'templates/item-zoom';
 
-var ItemZoomView = Backbone.View.extend({
-  template: tmpl,
+export default Backbone.View.extend({
+
   labels: labels,
   className: "zoom",
-  strategy: "replace",
 
   minDesktopWidth: 700,
 
@@ -102,7 +99,7 @@ var ItemZoomView = Backbone.View.extend({
       this.context.videoId = url.split('/').pop();
     }
 
-    ItemZoomView.__super__.render.apply(this);
+    this.$el.html(template(this.context));
 
     var localAvailableWidth = this.$el.find('.picture').outerWidth() * 0.99;
 
@@ -151,7 +148,7 @@ var ItemZoomView = Backbone.View.extend({
     };
     this.model.comments.on("reset", this.renderComments, this);
     this.model.comments.fetch();
-    Pubsub.trigger(AppEvents.ITEM_ZOOMED, this.model);
+    PubSub.trigger(AppEvents.ITEM_ZOOMED, this.model);
   },
 
   renderComments: function () {
