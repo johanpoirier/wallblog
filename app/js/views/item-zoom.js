@@ -2,7 +2,7 @@ import _ from 'underscore';
 import Backbone from 'backbone';
 import PubSub from 'pubsub';
 import key from 'keymaster';
-import Hammer from 'hammer';
+import Hammer from 'hammerjs';
 import Item from 'models/item';
 import CommentsView from 'views/comments';
 import CommentFormView from 'views/comment-form';

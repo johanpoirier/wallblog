@@ -11,7 +11,7 @@ module.exports = {
     loaders: [
       {
         test: /\.js$/,
-        exclude: /vendor/,
+        exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
           presets: ['es2015']
@@ -26,27 +26,15 @@ module.exports = {
       $: "jquery",
       jQuery: "jquery",
       "window.jQuery": "jquery"
-    })
+    }),
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /fr/)
   ],
   'resolve': {
     'root': [
       __dirname + '/app/js',
     ],
-    'modulesDirectories': ['app/js/vendor', 'node_modules'],
     'extensions': ['', '.js', '.hbs', '.json'],
     'alias': {
-      'keymaster': 'vendor/keymaster/keymaster',
-      'handlebars': 'vendor/handlebars/handlebars',
-      'moment': 'vendor/moment/moment',
-      'moment-fr': 'vendor/moment/locale/fr',
-      'hammer': 'vendor/hammerjs/hammer',
-
-      'localstorage': 'libs/localstorage',
-      'text': 'libs/text',
-      'pubsub': 'libs/pubsub',
-      'async': 'libs/async',
-      'resumable': 'libs/resumable',
-
       'templates': __dirname + '/app/templates'
     }
   }

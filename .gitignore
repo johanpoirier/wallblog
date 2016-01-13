@@ -8,4 +8,3 @@ app/videos/*
 app/js/analytics.js
 tests/app.log
 *.iml
-app/js/vendor
