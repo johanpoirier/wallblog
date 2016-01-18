@@ -5,11 +5,6 @@ import template from 'templates/upload-video';
 
 var UploadVideoView = ModalView.extend({
 
-  template: template,
-  labels: labels,
-  strategy: 'append',
-  root: 'body',
-
   attributes: {
     id: 'uploadModal'
   },
@@ -31,9 +26,11 @@ var UploadVideoView = ModalView.extend({
   },
 
   render: function () {
-    UploadVideoView.__super__.render.apply(this, [{
-      formats: this.formats
-    }]);
+    this.$el.html(template({
+      'formats': this.formats,
+      'labels': labels
+    }));
+    $('body').append(this.el);
   },
 
   submit: function (e) {
