@@ -99,6 +99,8 @@ export default Backbone.View.extend({
       this.context.videoId = url.split('/').pop();
     }
 
+    this.context.model = this.model.toJSON();
+    this.context.labels = labels;
     this.$el.html(template(this.context));
 
     var localAvailableWidth = this.$el.find('.picture').outerWidth() * 0.99;

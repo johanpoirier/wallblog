@@ -15,6 +15,7 @@ export default Backbone.View.extend({
   },
 
   renderComment: function (comment) {
-    new CommentView({ model: comment, root: this.el, admin: tools.isLogged() });
+    var view = new CommentView({ model: comment, root: this.el, admin: tools.isLogged() });
+    this.$el.append(view.el);
   }
 });

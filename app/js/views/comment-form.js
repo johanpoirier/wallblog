@@ -5,9 +5,7 @@ import labels from 'nls/labels';
 import template from 'templates/comment-form';
 
 export default Backbone.View.extend({
-  template: template,
-  labels: labels,
-  strategy: 'append',
+
   tagName: 'form',
   className: 'comment-form',
 
@@ -18,9 +16,16 @@ export default Backbone.View.extend({
   },
 
   initialize: function (options) {
-    this.render();
     this.item = options.item;
     this.model = new Comment({ idItem: this.item.get("id") });
+    this.render();
+  },
+
+  render: function () {
+    this.$el.html(template({
+      'model': this.model.toJSON(),
+      'labels': labels
+    }));
   },
 
   showFullForm: function () {
@@ -49,7 +54,7 @@ export default Backbone.View.extend({
     }
   },
 
-  cancel: function (event) {
+  cancel: function () {
     if (this.$(".masked:hidden").length === 0) {
       this.hideForm();
     }
