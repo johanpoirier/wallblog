@@ -12,7 +12,7 @@ export default Backbone.View.extend({
   month: null,
   monthId: null,
 
-  years: ["2015", "2014", "2013", "2012", "2011"],
+  years: ["2016", "2015", "2014", "2013", "2012", "2011"],
   months: [
     { id: "01", value: "Janvier" },
     { id: "02", value: "Février" },
