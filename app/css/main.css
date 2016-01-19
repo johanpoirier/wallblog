@@ -189,46 +189,42 @@ body > header {
     background-color: #3189c1;
 }
 
-#main {
+main {
     padding-top: 2.4rem;
 }
 
 .grid {
     display: flex;
+    flex-wrap: wrap;
+    /*justify-content: flex-start;*/
+    justify-content: space-between;
+    padding: 0 0.3rem;
     width: 100%;
 }
 
-.grid .column {
-    padding-left: 0.6rem;
-    width: 100%;
-}
-
-.column:last-child {
-    padding-right: 0.6rem;
-}
-
-.column .item {
+.item {
     position: relative;
-    margin-top: 1%;
+    margin-top: 0.1rem;
+    /*margin-left: 0.3rem;*/
 }
 
-.column .item img, .column .item video, .column .item iframe {
+.item video, .item iframe {
     cursor: pointer;
     position: relative;
     width: 100%;
 }
-.column .item img, .column .item video, .column .item iframe, .picture img, .picture iframe {
+.item img, .item video, .item iframe, .picture img, .picture iframe {
     -moz-box-shadow: 1px 1px 5px #999;
     -webkit-box-shadow: 1px 1px 5px #999;
     box-shadow: 1px 1px 5px #999;
 }
-.column .item img:hover, .column .item video:hover, .column .item iframe:hover {
+.item img:hover, .item video:hover, .item iframe:hover {
     -moz-box-shadow: 2px 2px 6px #FFFFBC;
     -webkit-box-shadow: 2px 2px 6px #FFFFBC;
     box-shadow: 2px 2px 6px #FFFFBC;
 }
 
-.column .item .date, .column .item .description, .column .item .nb-comments {
+.item .date, .item .description, .item .nb-comments {
     background: rgba(0, 0, 0, 0.5);
     color: #ffffff;
     font-size: large;
@@ -239,15 +235,15 @@ body > header {
     visibility: hidden;
     width: 100%;
 }
-.column .item:hover .date, .column .item:hover .description, .column .item:hover .nb-comments {
+.item:hover .date, .item:hover .description, .item:hover .nb-comments {
     visibility: visible;
 }
 
-.column .item .description {
+.item .description {
     bottom: 4px;
     line-height: 1.5rem;
 }
-.column .item .date {
+.item .date {
     font-size: medium;
     padding: 4px 5px;
     text-align: center;
@@ -256,7 +252,7 @@ body > header {
     width: auto;
 }
 
-.column .item .nb-comments {
+.item .nb-comments {
     bottom: auto;
     font-size: medium;
     padding: 4px 0 4px 5px;

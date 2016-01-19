@@ -19,13 +19,9 @@ define(['underscore',
 
       loading: false,
       loadingIncrement: 6,
-      currentNbItems: 15,
+      currentNbItems: 36,
       maxItemsToUpload: 12,
-
-      settings: {
-        initNbColumns: 3,
-        minColumnWidth: 160
-      },
+      height: 200,
 
       events: {
         dragover: "handleDragOver",
@@ -69,36 +65,21 @@ define(['underscore',
         this.loading = false;
         this.lastYOffset = window.pageYOffset;
 
-        // compute number of columns
-        this.nbColumns = this.settings.initNbColumns;
-        while ((Math.round(this.screenWidth / this.nbColumns) < this.settings.minColumnWidth) && (this.nbColumns > 1)) {
-          this.nbColumns--;
-        }
-
-        // save columns heights
-        this.columnsSize = [];
-        for (var i = 0; i < this.nbColumns; i++) {
-          this.columnsSize[i] = {
-            id: i + 1,
-            value: 0
-          };
-        }
-
         // render of columns
-        Grid.__super__.render.apply(this, [ { nbColumns: this.nbColumns } ]);
+        Grid.__super__.render.apply(this);
 
         // first time on the site ?
         if (this.collection.length === 0) {
           // Display one default image per column
-          for (i = 0; i < this.nbColumns * 3; i++) {
+          for (var i = 0; i < 15; i++) {
             this.collection.add({
               file: "empty.jpg",
               date: "2011-10-17 18:56:10",
               ratio: 1,
-              reverseRatio: 1
-            }, {
-              silent: true
-            });
+              reverseRatio: 1,
+              width: this.height,
+              height: this.height
+            }, { silent: true });
           }
 
           // Check if no user in db
@@ -111,6 +92,25 @@ define(['underscore',
         }
 
         // render of items
+        var lineWidthMax = Math.floor($('main').width() * 0.96);
+        var lineWidth = 0;
+        var lineItems = [];
+        this.collection.each(function(item) {
+          item.set({
+            'width': this.height * item.get('ratio'),
+            'height': this.height
+          });
+          if (lineWidth > lineWidthMax) {
+            var gap = (lineWidthMax - lineWidth) / lineItems.length;
+            lineItems.forEach(function (item) {
+              item.set('width', Math.floor(item.get('width') + gap));
+            }.bind(this));
+            lineItems = [];
+            lineWidth = 0;
+          }
+          lineItems.push(item);
+          lineWidth += item.get('width');
+        }.bind(this));
         this.collection.each(this.renderModel, this);
 
         // set last scroll position
@@ -120,28 +120,20 @@ define(['underscore',
       },
 
       renderModel: function (model) {
-        var shorterColumId = this.getShorterColumnId();
         var view;
         if (model.get('type') === 'video') {
           view = new VideoView({
-            root: this.$("#column" + shorterColumId),
+            root: this.$el,
             model: model
           });
         } else {
           view = new ItemView({
-            'root': this.$("#column" + shorterColumId),
+            'root': this.$el,
             'model': model
           });
         }
-        this.columnsSize[shorterColumId - 1].value += parseFloat(model.get("reverseRatio"));
 
         view.render();
-      },
-
-      getShorterColumnId: function () {
-        return _.reduceRight(this.columnsSize, function (a, b) {
-          return (a.value < b.value) ? a : b;
-        }).id;
       },
 
       screenResize: function () {
