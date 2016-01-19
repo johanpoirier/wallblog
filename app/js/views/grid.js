@@ -8,9 +8,8 @@ import UploadView from 'views/upload';
 import template from 'templates/grid';
 
 var Grid = Backbone.View.extend({
-  template: template,
+
   className: "grid",
-  strategy: "replace",
   tagName: "section",
 
   loading: false,

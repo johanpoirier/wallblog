@@ -10,8 +10,7 @@ import tmplZoom from 'templates/header-zoom';
 import tmplEdit from 'templates/header-edit';
 
 var HeaderView = Backbone.View.extend({
-  template: tmpl,
-  labels: labels,
+
   className: 'headbar',
 
   events: {
@@ -56,7 +55,6 @@ var HeaderView = Backbone.View.extend({
     }
 
     // render header bar
-    this.template = tmpl;
     this.$el.html(tmpl({ nbItems: this.nbItems, title: WallBlog.title, labels: labels }));
 
     // Filter button
@@ -77,14 +75,12 @@ var HeaderView = Backbone.View.extend({
     this.$el.addClass('zoom');
 
     // render with description in header bar
-    this.template = tmplZoom;
     this.item = item;
-    HeaderView.__super__.render.apply(this, [{ "item": item.toJSON(), "admin": tools.isLogged() }]);
+    this.$el.html(tmplZoom({ "item": item.toJSON(), "admin": tools.isLogged(), labels: labels }));
   },
 
   renderEdit: function () {
-    this.template = tmplEdit;
-    HeaderView.__super__.render.apply(this, [{ "item": this.item.toJSON(), "admin": tools.isLogged() }]);
+    this.$el.html(tmplEdit({ "item": item.toJSON(), "admin": tools.isLogged(), labels: labels }));
     this.$("input").focus();
   },
 
@@ -93,7 +89,8 @@ var HeaderView = Backbone.View.extend({
       this.showLogin();
     }
     else {
-      new UploadVideoView();
+      var videoUploadView = new UploadVideoView();
+      $('body').append(videoUploadView.el);
     }
   },
 

@@ -5,10 +5,7 @@ import pictureTmpl from 'templates/picture';
 
 export default Backbone.View.extend({
 
-  template: pictureTmpl,
-  labels: labels,
   className: 'item',
-  strategy: 'append',
   tagName: 'article',
 
   events: {

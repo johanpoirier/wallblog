@@ -30,7 +30,6 @@ var UploadVideoView = ModalView.extend({
       'formats': this.formats,
       'labels': labels
     }));
-    $('body').append(this.el);
   },
 
   submit: function (e) {
