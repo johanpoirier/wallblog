@@ -208,6 +208,10 @@ main {
     /*margin-left: 0.3rem;*/
 }
 
+/*.item img {
+    width: auto;
+}*/
+
 .item video, .item iframe {
     cursor: pointer;
     position: relative;

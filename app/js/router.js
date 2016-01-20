@@ -98,7 +98,7 @@ define(['jquery',
       zoomDisplay: function (item) {
         var win = $(window);
         new ItemZoomView({
-          root: "#main",
+          root: "main",
           model: item,
           availableWidth: win.width(),
           availableHeight: win.height() - 44

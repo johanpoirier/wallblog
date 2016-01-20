@@ -3,16 +3,13 @@ define(['underscore',
     'jquery',
     'pubsub',
     'tools',
-    'views/item',
-    'views/video',
+    'views/line',
     'views/upload',
-    'hbs!templates/grid',
     'resthub-handlebars'],
 
-  function (_, Backbone, $, Pubsub, tools, ItemView, VideoView, UploadView, gridTmpl) {
+  function (_, Backbone, $, Pubsub, tools, LineView, UploadView) {
 
     var Grid = Backbone.View.extend({
-      template: gridTmpl,
       className: "grid",
       strategy: "replace",
       tagName: "section",
@@ -21,7 +18,8 @@ define(['underscore',
       loadingIncrement: 6,
       currentNbItems: 36,
       maxItemsToUpload: 12,
-      height: 200,
+
+      currentLine: null,
 
       events: {
         dragover: "handleDragOver",
@@ -32,6 +30,9 @@ define(['underscore',
         // listen to window resize event
         this.screenWidth = $(window).width();
         $(window).resize(_.bind(this.screenResize, this));
+
+        // first line
+        this.newLine();
 
         // fetch items
         Pubsub.on(AppEvents.ITEMS_UPLOADED, this.fetchCurrent, this);
@@ -65,9 +66,6 @@ define(['underscore',
         this.loading = false;
         this.lastYOffset = window.pageYOffset;
 
-        // render of columns
-        Grid.__super__.render.apply(this);
-
         // first time on the site ?
         if (this.collection.length === 0) {
           // Display one default image per column
@@ -92,26 +90,22 @@ define(['underscore',
         }
 
         // render of items
-        var lineWidthMax = Math.floor($('main').width() * 0.96);
-        var lineWidth = 0;
-        var lineItems = [];
+        var lineWidthMax = Math.floor($('main').width() * 0.97);
+        var lineWidth = 0, lastRatio = 1;
         this.collection.each(function(item) {
-          item.set({
-            'width': this.height * item.get('ratio'),
-            'height': this.height
-          });
-          if (lineWidth > lineWidthMax) {
-            var gap = (lineWidthMax - lineWidth) / lineItems.length;
-            lineItems.forEach(function (item) {
-              item.set('width', Math.floor(item.get('width') + gap));
-            }.bind(this));
-            lineItems = [];
+          var ratio = Math.abs(lineWidth - lineWidthMax) / lineWidthMax;
+          if (ratio > lastRatio) {
+            this.renderLine(lineWidthMax / lineWidth);
+            this.newLine();
             lineWidth = 0;
+            lastRatio = 1;
+          } else {
+            lastRatio = ratio;
           }
-          lineItems.push(item);
-          lineWidth += item.get('width');
+          this.addToLine(item);
+          lineWidth += this.lineHeight * item.get('ratio');
         }.bind(this));
-        this.collection.each(this.renderModel, this);
+        this.renderLine(lineWidthMax / lineWidth);
 
         // set last scroll position
         if (window.currentScollPosition) {
@@ -119,21 +113,17 @@ define(['underscore',
         }
       },
 
-      renderModel: function (model) {
-        var view;
-        if (model.get('type') === 'video') {
-          view = new VideoView({
-            root: this.$el,
-            model: model
-          });
-        } else {
-          view = new ItemView({
-            'root': this.$el,
-            'model': model
-          });
-        }
+      newLine: function () {
+        this.currentLine = new LineView({ 'el': this.$el });
+      },
 
-        view.render();
+      renderLine: function (ratio) {
+        this.currentLine.setRatio(ratio);
+        this.currentLine.renderLine();
+      },
+
+      addToLine: function (item) {
+        this.currentLine.addItem(item);
       },
 
       screenResize: function () {
