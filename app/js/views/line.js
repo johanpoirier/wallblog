@@ -9,22 +9,34 @@ define([
 
       defaultHeight: 320,
 
-      initialize: function () {
+      initialize: function (options) {
         this.height = this.defaultHeight;
         this.items = [];
         this.ratio = 1;
+        this.width = 0;
+        this.maxWidth = options.maxWidth;
       },
 
       addItem: function (item) {
         this.items.push(item);
+        this.width += this.height * item.get('ratio');
+        this.ratio = Math.abs(this.width - this.maxWidth) / this.maxWidth;
       },
 
-      setRatio: function (ratio) {
-        this.ratio = ratio > 1.2 ? 1 : ratio;
-        this.height = Math.floor(this.ratio * this.defaultHeight);
+      getHeight: function () {
+        return this.height;
+      },
+
+      getWidth: function () {
+        return this.width;
+      },
+
+      getRatio: function () {
+        return this.ratio;
       },
 
       renderLine: function () {
+        this.height = Math.floor((this.maxWidth / this.width) * this.defaultHeight);
         this.items.forEach(this.renderModel.bind(this));
         return this;
       },

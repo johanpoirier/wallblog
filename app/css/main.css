@@ -32,6 +32,7 @@ body {
     background-color: #f9f9f9;
     font-family: 'SansationRegular', sans-serif;
     margin: 0;
+    overflow-y: scroll;
     padding: 0;
 }
 
@@ -197,8 +198,8 @@ main {
     display: flex;
     flex-wrap: wrap;
     /*justify-content: flex-start;*/
-    justify-content: space-between;
-    padding: 0 0.3rem;
+    justify-content: space-around;
+    margin: 0;
     width: 100%;
 }
 

@@ -16,7 +16,7 @@ define(['underscore',
 
       loading: false,
       loadingIncrement: 6,
-      currentNbItems: 36,
+      currentNbItems: 18,
       maxItemsToUpload: 12,
 
       currentLine: null,
@@ -31,12 +31,9 @@ define(['underscore',
         this.screenWidth = $(window).width();
         $(window).resize(_.bind(this.screenResize, this));
 
-        // first line
-        this.newLine();
-
         // fetch items
         Pubsub.on(AppEvents.ITEMS_UPLOADED, this.fetchCurrent, this);
-        this.collection.on("add", this.renderModel, this);
+        this.collection.on("add", this.addItemToLine, this);
         this.collection.on("reset", this.render, this);
         this.collection.on("remove", this.render, this);
         if (this.collection.length === 0) {
@@ -66,10 +63,14 @@ define(['underscore',
         this.loading = false;
         this.lastYOffset = window.pageYOffset;
 
+        // first line
+        this.$el.empty();
+        this.newLine();
+
         // first time on the site ?
         if (this.collection.length === 0) {
           // Display one default image per column
-          for (var i = 0; i < 15; i++) {
+          for (var i = 0; i < 18; i++) {
             this.collection.add({
               file: "empty.jpg",
               date: "2011-10-17 18:56:10",
@@ -90,22 +91,8 @@ define(['underscore',
         }
 
         // render of items
-        var lineWidthMax = Math.floor($('main').width() * 0.97);
-        var lineWidth = 0, lastRatio = 1;
-        this.collection.each(function(item) {
-          var ratio = Math.abs(lineWidth - lineWidthMax) / lineWidthMax;
-          if (ratio > lastRatio) {
-            this.renderLine(lineWidthMax / lineWidth);
-            this.newLine();
-            lineWidth = 0;
-            lastRatio = 1;
-          } else {
-            lastRatio = ratio;
-          }
-          this.addToLine(item);
-          lineWidth += this.lineHeight * item.get('ratio');
-        }.bind(this));
-        this.renderLine(lineWidthMax / lineWidth);
+        this.lastRatio = 1;
+        this.collection.each(this.addItemToLine, this);
 
         // set last scroll position
         if (window.currentScollPosition) {
@@ -113,17 +100,23 @@ define(['underscore',
         }
       },
 
-      newLine: function () {
-        this.currentLine = new LineView({ 'el': this.$el });
-      },
-
-      renderLine: function (ratio) {
-        this.currentLine.setRatio(ratio);
-        this.currentLine.renderLine();
-      },
-
-      addToLine: function (item) {
+      addItemToLine: function (item) {
+        var ratio = this.currentLine.getRatio();
+        if (ratio > this.lastRatio) {
+          this.currentLine.renderLine();
+          this.newLine();
+          this.lastRatio = 1;
+        } else {
+          this.lastRatio = ratio;
+        }
         this.currentLine.addItem(item);
+      },
+
+      newLine: function () {
+        var lineWidthMax = Math.floor(this.$el.innerWidth() * 0.98);
+        this.currentLine = new LineView({
+          'el': this.$el, 'maxWidth': lineWidthMax
+        });
       },
 
       screenResize: function () {
@@ -146,11 +139,11 @@ define(['underscore',
               nb: this.loadingIncrement,
               comments: true
             },
-            success: _.bind(function () {
+            success: function (items) {
               this.loading = false;
-            }, this)
+              this.currentNbItems = items.length;
+            }.bind(this)
           });
-          this.currentNbItems += this.loadingIncrement;
         }
         this.lastYOffset = window.pageYOffset;
       },
