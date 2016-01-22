@@ -75,9 +75,7 @@ define(['underscore',
               file: "empty.jpg",
               date: "2011-10-17 18:56:10",
               ratio: 1,
-              reverseRatio: 1,
-              width: this.height,
-              height: this.height
+              reverseRatio: 1
             }, { silent: true });
           }
 
@@ -91,8 +89,10 @@ define(['underscore',
         }
 
         // render of items
-        this.lastRatio = 1;
         this.collection.each(this.addItemToLine, this);
+        if (this.filter && !this.currentLine.isRendered()) {
+          this.currentLine.renderLine();
+        }
 
         // set last scroll position
         if (window.currentScollPosition) {
@@ -101,15 +101,9 @@ define(['underscore',
       },
 
       addItemToLine: function (item) {
-        var ratio = this.currentLine.getRatio();
-        if (ratio > this.lastRatio) {
-          this.currentLine.renderLine();
-          this.newLine();
-          this.lastRatio = 1;
-        } else {
-          this.lastRatio = ratio;
+        if (!this.currentLine.addItem(item)) {
+          this.newLine().addItem(item);
         }
-        this.currentLine.addItem(item);
       },
 
       newLine: function () {
@@ -117,6 +111,7 @@ define(['underscore',
         this.currentLine = new LineView({
           'el': this.$el, 'maxWidth': lineWidthMax
         });
+        return this.currentLine;
       },
 
       screenResize: function () {
