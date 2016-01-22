@@ -16,7 +16,7 @@ define(['underscore',
 
       loading: false,
       loadingIncrement: 6,
-      currentNbItems: 18,
+      currentNbItems: 24,
       maxItemsToUpload: 12,
 
       currentLine: null,
@@ -90,7 +90,7 @@ define(['underscore',
 
         // render of items
         this.collection.each(this.addItemToLine, this);
-        if (this.filter && !this.currentLine.isRendered()) {
+        if ((this.filter && !this.currentLine.isRendered()) || (this.currentNbItems == window.itemIds.length)) {
           this.currentLine.renderLine();
         }
 
