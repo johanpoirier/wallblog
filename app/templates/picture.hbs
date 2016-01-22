@@ -5,7 +5,7 @@
              /pictures/{{model.filename}}--1024.{{model.extension}} 1024w,
              /pictures/{{model.filename}}--1600.{{model.extension}} 1600w,
              /pictures/{{model.file}} 2048w"
-     srcWidthsizes="{{#if model.srcWidth}}{{model.srcWidth}}vw{{else}}(max-width: 160px) 99vw, (max-width: 320px) 50vw, 33.33vw{{/if}}"
+     sizes="{{#if model.srcWidth}}{{model.srcWidth}}vw{{else}}(max-width: 160px) 99vw, (max-width: 320px) 50vw, 33.33vw{{/if}}"
      {{#if model.width}} width="{{model.width}}"{{/if}}{{#if model.height}} height="{{model.height}}"{{/if}} />
 {{#if model.date}}
     <span class="date">{{formatDate model.date labels.dateFormat}}</span>
