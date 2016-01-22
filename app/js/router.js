@@ -55,6 +55,7 @@ define(['jquery',
         key('ctrl+alt+d', function () {
           window.items = new ItemCollection();
           grid = new GridRow({ root: "main", collection: window.items, filter: this.filter });
+          grid.listenToScroll();
           grid.render();
         });
 
