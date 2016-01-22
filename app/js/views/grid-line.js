@@ -90,7 +90,7 @@ define(['underscore',
 
         // render of items
         this.collection.each(this.addItemToLine, this);
-        if ((this.filter && !this.currentLine.isRendered()) || (this.currentNbItems == window.itemIds.length)) {
+        if ((this.filter && !this.currentLine.isRendered())) {
           this.currentLine.renderLine();
         }
 

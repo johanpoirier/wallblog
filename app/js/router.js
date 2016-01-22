@@ -51,6 +51,13 @@ define(['jquery',
           });
         }
 
+        // line / row
+        key('ctrl+alt+d', function () {
+          window.items = new ItemCollection();
+          grid = new GridRow({ root: "main", collection: window.items, filter: this.filter });
+          grid.render();
+        });
+
         grid.listenToScroll();
 
         // get list of all ids if not yet

@@ -49,9 +49,11 @@ define([
       },
 
       renderModel: function (item) {
+        var itemWidth = Math.floor(this.height * item.get('ratio'));
         item.set({
-          'width': Math.floor(this.height * item.get('ratio')),
-          'height': this.height
+          'width': itemWidth,
+          'height': this.height,
+          'srcWidth': Math.floor(100 * itemWidth / this.maxWidth)
         }, { silent: true });
 
         var view;
