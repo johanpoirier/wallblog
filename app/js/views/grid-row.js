@@ -3,23 +3,29 @@ define(['underscore',
     'jquery',
     'pubsub',
     'tools',
-    'views/line',
+    'views/item',
+    'views/video',
     'views/upload',
+    'hbs!templates/grid-row',
     'resthub-handlebars'],
 
-  function (_, Backbone, $, Pubsub, tools, LineView, UploadView) {
+  function (_, Backbone, $, Pubsub, tools, ItemView, VideoView, UploadView, template) {
 
-    var Grid = Backbone.View.extend({
-      className: "grid",
+    var GridRow = Backbone.View.extend({
+      template: template,
+      className: "grid row",
       strategy: "replace",
       tagName: "section",
 
       loading: false,
       loadingIncrement: 6,
-      currentNbItems: 24,
+      currentNbItems: 15,
       maxItemsToUpload: 12,
 
-      currentLine: null,
+      settings: {
+        initNbColumns: 3,
+        minColumnWidth: 160
+      },
 
       events: {
         dragover: "handleDragOver",
@@ -33,7 +39,7 @@ define(['underscore',
 
         // fetch items
         Pubsub.on(AppEvents.ITEMS_UPLOADED, this.fetchCurrent, this);
-        this.collection.on("add", this.addItemToLine, this);
+        this.collection.on("add", this.renderModel, this);
         this.collection.on("reset", this.render, this);
         this.collection.on("remove", this.render, this);
         if (this.collection.length === 0) {
@@ -63,20 +69,36 @@ define(['underscore',
         this.loading = false;
         this.lastYOffset = window.pageYOffset;
 
-        // first line
-        this.$el.empty();
-        this.newLine();
+        // compute number of columns
+        this.nbColumns = this.settings.initNbColumns;
+        while ((Math.round(this.screenWidth / this.nbColumns) < this.settings.minColumnWidth) && (this.nbColumns > 1)) {
+          this.nbColumns--;
+        }
+
+        // save columns heights
+        this.columnsSize = [];
+        for (var i = 0; i < this.nbColumns; i++) {
+          this.columnsSize[i] = {
+            id: i + 1,
+            value: 0
+          };
+        }
+
+        // render of columns
+        GridRow.__super__.render.apply(this, [ { nbColumns: this.nbColumns } ]);
 
         // first time on the site ?
         if (this.collection.length === 0) {
           // Display one default image per column
-          for (var i = 0; i < 18; i++) {
+          for (i = 0; i < this.nbColumns * 3; i++) {
             this.collection.add({
               file: "empty.jpg",
               date: "2011-10-17 18:56:10",
               ratio: 1,
               reverseRatio: 1
-            }, { silent: true });
+            }, {
+              silent: true
+            });
           }
 
           // Check if no user in db
@@ -89,10 +111,7 @@ define(['underscore',
         }
 
         // render of items
-        this.collection.each(this.addItemToLine, this);
-        if ((this.filter && !this.currentLine.isRendered()) || (this.currentNbItems == window.itemIds.length)) {
-          this.currentLine.renderLine();
-        }
+        this.collection.each(this.renderModel, this);
 
         // set last scroll position
         if (window.currentScollPosition) {
@@ -100,18 +119,29 @@ define(['underscore',
         }
       },
 
-      addItemToLine: function (item) {
-        if (!this.currentLine.addItem(item)) {
-          this.newLine().addItem(item);
+      renderModel: function (model) {
+        var shorterColumId = this.getShorterColumnId();
+        var view;
+        if (model.get('type') === 'video') {
+          view = new VideoView({
+            root: this.$("#column" + shorterColumId),
+            model: model
+          });
+        } else {
+          view = new ItemView({
+            'root': this.$("#column" + shorterColumId),
+            'model': model
+          });
         }
+        this.columnsSize[shorterColumId - 1].value += parseFloat(model.get("reverseRatio"));
+
+        view.render();
       },
 
-      newLine: function () {
-        var lineWidthMax = Math.floor(this.$el.innerWidth() * 0.98);
-        this.currentLine = new LineView({
-          'el': this.$el, 'maxWidth': lineWidthMax
-        });
-        return this.currentLine;
+      getShorterColumnId: function () {
+        return _.reduceRight(this.columnsSize, function (a, b) {
+          return (a.value < b.value) ? a : b;
+        }).id;
       },
 
       screenResize: function () {
@@ -134,11 +164,11 @@ define(['underscore',
               nb: this.loadingIncrement,
               comments: true
             },
-            success: function (items) {
+            success: _.bind(function () {
               this.loading = false;
-              this.currentNbItems = items.length;
-            }.bind(this)
+            }, this)
           });
+          this.currentNbItems += this.loadingIncrement;
         }
         this.lastYOffset = window.pageYOffset;
       },
@@ -241,5 +271,5 @@ define(['underscore',
         this.fetchCurrent();
       }
     });
-    return Grid;
+    return GridRow;
   });

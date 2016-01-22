@@ -4,12 +4,13 @@ define(['jquery',
     'tools',
     'models/item',
     'collections/items',
-    'views/grid',
+    'views/grid-line',
+    'views/grid-row',
     'views/item-zoom',
     'views/user-form',
     'backbone-queryparams'],
 
-  function ($, Backbone, key, tools, Item, ItemCollection, Grid, ItemZoomView, UserFormView) {
+  function ($, Backbone, key, tools, Item, ItemCollection, GridLine, GridRow, ItemZoomView, UserFormView) {
 
     var AppRouter = Backbone.Router.extend({
 
@@ -41,7 +42,7 @@ define(['jquery',
         }
 
         // display items on the grid
-        var grid = new Grid({ root: "main", collection: window.items, filter: this.filter });
+        var grid = new GridLine({ root: "main", collection: window.items, filter: this.filter });
 
         // admin shortcut
         if (!tools.isLogged()) {
