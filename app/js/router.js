@@ -15,10 +15,12 @@ define(['jquery',
     var AppRouter = Backbone.Router.extend({
 
       initialize: function () {
-        Backbone.history.start({ pushState: true, root: "/" });
+        this.displayMode = Constants.DISPLAY_MODE_LINE;
 
         Pubsub.on(AppEvents.FILTER, this.saveFilter, this);
         Pubsub.on(AppEvents.CLEAR_FILTER, this.clearFilter, this);
+
+        Backbone.history.start({ pushState: true, root: "/" });
       },
 
       routes: {
@@ -42,7 +44,13 @@ define(['jquery',
         }
 
         // display items on the grid
-        var grid = new GridLine({ root: "main", collection: window.items, filter: this.filter });
+        var grid, dataGrid = { root: "main", collection: window.items, filter: this.filter };
+        if (this.displayMode == Constants.DISPLAY_MODE_LINE) {
+          grid = new GridLine(dataGrid);
+        } else {
+          grid = new GridRow(dataGrid);
+        }
+        grid.listenToScroll();
 
         // admin shortcut
         if (!tools.isLogged()) {
@@ -52,14 +60,7 @@ define(['jquery',
         }
 
         // line / row
-        key('ctrl+alt+d', function () {
-          window.items = new ItemCollection();
-          grid = new GridRow({ root: "main", collection: window.items, filter: this.filter });
-          grid.listenToScroll();
-          grid.render();
-        });
-
-        grid.listenToScroll();
+        //key('ctrl+alt+d', this.changeDisplayMode.bind(this));
 
         // get list of all ids if not yet
         if (!window.itemIds) {
@@ -67,6 +68,12 @@ define(['jquery',
           this.getListOfIds();
         }
       },
+
+      /*changeDisplayMode: function () {
+        this.displayMode = (this.displayMode == Constants.DISPLAY_MODE_LINE) ? Constants.DISPLAY_MODE_ROW : Constants.DISPLAY_MODE_LINE;
+        window.items = null;
+        this.main();
+      },*/
 
       getListOfIds: function () {
         $.get("/api/items/ids", function (data) {

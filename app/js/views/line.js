@@ -7,7 +7,7 @@ define([
 
     var LineView = Backbone.View.extend({
 
-      defaultHeight: 270,
+      defaultHeight: 300,
 
       initialize: function (options) {
         this.height = this.defaultHeight;

@@ -124,8 +124,12 @@ define(['underscore',
         }
       },
 
+      listenToScroll: function () {
+        $(window).scroll(_.bind(this.loadMore, this));
+      },
+
       loadMore: function () {
-        if (!this.filter && !this.loading && ((window.pageYOffset - this.lastYOffset) > 0) && (($(window).scrollTop() - ($(document).height() - $(window).height())) <= 0)) {
+        if (!this.filter && !this.loading && ((window.innerHeight + window.pageYOffset) > 0.8 * this.$el.height())) {
           this.loading = true;
           this.collection.fetch({
             add: true,
@@ -216,10 +220,6 @@ define(['underscore',
           }
         });
         Pubsub.trigger(AppEvents.ITEMS_ADDED, -1);
-      },
-
-      listenToScroll: function () {
-        $(window).scroll(_.bind(this.loadMore, this));
       },
 
       filterItems: function (month, year) {
