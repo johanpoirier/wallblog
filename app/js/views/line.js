@@ -7,26 +7,25 @@ define([
 
     var LineView = Backbone.View.extend({
 
-      defaultHeight: 300,
-
       initialize: function (options) {
-        this.height = this.defaultHeight;
+        this.baseHeight = options.baseHeight || 300;
+        this.height = this.baseHeight;
         this.width = 0;
         this.maxWidth = options.maxWidth;
-        this.ratio = 1;
+        this.currentRatio = 1;
         this.items = [];
         this.rendered = false;
       },
 
       addItem: function (item) {
-        var futureWidth = this.width + (this.height * item.get('ratio'));
+        var futureWidth = this.width + parseFloat(item.get('ratio'));
         var futureRatio = this.computeRatio(futureWidth);
-        if (futureRatio > this.ratio) {
+        if (futureRatio > this.currentRatio) {
           this.renderLine();
           return false;
         }
 
-        this.ratio = futureRatio;
+        this.currentRatio = futureRatio;
         this.width = futureWidth;
         this.items.push(item);
 
@@ -39,10 +38,10 @@ define([
 
       renderLine: function () {
         this.rendered = true;
-        if (this.ratio > 0.5) {
-          this.height = this.defaultHeight;
+        if (this.currentRatio > 0.5) {
+          this.height = this.baseHeight;
         } else {
-          this.height = Math.floor((this.maxWidth / this.width) * this.defaultHeight);
+          this.height = Math.floor((this.maxWidth / this.width) * this.baseHeight);
         }
         this.items.forEach(this.renderModel.bind(this));
         return this;
@@ -53,7 +52,7 @@ define([
         item.set({
           'width': itemWidth,
           'height': this.height,
-          'srcWidth': Math.floor(100 * itemWidth / this.maxWidth)
+          'srcWidth': Math.floor(100 * item.get('ratio') / this.baseLineRatio)
         }, { silent: true });
 
         var view;

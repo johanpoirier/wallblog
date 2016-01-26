@@ -54,6 +54,7 @@ define(['underscore',
         Pubsub.on(AppEvents.CLEAR_FILTER, this.clearFilter, this);
       },
 
+
       onDispose: function () {
         $(window).unbind("resize");
         $(window).unbind("scroll");
@@ -61,7 +62,10 @@ define(['underscore',
 
       render: function () {
         this.loading = false;
-        this.lastYOffset = window.pageYOffset;
+
+        // line dimensions
+        this.lineBaseHeight = Math.floor($(window).height() / 3);
+        this.lineMaxWidth = (this.$el.innerWidth() * 0.98) / this.lineBaseHeight;
 
         // first line
         this.$el.empty();
@@ -107,9 +111,10 @@ define(['underscore',
       },
 
       newLine: function () {
-        var lineWidthMax = Math.floor(this.$el.innerWidth() * 0.98);
         this.currentLine = new LineView({
-          'el': this.$el, 'maxWidth': lineWidthMax
+          'el': this.$el,
+          'maxWidth': this.lineMaxWidth,
+          'baseHeight': this.lineBaseHeight
         });
         return this.currentLine;
       },
@@ -125,7 +130,7 @@ define(['underscore',
       },
 
       listenToScroll: function () {
-        $(window).scroll(_.bind(this.loadMore, this));
+        $(window).scroll(_.throttle(this.loadMore.bind(this), 300));
       },
 
       loadMore: function () {
@@ -144,7 +149,6 @@ define(['underscore',
             }.bind(this)
           });
         }
-        this.lastYOffset = window.pageYOffset;
       },
 
       handleFileSelect: function (e) {
