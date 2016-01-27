@@ -15,7 +15,7 @@ define(['jquery',
     var AppRouter = Backbone.Router.extend({
 
       initialize: function () {
-        this.displayMode = Constants.DISPLAY_MODE_LINE;
+        this.displayMode = window.localStorage.getItem(Constants.DISPLAY_MODE_LABEL) || Constants.DISPLAY_MODE_LINE;
 
         Pubsub.on(AppEvents.FILTER, this.saveFilter, this);
         Pubsub.on(AppEvents.CLEAR_FILTER, this.clearFilter, this);
@@ -60,7 +60,7 @@ define(['jquery',
         }
 
         // line / row
-        //key('ctrl+alt+d', this.changeDisplayMode.bind(this));
+        key('ctrl+alt+d', this.changeDisplayMode.bind(this));
 
         // get list of all ids if not yet
         if (!window.itemIds) {
@@ -69,11 +69,10 @@ define(['jquery',
         }
       },
 
-      /*changeDisplayMode: function () {
-        this.displayMode = (this.displayMode == Constants.DISPLAY_MODE_LINE) ? Constants.DISPLAY_MODE_ROW : Constants.DISPLAY_MODE_LINE;
-        window.items = null;
-        this.main();
-      },*/
+      changeDisplayMode: function () {
+        window.localStorage.setItem(Constants.DISPLAY_MODE_LABEL, (this.displayMode == Constants.DISPLAY_MODE_LINE) ? Constants.DISPLAY_MODE_ROW : Constants.DISPLAY_MODE_LINE);
+        window.location.reload(true);
+      },
 
       getListOfIds: function () {
         $.get("/api/items/ids", function (data) {
