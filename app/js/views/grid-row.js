@@ -6,14 +6,14 @@ define(['underscore',
     'views/item',
     'views/video',
     'views/upload',
-    'hbs!templates/grid',
+    'hbs!templates/grid-row',
     'resthub-handlebars'],
 
-  function (_, Backbone, $, Pubsub, tools, ItemView, VideoView, UploadView, gridTmpl) {
+  function (_, Backbone, $, Pubsub, tools, ItemView, VideoView, UploadView, template) {
 
-    var Grid = Backbone.View.extend({
-      template: gridTmpl,
-      className: "grid",
+    var GridRow = Backbone.View.extend({
+      template: template,
+      className: "grid row",
       strategy: "replace",
       tagName: "section",
 
@@ -85,7 +85,7 @@ define(['underscore',
         }
 
         // render of columns
-        Grid.__super__.render.apply(this, [ { nbColumns: this.nbColumns } ]);
+        GridRow.__super__.render.apply(this, [ { nbColumns: this.nbColumns } ]);
 
         // first time on the site ?
         if (this.collection.length === 0) {
@@ -271,5 +271,5 @@ define(['underscore',
         this.fetchCurrent();
       }
     });
-    return Grid;
+    return GridRow;
   });

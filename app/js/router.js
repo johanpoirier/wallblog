@@ -4,20 +4,23 @@ define(['jquery',
     'tools',
     'models/item',
     'collections/items',
-    'views/grid',
+    'views/grid-line',
+    'views/grid-row',
     'views/item-zoom',
     'views/user-form',
     'backbone-queryparams'],
 
-  function ($, Backbone, key, tools, Item, ItemCollection, Grid, ItemZoomView, UserFormView) {
+  function ($, Backbone, key, tools, Item, ItemCollection, GridLine, GridRow, ItemZoomView, UserFormView) {
 
     var AppRouter = Backbone.Router.extend({
 
       initialize: function () {
-        Backbone.history.start({ pushState: true, root: "/" });
+        this.displayMode = window.localStorage.getItem(Constants.DISPLAY_MODE_LABEL) || Constants.DISPLAY_MODE_LINE;
 
         Pubsub.on(AppEvents.FILTER, this.saveFilter, this);
         Pubsub.on(AppEvents.CLEAR_FILTER, this.clearFilter, this);
+
+        Backbone.history.start({ pushState: true, root: "/" });
       },
 
       routes: {
@@ -41,7 +44,13 @@ define(['jquery',
         }
 
         // display items on the grid
-        var grid = new Grid({ root: "#main", collection: window.items, filter: this.filter });
+        var grid, dataGrid = { root: "main", collection: window.items, filter: this.filter };
+        if (this.displayMode == Constants.DISPLAY_MODE_LINE) {
+          grid = new GridLine(dataGrid);
+        } else {
+          grid = new GridRow(dataGrid);
+        }
+        grid.listenToScroll();
 
         // admin shortcut
         if (!tools.isLogged()) {
@@ -50,13 +59,19 @@ define(['jquery',
           });
         }
 
-        grid.listenToScroll();
+        // line / row
+        key('ctrl+alt+d', this.changeDisplayMode.bind(this));
 
         // get list of all ids if not yet
         if (!window.itemIds) {
           window.zoomCurrentIndex = 0;
           this.getListOfIds();
         }
+      },
+
+      changeDisplayMode: function () {
+        window.localStorage.setItem(Constants.DISPLAY_MODE_LABEL, (this.displayMode == Constants.DISPLAY_MODE_LINE) ? Constants.DISPLAY_MODE_ROW : Constants.DISPLAY_MODE_LINE);
+        window.location.reload(true);
       },
 
       getListOfIds: function () {
@@ -98,7 +113,7 @@ define(['jquery',
       zoomDisplay: function (item) {
         var win = $(window);
         new ItemZoomView({
-          root: "#main",
+          root: "main",
           model: item,
           availableWidth: win.width(),
           availableHeight: win.height() - 44

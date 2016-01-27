@@ -21,6 +21,7 @@ var exec = require('child_process').exec;
 
 var debug = false;
 var env = args.env;
+var buildVersion = false;
 
 if (env === undefined) {
   env = 'local';
@@ -96,7 +97,7 @@ gulp.task('compile-css', function () {
   return gulp.src(paths.css)
     .pipe(gulpif(!debug, plugins.cssmin()))
     .pipe(gulpif(!debug, plugins.autoprefixer()))
-    .pipe(plugins.concat('main.css'))
+    .pipe(plugins.concat('main' + (buildVersion ? buildVersion : '') + '.css'))
     .pipe(gulp.dest(paths.dist.css))
     .pipe(plugins.connect.reload());
 });
@@ -143,7 +144,7 @@ gulp.task('compile-scripts', function () {
       include: ['nls/labels', 'nls/fr/labels']
     }))
     .pipe(addsrc.prepend(paths.require))
-    .pipe(plugins.concat('wallblog.js'))
+    .pipe(plugins.concat('wallblog' + (buildVersion ? buildVersion : '') + '.js'))
     .pipe(gulpif(!debug, plugins.uglify()))
     .pipe(gulp.dest(paths.dist.js));
 });
@@ -153,6 +154,7 @@ gulp.task('compile-html', function () {
   if (debug) {
     context.DEBUG = true;
   }
+  context.BUILD_VERSION = (buildVersion !== false) ? buildVersion : '';
   return gulp.src(paths.html)
     .pipe(plugins.preprocess({ 'context': context }))
     .pipe(gulpif(!debug, plugins.htmlmin({ 'collapseWhitespace': true })))
@@ -193,6 +195,7 @@ gulp.task('default', function () {
 
 gulp.task('package', function () {
   debug = false;
+  buildVersion = Math.floor(Math.random() * 100000000);
   runSequence('clean', 'build');
 });
 
