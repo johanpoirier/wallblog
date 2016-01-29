@@ -47,8 +47,8 @@ export default Backbone.Router.extend({
     } else {
       grid = new GridRow(dataGrid);
     }
+    $('main').html(grid.el);
     grid.listenToScroll();
-    $('#main').html(grid.el);
 
     // line / row
     key('ctrl+alt+d', this.changeDisplayMode.bind(this));

@@ -81,7 +81,7 @@ export default Backbone.View.extend({
   render: function () {
     this.context.picture = (this.model.get('type') === 'picture');
     if (this.context.picture) {
-      $(window).resize(_.debounce(this.screenResize.bind(this), 200));
+      $(window).resize(_.debounce(this.screenResize.bind(this), 100));
 
       var file = encodeURIComponent(decodeURIComponent(this.model.get('file'))), filenameInfo = file.split('.');
       this.model.set({

@@ -62,7 +62,6 @@ export default Backbone.View.extend({
 
   render: function () {
     this.loading = false;
-    this.lastYOffset = window.pageYOffset;
 
     // compute number of columns
     this.nbColumns = this.settings.initNbColumns;
@@ -151,22 +150,24 @@ export default Backbone.View.extend({
   },
 
   loadMore: function () {
-    if (!this.filter && !this.loading && ((window.pageYOffset - this.lastYOffset) > 0) && (($(window).scrollTop() - ($(document).height() - $(window).height())) <= 0)) {
+    console.debug("load more ?");
+    if (!this.filter && !this.loading && ((window.innerHeight + window.pageYOffset) > 0.8 * this.$el.height())) {
       this.loading = true;
+      console.debug(" -> yes !");
       this.collection.fetch({
-        add: true,
-        data: {
-          start: this.currentNbItems,
-          nb: this.loadingIncrement,
-          comments: true
+        'add': true,
+        'remove': false,
+        'data': {
+          'start': this.currentNbItems,
+          'nb': this.loadingIncrement,
+          'comments': true
         },
-        success: _.bind(function () {
+        'success': function (items) {
           this.loading = false;
-        }, this)
+          this.currentNbItems = items.length;
+        }.bind(this)
       });
-      this.currentNbItems += this.loadingIncrement;
     }
-    this.lastYOffset = window.pageYOffset;
   },
 
   handleFileSelect: function (e) {
@@ -246,7 +247,7 @@ export default Backbone.View.extend({
   },
 
   listenToScroll: function () {
-    $(window).scroll(_.bind(this.loadMore, this));
+    $(window).on("scroll", _.throttle(this.loadMore.bind(this), 300));
   },
 
   filterItems: function (month, year) {

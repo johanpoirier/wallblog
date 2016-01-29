@@ -22,9 +22,7 @@ export default Backbone.View.extend({
   },
 
   initialize: function (options) {
-    // listen to window resize event
-    this.screenWidth = $(window).width();
-    $(window).resize(_.bind(this.screenResize, this));
+    this.render();
 
     // fetch items
     Pubsub.on(AppEvents.ITEMS_UPLOADED, this.fetchCurrent, this);
@@ -40,6 +38,9 @@ export default Backbone.View.extend({
       this.render();
     }
 
+    // on resize, re-compute lines
+    $(window).on('resize', _.debounce(this.screenResize.bind(this), 100));
+
     // listen to filter
     if (options.filter) {
       this.filter = true;
@@ -49,21 +50,24 @@ export default Backbone.View.extend({
     Pubsub.on(AppEvents.CLEAR_FILTER, this.clearFilter, this);
   },
 
-
   onDispose: function () {
-    $(window).unbind("resize");
-    $(window).unbind("scroll");
+    $(window).unbind('resize');
+    $(window).unbind('scroll');
+  },
+
+  computeLineDimensions: function () {
+    this.screenWidth = $(window.document).innerWidth();
+    this.screenHeight = $(window).height();
+    this.lineBaseHeight = Math.floor(this.screenHeight / 3);
+    this.lineMaxWidth = (this.screenWidth * 0.98) / this.lineBaseHeight;
   },
 
   render: function () {
     this.loading = false;
 
-    // line dimensions
-    this.lineBaseHeight = Math.floor($(window).height() / 3);
-    this.lineMaxWidth = (this.$el.innerWidth() * 0.98) / this.lineBaseHeight;
-
     // first line
     this.$el.empty();
+    this.computeLineDimensions();
     this.newLine();
 
     // first time on the site ?
@@ -89,7 +93,7 @@ export default Backbone.View.extend({
 
     // render of items
     this.collection.each(this.addItemToLine, this);
-    if ((this.filter && !this.currentLine.isRendered())) {
+    if (this.filter && !this.currentLine.isRendered()) {
       this.currentLine.renderLine();
     }
 
@@ -115,9 +119,13 @@ export default Backbone.View.extend({
   },
 
   screenResize: function () {
-    var currentScreenWidth = $(window).width();
-    var reRender = (this.screenWidth !== currentScreenWidth);
+    var currentScreenWidth = $(window.document).innerWidth();
+    var currentScreenHeight = $(window).height();
+
+    var reRender = (this.screenWidth !== currentScreenWidth) || (this.screenHeight !== currentScreenHeight);
+
     this.screenWidth = currentScreenWidth;
+    this.screenHeight = currentScreenHeight;
 
     if (reRender) {
       this.render();
@@ -125,20 +133,21 @@ export default Backbone.View.extend({
   },
 
   listenToScroll: function () {
-    $(window).scroll(_.throttle(this.loadMore.bind(this), 300));
+    $(window).on('scroll', _.throttle(this.loadMore.bind(this), 300));
   },
 
   loadMore: function () {
     if (!this.filter && !this.loading && ((window.innerHeight + window.pageYOffset) > 0.8 * this.$el.height())) {
       this.loading = true;
       this.collection.fetch({
-        add: true,
-        data: {
-          start: this.currentNbItems,
-          nb: this.loadingIncrement,
-          comments: true
+        'add': true,
+        'remove': false,
+        'data': {
+          'start': this.currentNbItems,
+          'nb': this.loadingIncrement,
+          'comments': true
         },
-        success: function (items) {
+        'success': function (items) {
           this.loading = false;
           this.currentNbItems = items.length;
         }.bind(this)
@@ -211,12 +220,13 @@ export default Backbone.View.extend({
   fetchCurrent: function () {
     this.filter = false;
     this.collection.fetch({
-      data: {
-        filter: this.filter ? this.filterValue : null,
-        start: 0,
-        nb: this.currentNbItems,
-        comments: true
-      }
+      'data': {
+        'filter': this.filter ? this.filterValue : null,
+        'start': 0,
+        'nb': this.currentNbItems,
+        'comments': true
+      },
+      'reset': true
     });
     Pubsub.trigger(AppEvents.ITEMS_ADDED, -1);
   },
