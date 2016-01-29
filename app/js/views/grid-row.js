@@ -5,11 +5,11 @@ import tools from 'tools';
 import ItemView from 'views/item';
 import VideoView from 'views/video';
 import UploadView from 'views/upload';
-import template from 'templates/grid';
+import template from 'templates/grid-row';
 
-var Grid = Backbone.View.extend({
+export default Backbone.View.extend({
 
-  className: "grid",
+  className: "grid row",
   tagName: "section",
 
   loading: false,
@@ -268,5 +268,3 @@ var Grid = Backbone.View.extend({
     this.fetchCurrent();
   }
 });
-
-export default Grid;

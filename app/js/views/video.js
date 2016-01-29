@@ -2,7 +2,7 @@ import ItemView from 'views/item';
 import labels from 'nls/labels';
 import videoTmpl from 'templates/video';
 
-var VideoView = ItemView.extend({
+export default ItemView.extend({
 
   template: videoTmpl,
   labels: labels,
@@ -25,5 +25,3 @@ var VideoView = ItemView.extend({
     };
   }
 });
-
-export default VideoView;

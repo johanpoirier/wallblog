@@ -34,6 +34,7 @@ import exec from 'child_process';
 
 var debug = false;
 var env = args.env;
+var buildVersion = false;
 
 if (env === undefined) {
   env = 'local';
@@ -109,7 +110,7 @@ gulp.task('compile-css', () => {
   return gulp.src(paths.css)
     .pipe(gulpif(!debug, cssmin()))
     .pipe(gulpif(!debug, autoprefixer()))
-    .pipe(concat('main.css'))
+    .pipe(concat('main' + (buildVersion ? buildVersion : '') + '.css'))
     .pipe(gulp.dest(paths.dist.css))
     .pipe(connect.reload());
 });
@@ -157,7 +158,7 @@ gulp.task('compile-scripts', () => {
       include: ['nls/labels', 'nls/fr/labels']
     }))
     .pipe(addsrc.prepend(paths.require))
-    .pipe(concat('wallblog.js'))
+    .pipe(concat('wallblog' + (buildVersion ? buildVersion : '') + '.js'))
     .pipe(gulpif(!debug, uglify()))
     .pipe(sourcemaps.write("."))
     .pipe(gulp.dest(paths.dist.js));
@@ -179,6 +180,7 @@ gulp.task('compile-html', () => {
   if (debug) {
     context.DEBUG = true;
   }
+  context.BUILD_VERSION = (buildVersion !== false) ? buildVersion : '';
   return gulp.src(paths.html)
     .pipe(preprocess({ 'context': context }))
     .pipe(gulpif(!debug, htmlmin({ 'collapseWhitespace': true })))
@@ -218,6 +220,7 @@ gulp.task('default', () => {
 
 gulp.task('package', () => {
   debug = false;
+  buildVersion = Math.floor(Math.random() * 100000000);
   runSequence('clean', 'build');
 });
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" manifest="/manifest.appcache">
+<html lang="fr">
 <head>
     <meta charset="utf-8">
     <title>Wallblog</title>
@@ -18,7 +18,7 @@
     <link rel="apple-touch-icon" sizes="114x114" href="/img/wallblog-icon-114.png"/>
     <link rel="apple-touch-icon" sizes="144x144" href="/img/wallblog-icon-144.png"/>
     <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
-    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/main<!-- @echo BUILD_VERSION -->.css" rel="stylesheet">
     <!-- @ifndef DEBUG -->
     <script async type="text/javascript" src="analytics.js"> </script>
     <!-- @endif -->
@@ -27,10 +27,10 @@
 <body>
     <header></header>
     <aside></aside>
-    <section id="main"></section>
+    <main></main>
     <footer></footer>
 
-    <script src="/js/wallblog.js" type="text/javascript"> </script>
+    <script src="/js/wallblog<!-- @echo BUILD_VERSION -->.js" type="text/javascript"> </script>
     <!-- @ifdef DEBUG -->
     <script src="//localhost:35729/livereload.js"></script>
     <!-- @endif --></body>

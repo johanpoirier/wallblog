@@ -3,17 +3,20 @@ import key from 'keymaster';
 import tools from 'tools';
 import Item from 'models/item';
 import ItemCollection from 'collections/items';
-import Grid from 'views/grid';
+import GridLine from 'views/grid-line';
+import GridRow from 'views/grid-row';
 import ItemZoomView from 'views/item-zoom';
 import UserFormView from 'views/user-form';
 
-var AppRouter = Backbone.Router.extend({
+export default Backbone.Router.extend({
 
   initialize: function () {
-    Backbone.history.start({ pushState: true, root: "/" });
+    this.displayMode = window.localStorage.getItem(Constants.DISPLAY_MODE_LABEL) || Constants.DISPLAY_MODE_LINE;
 
     Pubsub.on(AppEvents.FILTER, this.saveFilter, this);
     Pubsub.on(AppEvents.CLEAR_FILTER, this.clearFilter, this);
+
+    Backbone.history.start({ pushState: true, root: "/" });
   },
 
   routes: {
@@ -38,8 +41,17 @@ var AppRouter = Backbone.Router.extend({
     }
 
     // display items on the grid
-    var grid = new Grid({ collection: window.items, filter: this.filter });
+    var grid, dataGrid = { collection: window.items, filter: this.filter };
+    if (this.displayMode == Constants.DISPLAY_MODE_LINE) {
+      grid = new GridLine(dataGrid);
+    } else {
+      grid = new GridRow(dataGrid);
+    }
+    grid.listenToScroll();
     $('#main').html(grid.el);
+
+    // line / row
+    key('ctrl+alt+d', this.changeDisplayMode.bind(this));
 
     // admin shortcut
     if (!tools.isLogged()) {
@@ -48,13 +60,16 @@ var AppRouter = Backbone.Router.extend({
       });
     }
 
-    grid.listenToScroll();
-
     // get list of all ids if not yet
     if (!window.itemIds) {
       window.zoomCurrentIndex = 0;
       this.getListOfIds();
     }
+  },
+
+  changeDisplayMode: function () {
+    window.localStorage.setItem(Constants.DISPLAY_MODE_LABEL, (this.displayMode == Constants.DISPLAY_MODE_LINE) ? Constants.DISPLAY_MODE_ROW : Constants.DISPLAY_MODE_LINE);
+    window.location.reload(true);
   },
 
   getListOfIds: function () {
@@ -114,5 +129,3 @@ var AppRouter = Backbone.Router.extend({
     this.filter = null;
   }
 });
-
-export default AppRouter;
