@@ -110,12 +110,12 @@ export default Backbone.Router.extend({
 
   zoomDisplay: function (item) {
     var win = $(window);
-    var view = new ItemZoomView({
+    new ItemZoomView({
+      root: $('main'),
       model: item,
       availableWidth: win.width(),
       availableHeight: win.height() - 44
     });
-    $('#main').html(view.el);
   },
 
   saveFilter: function (monthId, year) {

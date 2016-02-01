@@ -2,7 +2,6 @@ var webpack = require('webpack');
 
 module.exports = {
   'entry': 'main',
-  'devtool': '#@hidden-source-map',
   'output': {
     'path': 'dist/js',
     'publicPath': './js/',

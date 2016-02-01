@@ -3,21 +3,27 @@ import labels from 'nls/labels';
 import template from 'templates/comment';
 
 export default Backbone.View.extend({
-  template: template,
-  labels: labels,
+
   className: 'comment',
-  strategy: 'prepend',
 
   events: {
     'click .delete': 'deleteComment'
   },
 
-  initialize: function () {
+  initialize: function (options) {
     this.model.on('destroy', this.remove, this);
     this.render();
-    if (this.options.admin) {
+    if (options.admin) {
       this.$('span.delete').show();
     }
+  },
+
+  render: function () {
+    this.$el.html(template({
+      'model': this.model.toJSON(),
+      'labels': labels
+    }));
+    return this;
   },
 
   deleteComment: function () {

@@ -12,10 +12,11 @@ export default Backbone.View.extend({
   render: function () {
     this.$el.html("");
     this.collection.each(this.renderComment, this);
+    return this;
   },
 
   renderComment: function (comment) {
-    var view = new CommentView({ model: comment, root: this.el, admin: tools.isLogged() });
+    var view = new CommentView({ model: comment, admin: tools.isLogged() });
     this.$el.append(view.el);
   }
 });

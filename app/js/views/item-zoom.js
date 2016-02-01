@@ -28,6 +28,7 @@ export default Backbone.View.extend({
   initialize: function (options) {
     this.availableHeight = options.availableHeight || 200;
     this.availableWidth = options.availableWidth || this.minDesktopWidth;
+    this.root = options.root;
 
     if (this.model.get("file")) {
       this.render();
@@ -102,6 +103,7 @@ export default Backbone.View.extend({
     this.context.model = this.model.toJSON();
     this.context.labels = labels;
     this.$el.html(template(this.context));
+    this.root.html(this.el);
 
     var localAvailableWidth = this.$el.find('.picture').outerWidth() * 0.99;
 
@@ -149,7 +151,7 @@ export default Backbone.View.extend({
       return comment.get("id");
     };
     this.model.comments.on("reset", this.renderComments, this);
-    this.model.comments.fetch();
+    this.model.comments.fetch({ 'reset': true });
     PubSub.trigger(AppEvents.ITEM_ZOOMED, this.model);
   },
 
