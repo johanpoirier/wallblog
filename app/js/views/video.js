@@ -1,13 +1,10 @@
 import ItemView from 'views/item';
 import labels from 'nls/labels';
-import videoTmpl from 'templates/video';
+import template from 'templates/video';
 
 export default ItemView.extend({
 
-  template: videoTmpl,
-  labels: labels,
   className: "item",
-  strategy: "append",
 
   events: {
     'click .click-overlay': 'zoom'
@@ -16,12 +13,17 @@ export default ItemView.extend({
   initialize: function () {
     var url = this.model.get('file');
     this.context = {
-      width: this.root.width(),
-      height: Math.round(this.root.width() * this.model.get("reverseRatio")),
-      youtube: (url.match(/youtu/) !== null),
-      vimeo: (url.match(/vimeo/) !== null),
-      dailymotion: (url.match(/dailymotion/) !== null),
-      videoId: url.split('/').pop()
+      'youtube': (url.match(/youtu/) !== null),
+      'vimeo': (url.match(/vimeo/) !== null),
+      'dailymotion': (url.match(/dailymotion/) !== null),
+      'videoId': url.split('/').pop()
     };
+  },
+
+  render: function () {
+    this.context.model = this.model.toJSON();
+    this.context.labels = labels;
+    this.$el.html(template(this.context));
+    return this;
   }
 });

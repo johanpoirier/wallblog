@@ -22,8 +22,6 @@ export default Backbone.View.extend({
   },
 
   initialize: function (options) {
-    this.render();
-
     // fetch items
     Pubsub.on(AppEvents.ITEMS_UPLOADED, this.fetchCurrent, this);
     this.collection.on("add", this.addItemToLine, this);
