@@ -56,7 +56,7 @@ export default Backbone.View.extend({
   },
 
   computeLineDimensions: function () {
-    this.screenWidth = $(window.document).innerWidth();
+    this.screenWidth = $(window).innerWidth();
     this.screenHeight = $(window).height();
     this.lineBaseHeight = Math.floor(this.screenHeight / 3);
     this.lineMaxWidth = (this.screenWidth * 0.98) / this.lineBaseHeight;
@@ -119,7 +119,7 @@ export default Backbone.View.extend({
   },
 
   screenResize: function () {
-    var currentScreenWidth = $(window.document).innerWidth();
+    var currentScreenWidth = $(window).innerWidth();
     var currentScreenHeight = $(window).height();
 
     var reRender = (this.screenWidth !== currentScreenWidth) || (this.screenHeight !== currentScreenHeight);
@@ -190,9 +190,8 @@ export default Backbone.View.extend({
 
   uploadFiles: function (files, index) {
     if (index >= files.length) {
-      new UploadView({
-        pictures: this.uploadPictures
-      });
+      var uploadView = new UploadView();
+      $('body').append(uploadView.render(this.uploadPictures).el);
       return;
     }
 

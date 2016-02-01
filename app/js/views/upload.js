@@ -20,17 +20,14 @@ var UploadView = ModalView.extend({
     'submit form': 'submit'
   },
 
-  initialize: function () {
-    this.render();
-    this.$el.css('opacity', '1');
-  },
-
   render: function (pictures) {
     this.pictures = pictures;
     this.$el.html(template({
       'pictures': pictures,
       'labels': labels
     }));
+    this.$el.css('opacity', '1');
+    return this;
   },
 
   submit: function (e) {

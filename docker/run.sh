@@ -8,6 +8,7 @@ DOCKER_WORKSPACE='/var/www/wallblog'
 GULP_LOG="${DOCKER_WORKSPACE}/logs/gulp.log"
 
 
+docker rm -f -v "$IMAGE_NAME" > /dev/null 2>&1
 rm -f "$CID_FILE"
 
 echo "Running docker container"
