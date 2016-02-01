@@ -37,7 +37,6 @@ define([
       },
 
       renderLine: function () {
-        this.rendered = true;
         if (this.currentRatio > 0.5) {
           this.height = this.baseHeight;
         } else {
@@ -48,11 +47,15 @@ define([
       },
 
       renderModel: function (item) {
+        if (item.get('rendered')) {
+          this.$('#' + item.get('id')).remove();
+        }
         var itemWidth = Math.floor(this.height * item.get('ratio'));
         item.set({
           'width': itemWidth,
           'height': this.height,
-          'srcWidth': Math.floor(100 * item.get('ratio') / this.baseLineRatio)
+          'srcWidth': Math.floor(100 * item.get('ratio') / this.maxWidth),
+          'rendered': true
         }, { silent: true });
 
         var view;
@@ -71,7 +74,9 @@ define([
       },
 
       isRendered: function () {
-        return this.rendered;
+        return this.items.every(function (item) {
+          return item.get('rendered');
+        });
       }
     });
 

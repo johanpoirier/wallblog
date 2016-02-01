@@ -20,6 +20,7 @@ define(['underscore',
       maxItemsToUpload: 12,
 
       currentLine: null,
+      lastItemId: false,
 
       events: {
         dragover: "handleDragOver",
@@ -94,7 +95,7 @@ define(['underscore',
 
         // render of items
         this.collection.each(this.addItemToLine, this);
-        if ((this.filter && !this.currentLine.isRendered())) {
+        if (!this.currentLine.isRendered()) {
           this.currentLine.renderLine();
         }
 
@@ -108,6 +109,16 @@ define(['underscore',
         if (!this.currentLine.addItem(item)) {
           this.newLine().addItem(item);
         }
+        if (this.checkIfLastItem(item)) {
+          this.currentLine.renderLine();
+        }
+      },
+
+      checkIfLastItem: function (item) {
+        if (!this.lastItemId && window.itemIds) {
+          this.lastItemId = window.itemIds[window.itemIds.length - 1];
+        }
+        return item.get('id') === this.lastItemId;
       },
 
       newLine: function () {
@@ -134,7 +145,7 @@ define(['underscore',
       },
 
       loadMore: function () {
-        if (!this.filter && !this.loading && ((window.innerHeight + window.pageYOffset) > 0.8 * this.$el.height())) {
+        if (!this.filter && !this.loading && ((window.innerHeight + window.pageYOffset) > 0.7 * this.$el.height())) {
           this.loading = true;
           this.collection.fetch({
             add: true,

@@ -18,6 +18,12 @@ define(['jquery',
         'click': 'zoom'
       },
 
+      attributes: function () {
+        return {
+          'id': this.model.get('id')
+        }
+      },
+
       initialize: function () {
         var file = encodeURIComponent(decodeURIComponent(this.model.get('file'))), filenameInfo = file.split('.');
         this.model.set({
