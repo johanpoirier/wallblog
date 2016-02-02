@@ -78,22 +78,21 @@ function(Backbone, $, PubSub, labels, tmpl, tmplMini) {
 
         selectYear: function(e) {
             e.stopImmediatePropagation();
-            this.$(".year span").removeClass("selected");
+            this.$('.year span').removeClass('selected');
 
             var year = this.$(e.currentTarget);
             if(!this.year || this.year !== year.html()) {
-                this.$(e.currentTarget).addClass("selected");
+                this.$(e.currentTarget).addClass('selected');
                 this.year = year.html();
-                this.$(".column.month").removeClass('hidden');
-                this.$el.addClass("expanded");
+                this.$('.column.month').removeClass('hidden');
+                this.$el.addClass('expanded');
             }
             else {
-                this.$(e.currentTarget).removeClass("selected");
+                this.$(e.currentTarget).removeClass('selected');
                 this.year = null;
                 this.month = null;
                 this.monthId = null;
-                this.$(".column.month").addClass('hidden');
-                this.$el.removeClass("expanded");
+                this.$('.column.month').addClass('hidden');
             }
         },
 
