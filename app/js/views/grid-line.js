@@ -15,7 +15,7 @@ define(['underscore',
       tagName: "section",
 
       loading: false,
-      loadingIncrement: 6,
+      loadingIncrement: 12,
       currentNbItems: 24,
       maxItemsToUpload: 12,
 
@@ -66,7 +66,7 @@ define(['underscore',
 
         // line dimensions
         this.lineBaseHeight = Math.floor($(window).height() / 3);
-        this.lineMaxWidth = (this.$el.innerWidth() * 0.98) / this.lineBaseHeight;
+        this.lineMaxWidth = (this.$el.innerWidth() * 0.97) / this.lineBaseHeight;
 
         // first line
         this.$el.empty();
@@ -145,7 +145,7 @@ define(['underscore',
       },
 
       loadMore: function () {
-        if (!this.filter && !this.loading && ((window.innerHeight + window.pageYOffset) > 0.7 * this.$el.height())) {
+        if (!this.filter && !this.loading && ((window.innerHeight + window.pageYOffset) > 0.6 * this.$el.height())) {
           this.loading = true;
           this.collection.fetch({
             add: true,
