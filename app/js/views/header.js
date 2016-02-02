@@ -5,7 +5,7 @@ import UploadVideoView from 'views/upload-video';
 import FilterDatesView from 'views/filter-dates';
 import tools from 'tools';
 import labels from 'nls/labels';
-import tmpl from 'templates/header';
+import template from 'templates/header';
 import tmplZoom from 'templates/header-zoom';
 import tmplEdit from 'templates/header-edit';
 
@@ -55,7 +55,7 @@ var HeaderView = Backbone.View.extend({
     }
 
     // render header bar
-    this.$el.html(tmpl({ nbItems: this.nbItems, title: WallBlog.title, labels: labels }));
+    this.$el.html(template({ nbItems: this.nbItems, title: WallBlog.title, labels: labels }));
 
     // Filter button
     this.filterView = new FilterDatesView({ el: this.$(".filter"), filter: this.filter });
@@ -169,7 +169,7 @@ var HeaderView = Backbone.View.extend({
   },
 
   deletePicture: function () {
-    if (window.confirm(labels.confirmDeletePicture)) {
+    if (window.confirm(labels['confirmDeletePicture'])) {
       window.items.remove(this.item);
       this.item.destroy();
     }

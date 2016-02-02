@@ -246,10 +246,11 @@ export default Backbone.View.extend({
       filterValue += "-" + month;
     }
     this.collection.fetch({
-      data: {
-        filter: filterValue,
-        comments: true
-      }
+      'data': {
+        'filter': filterValue,
+        'comments': true
+      },
+      'reset': true
     });
   },
 

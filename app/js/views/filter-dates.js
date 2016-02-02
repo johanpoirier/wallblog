@@ -1,12 +1,10 @@
 import backbone from 'backbone';
 import PubSub from 'pubsub';
 import labels from 'nls/labels';
-import tmpl from 'templates/filter-dates';
-import tmplMini from 'templates/filter-text';
+import template from 'templates/filter-dates';
+import templateMini from 'templates/filter-text';
 
 export default Backbone.View.extend({
-  template: tmplMini,
-  labels: labels,
 
   year: null,
   month: null,
@@ -36,8 +34,8 @@ export default Backbone.View.extend({
   },
 
   initialize: function (options) {
+    this.template = templateMini;
     if (options.filter) {
-      this.template = tmplMini;
       this.year = options.filter.year;
       this.monthId = options.filter.monthId;
       this.month = this.monthId ? this.months[parseInt(this.monthId, 10) - 1].value : "";
@@ -51,7 +49,7 @@ export default Backbone.View.extend({
   displayDates: function (e) {
     if (!this.$el.hasClass("expanded")) {
       e.stopImmediatePropagation();
-      this.template = tmpl;
+      this.template = template;
       this.render({
         "years": this.years,
         "months": this.months,
@@ -105,13 +103,17 @@ export default Backbone.View.extend({
     this.renderMini({ 'monthId': this.monthId, 'year': this.year });
   },
 
+  render: function (context) {
+    this.$el.html(this.template(context));
+  },
+
   renderMini: function (values) {
     values = values || {};
     if (values.monthId) {
       values.month = this.months[parseInt(values.monthId, 10) - 1].value;
     }
     this.$el.removeClass("expanded");
-    this.template = tmplMini;
+    this.template = templateMini;
     if (values.year) {
       this.render({ value: (values.month || "") + " " + (values.year || ""), clear: true });
     }
