@@ -96,7 +96,6 @@ export default Backbone.View.extend({
       this.month = null;
       this.monthId = null;
       this.$(".column.month").addClass('hidden');
-      this.$el.removeClass("expanded");
     }
   },
 

@@ -15,6 +15,7 @@ export default Backbone.View.extend({
   maxItemsToUpload: 12,
 
   currentLine: null,
+  lastItemId: false,
 
   events: {
     dragover: "handleDragOver",
@@ -91,7 +92,7 @@ export default Backbone.View.extend({
 
     // render of items
     this.collection.each(this.addItemToLine, this);
-    if (this.filter && !this.currentLine.isRendered()) {
+    if (!this.currentLine.isRendered()) {
       this.currentLine.renderLine();
     }
 
@@ -105,6 +106,16 @@ export default Backbone.View.extend({
     if (!this.currentLine.addItem(item)) {
       this.newLine().addItem(item);
     }
+    if (this.checkIfLastItem(item)) {
+      this.currentLine.renderLine();
+    }
+  },
+
+  checkIfLastItem: function (item) {
+    if (!this.lastItemId && window.itemIds) {
+      this.lastItemId = window.itemIds[window.itemIds.length - 1];
+    }
+    return item.get('id') === this.lastItemId;
   },
 
   newLine: function () {
@@ -135,7 +146,7 @@ export default Backbone.View.extend({
   },
 
   loadMore: function () {
-    if (!this.filter && !this.loading && ((window.innerHeight + window.pageYOffset) > 0.8 * this.$el.height())) {
+    if (!this.filter && !this.loading && ((window.innerHeight + window.pageYOffset) > 0.6 * this.$el.height())) {
       this.loading = true;
       this.collection.fetch({
         'add': true,

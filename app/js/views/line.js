@@ -45,11 +45,15 @@ export default Backbone.View.extend({
   },
 
   renderModel: function (item) {
+    if (item.get('rendered')) {
+      this.$('#' + item.get('id')).remove();
+    }
     var itemWidth = Math.floor(this.height * item.get('ratio'));
     item.set({
       'width': itemWidth,
       'height': this.height,
-      'srcWidth': Math.floor(100 * item.get('ratio') / this.maxWidth)
+      'srcWidth': Math.floor(100 * item.get('ratio') / this.maxWidth),
+      'rendered': true
     }, { silent: true });
 
     var view;
@@ -63,6 +67,8 @@ export default Backbone.View.extend({
   },
 
   isRendered: function () {
-    return this.rendered;
+    return this.items.every(function (item) {
+      return item.get('rendered');
+    });
   }
 });
