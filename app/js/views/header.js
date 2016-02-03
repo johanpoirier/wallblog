@@ -6,8 +6,8 @@ import FilterDatesView from 'views/filter-dates';
 import tools from 'tools';
 import labels from 'nls/labels';
 import template from 'templates/header';
-import tmplZoom from 'templates/header-zoom';
-import tmplEdit from 'templates/header-edit';
+import templateZoom from 'templates/header-zoom';
+import templateEdit from 'templates/header-edit';
 
 var HeaderView = Backbone.View.extend({
 
@@ -25,7 +25,7 @@ var HeaderView = Backbone.View.extend({
     'click': 'hideFilter'
   },
 
-  initialize: function () {
+  initialize: function (root) {
     Pubsub.on(AppEvents.ITEMS_ADDED, this.render, this);
     Pubsub.on(AppEvents.ITEM_ZOOMED, this.renderZoom, this);
     Pubsub.on(AppEvents.USER_LOGGED_IN, this.render, this);
@@ -33,6 +33,7 @@ var HeaderView = Backbone.View.extend({
     Pubsub.on(AppEvents.CLEAR_FILTER, this.clearFilter, this);
     this.nbItems = 0;
     this.admin = false;
+    this.root = root;
   },
 
   render: function (nbItems) {
@@ -56,6 +57,7 @@ var HeaderView = Backbone.View.extend({
 
     // render header bar
     this.$el.html(template({ nbItems: this.nbItems, title: WallBlog.title, labels: labels }));
+    this.root.html(this.el);
 
     // Filter button
     this.filterView = new FilterDatesView({ el: this.$(".filter"), filter: this.filter });
@@ -76,11 +78,15 @@ var HeaderView = Backbone.View.extend({
 
     // render with description in header bar
     this.item = item;
-    this.$el.html(tmplZoom({ "item": item.toJSON(), "admin": tools.isLogged(), labels: labels }));
+    this.$el.html(templateZoom({ "item": item.toJSON(), "admin": tools.isLogged(), labels: labels }));
+    this.root.html(this.el);
+    this.delegateEvents(this.events);
   },
 
   renderEdit: function () {
-    this.$el.html(tmplEdit({ "item": item.toJSON(), "admin": tools.isLogged(), labels: labels }));
+    this.$el.html(templateEdit({ "item": item.toJSON(), "admin": tools.isLogged(), labels: labels }));
+    this.root.html(this.el);
+    this.delegateEvents(this.events);
     this.$("input").focus();
   },
 

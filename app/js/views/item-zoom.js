@@ -80,6 +80,7 @@ export default Backbone.View.extend({
   },
 
   render: function () {
+    PubSub.trigger(AppEvents.ITEM_ZOOMED, this.model);
     this.context.picture = (this.model.get('type') === 'picture');
     if (this.context.picture) {
       $(window).resize(_.debounce(this.screenResize.bind(this), 100));
@@ -152,7 +153,6 @@ export default Backbone.View.extend({
     };
     this.model.comments.on("reset", this.renderComments, this);
     this.model.comments.fetch({ 'reset': true });
-    PubSub.trigger(AppEvents.ITEM_ZOOMED, this.model);
   },
 
   renderComments: function () {

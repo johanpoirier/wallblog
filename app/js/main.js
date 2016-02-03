@@ -8,7 +8,7 @@ import HeaderView from 'views/header';
 import Events from 'events';
 
 // header
-window.headerView = new HeaderView();
+window.headerView = new HeaderView($('header'));
 
 // create and initialize our router
 new AppRouter();

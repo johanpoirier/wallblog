@@ -29,7 +29,6 @@ export default Backbone.Router.extend({
   main: function () {
     // render header bar even if nb items is unknown
     window.headerView.render();
-    $('header').html(window.headerView.el);
 
     // list of all ids
     window.zoomCurrentIndex = 0;

@@ -27,7 +27,7 @@ export default Backbone.View.extend({
     Pubsub.on(AppEvents.ITEMS_UPLOADED, this.fetchCurrent, this);
     this.collection.on("add", this.addItemToLine, this);
     this.collection.on("reset", this.render, this);
-    this.collection.on("remove", this.render, this);
+    this.collection.on("remove", this.onRemove, this);
     if (this.collection.length === 0) {
       this.loading = true;
       this.fetchCurrent();
@@ -257,5 +257,10 @@ export default Backbone.View.extend({
   clearFilter: function () {
     this.filter = false;
     this.fetchCurrent();
+  },
+
+  onRemove: function () {
+    Backbone.history.navigate('/', false);
+    this.render();
   }
 });
