@@ -79,6 +79,22 @@ body > header {
     z-index: 1;
 }
 
+nav {
+    background-color: #fbfbfb;
+    box-shadow: 4px 2px 2px 0 rgba(0, 0, 0, .3);
+    height: 100vh;
+    left: -15rem;
+    min-width: 10rem;
+    position: fixed;
+    top: 2.2rem;
+    transition: transform 0.25s ease;
+    z-index: 2;
+}
+
+nav.displayed {
+    transform: translateX(15rem);
+}
+
 .headbar {
     box-shadow: 0 1px 8px rgba(0, 0, 0, .3);
     height: 2.2rem;
@@ -95,7 +111,7 @@ body > header {
 .headbar .side {
     align-items: center;
     backface-visibility:hidden;
-    background-color: #ffffff;
+    background-color: #fbfbfb;
     display: flex;
     position: absolute;
     height: 100%;
@@ -116,6 +132,12 @@ body > header {
     color: #ffffff;
     justify-content: center;
     transform: rotateX(90deg) translateZ(1.1rem);
+}
+
+.headbar .menu {
+    color: #83C22A;
+    display: none;
+    font-size: 1.5rem;
 }
 
 .headbar .brand {
@@ -497,10 +519,6 @@ form.pictures {
 }
 
 @media (max-width: 700px) {
-    .filter {
-        display: none;
-    }
-
     .headbar {
         transition: none;
     }
@@ -509,7 +527,11 @@ form.pictures {
         font-size: 1.5rem;
     }
 
-    .headbar .info, .headbar .date.short, .headbar .description {
+    .headbar .info {
+        display: none;
+    }
+
+    .headbar .date.short, .headbar .description {
         font-size: 0.9rem;
     }
 
@@ -556,21 +578,25 @@ form.pictures {
 }
 
 @media (max-width: 620px) {
-    body > header {
-        position: relative;
+    .headbar .filter {
+        display: none;
+    }
+
+    .headbar .menu {
+        display: block;
     }
 
     .headbar .brand {
         font-size: 1.3rem;
     }
 
+    .headbar .brand img {
+        display: none;
+    }
+
     .headbar .delete {
         float: left;
         margin-left: 10px;
-    }
-
-    .headbar .info {
-        display: none;
     }
 
     main {

@@ -9,37 +9,43 @@
     {
       "uid": "2e2dba0307a502a8507c1729084c7ab5",
       "css": "clear",
-      "code": 59393,
+      "code": 120,
       "src": "fontawesome"
     },
     {
       "uid": "1a5cfa186647e8c929c2b17b9fc4dac1",
       "css": "plus",
-      "code": 59392,
+      "code": 43,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "559647a6f430b3aeadbecd67194451dd",
+      "css": "menu",
+      "code": 61,
       "src": "fontawesome"
     },
     {
       "uid": "7222571caa5c15f83dcfd447c58d68d9",
       "css": "search",
-      "code": 59394,
+      "code": 35,
       "src": "entypo"
     },
     {
       "uid": "c709da589c923ba3c2ad48d9fc563e93",
       "css": "close",
-      "code": 59396,
+      "code": 88,
       "src": "entypo"
     },
     {
       "uid": "44199a54057e6e264fde61a49b034171",
       "css": "upload",
-      "code": 59397,
+      "code": 94,
       "src": "entypo"
     },
     {
       "uid": "b90868gfogj970a1g0dnot6hm5r4uj55",
       "css": "comment",
-      "code": 59395,
+      "code": 99,
       "src": "typicons"
     }
   ]

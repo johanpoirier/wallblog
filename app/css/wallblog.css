@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'wallblog';
-  src: url('../font/wallblog.eot?24041392');
-  src: url('../font/wallblog.eot?24041392#iefix') format('embedded-opentype'),
-       url('../font/wallblog.woff?24041392') format('woff'),
-       url('../font/wallblog.ttf?24041392') format('truetype'),
-       url('../font/wallblog.svg?24041392#wallblog') format('svg');
+  src: url('../font/wallblog.eot?15331771');
+  src: url('../font/wallblog.eot?15331771#iefix') format('embedded-opentype'),
+       url('../font/wallblog.woff?15331771') format('woff'),
+       url('../font/wallblog.ttf?15331771') format('truetype'),
+       url('../font/wallblog.svg?15331771#wallblog') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -14,7 +14,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'wallblog';
-    src: url('../font/wallblog.svg?24041392#wallblog') format('svg');
+    src: url('../font/wallblog.svg?15331771#wallblog') format('svg');
   }
 }
 */
@@ -54,9 +54,10 @@
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
  
-.icon-plus:before { content: '\e800'; } /* '' */
-.icon-clear:before { content: '\e801'; } /* '' */
-.icon-search:before { content: '\e802'; } /* '' */
-.icon-comment:before { content: '\e803'; } /* '' */
-.icon-close:before { content: '\e804'; } /* '' */
-.icon-upload:before { content: '\e805'; } /* '' */
+.icon-search:before { content: '\23'; } /* '#' */
+.icon-plus:before { content: '\2b'; } /* '+' */
+.icon-menu:before { content: '\3d'; } /* '=' */
+.icon-close:before { content: '\58'; } /* 'X' */
+.icon-upload:before { content: '\5e'; } /* '^' */
+.icon-comment:before { content: '\63'; } /* 'c' */
+.icon-clear:before { content: '\78'; } /* 'x' */

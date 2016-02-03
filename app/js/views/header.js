@@ -21,6 +21,7 @@ var HeaderView = Backbone.View.extend({
     "click .delete": "deletePicture",
     'click #loginCancel': 'hideLogin',
     'click #loginSubmit': 'login',
+    'click .menu': 'toggleMenu',
     'keypress #password': 'keyPressed',
     'click': 'hideFilter'
   },
@@ -58,6 +59,7 @@ var HeaderView = Backbone.View.extend({
     // render header bar
     this.$el.html(template({ nbItems: this.nbItems, title: WallBlog.title, labels: labels }));
     this.root.html(this.el);
+    this.delegateEvents(this.events);
 
     // Filter button
     this.filterView = new FilterDatesView({ el: this.$(".filter"), filter: this.filter });
@@ -98,6 +100,10 @@ var HeaderView = Backbone.View.extend({
       var videoUploadView = new UploadVideoView();
       $('body').append(videoUploadView.el);
     }
+  },
+
+  toggleMenu: function () {
+    PubSub.trigger(AppEvents.MENU_TOGGLE);
   },
 
   showLogin: function () {
