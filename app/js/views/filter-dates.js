@@ -51,6 +51,7 @@ export default Backbone.View.extend({
       e.stopImmediatePropagation();
       this.template = template;
       this.render({
+        'labels': labels,
         "years": this.years,
         "months": this.months,
         "year": this.year,

@@ -1,0 +1,13 @@
+<div class="filter-selection">
+    <div class="column year">
+        {{#each years}}
+            <span class="alone{{#ifequals ../year this}} selected{{/ifequals}}">{{this}}</span>
+        {{/each}}
+    </div>
+    <div class="column month{{#unless year}} hidden{{/unless}}">
+        {{#each months}}
+            <span data-value="{{this.id}}"{{#ifequals ../month this.value}} class="selected"{{/ifequals}}>{{this.value}}</span>
+        {{/each}}
+    </div>
+</div>
+<button class="filter-selection-button btn">{{labels.validate}}</button>
