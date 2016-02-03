@@ -2,7 +2,7 @@ import _ from 'underscore';
 import Backbone from 'backbone';
 import PubSub from 'pubsub';
 import UploadVideoView from 'views/upload-video';
-import FilterDatesView from 'views/filter-dates';
+import FilterButtonView from 'views/filter-button';
 import tools from 'tools';
 import labels from 'nls/labels';
 import template from 'templates/header';
@@ -62,7 +62,7 @@ var HeaderView = Backbone.View.extend({
     this.delegateEvents(this.events);
 
     // Filter button
-    this.filterView = new FilterDatesView({ el: this.$(".filter"), filter: this.filter });
+    this.filterButton = new FilterButtonView({ el: this.$(".filter"), filter: this.filter });
   },
 
   requestNbItems: function () {
@@ -200,7 +200,7 @@ var HeaderView = Backbone.View.extend({
 
   hideFilter: function (e) {
     if (e.target.classList.contains('side')) {
-      this.filterView.renderMini(this.filter);
+      this.filterButton.render(this.filter);
     }
   }
 });

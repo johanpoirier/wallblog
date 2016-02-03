@@ -1,8 +1,8 @@
-import backbone from 'backbone';
+import Backbone from 'backbone';
+import _ from 'underscore';
 import PubSub from 'pubsub';
 import labels from 'nls/labels';
-import template from 'templates/filter-dates';
-import templateMini from 'templates/filter-text';
+import template from 'templates/filter';
 
 export default Backbone.View.extend({
 
@@ -26,39 +26,25 @@ export default Backbone.View.extend({
     { id: "12", value: "Décembre" }],
 
   events: {
-    "click": "displayDates",
     "click .month span": "selectMonth",
     "click .year span": "selectYear",
     "click button": "filter",
-    "click i": "clearFilter"
   },
 
-  initialize: function (options) {
-    this.template = templateMini;
-    if (options.filter) {
-      this.year = options.filter.year;
-      this.monthId = options.filter.monthId;
-      this.month = this.monthId ? this.months[parseInt(this.monthId, 10) - 1].value : "";
-      this.render({ value: this.month + " " + (this.year || ""), clear: true });
+  render: function (year, monthId) {
+    var context = {
+      'labels': labels,
+      "years": this.years,
+      "months": this.months
+    };
+    if (year) {
+      context.year = year;
     }
-    else {
-      this.render({ value: labels.filter, clear: false });
+    if (monthId) {
+      context.month = _.find(this.months, function (month) { return parseInt(month.id, 10) === parseInt(monthId, 10) }).value;
     }
-  },
-
-  displayDates: function (e) {
-    if (!this.$el.hasClass("expanded")) {
-      e.stopImmediatePropagation();
-      this.template = template;
-      this.render({
-        'labels': labels,
-        "years": this.years,
-        "months": this.months,
-        "year": this.year,
-        "month": this.month
-      });
-      this.$el.addClass("expanded");
-    }
+    this.$el.html(template(context));
+    this.$el.addClass('expanded');
   },
 
   selectMonth: function (e) {
@@ -101,34 +87,5 @@ export default Backbone.View.extend({
   filter: function (e) {
     e.stopImmediatePropagation();
     PubSub.trigger(AppEvents.FILTER, this.monthId, this.year);
-    this.renderMini({ 'monthId': this.monthId, 'year': this.year });
-  },
-
-  render: function (context) {
-    this.$el.html(this.template(context));
-  },
-
-  renderMini: function (values) {
-    values = values || {};
-    if (values.monthId) {
-      values.month = this.months[parseInt(values.monthId, 10) - 1].value;
-    }
-    this.$el.removeClass("expanded");
-    this.template = templateMini;
-    if (values.year) {
-      this.render({ value: (values.month || "") + " " + (values.year || ""), clear: true });
-    }
-    else {
-      this.render({ value: labels.filter, clear: false });
-    }
-  },
-
-  clearFilter: function (e) {
-    e.stopImmediatePropagation();
-    this.year = null;
-    this.month = null;
-    this.monthId = null;
-    this.render({ value: labels.filter, clear: false });
-    PubSub.trigger(AppEvents.CLEAR_FILTER);
   }
 });

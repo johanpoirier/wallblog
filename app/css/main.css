@@ -81,11 +81,12 @@ body > header {
 
 nav {
     background-color: #fbfbfb;
-    box-shadow: 4px 2px 2px 0 rgba(0, 0, 0, .3);
+    box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, .3);
     height: 100vh;
     left: -15rem;
     min-width: 10rem;
     max-width: 14rem;
+    padding: 0 1rem;
     position: fixed;
     top: 2.2rem;
     transition: transform 0.25s ease;
@@ -466,6 +467,7 @@ form.pictures {
     flex-wrap: wrap;
     justify-content: space-between;
     padding-bottom: 1rem;
+    padding-left: 0;
     width: 100%;
 }
 .filter-selection .column span {
@@ -477,10 +479,18 @@ form.pictures {
     margin: 5px;
     padding: 0 5px;
 }
-.filter-selection .column.year span {
+nav .filter-selection .column.year span {
+    background-color: #a5a5a5;
+    color: #f3f3f3;
+    padding: 0.2rem 0.4rem;
 }
-.filter-selection .column .selected {
+.filter-selection .column.year .selected {
     background-color: lightgreen;
+}
+nav .filter-selection .column.month span {
+    background-color: #a5a5a5;
+    color: #f3f3f3;
+    padding: 0.2rem 0.4rem;
 }
 .filter-selection .column.month .selected {
     background-color: powderblue;
@@ -488,6 +498,17 @@ form.pictures {
 
 .filter-selection-button {
     width: 120px;
+}
+
+.filter-menu, .filter-content {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.filter-menu h3 {
+    align-self: flex-start;
 }
 
 .hidden {
@@ -598,10 +619,6 @@ form.pictures {
     .headbar .delete {
         float: left;
         margin-left: 10px;
-    }
-
-    main {
-        padding-top: 0;
     }
 
     .picture {
