@@ -10,7 +10,7 @@ export default Backbone.View.extend({
   tagName: "section",
 
   loading: false,
-  loadingIncrement: 6,
+  loadingIncrement: 12,
   currentNbItems: 24,
   maxItemsToUpload: 12,
 
@@ -146,7 +146,7 @@ export default Backbone.View.extend({
   },
 
   loadMore: function () {
-    if (!this.filter && !this.loading && ((window.innerHeight + window.pageYOffset) > 0.6 * this.$el.height())) {
+    if (!this.filter && !this.loading && ((window.innerHeight + window.pageYOffset) > 0.5 * this.$el.height())) {
       this.loading = true;
       this.collection.fetch({
         'add': true,
