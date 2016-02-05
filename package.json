@@ -1,10 +1,11 @@
 {
   "name": "Wallblog",
-  "version": "1.0.9",
+  "version": "1.9.1",
   "repository": "https://github.com/johanpoirier/wallblog",
   "private": true,
   "scripts": {
-    "test": "mocha --recursive"
+    "test": "mocha --recursive",
+    "build": "scripts/build.sh"
   },
   "devDependencies": {
     "babel-core": "^6.4.0",

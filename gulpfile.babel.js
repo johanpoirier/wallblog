@@ -198,7 +198,6 @@ gulp.task('watch-codebase', () => {
     gulp.watch(paths.css, ['compile-css']);
     gulp.watch(paths.extra, ['copy-extra']);
     gulp.watch(paths.images, ['copy-images']);
-    gulp.watch(paths.templates, ['compile-scripts']);
     gulp.watch(paths.html, ['compile-html']);
   }
 });
