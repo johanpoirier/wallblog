@@ -2,6 +2,7 @@ import Backbone from 'backbone';
 import PubSub from 'pubsub';
 import labels from 'nls/labels';
 import template from 'templates/filter-button';
+import filterDates from 'filter-dates';
 import FilterView from 'views/filter';
 
 export default Backbone.View.extend({
@@ -9,21 +10,6 @@ export default Backbone.View.extend({
   year: null,
   month: null,
   monthId: null,
-
-  years: ["2016", "2015", "2014", "2013", "2012", "2011"],
-  months: [
-    { id: "01", value: "Janvier" },
-    { id: "02", value: "Février" },
-    { id: "03", value: "Mars" },
-    { id: "04", value: "Avril" },
-    { id: "05", value: "Mai" },
-    { id: "06", value: "Juin" },
-    { id: "07", value: "Juillet" },
-    { id: "08", value: "Août" },
-    { id: "09", value: "Septembre" },
-    { id: "10", value: "Octobre" },
-    { id: "11", value: "Novembre" },
-    { id: "12", value: "Décembre" }],
 
   events: {
     "click": "displayFilterView",
@@ -36,7 +22,7 @@ export default Backbone.View.extend({
     if (options.filter) {
       this.year = options.filter.year;
       this.monthId = options.filter.monthId;
-      this.month = this.monthId ? this.months[parseInt(this.monthId, 10) - 1].value : "";
+      this.month = this.monthId ? filterDates.months[parseInt(this.monthId, 10) - 1].value : "";
       this.render({ value: this.month + " " + (this.year || ""), clear: true });
     }
     else {
@@ -52,7 +38,7 @@ export default Backbone.View.extend({
     if (this.filter) {
       this.year = this.filter.year;
       this.monthId = this.filter.monthId;
-      this.month = this.monthId ? this.months[parseInt(this.monthId, 10) - 1].value : "";
+      this.month = this.monthId ? filterDates.months[parseInt(this.monthId, 10) - 1].value : "";
       context = { value: this.month + " " + (this.year || ""), clear: true };
     }
     else {

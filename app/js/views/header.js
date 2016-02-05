@@ -188,6 +188,7 @@ var HeaderView = Backbone.View.extend({
   },
 
   saveFilter: function (monthId, year) {
+    (year !== null) ? this.$('.menu').addClass('active') : this.$('.menu').removeClass('active');
     this.filter = {
       "year": year,
       "monthId": monthId
@@ -195,6 +196,7 @@ var HeaderView = Backbone.View.extend({
   },
 
   clearFilter: function () {
+    this.$('.menu').removeClass('active');
     this.filter = null;
   },
 

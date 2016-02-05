@@ -137,9 +137,11 @@ nav.displayed {
 }
 
 .headbar .menu {
-    color: #83C22A;
     display: none;
     font-size: 1.5rem;
+}
+.headbar .menu.active {
+    color: #83C22A;
 }
 
 .headbar .brand {

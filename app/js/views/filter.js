@@ -2,6 +2,7 @@ import Backbone from 'backbone';
 import _ from 'underscore';
 import PubSub from 'pubsub';
 import labels from 'nls/labels';
+import filterDates from 'filter-dates';
 import template from 'templates/filter';
 
 export default Backbone.View.extend({
@@ -9,21 +10,6 @@ export default Backbone.View.extend({
   year: null,
   month: null,
   monthId: null,
-
-  years: ["2016", "2015", "2014", "2013", "2012", "2011"],
-  months: [
-    { id: "01", value: "Janvier" },
-    { id: "02", value: "Février" },
-    { id: "03", value: "Mars" },
-    { id: "04", value: "Avril" },
-    { id: "05", value: "Mai" },
-    { id: "06", value: "Juin" },
-    { id: "07", value: "Juillet" },
-    { id: "08", value: "Août" },
-    { id: "09", value: "Septembre" },
-    { id: "10", value: "Octobre" },
-    { id: "11", value: "Novembre" },
-    { id: "12", value: "Décembre" }],
 
   events: {
     "click .month span": "selectMonth",
@@ -34,8 +20,8 @@ export default Backbone.View.extend({
   render: function (year, monthId) {
     var context = {
       'labels': labels,
-      "years": this.years,
-      "months": this.months
+      "years": filterDates.years,
+      "months": filterDates.months
     };
     if (year) {
       context.year = year;
