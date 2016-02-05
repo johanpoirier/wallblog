@@ -86,7 +86,7 @@ nav {
     left: -15rem;
     min-width: 10rem;
     max-width: 14rem;
-    padding: 0 1rem;
+    padding: 0 0.5rem;
     position: fixed;
     top: 2.2rem;
     transition: transform 0.25s ease;
@@ -444,7 +444,7 @@ form.pictures {
     justify-content: space-around;
     left: 0;
     margin: 0 45%;
-    min-width: 360px;
+    min-width: 14rem;
     padding: 0.5rem;
     position: absolute;
     top: 0;
@@ -463,39 +463,41 @@ form.pictures {
     flex-direction: column;
 }
 
-.filter-selection .column {
+.filter-group {
     cursor: default;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-around;
     padding-bottom: 1rem;
     padding-left: 0;
     width: 100%;
 }
-.filter-selection .column span {
+
+.filter-group .year, .filter-group .month {
     background-color: #ffffff;
     border-radius: 5px;
     color: #000000;
     cursor: pointer;
     font-style: normal;
-    margin: 5px;
+    margin: 0.2rem 0.1rem;
     padding: 0 5px;
+    text-align: center;
+    width: 4rem;
 }
-nav .filter-selection .column.year span {
+
+.filter-group .month {
+    width: 6rem;
+}
+
+.filter-group .year.selected, .filter-group .month.selected {
+    background-color: #83C22A;
+    color: #fff;
+}
+
+nav .filter-group .year, nav .filter-group .month {
     background-color: #a5a5a5;
     color: #f3f3f3;
     padding: 0.2rem 0.4rem;
-}
-.filter-selection .column.year .selected {
-    background-color: lightgreen;
-}
-nav .filter-selection .column.month span {
-    background-color: #a5a5a5;
-    color: #f3f3f3;
-    padding: 0.2rem 0.4rem;
-}
-.filter-selection .column.month .selected {
-    background-color: powderblue;
 }
 
 .filter-selection-button {
@@ -542,7 +544,7 @@ nav .filter-selection .column.month span {
     }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 760px) {
     .headbar {
         transition: none;
     }

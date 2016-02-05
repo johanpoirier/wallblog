@@ -1,12 +1,12 @@
 <div class="filter-selection">
-    <div class="column year">
+    <div class="filter-group">
     {{#each years}}
-        <span class="alone{{#ifequals ../year this}} selected{{/ifequals}}">{{this}}</span>
+        <span class="year{{#ifequals ../year this}} selected{{/ifequals}}">{{this}}</span>
     {{/each}}
     </div>
-    <div class="column month{{#unless year}} hidden{{/unless}}">
+    <div class="filter-group months{{#unless year}} hidden{{/unless}}">
     {{#each months}}
-        <span data-value="{{this.id}}"{{#ifequals ../month this.value}} class="selected"{{/ifequals}}>{{this.value}}</span>
+        <span data-value="{{this.id}}" class="month{{#ifequals ../month this.value}} selected{{/ifequals}}">{{this.value}}</span>
     {{/each}}
     </div>
 </div>

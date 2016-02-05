@@ -2,6 +2,7 @@ import _ from 'underscore';
 import Backbone from 'backbone';
 import PubSub from 'pubsub';
 import tools from 'tools';
+import Settings from 'settings';
 import LineView from 'views/line';
 import UploadView from 'views/upload';
 
@@ -42,11 +43,11 @@ export default Backbone.View.extend({
 
     // listen to filter
     if (options.filter) {
-      this.filter = true;
+      this.filterActive = true;
       this.filterValue = options.filter.year + "-" + options.filter.month;
     }
     Pubsub.on(AppEvents.FILTER, this.filterItems, this);
-    Pubsub.on(AppEvents.CLEAR_FILTER, this.clearFilter, this);
+    Pubsub.on(AppEvents.CLEAR_FILTER, this.fetchCurrent, this);
   },
 
   onDispose: function () {
@@ -146,7 +147,7 @@ export default Backbone.View.extend({
   },
 
   loadMore: function () {
-    if (!this.filter && !this.loading && ((window.innerHeight + window.pageYOffset) > 0.5 * this.$el.height())) {
+    if (!this.filterActive && !this.loading && ((window.innerHeight + window.pageYOffset) > 0.5 * this.$el.height())) {
       this.loading = true;
       this.collection.fetch({
         'add': true,
@@ -226,10 +227,10 @@ export default Backbone.View.extend({
   },
 
   fetchCurrent: function () {
-    this.filter = false;
+    var filter = this.getFilterValue();
     this.collection.fetch({
       'data': {
-        'filter': this.filter ? this.filterValue : null,
+        'filter': filter,
         'start': 0,
         'nb': this.currentNbItems,
         'comments': true
@@ -239,24 +240,29 @@ export default Backbone.View.extend({
     Pubsub.trigger(AppEvents.ITEMS_ADDED, -1);
   },
 
-  filterItems: function (month, year) {
-    this.filter = true;
-    var filterValue = year;
-    if (month) {
-      filterValue += "-" + month;
+  getFilterValue: function () {
+    var filterValue = null;
+    var filter = Settings.getFilter();
+    if (filter.year) {
+      filterValue = filter.year;
+      if (filter.monthId) {
+        filterValue += '-' + filter.monthId;
+      }
+      this.filterActive = true;
+    } else {
+      this.filterActive = false;
     }
+    return filterValue;
+  },
+
+  filterItems: function () {
     this.collection.fetch({
       'data': {
-        'filter': filterValue,
+        'filter': this.getFilterValue(),
         'comments': true
       },
       'reset': true
     });
-  },
-
-  clearFilter: function () {
-    this.filter = false;
-    this.fetchCurrent();
   },
 
   onRemove: function () {

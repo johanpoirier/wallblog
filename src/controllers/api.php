@@ -14,18 +14,16 @@ $api->get('/item', function (Application $app, Request $request) {
     $filter = $request->get('filter');
 	$getComments = $request->get('comments');
 
-	if (!$start) {
-		$start = 0;
-	}
-	if (!$nb) {
-        if($filter) {
-            $items = $app['picture_service']->getByDate($filter);
+	if ($filter) {
+        $items = $app['picture_service']->getByDate($filter);
+	} else {
+        if ($nb) {
+            $start = $start ? $start : 0;
+		    $items = $app['picture_service']->get($nb, $start);
         }
         else {
             $items = $app['picture_service']->getAll();
         }
-	} else {
-		$items = $app['picture_service']->get($nb, $start);
 	}
 
 	if ($getComments) {

@@ -4,6 +4,7 @@ import PubSub from 'pubsub';
 import UploadVideoView from 'views/upload-video';
 import FilterButtonView from 'views/filter-button';
 import tools from 'tools';
+import Settings from 'settings';
 import labels from 'nls/labels';
 import template from 'templates/header';
 import templateZoom from 'templates/header-zoom';
@@ -62,7 +63,12 @@ var HeaderView = Backbone.View.extend({
     this.delegateEvents(this.events);
 
     // Filter button
-    this.filterButton = new FilterButtonView({ el: this.$(".filter"), filter: this.filter });
+    this.filterButton = new FilterButtonView({ el: this.$(".filter")});
+
+    // Filter menu
+    if (Settings.getFilter().year) {
+      this.$('.menu').addClass('active');
+    }
   },
 
   requestNbItems: function () {
@@ -187,22 +193,19 @@ var HeaderView = Backbone.View.extend({
     }
   },
 
-  saveFilter: function (monthId, year) {
-    (year !== null) ? this.$('.menu').addClass('active') : this.$('.menu').removeClass('active');
-    this.filter = {
-      "year": year,
-      "monthId": monthId
-    };
+  saveFilter: function () {
+    var filter = Settings.getFilter();
+    (filter.year) ? this.$('.menu').addClass('active') : this.$('.menu').removeClass('active');
   },
 
   clearFilter: function () {
     this.$('.menu').removeClass('active');
-    this.filter = null;
+    Settings.clearFilter();
   },
 
   hideFilter: function (e) {
     if (e.target.classList.contains('side')) {
-      this.filterButton.render(this.filter);
+      this.filterButton.render();
     }
   }
 });

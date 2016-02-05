@@ -3,6 +3,7 @@ import _ from 'underscore';
 import PubSub from 'pubsub';
 import labels from 'nls/labels';
 import filterDates from 'filter-dates';
+import Settings from 'settings';
 import template from 'templates/filter';
 
 export default Backbone.View.extend({
@@ -12,66 +13,76 @@ export default Backbone.View.extend({
   monthId: null,
 
   events: {
-    "click .month span": "selectMonth",
-    "click .year span": "selectYear",
-    "click button": "filter",
+    'click .month': 'selectMonth',
+    'click .year': 'selectYear',
+    'click button': 'filter',
   },
 
-  render: function (year, monthId) {
+  initialize: function () {
+    PubSub.on(AppEvents.FILTER, this.render, this);
+    PubSub.on(AppEvents.CLEAR_FILTER, this.render, this);
+  },
+
+  render: function () {
     var context = {
       'labels': labels,
-      "years": filterDates.years,
-      "months": filterDates.months
+      'years': filterDates.years,
+      'months': filterDates.months
     };
-    if (year) {
-      context.year = year;
+
+    this.filter = Settings.getFilter();
+
+    if (this.filter.year) {
+      context.year = parseInt(this.filter.year, 10);
     }
-    if (monthId) {
-      context.month = _.find(this.months, function (month) { return parseInt(month.id, 10) === parseInt(monthId, 10) }).value;
+    if (this.filter.monthId) {
+      context.month = _.find(filterDates.months, function (month) {
+        return parseInt(month.id, 10) === parseInt(this.filter.monthId, 10)
+      }.bind(this)).value;
     }
+
     this.$el.html(template(context));
     this.$el.addClass('expanded');
   },
 
   selectMonth: function (e) {
     e.stopImmediatePropagation();
-    this.$(".month span").removeClass("selected");
+    this.$('.month').removeClass('selected');
 
     var month = this.$(e.currentTarget);
-    if (!this.month || this.month !== month.html()) {
-      this.$(e.currentTarget).addClass("selected");
-      this.month = month.html();
-      this.monthId = month.data("value");
+    if (!this.filter.month || this.filter.month !== month.html()) {
+      this.$(e.currentTarget).addClass('selected');
+      this.filter.month = month.html();
+      this.filter.monthId = month.data('value');
     }
     else {
-      this.$(e.currentTarget).removeClass("selected");
-      this.month = null;
-      this.monthId = null;
+      this.$(e.currentTarget).removeClass('selected');
+      this.filter.month = null;
+      this.filter.monthId = null;
     }
   },
 
   selectYear: function (e) {
     e.stopImmediatePropagation();
-    this.$(".year span").removeClass("selected");
+    this.$('.year').removeClass('selected');
 
     var year = this.$(e.currentTarget);
-    if (!this.year || this.year !== year.html()) {
-      this.$(e.currentTarget).addClass("selected");
-      this.year = year.html();
-      this.$(".column.month").removeClass('hidden');
-      this.$el.addClass("expanded");
+    if (!this.filter.year || this.filter.year !== year.html()) {
+      this.$(e.currentTarget).addClass('selected');
+      this.filter.year = year.html();
+      this.$('.months').removeClass('hidden');
+      this.$el.addClass('expanded');
     }
     else {
-      this.$(e.currentTarget).removeClass("selected");
-      this.year = null;
-      this.month = null;
-      this.monthId = null;
-      this.$(".column.month").addClass('hidden');
+      this.$(e.currentTarget).removeClass('selected');
+      this.filter = {};
+      this.$('.months').addClass('hidden');
     }
   },
 
   filter: function (e) {
+    Settings.saveFilter(this.filter);
     e.stopImmediatePropagation();
-    PubSub.trigger(AppEvents.FILTER, this.monthId, this.year);
+    PubSub.trigger(AppEvents.FILTER);
   }
 });

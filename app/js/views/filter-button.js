@@ -4,6 +4,7 @@ import labels from 'nls/labels';
 import template from 'templates/filter-button';
 import filterDates from 'filter-dates';
 import FilterView from 'views/filter';
+import Settings from 'settings';
 
 export default Backbone.View.extend({
 
@@ -18,26 +19,19 @@ export default Backbone.View.extend({
     "click i": "clearFilter"
   },
 
-  initialize: function (options) {
-    if (options.filter) {
-      this.year = options.filter.year;
-      this.monthId = options.filter.monthId;
-      this.month = this.monthId ? filterDates.months[parseInt(this.monthId, 10) - 1].value : "";
-      this.render({ value: this.month + " " + (this.year || ""), clear: true });
-    }
-    else {
-      this.render({ value: labels.filter, clear: false });
-    }
+  initialize: function () {
+    this.render();
 
     this.filterView = new FilterView({ 'el': this.el });
-    PubSub.on(AppEvents.FILTER, this.refresh, this);
+    PubSub.on(AppEvents.FILTER, this.render, this);
   },
 
   render: function () {
     var context;
-    if (this.filter) {
-      this.year = this.filter.year;
-      this.monthId = this.filter.monthId;
+    var filter = Settings.getFilter();
+    if (filter.year) {
+      this.year = filter.year;
+      this.monthId = filter.monthId;
       this.month = this.monthId ? filterDates.months[parseInt(this.monthId, 10) - 1].value : "";
       context = { value: this.month + " " + (this.year || ""), clear: true };
     }
@@ -48,23 +42,13 @@ export default Backbone.View.extend({
     this.$el.html(template(context));
   },
 
-  refresh: function(monthId, year) {
-    this.filter = {
-      'monthId': monthId,
-      'year': year
-    };
-    this.render();
-  },
-
   displayFilterView: function () {
-    this.filterView.render(this.year, this.monthId);
+    this.filterView.render();
   },
 
   clearFilter: function (e) {
     e.stopImmediatePropagation();
-    this.year = null;
-    this.month = null;
-    this.monthId = null;
+    Settings.clearFilter();
     this.render({ value: labels.filter, clear: false });
     PubSub.trigger(AppEvents.CLEAR_FILTER);
   }

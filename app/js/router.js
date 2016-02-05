@@ -1,6 +1,7 @@
 import Backbone from 'backbone';
 import key from 'keymaster';
 import tools from 'tools';
+import Settings from 'settings';
 import Item from 'models/item';
 import ItemCollection from 'collections/items';
 import GridLine from 'views/grid-line';
@@ -11,7 +12,7 @@ import UserFormView from 'views/user-form';
 export default Backbone.Router.extend({
 
   initialize: function () {
-    this.displayMode = window.localStorage.getItem(Constants.DISPLAY_MODE_LABEL) || Constants.DISPLAY_MODE_LINE;
+    this.displayMode = Settings.getDisplayMode();
 
     Pubsub.on(AppEvents.FILTER, this.saveFilter, this);
     Pubsub.on(AppEvents.CLEAR_FILTER, this.clearFilter, this);
@@ -67,7 +68,7 @@ export default Backbone.Router.extend({
   },
 
   changeDisplayMode: function () {
-    window.localStorage.setItem(Constants.DISPLAY_MODE_LABEL, (this.displayMode == Constants.DISPLAY_MODE_LINE) ? Constants.DISPLAY_MODE_ROW : Constants.DISPLAY_MODE_LINE);
+    Settings.saveDisplayMode((this.displayMode == Constants.DISPLAY_MODE_LINE) ? Constants.DISPLAY_MODE_ROW : Constants.DISPLAY_MODE_LINE);
     window.location.reload(true);
   },
 
