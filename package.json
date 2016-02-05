@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "test": "mocha --recursive",
-    "build": "scripts/build.sh"
+    "build": "scripts/build.sh",
+    "package": "gulp package; webpack -p"
   },
   "devDependencies": {
     "babel-core": "^6.4.0",
