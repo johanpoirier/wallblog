@@ -1,6 +1,6 @@
 {
   "name": "Wallblog",
-  "version": "1.9.1",
+  "version": "1.10.0-0",
   "repository": "https://github.com/johanpoirier/wallblog",
   "private": true,
   "scripts": {
