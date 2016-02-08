@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha --recursive",
     "build": "scripts/build.sh",
-    "package": "gulp package; webpack -p"
+    "version:minor": "npm version minor",
+    "package": "scripts/package.sh"
   },
   "devDependencies": {
     "babel-core": "^6.4.0",

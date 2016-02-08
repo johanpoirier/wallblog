@@ -22,7 +22,7 @@ import del from 'del';
 import path from 'path';
 import runSequence from 'run-sequence';
 import pngquant from 'imagemin-pngquant';
-import { argv as args } from 'yargs';
+import args from 'yargs';
 import exec from 'child_process';
 
 //var webpackConfig = require('webpack.config');
@@ -33,8 +33,8 @@ import exec from 'child_process';
 /***************** *****************/
 
 var debug = false;
-var env = args.env;
-var buildVersion = false;
+var env = args.argv['env'];
+var buildVersion = args.argv['buildVersion'] || false;
 
 if (env === undefined) {
   env = 'local';
@@ -219,7 +219,7 @@ gulp.task('default', () => {
 
 gulp.task('package', () => {
   debug = false;
-  buildVersion = Math.floor(Math.random() * 100000000);
+  buildVersion = buildVersion || Math.floor(Math.random() * 100000000);
   runSequence('clean', 'build');
 });
 
