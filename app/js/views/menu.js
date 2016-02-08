@@ -1,5 +1,6 @@
 import Backbone from 'backbone';
-import PubSub from 'pubsub';
+import PubSub from 'utils/pubsub';
+import Events from 'utils/events';
 import FilterView from 'views/filter';
 import labels from 'nls/labels';
 import template from 'templates/menu';
@@ -7,8 +8,8 @@ import template from 'templates/menu';
 export default Backbone.View.extend({
 
   initialize: function () {
-    Pubsub.on(AppEvents.MENU_TOGGLE, this.toggleMenu, this);
-    Pubsub.on(AppEvents.FILTER, this.hideMenu, this);
+    Pubsub.on(Events.MENU_TOGGLE, this.toggleMenu, this);
+    Pubsub.on(Events.FILTER, this.hideMenu, this);
     this.render();
   },
 

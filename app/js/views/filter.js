@@ -1,9 +1,10 @@
 import Backbone from 'backbone';
 import _ from 'underscore';
-import PubSub from 'pubsub';
+import PubSub from 'utils/pubsub';
+import Events from 'utils/events';
+import Settings from 'utils/settings';
+import filterDates from 'utils/filter-dates';
 import labels from 'nls/labels';
-import filterDates from 'filter-dates';
-import Settings from 'settings';
 import template from 'templates/filter';
 
 export default Backbone.View.extend({
@@ -19,8 +20,8 @@ export default Backbone.View.extend({
   },
 
   initialize: function () {
-    PubSub.on(AppEvents.FILTER, this.render, this);
-    PubSub.on(AppEvents.CLEAR_FILTER, this.render, this);
+    PubSub.on(Events.FILTER, this.render, this);
+    PubSub.on(Events.CLEAR_FILTER, this.render, this);
   },
 
   render: function () {
@@ -83,6 +84,6 @@ export default Backbone.View.extend({
   filter: function (e) {
     Settings.saveFilter(this.filter);
     e.stopImmediatePropagation();
-    PubSub.trigger(AppEvents.FILTER);
+    PubSub.trigger(Events.FILTER);
   }
 });

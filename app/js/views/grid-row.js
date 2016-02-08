@@ -1,7 +1,8 @@
 import _ from 'underscore';
 import Backbone from 'backbone';
-import PubSub from 'pubsub';
-import tools from 'tools';
+import PubSub from 'utils/pubsub';
+import tools from 'utils/tools';
+import Events from 'utils/events';
 import ItemView from 'views/item';
 import VideoView from 'views/video';
 import UploadView from 'views/upload';
@@ -33,7 +34,7 @@ export default Backbone.View.extend({
     $(window).resize(_.bind(this.screenResize, this));
 
     // fetch items
-    Pubsub.on(AppEvents.ITEMS_UPLOADED, this.fetchCurrent, this);
+    Pubsub.on(Events.ITEMS_UPLOADED, this.fetchCurrent, this);
     this.collection.on("add", this.renderModel, this);
     this.collection.on("reset", this.render, this);
     this.collection.on("remove", this.render, this);
@@ -51,8 +52,8 @@ export default Backbone.View.extend({
       this.filter = true;
       this.filterValue = options.filter.year + "-" + options.filter.month;
     }
-    Pubsub.on(AppEvents.FILTER, this.filterItems, this);
-    Pubsub.on(AppEvents.CLEAR_FILTER, this.clearFilter, this);
+    Pubsub.on(Events.FILTER, this.filterItems, this);
+    Pubsub.on(Events.CLEAR_FILTER, this.clearFilter, this);
   },
 
   onDispose: function () {
@@ -243,7 +244,7 @@ export default Backbone.View.extend({
       },
       reset: true
     });
-    Pubsub.trigger(AppEvents.ITEMS_ADDED, -1);
+    Pubsub.trigger(Events.ITEMS_ADDED, -1);
   },
 
   listenToScroll: function () {

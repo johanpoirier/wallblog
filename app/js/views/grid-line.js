@@ -1,8 +1,9 @@
 import _ from 'underscore';
 import Backbone from 'backbone';
-import PubSub from 'pubsub';
-import tools from 'tools';
-import Settings from 'settings';
+import PubSub from 'utils/pubsub';
+import tools from 'utils/tools';
+import Events from 'utils/events';
+import Settings from 'utils/settings';
 import LineView from 'views/line';
 import UploadView from 'views/upload';
 
@@ -25,7 +26,7 @@ export default Backbone.View.extend({
 
   initialize: function (options) {
     // fetch items
-    Pubsub.on(AppEvents.ITEMS_UPLOADED, this.fetchCurrent, this);
+    Pubsub.on(Events.ITEMS_UPLOADED, this.fetchCurrent, this);
     this.collection.on("add", this.addItemToLine, this);
     this.collection.on("reset", this.render, this);
     this.collection.on("remove", this.onRemove, this);
@@ -46,8 +47,8 @@ export default Backbone.View.extend({
       this.filterActive = true;
       this.filterValue = options.filter.year + "-" + options.filter.month;
     }
-    Pubsub.on(AppEvents.FILTER, this.filterItems, this);
-    Pubsub.on(AppEvents.CLEAR_FILTER, this.fetchCurrent, this);
+    Pubsub.on(Events.FILTER, this.filterItems, this);
+    Pubsub.on(Events.CLEAR_FILTER, this.fetchCurrent, this);
   },
 
   onDispose: function () {
@@ -113,10 +114,7 @@ export default Backbone.View.extend({
   },
 
   checkIfLastItem: function (item) {
-    if (!this.lastItemId && window.itemIds) {
-      this.lastItemId = window.itemIds[window.itemIds.length - 1];
-    }
-    return item.get('id') === this.lastItemId;
+    return item.get('id') === this.collection.last().get('id');
   },
 
   newLine: function () {
@@ -237,7 +235,7 @@ export default Backbone.View.extend({
       },
       'reset': true
     });
-    Pubsub.trigger(AppEvents.ITEMS_ADDED, -1);
+    Pubsub.trigger(Events.ITEMS_ADDED, -1);
   },
 
   getFilterValue: function () {

@@ -1,10 +1,11 @@
 import Backbone from 'backbone';
-import PubSub from 'pubsub';
+import PubSub from 'utils/pubsub';
+import Events from 'utils/events';
+import Settings from 'utils/settings';
+import filterDates from 'utils/filter-dates';
 import labels from 'nls/labels';
 import template from 'templates/filter-button';
-import filterDates from 'filter-dates';
 import FilterView from 'views/filter';
-import Settings from 'settings';
 
 export default Backbone.View.extend({
 
@@ -23,7 +24,7 @@ export default Backbone.View.extend({
     this.render();
 
     this.filterView = new FilterView({ 'el': this.el });
-    PubSub.on(AppEvents.FILTER, this.render, this);
+    PubSub.on(Events.FILTER, this.render, this);
   },
 
   render: function () {
@@ -50,6 +51,6 @@ export default Backbone.View.extend({
     e.stopImmediatePropagation();
     Settings.clearFilter();
     this.render({ value: labels.filter, clear: false });
-    PubSub.trigger(AppEvents.CLEAR_FILTER);
+    PubSub.trigger(Events.CLEAR_FILTER);
   }
 });

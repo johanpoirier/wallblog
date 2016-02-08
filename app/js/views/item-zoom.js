@@ -1,12 +1,13 @@
 import _ from 'underscore';
 import Backbone from 'backbone';
-import PubSub from 'pubsub';
+import PubSub from 'utils/pubsub';
+import tools from 'utils/tools';
+import Events from 'utils/events';
 import key from 'keymaster';
 import Hammer from 'hammerjs';
 import Item from 'models/item';
 import CommentsView from 'views/comments';
 import CommentFormView from 'views/comment-form';
-import tools from 'tools';
 import labels from 'nls/labels';
 import template from 'templates/item-zoom';
 
@@ -29,6 +30,9 @@ export default Backbone.View.extend({
     this.availableHeight = options.availableHeight || 200;
     this.availableWidth = options.availableWidth || this.minDesktopWidth;
     this.root = options.root;
+
+    this.itemIds = options.itemIds;
+    this.zoomCurrentIndex = this.itemIds.indexOf(this.model.get('id'));
 
     if (this.model.get("file")) {
       this.render();
@@ -57,18 +61,24 @@ export default Backbone.View.extend({
   },
 
   previousItem: function () {
-    if (window.zoomCurrentIndex > 0) {
-      var prevId = window.itemIds[--window.zoomCurrentIndex];
-      this.fetchItem(parseInt(prevId));
-      Backbone.history.navigate('/item/' + prevId, false);
+    if (this.zoomCurrentIndex > 0) {
+      var prevId = parseInt(this.itemIds[this.zoomCurrentIndex - 1], 10);
+      if (!isNaN(prevId)) {
+        this.zoomCurrentIndex -= 1;
+        this.fetchItem(prevId);
+        Backbone.history.navigate('/item/' + prevId, false);
+      }
     }
   },
 
   nextItem: function () {
-    if (window.zoomCurrentIndex < window.itemIds.length) {
-      var nextId = window.itemIds[++window.zoomCurrentIndex];
-      this.fetchItem(parseInt(nextId));
-      Backbone.history.navigate('/item/' + nextId, false);
+    if (this.zoomCurrentIndex < this.itemIds.length) {
+      var nextId = parseInt(this.itemIds[this.zoomCurrentIndex + 1], 10);
+      if (!isNaN(nextId)) {
+        this.zoomCurrentIndex += 1;
+        this.fetchItem(nextId);
+        Backbone.history.navigate('/item/' + nextId, false);
+      }
     }
   },
 
@@ -80,7 +90,7 @@ export default Backbone.View.extend({
   },
 
   render: function () {
-    PubSub.trigger(AppEvents.ITEM_ZOOMED, this.model);
+    PubSub.trigger(Events.ITEM_ZOOMED, this.model);
     this.context.picture = (this.model.get('type') === 'picture');
     if (this.context.picture) {
       $(window).resize(_.debounce(this.screenResize.bind(this), 100));
@@ -137,13 +147,8 @@ export default Backbone.View.extend({
     this.$("img, iframe").focus();
 
     // find index in list of ids
-    if (window.zoomCurrentIndex == 0) {
-      for (var i = 0; i < window.itemIds.length; i++) {
-        if (this.model.get("id") === window.itemIds[i]) {
-          window.zoomCurrentIndex = i;
-          break;
-        }
-      }
+    if (this.zoomCurrentIndex == 0) {
+      this.zoomCurrentIndex = this.itemIds.indexOf(this.model.get("id"));
     }
   },
 
@@ -160,9 +165,6 @@ export default Backbone.View.extend({
   },
 
   back: function () {
-    key.unbind("left");
-    key.unbind("right");
-    key.unbind("esc");
     Backbone.history.navigate("/", true);
   },
 
@@ -171,5 +173,13 @@ export default Backbone.View.extend({
     this.availableWidth = win.width();
     this.availableHeight = win.height() - 44;
     this.render();
+  },
+
+  remove: function () {
+    key.unbind("left");
+    key.unbind("right");
+    key.unbind("esc");
+
+    Backbone.View.prototype.remove.apply(this, arguments);
   }
 });

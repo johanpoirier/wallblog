@@ -1,21 +1,31 @@
 import Backbone from 'backbone';
 import key from 'keymaster';
-import tools from 'tools';
-import Settings from 'settings';
+import tools from 'utils/tools';
+import Settings from 'utils/settings';
+import Events from 'utils/events';
+import Constants from 'utils/constants';
 import Item from 'models/item';
 import ItemCollection from 'collections/items';
 import GridLine from 'views/grid-line';
 import GridRow from 'views/grid-row';
 import ItemZoomView from 'views/item-zoom';
 import UserFormView from 'views/user-form';
+import HeaderView from 'views/header';
+import MenuView from 'views/menu';
 
 export default Backbone.Router.extend({
 
   initialize: function () {
     this.displayMode = Settings.getDisplayMode();
 
-    Pubsub.on(AppEvents.FILTER, this.saveFilter, this);
-    Pubsub.on(AppEvents.CLEAR_FILTER, this.clearFilter, this);
+    this.items = null;
+    this.itemIds = null;
+
+    this.headerView = new HeaderView($('header'));
+    this.menuView = new MenuView({ el: $('nav') });
+
+    Pubsub.on(Events.FILTER, this.saveFilter, this);
+    Pubsub.on(Events.CLEAR_FILTER, this.clearFilter, this);
 
     Backbone.history.start({ pushState: true, root: "/" });
   },
@@ -29,19 +39,21 @@ export default Backbone.Router.extend({
 
   main: function () {
     // render header bar even if nb items is unknown
-    window.headerView.render();
-
-    // list of all ids
-    window.zoomCurrentIndex = 0;
+    this.headerView.render();
 
     // get items for the first load
-    if (!window.items) {
-      window.items = new ItemCollection();
-      window.items.on('remove', this.main, this);
+    if (!this.items) {
+      this.items = new ItemCollection();
+      this.items.on('remove', this.main, this);
+    } else {
+      // reset rendered status
+      this.items.models.forEach(function (model) {
+        model.set('rendered', false, { 'silent': true });
+      });
     }
 
     // display items on the grid
-    var grid, dataGrid = { collection: window.items, filter: this.filter };
+    var grid, dataGrid = { collection: this.items, filter: this.filter };
     if (this.displayMode == Constants.DISPLAY_MODE_LINE) {
       grid = new GridLine(dataGrid);
     } else {
@@ -60,10 +72,10 @@ export default Backbone.Router.extend({
       });
     }
 
-    // get list of all ids if not yet
-    if (!window.itemIds) {
-      window.zoomCurrentIndex = 0;
-      this.getListOfIds();
+    // zoom view clean
+    if (this.zoomView) {
+      this.zoomView.remove();
+      this.zoomView = null;
     }
   },
 
@@ -72,60 +84,57 @@ export default Backbone.Router.extend({
     window.location.reload(true);
   },
 
-  getListOfIds: function () {
-    $.get("/api/items/ids", function (data) {
-      window.itemIds = data;
-    });
-  },
-
   login: function () {
     this.main();
-    window.headerView.showLogin();
+    this.headerView.showLogin();
   },
 
   newUser: function () {
     new UserFormView();
   },
 
+  getItemIds: function (callback) {
+    // filter -> get only items filtered ids
+    if (Settings.isFilterActive()) {
+      callback(this.items.models.map(function (item) {
+        return item.get('id');
+      }));
+      return;
+    }
+
+    // get all item ids (and fetch it if needed)
+    if (!this.itemIds) {
+      $.get("/api/items/ids", function (ids) {
+        this.itemIds = ids;
+        callback(ids);
+      }.bind(this));
+    } else {
+      callback(this.itemIds);
+    }
+  },
+
   zoom: function (id) {
     var item;
-    if (!window.items) {
-      window.items = new ItemCollection();
+    if (!this.items) {
+      this.items = new ItemCollection();
       item = new Item({ 'id': id });
     } else {
-      item = window.items.get(id);
+      item = this.items.get(id);
     }
 
-    if (!window.itemIds) {
-      window.zoomCurrentIndex = 0;
-      $.get("/api/items/ids", function (data) {
-        window.itemIds = data;
-        this.zoomDisplay(item);
-      }.bind(this));
-    }
-    else {
-      this.zoomDisplay(item);
-    }
+    this.getItemIds(function (data) {
+      this.zoomDisplay(item, data);
+    }.bind(this));
   },
 
-  zoomDisplay: function (item) {
+  zoomDisplay: function (item, itemIds) {
     var win = $(window);
-    new ItemZoomView({
-      root: $('main'),
-      model: item,
-      availableWidth: win.width(),
-      availableHeight: win.height() - 44
+    this.zoomView = new ItemZoomView({
+      'root': $('main'),
+      'model': item,
+      'itemIds': itemIds,
+      'availableWidth': win.width(),
+      'availableHeight': win.height() - 44
     });
-  },
-
-  saveFilter: function (monthId, year) {
-    this.filter = {
-      "year": year,
-      "monthId": monthId
-    };
-  },
-
-  clearFilter: function () {
-    this.filter = null;
   }
 });

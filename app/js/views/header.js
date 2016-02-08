@@ -1,10 +1,11 @@
 import _ from 'underscore';
 import Backbone from 'backbone';
-import PubSub from 'pubsub';
+import PubSub from 'utils/pubsub';
+import tools from 'utils/tools';
+import Settings from 'utils/settings';
+import Events from 'utils/events';
 import UploadVideoView from 'views/upload-video';
 import FilterButtonView from 'views/filter-button';
-import tools from 'tools';
-import Settings from 'settings';
 import labels from 'nls/labels';
 import template from 'templates/header';
 import templateZoom from 'templates/header-zoom';
@@ -28,11 +29,11 @@ var HeaderView = Backbone.View.extend({
   },
 
   initialize: function (root) {
-    Pubsub.on(AppEvents.ITEMS_ADDED, this.render, this);
-    Pubsub.on(AppEvents.ITEM_ZOOMED, this.renderZoom, this);
-    Pubsub.on(AppEvents.USER_LOGGED_IN, this.render, this);
-    Pubsub.on(AppEvents.FILTER, this.saveFilter, this);
-    Pubsub.on(AppEvents.CLEAR_FILTER, this.clearFilter, this);
+    Pubsub.on(Events.ITEMS_ADDED, this.render, this);
+    Pubsub.on(Events.ITEM_ZOOMED, this.renderZoom, this);
+    Pubsub.on(Events.USER_LOGGED_IN, this.render, this);
+    Pubsub.on(Events.FILTER, this.saveFilter, this);
+    Pubsub.on(Events.CLEAR_FILTER, this.clearFilter, this);
     this.nbItems = 0;
     this.admin = false;
     this.root = root;
@@ -109,7 +110,7 @@ var HeaderView = Backbone.View.extend({
   },
 
   toggleMenu: function () {
-    PubSub.trigger(AppEvents.MENU_TOGGLE);
+    PubSub.trigger(Events.MENU_TOGGLE);
   },
 
   showLogin: function () {
@@ -157,7 +158,7 @@ var HeaderView = Backbone.View.extend({
     Backbone.history.navigate('/', false);
     this.hideLogin();
     tools.setLoggedTime();
-    Pubsub.trigger(AppEvents.USER_LOGGED_IN);
+    Pubsub.trigger(Events.USER_LOGGED_IN);
   },
 
   editDescription: function () {

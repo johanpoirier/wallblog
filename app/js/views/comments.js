@@ -1,6 +1,6 @@
 import backbone from 'backbone';
 import CommentView from 'views/comment';
-import tools from 'tools';
+import tools from 'utils/tools';
 
 export default Backbone.View.extend({
 

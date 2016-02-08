@@ -2,6 +2,7 @@ import Backbone from 'backbone';
 import ModalView from 'views/modal';
 import labels from 'nls/labels';
 import template from 'templates/upload';
+import Events from 'utils/events';
 
 var UploadView = ModalView.extend({
 
@@ -47,7 +48,7 @@ var UploadView = ModalView.extend({
       data: JSON.stringify(this.pictures),
       success: function () {
         this.close();
-        Pubsub.trigger(AppEvents.ITEMS_UPLOADED);
+        Pubsub.trigger(Events.ITEMS_UPLOADED);
       }.bind(this)
     });
   },

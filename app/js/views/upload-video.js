@@ -2,6 +2,7 @@ import Backbone from 'backbone';
 import ModalView from 'views/modal';
 import labels from 'nls/labels';
 import template from 'templates/upload-video';
+import Events from 'utils/events';
 
 var UploadVideoView = ModalView.extend({
 
@@ -61,7 +62,7 @@ var UploadVideoView = ModalView.extend({
       data: JSON.stringify(videos),
       success: function () {
         this.close();
-        Pubsub.trigger(AppEvents.ITEMS_UPLOADED);
+        Pubsub.trigger(Events.ITEMS_UPLOADED);
       }.bind(this)
     });
   },

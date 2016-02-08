@@ -1,3 +1,5 @@
+import Constants from 'utils/constants';
+
 function savePreference(key, value) {
   window.localStorage.setItem(key, value);
 }
@@ -29,6 +31,10 @@ var Settings = {
 
   getFilter: function () {
     return JSON.parse(getPreference(Constants.FILTER_LABEL)) || {};
+  },
+
+  isFilterActive: function () {
+    return getPreference(Constants.FILTER_LABEL) !== null;
   }
 };
 
