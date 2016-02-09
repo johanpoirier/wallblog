@@ -1,17 +1,11 @@
 var webpack = require('webpack');
 
-var args = process.argv.filter(function(arg) { return arg.indexOf('--') === 0; }).reduce(function (prevArg, arg) {
-  var keyValue = arg.substr(2).split('=');
-  prevArg[keyValue[0]] = keyValue[1];
-  return prevArg;
-}, {});
-
 module.exports = {
   'entry': 'main',
   'output': {
     'path': 'dist/js',
     'publicPath': './js/',
-    'filename': 'wallblog' + (args['buildVersion'] || '') + '.js'
+    'filename': 'wallblog.js'
   },
   module: {
     loaders: [

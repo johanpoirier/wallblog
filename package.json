@@ -3,25 +3,27 @@
   "version": "1.10.1",
   "repository": "https://github.com/johanpoirier/wallblog",
   "private": true,
-  "scripts": {
-    "test": "mocha --recursive",
-    "build": "scripts/build.sh",
-    "version:minor": "npm version minor",
-    "version:patch": "npm version patch",
-    "package": "scripts/package.sh"
-  },
   "devDependencies": {
     "babel-core": "^6.4.0",
     "babel-loader": "^6.2.1",
     "babel-preset-es2015": "^6.3.13",
-    "bower": "*",
+    "clean-css": "^3.4.9",
     "del": "^1.1.1",
     "exports-loader": "^0.6.2",
     "handlebars-loader": "^1.1.4",
+    "hashmark": "^3.1.0",
+    "htmlprocessor": "^0.2.1",
     "imagemin-pngquant": "^4.0.0",
     "imports-loader": "^0.6.5",
+    "injectassets": "^1.0.5",
     "json-loader": "^0.5.4",
+    "live-reload": "^1.1.0",
+    "parallelshell": "^2.0.0",
+    "preprocess": "^3.0.2",
+    "replaceinfiles": "^1.1.4",
+    "rimraf": "^2.2.8",
     "run-sequence": "^1.1.0",
+    "watch": "^0.17.1",
     "webpack": "^1.12.10",
     "yargs": "^3.8.0"
   },
@@ -33,5 +35,32 @@
     "jquery": "^2.2.0",
     "moment": "^2.11.1",
     "underscore": "^1.8.3"
+  },
+  "scripts": {
+    "test": "mocha --recursive",
+
+    "clean": "rimraf dist/*",
+
+    "precopy": "npm run clean -s && mkdir dist/img && mkdir dist/font",
+    "copy": "npm run copy:images -s && npm run copy:fonts -s && npm run copy:misc -s",
+    "copy:images": "cp app/img/* dist/img",
+    "copy:fonts": "cp app/font/* dist/font",
+    "copy:misc": "cp app/index.php dist/ && cp app/.htaccess dist/ && cp app/favicon.ico dist/ && cp app/robots.txt dist/ && cp app/manifest.* dist/",
+
+    "prebuild": "mkdir dist/css",
+    "build": "npm run build:scripts -s && npm run build:styles -s && npm run build:markup -s",
+    "build:scripts": "webpack -d && hashmark -s -l 12 -m assets.json --cwd dist js/wallblog.js 'dist/js/{name}{hash}{ext}'",
+    "build:styles": "cleancss --skip-rebase app/css/*.css -o dist/css/main.css && hashmark -s -l 12 -m assets.json --cwd dist css/main.css 'dist/css/{name}{hash}{ext}'",
+    "build:markup": "htmlprocessor -e dev app/index.html -o dist/index.html",
+    "postbuild": "replaceinfiles -r assets.json -s 'dist/index.html' -d '{dir}/{base}' && rimraf assets.json && rimraf dist/js/wallblog.js && rimraf dist/css/main.css",
+
+    "live-reload": "live-reload --port 9091 dist/",
+
+    "watch": "parallelshell \"npm run watch:scripts\" \"npm run watch:styles\"",
+    "watch:scripts": "webpack --watch",
+    "watch:styles": "watch \"npm run build:styles\" app/css/",
+
+    "predev": "npm run copy -s && npm run build -s",
+    "dev": "parallelshell \"npm run watch\" \"npm run live-reload\""
   }
 }

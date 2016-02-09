@@ -8,3 +8,4 @@ app/videos/*
 app/js/analytics.js
 tests/app.log
 *.iml
+assets.json
