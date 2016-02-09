@@ -46,14 +46,19 @@
     "copy:images": "cp app/img/* dist/img",
     "copy:pictures": "cp app/pictures/empty* dist/pictures",
     "copy:fonts": "cp app/font/* dist/font",
-    "copy:misc": "cp app/index.php dist/ && cp app/.htaccess dist/ && cp app/favicon.ico dist/ && cp app/robots.txt dist/ && cp app/manifest.* dist/",
+    "copy:misc": "cp app/index.php dist/ && cp app/.htaccess dist/ && cp app/favicon.ico dist/ && cp app/robots.txt dist/ && cp app/manifest.* dist/ && cp app/js/analytics.js dist/",
 
     "prebuild": "mkdir dist/css",
     "build": "npm run build:scripts -s && npm run build:styles -s && npm run build:markup -s",
-    "build:scripts": "webpack -d && hashmark -s -l 12 -m assets.json --cwd dist js/wallblog.js 'dist/js/{name}{hash}{ext}'",
-    "build:styles": "cleancss --skip-rebase app/css/*.css -o dist/css/main.css && hashmark -s -l 12 -m assets.json --cwd dist css/main.css 'dist/css/{name}{hash}{ext}'",
-    "build:markup": "htmlprocessor -e dev app/index.html -o dist/index.html",
-    "postbuild": "replaceinfiles -r assets.json -s 'dist/index.html' -d '{dir}/{base}' && rimraf assets.json && rimraf dist/js/wallblog.js && rimraf dist/css/main.css",
+    "build:debug": "npm run build:scripts:debug -s && npm run build:styles -s && npm run build:markup:debug -s",
+    "build:scripts": "webpack -p",
+    "build:scripts:debug": "webpack -d",
+    "build:styles": "cleancss --skip-rebase app/css/*.css -o dist/css/main.css",
+    "build:markup": "htmlprocessor -e dist app/index.html -o dist/index.html",
+    "build:markup:debug": "htmlprocessor -e dev app/index.html -o dist/index.html",
+
+    "cachebuster": "hashmark -l 8 --cwd dist {js,css}/*.{js,css} '{dir}/{name}{hash}{ext}' | replaceinfiles -s 'dist/index.html' -d '{dir}/{base}'",
+    "postcachebuster": "rimraf dist/js/wallblog.js && rimraf dist/css/main.css",
 
     "live-reload": "live-reload --port 9091 dist/",
 
@@ -61,7 +66,9 @@
     "watch:scripts": "webpack --watch",
     "watch:styles": "watch \"npm run build:styles\" app/css/",
 
-    "predev": "npm run copy -s && npm run build -s",
-    "dev": "parallelshell \"npm run watch\" \"npm run live-reload\""
+    "predev": "npm run copy -s && npm run build:debug -s",
+    "dev": "parallelshell \"npm run watch\" \"npm run live-reload\"",
+
+    "package": "npm run copy -s && npm run build -s && npm run cachebuster -s"
   }
 }
