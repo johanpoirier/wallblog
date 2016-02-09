@@ -20,7 +20,7 @@ do
   sleep 1
 done
 
-echo "Building wallblog app:"
+echo "Installing dependencies:"
 docker exec $IMAGE_NAME ${DOCKER_WORKSPACE}/docker/wallblog.sh
 echo "Done."
 echo ""

@@ -41,9 +41,10 @@
 
     "clean": "rimraf dist/*",
 
-    "precopy": "npm run clean -s && mkdir dist/img && mkdir dist/font",
-    "copy": "npm run copy:images -s && npm run copy:fonts -s && npm run copy:misc -s",
+    "precopy": "npm run clean -s && mkdir dist/img && mkdir dist/font && mkdir dist/pictures",
+    "copy": "npm run copy:images -s && npm run copy:fonts -s && npm run copy:misc -s && npm run copy:pictures -s",
     "copy:images": "cp app/img/* dist/img",
+    "copy:pictures": "cp app/pictures/empty* dist/pictures",
     "copy:fonts": "cp app/font/* dist/font",
     "copy:misc": "cp app/index.php dist/ && cp app/.htaccess dist/ && cp app/favicon.ico dist/ && cp app/robots.txt dist/ && cp app/manifest.* dist/",
 
