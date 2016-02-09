@@ -1,12 +1,13 @@
 {
   "name": "Wallblog",
-  "version": "1.10.0-0",
+  "version": "1.10.0",
   "repository": "https://github.com/johanpoirier/wallblog",
   "private": true,
   "scripts": {
     "test": "mocha --recursive",
     "build": "scripts/build.sh",
     "version:minor": "npm version minor",
+    "version:patch": "npm version patch",
     "package": "scripts/package.sh"
   },
   "devDependencies": {

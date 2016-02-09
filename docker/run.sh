@@ -25,6 +25,9 @@ docker exec $IMAGE_NAME ${DOCKER_WORKSPACE}/docker/wallblog.sh
 echo "Done."
 echo ""
 
+docker exec $IMAGE_NAME git config --global user.email "`git config --global user.email`"
+docker exec $IMAGE_NAME git config --global user.name "`git config --global user.name`"
+
 CONTAINER_ID=$(cat "$CID_FILE")
 CONTAINER_IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $CONTAINER_ID)
 
