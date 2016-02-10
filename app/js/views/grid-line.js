@@ -74,14 +74,15 @@ export default Backbone.View.extend({
     // first time on the site ?
     if (this.collection.length === 0) {
       // Display one default image per column
-      for (var i = 0; i < 18; i++) {
+      for (var index = 0; index < 18; index++) {
         this.collection.add({
-          file: "empty.jpg",
-          date: "2011-10-17 18:56:10",
-          ratio: 1,
-          reverseRatio: 1,
-          renderer: false
-        }, { silent: true });
+          'id': index,
+          'file': "empty.jpg",
+          'date': "2011-10-17 18:56:10",
+          'ratio': 1,
+          'reverseRatio': 1,
+          'rendered': false
+        }, { 'silent': true });
       }
 
       // Check if no user in db
