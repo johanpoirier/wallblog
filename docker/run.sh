@@ -20,16 +20,16 @@ do
   sleep 1
 done
 
-echo "Installing dependencies:"
-docker exec $IMAGE_NAME ${DOCKER_WORKSPACE}/docker/wallblog.sh
-echo "Done."
-echo ""
-
-docker exec $IMAGE_NAME git config --global user.email "`git config --global user.email`"
-docker exec $IMAGE_NAME git config --global user.name "`git config --global user.name`"
-
 CONTAINER_ID=$(cat "$CID_FILE")
 CONTAINER_IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $CONTAINER_ID)
 
-echo "Go to http://${CONTAINER_IP} to test wallblog"
-echo "Credentials for uploading pictures: wall@blog.fr / toto"
+echo "Wallblog will be available at http://${CONTAINER_IP}"
+echo " -> credentials for uploading pictures: wall@blog.fr / toto"
+echo ""
+
+echo "Installing dependencies:"
+docker exec $IMAGE_NAME ${DOCKER_WORKSPACE}/docker/wallblog.sh
+echo "Done."
+
+docker exec $IMAGE_NAME git config --global user.email "`git config --global user.email`"
+docker exec $IMAGE_NAME git config --global user.name "`git config --global user.name`"

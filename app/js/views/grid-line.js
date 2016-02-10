@@ -79,7 +79,8 @@ export default Backbone.View.extend({
           file: "empty.jpg",
           date: "2011-10-17 18:56:10",
           ratio: 1,
-          reverseRatio: 1
+          reverseRatio: 1,
+          renderer: false
         }, { silent: true });
       }
 
