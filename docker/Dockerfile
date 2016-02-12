@@ -35,5 +35,9 @@ RUN curl -sL https://deb.nodesource.com/setup_5.x | bash - && apt-get install -y
 # Git
 RUN apt-get update && apt-get install -y git
 
+# Sample pictures
+RUN mkdir /var/www/pictures
+COPY ./pictures/* /var/www/pictures/
+
 # Run
 CMD ["/usr/bin/supervisord", "-n"]
