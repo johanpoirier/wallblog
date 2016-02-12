@@ -1,7 +1,7 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
-USE `nirgal`;
+USE `wallblog`;
 
 CREATE TABLE IF NOT EXISTS `wallblog__comment` (
   `id` int(9) NOT NULL auto_increment,
