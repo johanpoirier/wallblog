@@ -23,7 +23,7 @@ export default Backbone.View.extend({
   },
 
   events: {
-    "click img": "back"
+    'click img': 'back'
   },
 
   initialize: function (options) {
@@ -34,7 +34,7 @@ export default Backbone.View.extend({
     this.itemIds = options.itemIds;
     this.zoomCurrentIndex = this.itemIds.indexOf(this.model.get('id'));
 
-    if (this.model.get("file")) {
+    if (this.model.get('file')) {
       this.render();
       this.fetchComments();
     }
@@ -43,9 +43,9 @@ export default Backbone.View.extend({
     }
 
     // keyboard shortcuts
-    key("esc", this.back);
-    key("left", this.previousItem.bind(this));
-    key("right", this.nextItem.bind(this));
+    key('esc', this.back);
+    key('left', this.previousItem.bind(this));
+    key('right', this.nextItem.bind(this));
 
     // gestures
     this.setupHammer(this.$el[0]);
@@ -84,8 +84,8 @@ export default Backbone.View.extend({
 
   fetchItem: function (id) {
     this.model = new Item({ "id": id });
-    this.model.on("change", this.render, this);
-    this.model.on("destroy", this.back, this);
+    this.model.on('change', this.render, this);
+    this.model.on('destroy', this.back, this);
     this.model.fetch();
   },
 
@@ -93,7 +93,7 @@ export default Backbone.View.extend({
     PubSub.trigger(Events.ITEM_ZOOMED, this.model);
     this.context.picture = (this.model.get('type') === 'picture');
     if (this.context.picture) {
-      $(window).resize(_.debounce(this.screenResize.bind(this), 100));
+      $(window).on('resize', _.debounce(this.screenResize.bind(this), 100));
 
       var file = encodeURIComponent(decodeURIComponent(this.model.get('file'))), filenameInfo = file.split('.');
       this.model.set({
@@ -165,7 +165,7 @@ export default Backbone.View.extend({
   },
 
   back: function () {
-    Backbone.history.navigate("/", true);
+    Backbone.history.navigate('/', true);
   },
 
   screenResize: function () {
@@ -176,9 +176,11 @@ export default Backbone.View.extend({
   },
 
   remove: function () {
-    key.unbind("left");
-    key.unbind("right");
-    key.unbind("esc");
+    $(window).off('resize');
+
+    key.unbind('left');
+    key.unbind('right');
+    key.unbind('esc');
 
     Backbone.View.prototype.remove.apply(this, arguments);
   }

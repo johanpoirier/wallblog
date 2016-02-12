@@ -17,8 +17,7 @@ var UploadView = ModalView.extend({
   events: {
     'click #modalClose': 'close',
     'click #modalCancel': 'close',
-    'click #modalSubmit': 'submit',
-    'submit form': 'submit'
+    'click #modalSubmit': 'submit'
   },
 
   render: function (pictures) {
@@ -47,14 +46,10 @@ var UploadView = ModalView.extend({
       contentType: 'application/json',
       data: JSON.stringify(this.pictures),
       success: function () {
-        this.close();
         Pubsub.trigger(Events.ITEMS_UPLOADED);
+        this.remove();
       }.bind(this)
     });
-  },
-
-  close: function () {
-    this.remove();
   }
 });
 

@@ -39,7 +39,7 @@
   "scripts": {
     "test": "mocha --recursive",
 
-    "clean": "rimraf dist/*",
+    "clean": "rimraf dist/js dist/css dist/index.* dist/font/ dist/img/",
 
     "precopy": "npm run clean -s && mkdir -p dist/img && mkdir -p dist/font && mkdir -p dist/pictures",
     "copy": "npm run copy:images -s && npm run copy:fonts -s && npm run copy:misc -s && npm run copy:pictures -s",
@@ -58,7 +58,7 @@
     "cachebuster": "hashmark -l 8 --cwd dist {js,css}/*.{js,css} '{dir}/{name}{hash}{ext}' | replaceinfiles -s 'dist/index.html' -d '{dir}/{base}'",
     "postcachebuster": "rimraf dist/js/wallblog.js && rimraf dist/css/main.css",
 
-    "live-reload": "live-reload --port=9091 --delay=100 dist/",
+    "live-reload": "live-reload --port=9091 --delay=100 dist/js/ dist/css/",
 
     "watch": "parallelshell \"npm run watch:scripts\" \"npm run watch:styles\"",
     "watch:scripts": "webpack -d --watch",

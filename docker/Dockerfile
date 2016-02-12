@@ -1,4 +1,4 @@
-FROM php:5.6-fpm
+FROM php:7.0.3-fpm
 
 MAINTAINER Johan Poirier, johan.poirier@gmail.com
 
@@ -11,11 +11,6 @@ RUN docker-php-ext-install pdo pdo_mysql gd exif
 RUN apt-get update && apt-get install -y supervisor && mkdir -p /var/log/supervisor
 COPY ./config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Nginx
-RUN apt-get update && apt-get install -y nginx
-RUN rm /etc/nginx/sites-enabled/default
-COPY ./config/nginx.conf /etc/nginx/sites-enabled/wallblog
-
 # MySQL
 RUN apt-get update \
 && apt-get install -y debconf-utils \
@@ -25,11 +20,17 @@ RUN apt-get update \
 COPY ./mysql /tmp/mysql
 RUN /tmp/mysql/init.sh
 
-# Node.js
-RUN curl -sL https://deb.nodesource.com/setup_0.12 | bash - && apt-get install -y nodejs
+# Nginx
+RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
+	&& echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list \
+	&& apt-get update \
+	&& apt-get install -y ca-certificates nginx gettext-base \
+	&& rm -rf /var/lib/apt/lists/*
+RUN rm /etc/nginx/conf.d/default.conf
+COPY ./config/wallblog.conf /etc/nginx/conf.d/wallblog.conf
 
-# Bower & Gulp
-RUN npm install -g bower && npm install -g gulp
+# Node.js
+RUN curl -sL https://deb.nodesource.com/setup_5.x | bash - && apt-get install -y nodejs
 
 # Git
 RUN apt-get update && apt-get install -y git

@@ -47,9 +47,7 @@ export default Backbone.Router.extend({
       this.items.on('remove', this.main, this);
     } else {
       // reset rendered status
-      this.items.models.forEach(function (model) {
-        model.set('rendered', false, { 'silent': true });
-      });
+      this.items.resetRender();
     }
 
     // display items on the grid

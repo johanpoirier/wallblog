@@ -138,6 +138,9 @@ export default Backbone.View.extend({
     this.screenHeight = currentScreenHeight;
 
     if (reRender) {
+      // reset rendered status
+      this.collection.resetRender();
+
       this.render();
     }
   },

@@ -197,6 +197,7 @@ class PictureService {
             return;
         }
 
+        $resize_ratio = 1;
         $image_width = $new_image_width = imagesx($image);
         $image_height = $new_image_height = imagesy($image);
         if ($image_width > $maxWidth) {
