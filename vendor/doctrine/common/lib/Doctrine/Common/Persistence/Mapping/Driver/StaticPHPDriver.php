@@ -26,13 +26,12 @@ use Doctrine\Common\Persistence\Mapping\MappingException;
  * The StaticPHPDriver calls a static loadMetadata() method on your entity
  * classes where you can manually populate the ClassMetadata instance.
  *
- * @license 	http://www.opensource.org/licenses/lgpl-license.php LGPL
- * @link    	www.doctrine-project.org
- * @since   	2.2
- * @author      Benjamin Eberlei <kontakt@beberlei.de>
- * @author      Guilherme Blanco <guilhermeblanco@hotmail.com>
- * @author      Jonathan H. Wage <jonwage@gmail.com>
- * @author      Roman Borschel <roman@code-factory.org>
+ * @link   www.doctrine-project.org
+ * @since  2.2
+ * @author Benjamin Eberlei <kontakt@beberlei.de>
+ * @author Guilherme Blanco <guilhermeblanco@hotmail.com>
+ * @author Jonathan H. Wage <jonwage@gmail.com>
+ * @author Roman Borschel <roman@code-factory.org>
  */
 class StaticPHPDriver implements MappingDriver
 {
@@ -41,7 +40,7 @@ class StaticPHPDriver implements MappingDriver
      *
      * @var array
      */
-    private $paths = array();
+    private $paths = [];
 
     /**
      * Map of all class names.
@@ -51,7 +50,7 @@ class StaticPHPDriver implements MappingDriver
     private $classNames;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param array|string $paths
      */
@@ -61,9 +60,11 @@ class StaticPHPDriver implements MappingDriver
     }
 
     /**
-     * Add paths
+     * Adds paths.
      *
      * @param array $paths
+     *
+     * @return void
      */
     public function addPaths(array $paths)
     {
@@ -92,8 +93,8 @@ class StaticPHPDriver implements MappingDriver
             throw MappingException::pathRequired();
         }
 
-        $classes = array();
-        $includedFiles = array();
+        $classes = [];
+        $includedFiles = [];
 
         foreach ($this->paths as $path) {
             if (!is_dir($path)) {

@@ -14,7 +14,7 @@
  *
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license. For more information, see
- * <http://www.phpdoctrine.org>.
+ * <http://www.doctrine-project.org>.
  */
 
 namespace Doctrine\Common\Persistence\Mapping;
@@ -27,11 +27,10 @@ namespace Doctrine\Common\Persistence\Mapping;
 class MappingException extends \Exception
 {
     /**
-     *
      * @param string $className
-     * @param array $namespaces
+     * @param array  $namespaces
      *
-     * @return MappingException
+     * @return self
      */
     public static function classNotFoundInNamespaces($className, $namespaces)
     {
@@ -40,7 +39,7 @@ class MappingException extends \Exception
     }
 
     /**
-     * @return MappingException
+     * @return self
      */
     public static function pathRequired()
     {
@@ -50,7 +49,8 @@ class MappingException extends \Exception
 
     /**
      * @param string|null $path
-     * @return MappingException
+     *
+     * @return self
      */
     public static function fileMappingDriversRequireConfiguredDirectoryPath($path = null)
     {
@@ -67,7 +67,8 @@ class MappingException extends \Exception
     /**
      * @param string $entityName
      * @param string $fileName
-     * @return MappingException
+     *
+     * @return self
      */
     public static function mappingFileNotFound($entityName, $fileName)
     {
@@ -77,10 +78,21 @@ class MappingException extends \Exception
     /**
      * @param string $entityName
      * @param string $fileName
-     * @return MappingException
+     *
+     * @return self
      */
     public static function invalidMappingFile($entityName, $fileName)
     {
         return new self("Invalid mapping file '$fileName' for class '$entityName'.");
+    }
+
+    /**
+     * @param string $className
+     *
+     * @return self
+     */
+    public static function nonExistingClass($className)
+    {
+        return new self("Class '$className' does not exist");
     }
 }

@@ -9,3 +9,5 @@ app/js/analytics.js
 tests/app.log
 *.iml
 assets.json
+vendor/
+bin/

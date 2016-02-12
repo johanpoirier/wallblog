@@ -20,8 +20,8 @@
 namespace Doctrine\Common\Persistence\Event;
 
 use Doctrine\Common\EventArgs;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\Mapping\ClassMetadata;
+use Doctrine\Common\Persistence\ObjectManager;
 
 /**
  * Class that holds event arguments for a loadMetadata event.
@@ -54,7 +54,7 @@ class LoadClassMetadataEventArgs extends EventArgs
     }
 
     /**
-     * Retrieve associated ClassMetadata.
+     * Retrieves the associated ClassMetadata.
      *
      * @return ClassMetadata
      */
@@ -64,7 +64,7 @@ class LoadClassMetadataEventArgs extends EventArgs
     }
 
     /**
-     * Retrieve associated ObjectManager.
+     * Retrieves the associated ObjectManager.
      *
      * @return ObjectManager
      */
@@ -73,4 +73,3 @@ class LoadClassMetadataEventArgs extends EventArgs
         return $this->objectManager;
     }
 }
-

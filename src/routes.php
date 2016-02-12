@@ -31,3 +31,7 @@ $app->get('/rssComment', function () use ($app) {
     $response->headers->set('Content-type', 'application/rss+xml; charset=utf-8');
     return $app['twig']->render('rss-comment.twig', array("now" => date("D, d M Y H:i:s T"), "items" => $items), $response);
 });
+
+$app->post('/github', function () use ($app) {
+    return new Response("plop", 200);
+});
