@@ -1,13 +1,13 @@
 .idea/
 node_modules/
 logs/
-src/config.jops.php
+vendor/
+bin/
 dist/
+src/config.jops.php
 app/pictures/20*
 app/videos/*
 app/js/analytics.js
 tests/app.log
-*.iml
 assets.json
-vendor/
-bin/
+*.iml
