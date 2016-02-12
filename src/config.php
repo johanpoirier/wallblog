@@ -1,6 +1,6 @@
 <?php
 $config["host"] = "127.0.0.1";
-$config["dbname"] = "nirgal";
-$config["user"] = "root";
-$config["password"] = "root";
+$config["dbname"] = "wallblog";
+$config["user"] = "wall";
+$config["password"] = "blog";
 $config["prefix"] = "wallblog";
