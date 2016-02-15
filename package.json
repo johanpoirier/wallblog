@@ -37,8 +37,6 @@
     "debug": false
   },
   "scripts": {
-    "test": "mocha --recursive",
-
     "clean": "rimraf dist/js dist/css dist/index.* dist/font/ dist/img/",
 
     "precopy": "npm run clean -s && mkdir -p dist/img && mkdir -p dist/font && mkdir -p dist/pictures",

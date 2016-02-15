@@ -1,4 +1,4 @@
 language: php
 phps:
-  - 5.3
-  - 5.4
+  - 7.0
+install: composer install
