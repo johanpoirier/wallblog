@@ -32,6 +32,9 @@ $app->get('/rssComment', function () use ($app) {
     return $app['twig']->render('rss-comment.twig', array("now" => date("D, d M Y H:i:s T"), "items" => $items), $response);
 });
 
-$app->post('/github', function () use ($app) {
-    return new Response("plop", 200);
+$app->post('/github', function (Request $request) use ($app) {
+    $githubPayload = json_decode($request->getContent(), true);
+    $app['monolog']->addDebug($request->getContent());
+    exec(__DIR__ . '/../scripts/deploy.sh &>> ' . __DIR__ . '/../logs/deploy.log &');
+    return new Response("Deploy triggered", 200);
 });
