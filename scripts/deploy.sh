@@ -2,7 +2,18 @@
 
 projectDir="$(dirname $0)/../"
 
-target=$1
+analytics=0
+while getopts "a" option
+do
+    case $option in
+        a)
+            echo "Adding analytics.js"
+            analytics=1
+            ;;
+    esac
+done
+
+target=${@: -1}
 targetPath=~/$target
 
 if [ -e $targetPath ]
@@ -23,6 +34,10 @@ then
     cp -r src/ "$targetPath/current/src/"
     cp "$targetPath/config.php" "$targetPath/current/src/config.php"
     chgrp -R www-data "$targetPath/current/"
+    if [ $analytics = 0 ]
+    then
+        rm "$targetPath/current/dist/analytics.js"
+    fi
     cd --
 
     echo "Version $version created"
