@@ -1,6 +1,12 @@
 #!/bin/sh
 
-echo "Time: `date '+%F-%T'`\n"
-echo "who am I? `whoami`\n"
-echo "ID: `id`\n"
-echo "pwd: `pwd`\n"
+echo "[Updating wallblog] `date '+%F-%T'`\n"
+tokenFile='/tmp/wallblog'
+
+if [ -e $tokenFile ]
+then
+    cd ~/wallblog
+    git pull
+    npm run package
+    rm -f $tokenFile
+fi

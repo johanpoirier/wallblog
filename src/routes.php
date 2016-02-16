@@ -34,7 +34,8 @@ $app->get('/rssComment', function () use ($app) {
 
 $app->post('/github', function (Request $request) use ($app) {
     $githubPayload = json_decode($request->getContent(), true);
-    $app['monolog']->addDebug($request->getContent());
-    exec(__DIR__ . '/../scripts/deploy.sh &>> ' . __DIR__ . '/../logs/deploy.log &');
+    $ret = file_put_contents('/tmp/WALLBLOG', 'plop');
+    exec('chmod g+w /tmp/WALLBLOG');
+    $app['monolog']->addInfo("Deploy token created: $ret");
     return new Response("Deploy triggered", 200);
 });
