@@ -12,7 +12,7 @@ then
     rm -f "$targetPath/current"
     ln -s "$targetPath/versions/$version/" "$targetPath/current"
 
-    pushd "$projectDir"
+    cd "$projectDir"
     cp -r dist/ "$targetPath/current/dist/"
     rm -rf "$targetPath/current/dist/pictures/"
     ln -s "$targetPath/pictures/" "$targetPath/current/dist/pictures"
@@ -23,7 +23,7 @@ then
     cp -r src/ "$targetPath/current/src/"
     cp "$targetPath/config.php" "$targetPath/current/src/config.php"
     chgrp -R www-data "$targetPath/current/"
-    popd
+    cd --
 
     echo "Version $version created"
 else
