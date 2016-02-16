@@ -35,8 +35,8 @@ $app->get('/rssComment', function () use ($app) {
 $app->post('/github', function (Request $request) use ($app) {
     $tokenFile = '/tmp/WALLBLOG';
     $githubPayload = json_decode($request->getContent(), true);
-    $ret = file_put_contents($tokenFile, 'plop');
-    exec("chmod g+w $tokenFile");
+    $ret = file_put_contents($tokenFile, 'UPDATE');
+    exec("chmod 664 $tokenFile");
     $app['monolog']->addInfo("Deploy token created: $ret");
     return new Response("Deploy triggered", 200);
 });

@@ -2,11 +2,11 @@
 
 tokenFile='/tmp/WALLBLOG'
 
-if [ -e $tokenFile ]
+if grep -Fxq "UPDATE" $tokenFile
 then
     echo "[Updating wallblog] `date '+%F-%T'`\n"
     cd ~/wallblog
     git pull
     npm run package
-    rm -f $tokenFile
+    echo "DONE" > $tokenFile
 fi
