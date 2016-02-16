@@ -1,10 +1,10 @@
 #!/bin/sh
 
-echo "[Updating wallblog] `date '+%F-%T'`\n"
-tokenFile='/tmp/wallblog'
+tokenFile='/tmp/WALLBLOG'
 
 if [ -e $tokenFile ]
 then
+    echo "[Updating wallblog] `date '+%F-%T'`\n"
     cd ~/wallblog
     git pull
     npm run package
