@@ -60,7 +60,7 @@ export default Backbone.View.extend({
     this.screenWidth = $(window).innerWidth();
     this.screenHeight = $(window).height();
     this.lineBaseHeight = Math.floor(this.screenHeight / 3);
-    this.lineMaxWidth = (this.screenWidth * 0.98) / this.lineBaseHeight;
+    this.lineMaxWidth = ($('main').outerWidth() * 0.98) / this.lineBaseHeight;
   },
 
   render: function () {

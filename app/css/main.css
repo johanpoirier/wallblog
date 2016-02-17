@@ -97,6 +97,38 @@ nav.displayed {
     transform: translateX(15rem);
 }
 
+aside {
+    background-color: #313131;
+    bottom: 0;
+    min-height: 100vh;
+    position: absolute;
+    right: 0;
+    top: 35px;
+    width: 30px;
+}
+
+aside:after {
+    border-left: 1px dashed #e4e4e4;
+    bottom: 0;
+    content: '';
+    left: 48%;
+    position: absolute;
+    top: 0;
+}
+
+aside > .marker {
+    background-color: #313131;
+    display: block;
+    color: #e4e4e4;
+    left: 10px;
+    padding: 0.6rem 0;
+    position: absolute;
+    white-space: pre-wrap;
+    width: 7px;
+    word-wrap: break-word;
+    z-index: 1;
+}
+
 .headbar {
     box-shadow: 0 1px 8px rgba(0, 0, 0, .3);
     height: 2.2rem;
@@ -218,6 +250,7 @@ nav.displayed {
 }
 
 main {
+    margin-right: 30px;
     padding-top: 2.4rem;
 }
 
@@ -623,6 +656,14 @@ nav .filter-group .year, nav .filter-group .month {
     .headbar .delete {
         float: left;
         margin-left: 10px;
+    }
+
+    aside {
+        display: none;
+    }
+    
+    main {
+        margin-right: 0;
     }
 
     .picture {

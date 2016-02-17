@@ -1,6 +1,8 @@
 import Backbone from 'backbone';
 import ItemView from 'views/item';
 import VideoView from 'views/video';
+import PubSub from 'utils/pubsub';
+import Events from 'utils/events';
 
 export default Backbone.View.extend({
 
@@ -41,6 +43,14 @@ export default Backbone.View.extend({
       this.height = Math.floor((this.maxWidth / this.width) * this.baseHeight);
     }
     this.items.forEach(this.renderModel.bind(this));
+
+    var firstItem = this.items[0];
+    PubSub.trigger(Events.ADD_MARKER, {
+      'date': firstItem.get('date'),
+      'top': this.$('#' + firstItem.get('id')).position().top,
+      'bottom': this.$el.height()
+    });
+
     return this;
   },
 

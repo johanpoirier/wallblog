@@ -6,5 +6,6 @@ export default {
   NO_IMAGE: 'NoImage',
   FILTER: 'Filter',
   CLEAR_FILTER: 'ClearFilter',
-  MENU_TOGGLE: 'ToggleMenu'
+  MENU_TOGGLE: 'ToggleMenu',
+  ADD_MARKER: 'AddMarker'
 }
