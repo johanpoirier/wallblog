@@ -38,9 +38,6 @@ export default Backbone.Router.extend({
   },
 
   main: function () {
-    // render header bar even if nb items is unknown
-    this.headerView.render();
-
     // get items for the first load
     if (!this.items) {
       this.items = new ItemCollection();
@@ -49,6 +46,10 @@ export default Backbone.Router.extend({
       // reset rendered status
       this.items.resetRender();
     }
+
+    // render header bar even if nb items is unknown
+    this.headerView.setItems(this.items);
+    this.headerView.render();
 
     // display items on the grid
     var grid, dataGrid = { collection: this.items, filter: this.filter };
@@ -119,6 +120,7 @@ export default Backbone.Router.extend({
     } else {
       item = this.items.get(id);
     }
+    this.headerView.setItems(this.items);
 
     this.getItemIds(function (data) {
       this.zoomDisplay(item, data);

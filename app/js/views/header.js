@@ -72,6 +72,10 @@ var HeaderView = Backbone.View.extend({
     }
   },
 
+  setItems: function (items) {
+    this.items = items;
+  },
+
   requestNbItems: function () {
     $.get("api/items/count", _.bind(this.render, this));
   },
@@ -189,7 +193,7 @@ var HeaderView = Backbone.View.extend({
 
   deletePicture: function () {
     if (window.confirm(labels['confirmDeletePicture'])) {
-      window.items.remove(this.item);
+      this.items.remove(this.item);
       this.item.destroy();
     }
   },
