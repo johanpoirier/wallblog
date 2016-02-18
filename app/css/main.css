@@ -98,33 +98,25 @@ nav.displayed {
 }
 
 aside {
-    background-color: #313131;
+    background: url(../img/timeline.png) repeat-y;
     bottom: 0;
     min-height: 100vh;
     position: absolute;
     right: 0;
     top: 35px;
-    width: 30px;
-}
-
-aside:after {
-    border-left: 1px dashed #e4e4e4;
-    bottom: 0;
-    content: '';
-    left: 48%;
-    position: absolute;
-    top: 0;
+    width: 24px;
 }
 
 aside > .marker {
-    background-color: #313131;
+    background-color: #000;
     display: block;
     color: #e4e4e4;
-    left: 10px;
-    padding: 0.6rem 0;
+    font-family: monospace;
+    left: 0;
+    padding: 4px;
     position: absolute;
     white-space: pre-wrap;
-    width: 7px;
+    width: 15px;
     word-wrap: break-word;
     z-index: 1;
 }
@@ -255,7 +247,7 @@ main {
 
 .grid {
     display: flex;
-    padding-right: 30px;
+    padding-right: 24px;
     width: 100%;
 }
 

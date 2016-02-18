@@ -39,7 +39,7 @@ export default Backbone.View.extend({
     var label = markerDate.format(this.outputPattern);
     if (this.markers.length === 0 || this.markers[this.markers.length - 1].label !== label) {
       this.markers.push({
-        'top': marker.top,
+        'top': Math.round(marker.top),
         'label': label
       });
     }
