@@ -44,12 +44,14 @@ export default Backbone.View.extend({
     }
     this.items.forEach(this.renderModel.bind(this));
 
-    var firstItem = this.items[0];
-    PubSub.trigger(Events.ADD_MARKER, {
-      'date': firstItem.get('date'),
-      'top': this.$('#' + firstItem.get('id')).position().top,
-      'bottom': this.$el.height()
-    });
+    if (this.items.length > 0) {
+      var firstItem = this.items[0];
+      PubSub.trigger(Events.ADD_MARKER, {
+        'date': firstItem.get('date'),
+        'top': this.$('#' + firstItem.get('id')).position().top,
+        'bottom': this.$el.height()
+      });
+    }
 
     return this;
   },

@@ -1,6 +1,7 @@
 var moment = require('moment');
-require("moment/locale/fr");
-moment.locale('fr');
+var lang = (navigator.language || navigator.userLanguage).split('-').shift().toLowerCase();
+require(`moment/locale/${lang}`);
+moment.locale(lang);
 
 module.exports = function(date, outputPattern, inputPattern) {
   var defaultPattern = 'YYYY-MM-DD HH:mm:ss';

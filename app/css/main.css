@@ -76,7 +76,7 @@ body > header {
     perspective-origin: top;
     position: fixed;
     width: 100%;
-    z-index: 1;
+    z-index: 2;
 }
 
 nav {
@@ -250,12 +250,12 @@ aside > .marker {
 }
 
 main {
-    margin-right: 30px;
     padding-top: 2.4rem;
 }
 
 .grid {
     display: flex;
+    padding-right: 30px;
     width: 100%;
 }
 
@@ -661,8 +661,8 @@ nav .filter-group .year, nav .filter-group .month {
     aside {
         display: none;
     }
-    
-    main {
+
+    .grid {
         margin-right: 0;
     }
 

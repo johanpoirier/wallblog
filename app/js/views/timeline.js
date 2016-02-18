@@ -7,6 +7,8 @@ import template from 'templates/timeline';
 
 export default Backbone.View.extend({
 
+  tagName: 'aside',
+
   inputPattern: 'YYYY-MM-DD HH:mm:ss',
   outputPattern: 'MMMM',
 
@@ -21,6 +23,8 @@ export default Backbone.View.extend({
   render: function () {
     this.$el.html(template({ 'markers': this.markers }));
     this.$el.height(this.bottom + 'px');
+
+    return this;
   },
 
   addMarker: function (marker) {
@@ -38,7 +42,6 @@ export default Backbone.View.extend({
         'top': marker.top,
         'label': label
       });
-      this.render();
     }
 
     // timeline must have the same height as the wall
@@ -50,10 +53,9 @@ export default Backbone.View.extend({
     this.lastMarkerDate = markerDate.valueOf();
   },
 
-  reset: function () {
-    this.bottom = 0;
-    this.markers = [];
-    this.render();
+  remove: function () {
+    PubSub.off(Events.ADD_MARKER);
+    Backbone.View.prototype.remove.apply(this, arguments);
   }
 
 });

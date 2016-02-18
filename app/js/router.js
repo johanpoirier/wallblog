@@ -39,6 +39,12 @@ export default Backbone.Router.extend({
   },
 
   main: function () {
+    // zoom view clean
+    if (this.zoomView) {
+      this.zoomView.remove();
+      this.zoomView = null;
+    }
+
     // get items for the first load
     if (!this.items) {
       this.items = new ItemCollection();
@@ -53,7 +59,8 @@ export default Backbone.Router.extend({
     this.headerView.render();
 
     // timeline
-    this.timelineView = new TimelineView({ 'el': $('aside') });
+    this.timelineView = new TimelineView();
+    $('main').html(this.timelineView.el);
 
     // display items on the grid
     var grid, dataGrid = { collection: this.items, filter: this.filter };
@@ -62,7 +69,8 @@ export default Backbone.Router.extend({
     } else {
       grid = new GridRow(dataGrid);
     }
-    $('main').html(grid.el);
+    $('main').append(grid.el);
+    grid.render();
     grid.listenToScroll();
 
     // line / row
@@ -73,12 +81,6 @@ export default Backbone.Router.extend({
       key('ctrl+alt+l', function () {
         Backbone.history.navigate('/login', true);
       });
-    }
-
-    // zoom view clean
-    if (this.zoomView) {
-      this.zoomView.remove();
-      this.zoomView = null;
     }
   },
 
@@ -117,6 +119,11 @@ export default Backbone.Router.extend({
   },
 
   zoom: function (id) {
+    if (this.timelineView) {
+      this.timelineView.remove();
+      this.timelineView = null;
+    }
+
     var item;
     if (!this.items) {
       this.items = new ItemCollection();
