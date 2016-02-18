@@ -8,6 +8,7 @@ import LineView from 'views/line';
 import UploadView from 'views/upload';
 
 export default Backbone.View.extend({
+
   className: 'grid line',
   tagName: 'section',
 
@@ -39,9 +40,9 @@ export default Backbone.View.extend({
     // on resize, re-compute lines
     $(window).on('resize', _.debounce(this.screenResize.bind(this), 100));
 
-    Pubsub.on(Events.FILTER, this.filterItems, this);
-    Pubsub.on(Events.CLEAR_FILTER, this.fetchCurrent, this);
-    Pubsub.on(Events.ITEMS_UPLOADED, this.fetchCurrent, this);
+    PubSub.on(Events.FILTER, this.filterItems, this);
+    PubSub.on(Events.CLEAR_FILTER, this.fetchCurrent, this);
+    PubSub.on(Events.ITEMS_UPLOADED, this.fetchCurrent, this);
   },
 
   onDispose: function () {
