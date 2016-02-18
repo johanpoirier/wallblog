@@ -7,7 +7,7 @@ then
     echo "\n\n[Updating wallblog] `date '+%F-%T'`\n"
     cd ~/wallblog
     git pull origin master
-    composer install
+    /usr/local/bin/composer install
     npm install
     npm run package
     echo "DONE" > $tokenFile
