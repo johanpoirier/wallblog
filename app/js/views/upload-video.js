@@ -4,7 +4,7 @@ import labels from 'nls/labels';
 import template from 'templates/upload-video';
 import Events from 'utils/events';
 
-var UploadVideoView = ModalView.extend({
+export default ModalView.extend({
 
   attributes: {
     id: 'uploadModal'
@@ -71,5 +71,3 @@ var UploadVideoView = ModalView.extend({
     this.remove();
   }
 });
-
-export default UploadVideoView;

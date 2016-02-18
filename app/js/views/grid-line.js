@@ -8,6 +8,7 @@ import LineView from 'views/line';
 import UploadView from 'views/upload';
 
 export default Backbone.View.extend({
+
   className: "grid line",
   tagName: "section",
 
@@ -26,7 +27,7 @@ export default Backbone.View.extend({
 
   initialize: function (options) {
     // fetch items
-    Pubsub.on(Events.ITEMS_UPLOADED, this.fetchCurrent, this);
+    PubSub.on(Events.ITEMS_UPLOADED, this.fetchCurrent, this);
     this.collection.on("add", this.addItemToLine, this);
     this.collection.on("reset", this.render, this);
     this.collection.on("remove", this.onRemove, this);
@@ -47,8 +48,8 @@ export default Backbone.View.extend({
       this.filterActive = true;
       this.filterValue = options.filter.year + "-" + options.filter.month;
     }
-    Pubsub.on(Events.FILTER, this.filterItems, this);
-    Pubsub.on(Events.CLEAR_FILTER, this.fetchCurrent, this);
+    PubSub.on(Events.FILTER, this.filterItems, this);
+    PubSub.on(Events.CLEAR_FILTER, this.fetchCurrent, this);
   },
 
   onDispose: function () {

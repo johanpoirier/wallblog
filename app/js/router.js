@@ -38,6 +38,12 @@ export default Backbone.Router.extend({
   },
 
   main: function () {
+    // zoom view clean
+    if (this.zoomView) {
+      this.zoomView.remove();
+      this.zoomView = null;
+    }
+
     // get items for the first load
     if (!this.items) {
       this.items = new ItemCollection();
@@ -69,12 +75,6 @@ export default Backbone.Router.extend({
       key('ctrl+alt+l', function () {
         Backbone.history.navigate('/login', true);
       });
-    }
-
-    // zoom view clean
-    if (this.zoomView) {
-      this.zoomView.remove();
-      this.zoomView = null;
     }
   },
 
