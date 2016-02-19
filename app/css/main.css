@@ -104,7 +104,7 @@ aside {
     position: absolute;
     right: 0;
     top: 35px;
-    width: 24px;
+    width: 22px;
 }
 
 aside > .marker {
@@ -247,7 +247,7 @@ main {
 
 .grid {
     display: flex;
-    padding-right: 24px;
+    padding-right: 22px;
     width: 100%;
 }
 

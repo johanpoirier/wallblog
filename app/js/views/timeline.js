@@ -33,14 +33,16 @@ export default Backbone.View.extend({
     // new marker older than the last added -> empty list
     if (markerDate.valueOf() > this.lastMarkerDate) {
       this.markers = [];
+      console.debug('reset markers, probably due to a window resize event');
     }
 
     // marker with an another month : add it and display
-    var label = markerDate.format(this.outputPattern);
-    if (this.markers.length === 0 || this.markers[this.markers.length - 1].label !== label) {
+    var date = markerDate.format('YYYY-MM');
+    if (this.markers.length === 0 || this.markers[this.markers.length - 1].date !== date) {
       this.markers.push({
         'top': Math.round(marker.top),
-        'label': label
+        'label': markerDate.format(this.outputPattern),
+        'date': date
       });
     }
 
