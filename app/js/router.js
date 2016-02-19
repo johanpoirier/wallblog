@@ -63,15 +63,15 @@ export default Backbone.Router.extend({
     $('main').html(this.timelineView.el);
 
     // display items on the grid
-    var grid, dataGrid = { collection: this.items, filter: this.filter };
+    var dataGrid = { collection: this.items, filter: this.filter };
     if (this.displayMode == Constants.DISPLAY_MODE_LINE) {
-      grid = new GridLine(dataGrid);
+      this.grid = new GridLine(dataGrid);
     } else {
-      grid = new GridColumn(dataGrid);
+      this.grid = new GridColumn(dataGrid);
     }
-    $('main').append(grid.el);
-    grid.render();
-    grid.listenToScroll();
+    $('main').append(this.grid.el);
+    this.grid.render();
+    this.grid.listenToScroll();
 
     // line / row
     key('ctrl+alt+d', this.changeDisplayMode.bind(this));
@@ -118,6 +118,10 @@ export default Backbone.Router.extend({
     if (this.timelineView) {
       this.timelineView.remove();
       this.timelineView = null;
+    }
+    if (this.grid) {
+      this.grid.remove();
+      this.grid = null;
     }
 
     var item;
