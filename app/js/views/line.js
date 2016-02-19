@@ -48,7 +48,7 @@ export default Backbone.View.extend({
       var firstItem = this.items[0];
       PubSub.trigger(Events.ADD_MARKER, {
         'date': firstItem.get('date'),
-        'top': this.$('#' + firstItem.get('id')).position().top,
+        'top': this.$('#' + firstItem.get('id')).offset().top,
         'bottom': this.$el.height()
       });
     }
