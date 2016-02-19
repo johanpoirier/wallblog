@@ -61,7 +61,7 @@ button.icon:active {
 }
 
 button.upload::before {
-    content: '\e805';
+    content: '\5e';
     display: inline-block;
     font-family: "wallblog";
     font-style: normal;
