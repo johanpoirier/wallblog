@@ -7,11 +7,12 @@ import Constants from 'utils/constants';
 import Item from 'models/item';
 import ItemCollection from 'collections/items';
 import GridLine from 'views/grid-line';
-import GridRow from 'views/grid-row';
+import GridColumn from 'views/grid-column';
 import ItemZoomView from 'views/item-zoom';
 import UserFormView from 'views/user-form';
 import HeaderView from 'views/header';
 import MenuView from 'views/menu';
+import TimelineView from 'views/timeline';
 
 export default Backbone.Router.extend({
 
@@ -22,12 +23,12 @@ export default Backbone.Router.extend({
     this.itemIds = null;
 
     this.headerView = new HeaderView($('header'));
-    this.menuView = new MenuView({ el: $('nav') });
+    this.menuView = new MenuView({ 'el': $('nav') });
 
     Pubsub.on(Events.FILTER, this.saveFilter, this);
     Pubsub.on(Events.CLEAR_FILTER, this.clearFilter, this);
 
-    Backbone.history.start({ pushState: true, root: "/" });
+    Backbone.history.start({ 'pushState': true, 'root': '/' });
   },
 
   routes: {
@@ -57,14 +58,19 @@ export default Backbone.Router.extend({
     this.headerView.setItems(this.items);
     this.headerView.render();
 
+    // timeline
+    this.timelineView = new TimelineView();
+    $('main').html(this.timelineView.el);
+
     // display items on the grid
     var grid, dataGrid = { collection: this.items, filter: this.filter };
     if (this.displayMode == Constants.DISPLAY_MODE_LINE) {
       grid = new GridLine(dataGrid);
     } else {
-      grid = new GridRow(dataGrid);
+      grid = new GridColumn(dataGrid);
     }
-    $('main').html(grid.el);
+    $('main').append(grid.el);
+    grid.render();
     grid.listenToScroll();
 
     // line / row
@@ -103,7 +109,7 @@ export default Backbone.Router.extend({
 
     // get all item ids (and fetch it if needed)
     if (!this.itemIds) {
-      $.get("/api/items/ids", function (ids) {
+      $.get('/api/items/ids', function (ids) {
         this.itemIds = ids;
         callback(ids);
       }.bind(this));
@@ -113,6 +119,11 @@ export default Backbone.Router.extend({
   },
 
   zoom: function (id) {
+    if (this.timelineView) {
+      this.timelineView.remove();
+      this.timelineView = null;
+    }
+
     var item;
     if (!this.items) {
       this.items = new ItemCollection();

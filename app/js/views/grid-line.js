@@ -9,8 +9,8 @@ import UploadView from 'views/upload';
 
 export default Backbone.View.extend({
 
-  className: "grid line",
-  tagName: "section",
+  className: 'grid line',
+  tagName: 'section',
 
   loading: false,
   loadingIncrement: 12,
@@ -21,35 +21,28 @@ export default Backbone.View.extend({
   lastItemId: false,
 
   events: {
-    dragover: "handleDragOver",
-    drop: "handleFileSelect"
+    dragover: 'handleDragOver',
+    drop: 'handleFileSelect'
   },
 
   initialize: function (options) {
+    // apply filter
+    if (options.filter) {
+      this.filterActive = true;
+      this.filterValue = options.filter.year + '-' + options.filter.month;
+    }
+
     // fetch items
-    PubSub.on(Events.ITEMS_UPLOADED, this.fetchCurrent, this);
-    this.collection.on("add", this.addItemToLine, this);
-    this.collection.on("reset", this.render, this);
-    this.collection.on("remove", this.onRemove, this);
-    if (this.collection.length === 0) {
-      this.loading = true;
-      this.fetchCurrent();
-    }
-    else {
-      this.currentNbItems = this.collection.length;
-      this.render();
-    }
+    this.collection.on('add', this.addItemToLine, this);
+    this.collection.on('reset', this.render, this);
+    this.collection.on('remove', this.onRemove, this);
 
     // on resize, re-compute lines
     $(window).on('resize', _.debounce(this.screenResize.bind(this), 100));
 
-    // listen to filter
-    if (options.filter) {
-      this.filterActive = true;
-      this.filterValue = options.filter.year + "-" + options.filter.month;
-    }
     PubSub.on(Events.FILTER, this.filterItems, this);
     PubSub.on(Events.CLEAR_FILTER, this.fetchCurrent, this);
+    PubSub.on(Events.ITEMS_UPLOADED, this.fetchCurrent, this);
   },
 
   onDispose: function () {
@@ -61,11 +54,17 @@ export default Backbone.View.extend({
     this.screenWidth = $(window).innerWidth();
     this.screenHeight = $(window).height();
     this.lineBaseHeight = Math.floor(this.screenHeight / 3);
-    this.lineMaxWidth = (this.screenWidth * 0.98) / this.lineBaseHeight;
+    this.lineMaxWidth = ($('.grid').width() * 0.98) / this.lineBaseHeight;
   },
 
   render: function () {
     this.loading = false;
+
+    if (this.collection.length === 0) {
+      this.loading = true;
+      this.fetchCurrent();
+      return this;
+    }
 
     // first line
     this.$el.empty();
@@ -78,8 +77,8 @@ export default Backbone.View.extend({
       for (var index = 0; index < 18; index++) {
         this.collection.add({
           'id': index,
-          'file': "empty.jpg",
-          'date': "2011-10-17 18:56:10",
+          'file': 'empty.jpg',
+          'date': '2011-10-17 18:56:10',
           'ratio': 1,
           'reverseRatio': 1,
           'rendered': false
@@ -87,7 +86,7 @@ export default Backbone.View.extend({
       }
 
       // Check if no user in db
-      $.get("/api/users/count", function (nbUsers) {
+      $.get('/api/users/count', function (nbUsers) {
         if (parseInt(nbUsers) === 0) {
           // Display new user form
           Backbone.history.navigate('/new-user', true);
@@ -105,6 +104,8 @@ export default Backbone.View.extend({
     if (window.currentScollPosition) {
       $(document).scrollTop(window.currentScollPosition);
     }
+
+    return this;
   },
 
   addItemToLine: function (item) {
@@ -182,15 +183,15 @@ export default Backbone.View.extend({
           this.uploadFiles(files, 0);
         }
         else {
-          alert("Too many files! Only " + this.maxItemsToUpload + " allowed!");
+          alert('Too many files! Only ' + this.maxItemsToUpload + ' allowed!');
         }
       }
       else {
-        alert("Your browser does not support HTML5 file uploads!");
+        alert('Your browser does not support HTML5 file uploads!');
       }
     }
     else {
-      alert("You must be logged in to upload pictures.");
+      alert('You must be logged in to upload pictures.');
       Backbone.history.navigate('/login', true);
     }
   },
@@ -212,8 +213,8 @@ export default Backbone.View.extend({
     var file = files[index];
     index += 1;
 
-    if (!file.type.match("image.*")) {
-      alert("Only images are allowed!");
+    if (!file.type.match('image.*')) {
+      alert('Only images are allowed!');
       this.uploadFiles(files, index);
       return;
     }
