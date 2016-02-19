@@ -33,6 +33,7 @@ export default Backbone.View.extend({
     // new marker older than the last added -> empty list
     if (markerDate.valueOf() > this.lastMarkerDate) {
       this.markers = [];
+      this.bottom = 0;
       console.debug('reset markers, probably due to a window resize event');
     }
 
