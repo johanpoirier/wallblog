@@ -7,7 +7,7 @@ import Constants from 'utils/constants';
 import Item from 'models/item';
 import ItemCollection from 'collections/items';
 import GridLine from 'views/grid-line';
-import GridRow from 'views/grid-row';
+import GridColumn from 'views/grid-column';
 import ItemZoomView from 'views/item-zoom';
 import UserFormView from 'views/user-form';
 import HeaderView from 'views/header';
@@ -67,7 +67,7 @@ export default Backbone.Router.extend({
     if (this.displayMode == Constants.DISPLAY_MODE_LINE) {
       grid = new GridLine(dataGrid);
     } else {
-      grid = new GridRow(dataGrid);
+      grid = new GridColumn(dataGrid);
     }
     $('main').append(grid.el);
     grid.render();

@@ -6,11 +6,11 @@ import Events from 'utils/events';
 import ItemView from 'views/item';
 import VideoView from 'views/video';
 import UploadView from 'views/upload';
-import template from 'templates/grid-row';
+import template from 'templates/grid-column';
 
 export default Backbone.View.extend({
 
-  className: "grid row",
+  className: "grid column",
   tagName: "section",
 
   loading: false,
