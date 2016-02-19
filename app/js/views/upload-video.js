@@ -60,10 +60,10 @@ export default ModalView.extend({
       dataType: "json",
       contentType: "application/json",
       data: JSON.stringify(videos),
-      success: function () {
+      success: () => {
         this.close();
         Pubsub.trigger(Events.ITEMS_UPLOADED);
-      }.bind(this)
+      }
     });
   },
 

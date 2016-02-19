@@ -34,7 +34,6 @@ export default Backbone.View.extend({
     if (markerDate.valueOf() > this.lastMarkerDate) {
       this.markers = [];
       this.bottom = 0;
-      console.debug('reset markers, probably due to a window resize event');
     }
 
     // marker with an another month : add it and display

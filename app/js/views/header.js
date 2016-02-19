@@ -151,7 +151,7 @@ var HeaderView = Backbone.View.extend({
         'password': password
       },
       success: this.loginSuccess.bind(this),
-      error: function () {
+      error: () => {
         alert('Email et/ou mot de passe incorrects.');
         Backbone.history.navigate('/', false);
       }

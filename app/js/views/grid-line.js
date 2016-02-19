@@ -35,7 +35,7 @@ export default Backbone.View.extend({
     // fetch items
     this.collection.on('add', this.addItemToLine, this);
     this.collection.on('reset', this.render, this);
-    this.collection.on('remove', this.onRemove, this);
+    this.collection.on('remove', this.onItemRemove, this);
 
     // on resize, re-compute lines
     $(window).on('resize', _.debounce(this.screenResize.bind(this), 100));
@@ -43,11 +43,6 @@ export default Backbone.View.extend({
     PubSub.on(Events.FILTER, this.filterItems, this);
     PubSub.on(Events.CLEAR_FILTER, this.fetchCurrent, this);
     PubSub.on(Events.ITEMS_UPLOADED, this.fetchCurrent, this);
-  },
-
-  onDispose: function () {
-    $(window).unbind('resize');
-    $(window).unbind('scroll');
   },
 
   computeLineDimensions: function () {
@@ -162,10 +157,10 @@ export default Backbone.View.extend({
           'nb': this.loadingIncrement,
           'comments': true
         },
-        'success': function (items) {
+        'success': (items) => {
           this.loading = false;
           this.currentNbItems = items.length;
-        }.bind(this)
+        }
       });
     }
   },
@@ -266,12 +261,24 @@ export default Backbone.View.extend({
         'filter': this.getFilterValue(),
         'comments': true
       },
-      'reset': true
+      'reset': true,
+      'success': () => $(document).scrollTop(0)
     });
   },
 
-  onRemove: function () {
+  onItemRemove: function () {
     Backbone.history.navigate('/', false);
     this.render();
+  },
+
+  remove: function () {
+    PubSub.off(Events.FILTER);
+    PubSub.off(Events.CLEAR_FILTER);
+    PubSub.off(Events.ITEMS_UPLOADED);
+
+    $(window).unbind('resize');
+    $(window).unbind('scroll');
+
+    Backbone.View.prototype.remove.apply(this, arguments);
   }
 });

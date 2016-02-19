@@ -49,7 +49,7 @@ export default Backbone.View.extend({
         "author": author,
         "text": text
       }, {
-        success: _.bind(this.submitSuccess, this)
+        success: this.submitSuccess.bind(this)
       });
     }
   },

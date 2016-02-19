@@ -45,10 +45,10 @@ var UploadView = ModalView.extend({
       dataType: 'json',
       contentType: 'application/json',
       data: JSON.stringify(this.pictures),
-      success: function () {
+      success: () => {
         Pubsub.trigger(Events.ITEMS_UPLOADED);
         this.remove();
-      }.bind(this)
+      }
     });
   }
 });

@@ -69,15 +69,13 @@ var UserFormView = Backbone.View.extend({
         password: password
       },
       {
-        success: _.bind(function () {
+        success: () => {
           this.$el.modal('hide');
 
           // Display login form
           Backbone.history.navigate('/login', true);
-        }, this),
-        error: function () {
-          alert("Sorry, a problem occured during the creation of your account.");
-        }
+        },
+        error: () => alert("Sorry, a problem occured during the creation of your account.")
       });
   },
 

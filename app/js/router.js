@@ -78,9 +78,7 @@ export default Backbone.Router.extend({
 
     // admin shortcut
     if (!tools.isLogged()) {
-      key('ctrl+alt+l', function () {
-        Backbone.history.navigate('/login', true);
-      });
+      key('ctrl+alt+l', () => Backbone.history.navigate('/login', true));
     }
   },
 
@@ -101,18 +99,16 @@ export default Backbone.Router.extend({
   getItemIds: function (callback) {
     // filter -> get only items filtered ids
     if (Settings.isFilterActive()) {
-      callback(this.items.models.map(function (item) {
-        return item.get('id');
-      }));
+      callback(this.items.models.map((item) => item.get('id')));
       return;
     }
 
     // get all item ids (and fetch it if needed)
     if (!this.itemIds) {
-      $.get('/api/items/ids', function (ids) {
+      $.get('/api/items/ids', (ids) => {
         this.itemIds = ids;
         callback(ids);
-      }.bind(this));
+      });
     } else {
       callback(this.itemIds);
     }

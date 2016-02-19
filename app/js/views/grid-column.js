@@ -163,10 +163,10 @@ export default Backbone.View.extend({
           'nb': this.loadingIncrement,
           'comments': true
         },
-        'success': function (items) {
+        'success': (items) => {
           this.loading = false;
           this.currentNbItems = items.length;
-        }.bind(this)
+        }
       });
     }
   },
