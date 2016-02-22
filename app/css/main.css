@@ -655,7 +655,7 @@ nav .filter-group .year, nav .filter-group .month {
     }
 
     .grid {
-        margin-right: 0;
+        padding-right: 0;
     }
 
     .picture {
