@@ -36,7 +36,6 @@ export default Backbone.View.extend({
 
     if (this.model.get('file')) {
       this.render();
-      this.fetchComments();
     }
     else {
       this.fetchItem(this.model.id);
