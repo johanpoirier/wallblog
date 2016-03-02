@@ -12,15 +12,14 @@ export default Backbone.View.extend({
 
   initialize: function (options) {
     this.model.on('destroy', this.remove, this);
+    this.admin = options.admin;
     this.render();
-    if (options.admin) {
-      this.$('span.delete').show();
-    }
   },
 
   render: function () {
     this.$el.html(template({
       'model': this.model.toJSON(),
+      'admin': this.admin,
       'labels': labels
     }));
     return this;

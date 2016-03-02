@@ -9,7 +9,7 @@
   "commentHint": "votre commentaire ici ...",
   "dateFormat": "D MMMM YYYY",
   "shortDateFormat": "DD/MM/YYYY",
-  "dateTimeFormat": "le DD/MM/YYYY à HH\\hmm",
+  "dateTimeFormat": "[le] DD/MM/YYYY [à] HH[h]mm",
   "picturesToComment": "photos à commenter.",
   "enterDescription": "une description ?",
   "addDescription": "ajouter une description",

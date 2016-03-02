@@ -54,9 +54,10 @@
 }
 .comment .delete {
     cursor: pointer;
+    font-size: 1.2rem;
     margin-top: -3px;
     position: absolute;
-    right: 23px;
+    right: 11px;
 }
 
 .comment-form {

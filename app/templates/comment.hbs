@@ -1,4 +1,4 @@
 <span class="author">{{model.author}}</span>
-<span class="delete"><i class="icon-clear"></i></span>
+{{#if admin}}<span class="delete"><i class="icon-clear"></i></span>{{/if}}
 <span class="date">{{formatDate model.date labels.dateTimeFormat}}</span>
 <span>{{model.text}}</span>
