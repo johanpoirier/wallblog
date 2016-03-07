@@ -66,6 +66,7 @@ export default Backbone.View.extend({
         this.zoomCurrentIndex -= 1;
         this.fetchItem(prevId);
         Backbone.history.navigate('/item/' + prevId, false);
+        tools.trackEventInGa('Item', 'previous', '', prevId);
       }
     }
   },
@@ -77,12 +78,13 @@ export default Backbone.View.extend({
         this.zoomCurrentIndex += 1;
         this.fetchItem(nextId);
         Backbone.history.navigate('/item/' + nextId, false);
+        tools.trackEventInGa('Item', 'next', '', nextId);
       }
     }
   },
 
   fetchItem: function (id) {
-    this.model = new Item({ "id": id });
+    this.model = new Item({ 'id': id });
     this.model.on('change', this.render, this);
     this.model.on('destroy', this.back, this);
     this.model.fetch();
@@ -172,6 +174,7 @@ export default Backbone.View.extend({
     this.availableWidth = win.width();
     this.availableHeight = win.height() - 44;
     this.render();
+    tools.trackEventInGa('Item', 'resize', `${this.availableWidth}x${this.availableHeight}`);
   },
 
   remove: function () {

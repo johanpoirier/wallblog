@@ -2,6 +2,7 @@ import Backbone from 'backbone';
 import PubSub from 'utils/pubsub';
 import Events from 'utils/events';
 import Settings from 'utils/settings';
+import tools from 'utils/tools';
 import filterDates from 'utils/filter-dates';
 import labels from 'nls/labels';
 import template from 'templates/filter-button';
@@ -52,5 +53,6 @@ export default Backbone.View.extend({
     Settings.clearFilter();
     this.render({ value: labels.filter, clear: false });
     PubSub.trigger(Events.CLEAR_FILTER);
+    tools.trackEventInGa('Grid', 'clear-filter');
   }
 });

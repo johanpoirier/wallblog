@@ -154,6 +154,7 @@ var HeaderView = Backbone.View.extend({
       error: () => {
         alert('Email et/ou mot de passe incorrects.');
         Backbone.history.navigate('/', false);
+        tools.trackEventInGa('Site', 'login-failed', email);
       }
     });
   },
@@ -163,6 +164,7 @@ var HeaderView = Backbone.View.extend({
     this.hideLogin();
     tools.setLoggedTime();
     Pubsub.trigger(Events.USER_LOGGED_IN);
+    tools.trackEventInGa('Site', 'login-success', this.$el.find("input[name='email']").val());
   },
 
   editDescription: function () {

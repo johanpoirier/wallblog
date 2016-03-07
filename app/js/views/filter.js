@@ -3,6 +3,7 @@ import _ from 'underscore';
 import PubSub from 'utils/pubsub';
 import Events from 'utils/events';
 import Settings from 'utils/settings';
+import tools from 'utils/tools';
 import filterDates from 'utils/filter-dates';
 import labels from 'nls/labels';
 import template from 'templates/filter';
@@ -85,5 +86,6 @@ export default Backbone.View.extend({
     Settings.saveFilter(this.filter);
     e.stopImmediatePropagation();
     PubSub.trigger(Events.FILTER);
+    tools.trackEventInGa('Grid', 'filter', this.filter.year + (this.filter.monthId ? '-' + this.filter.monthId : ''));
   }
 });

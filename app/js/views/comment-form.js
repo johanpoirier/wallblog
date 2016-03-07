@@ -2,6 +2,7 @@ import _ from 'underscore';
 import backbone from 'backbone';
 import Comment from 'models/comment';
 import labels from 'nls/labels';
+import tools from 'utils/tools';
 import template from 'templates/comment-form';
 
 export default Backbone.View.extend({
@@ -10,14 +11,14 @@ export default Backbone.View.extend({
   className: 'comment-form',
 
   events: {
-    "click textarea": "showFullForm",
-    "click .btn-success": "submit",
-    "click button[type='button']": "cancel"
+    'click textarea': 'showFullForm',
+    'click .btn-success': 'submit',
+    "click button[type='button']": 'cancel'
   },
 
   initialize: function (options) {
     this.item = options.item;
-    this.model = new Comment({ idItem: this.item.get("id") });
+    this.model = new Comment({ idItem: this.item.get('id') });
     this.render();
   },
 
@@ -29,25 +30,25 @@ export default Backbone.View.extend({
   },
 
   showFullForm: function () {
-    if (this.$(".masked:hidden").length > 0) {
-      this.$(".masked").slideToggle(400);
-      this.$("textarea").attr("rows", "3");
+    if (this.$('.masked:hidden').length > 0) {
+      this.$('.masked').slideToggle(400);
+      this.$('textarea').attr('rows', '3');
     }
   },
 
   submit: function (event) {
     event.preventDefault();
 
-    var author = this.$("input[name='author']").val();
-    var text = this.$("textarea").val();
+    const author = this.$("input[name='author']").val();
+    const text = this.$('textarea').val();
 
-    if (author === "") {
-      this.$(".help-inline").html("Veuillez entrer votre nom");
+    if (author === '') {
+      this.$('.help-inline').html('Veuillez entrer votre nom');
     }
     else {
       this.model.save({
-        "author": author,
-        "text": text
+        'author': author,
+        'text': text
       }, {
         success: this.submitSuccess.bind(this)
       });
@@ -55,21 +56,22 @@ export default Backbone.View.extend({
   },
 
   cancel: function () {
-    if (this.$(".masked:hidden").length === 0) {
+    if (this.$('.masked:hidden').length === 0) {
       this.hideForm();
     }
   },
 
   submitSuccess: function (comment) {
     this.item.comments.add(comment);
-    this.model = new Comment({ idItem: this.item.get("id") });
+    this.model = new Comment({ idItem: this.item.get('id') });
     this.hideForm();
+    tools.trackEventInGa('Item', 'comment', comment.get('author'), this.item.get('id'));
   },
 
   hideForm: function () {
-    this.$(".masked").slideToggle("fast");
-    this.$(".help-inline").html("");
-    this.$("input[type='text']").val("");
-    this.$("textarea").attr("rows", "1").val("");
+    this.$('.masked').slideToggle('fast');
+    this.$('.help-inline').html('');
+    this.$("input[type='text']").val('');
+    this.$('textarea').attr('rows', '1').val('');
   }
 });
