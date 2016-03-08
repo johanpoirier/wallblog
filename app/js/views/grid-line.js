@@ -14,7 +14,7 @@ export default Backbone.View.extend({
 
   loading: false,
   loadingIncrement: 12,
-  currentNbItems: 24,
+  currentNbItems: 12,
   maxItemsToUpload: 12,
 
   currentLine: null,
@@ -227,17 +227,25 @@ export default Backbone.View.extend({
   },
 
   fetchCurrent: function () {
-    var filter = this.getFilterValue();
     this.collection.fetch({
-      'data': {
-        'filter': filter,
-        'start': 0,
-        'nb': this.currentNbItems,
-        'comments': true
-      },
+      'data': this.getFetchData(),
       'reset': true
     });
     Pubsub.trigger(Events.ITEMS_ADDED, -1);
+  },
+
+  getFetchData: function () {
+    const filter = this.getFilterValue();
+    let data = {
+      'comments': true
+    };
+    if (filter) {
+      data.filter = filter;
+    } else {
+      data.nb = this.currentNbItems;
+      data.start = 0;
+    }
+    return data;
   },
 
   getFilterValue: function () {
@@ -257,10 +265,7 @@ export default Backbone.View.extend({
 
   filterItems: function () {
     this.collection.fetch({
-      'data': {
-        'filter': this.getFilterValue(),
-        'comments': true
-      },
+      'data': this.getFetchData(),
       'reset': true,
       'success': () => $(document).scrollTop(0)
     });

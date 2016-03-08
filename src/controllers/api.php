@@ -14,7 +14,7 @@ $api->get('/item', function (Application $app, Request $request) {
     $filter = $request->get('filter');
 	$getComments = $request->get('comments');
 
-	if ($filter) {
+	if ($filter && sizeof($filter) > 0) {
         $items = $app['picture_service']->getByDate($filter);
 	} else {
         if ($nb) {
