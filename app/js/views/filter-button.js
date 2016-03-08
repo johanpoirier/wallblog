@@ -35,7 +35,7 @@ export default Backbone.View.extend({
       this.year = filter.year;
       this.monthId = filter.monthId;
       this.month = this.monthId ? filterDates.months[parseInt(this.monthId, 10) - 1].value : "";
-      context = { value: this.month + " " + (this.year || ""), clear: true };
+      context = { value: this.month + ' ' + (this.year || ''), clear: true };
     }
     else {
       context = { value: labels.filter, clear: false };

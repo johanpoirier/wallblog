@@ -17,7 +17,7 @@ export default Backbone.View.extend({
   events: {
     'click .month': 'selectMonth',
     'click .year': 'selectYear',
-    'click button': 'filter',
+    'click .filter-selection-button': 'filter'
   },
 
   initialize: function () {

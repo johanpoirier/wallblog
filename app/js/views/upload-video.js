@@ -18,9 +18,9 @@ export default ModalView.extend({
 
   initialize: function () {
     this.formats = [
-      { ext: "dailymotion", label: labels["video-dailymotion"], placeholder: labels["videoUrlPlaceholder"] },
-      { ext: "youtube", label: labels["video-youtube"], placeholder: labels["videoUrlPlaceholder"] },
-      { ext: "vimeo", label: labels["video-vimeo"], placeholder: labels["videoUrlPlaceholder"] }
+      { ext: 'youtube', label: labels['video-youtube'], placeholder: labels['videoUrlPlaceholder'] },
+      { ext: 'dailymotion', label: labels['video-dailymotion'], placeholder: labels['videoUrlPlaceholder'] },
+      { ext: 'vimeo', label: labels['video-vimeo'], placeholder: labels['videoUrlPlaceholder'] }
     ]
     this.render();
     this.$el.css('opacity', '1');
@@ -39,11 +39,11 @@ export default ModalView.extend({
     this.$(".btn").attr("disabled", "disabled");
     this.$(".icon-white").removeClass("icon-white").addClass("icon-upload");
 
-    var videos = [];
-    var videoInputs = this.$el.find("input[type='url']");
-    var el = this.$el;
+    let videos = [];
+    const videoInputs = this.$el.find("input[type='url']");
+    const el = this.$el;
     videoInputs.each(function () {
-      var inputEl = $(this);
+      const inputEl = $(this);
       if (inputEl.val().length > 0) {
         videos.push({
           'url': inputEl.val(),

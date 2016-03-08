@@ -16,11 +16,11 @@ var HeaderView = Backbone.View.extend({
   className: 'headbar',
 
   events: {
-    "click button#add-item": "upload",
-    "dblclick .description": "editDescription",
-    "keypress input[name='description']": "submitDescription",
-    "blur input[name='description']": "escapeDescription",
-    "click .delete": "deletePicture",
+    'click button#add-item': 'upload',
+    'dblclick .description': 'editDescription',
+    "keypress input[name='description']": 'submitDescription',
+    "blur input[name='description']": 'escapeDescription',
+    'click .delete': 'deletePicture',
     'click #loginCancel': 'hideLogin',
     'click #loginSubmit': 'login',
     'click .menu': 'toggleMenu',
@@ -55,7 +55,7 @@ var HeaderView = Backbone.View.extend({
     // update browser title
     window.document.title = WallBlog.title;
     if (this.nbItems > 0) {
-      window.document.title += " - " + this.nbItems + " photos";
+      window.document.title += ` - ${this.nbItems} photos`;
     }
 
     // render header bar
@@ -77,30 +77,31 @@ var HeaderView = Backbone.View.extend({
   },
 
   requestNbItems: function () {
-    $.get("api/items/count", _.bind(this.render, this));
+    $.get('api/items/count', _.bind(this.render, this));
   },
 
   renderZoom: function (item) {
+    this.item = item;
+
     // update browser title
-    if (item.get("description")) {
-      window.document.title = item.get("description") + ", " + WallBlog.title;
+    if (this.item.get('description')) {
+      window.document.title = this.item.get('description') + ` - ${WallBlog.title}`;
     }
 
     this.hideLogin();
     this.$el.addClass('zoom');
 
     // render with description in header bar
-    this.item = item;
-    this.$el.html(templateZoom({ "item": item.toJSON(), "admin": tools.isLogged(), labels: labels }));
+    this.$el.html(templateZoom({ 'item': this.item.toJSON(), 'admin': tools.isLogged(), 'labels': labels }));
     this.root.html(this.el);
     this.delegateEvents(this.events);
   },
 
   renderEdit: function () {
-    this.$el.html(templateEdit({ "item": item.toJSON(), "admin": tools.isLogged(), labels: labels }));
+    this.$el.html(templateEdit({ 'item': this.item.toJSON(), 'admin': tools.isLogged(), 'labels': labels }));
     this.root.html(this.el);
     this.delegateEvents(this.events);
-    this.$("input").focus();
+    this.$('input').focus();
   },
 
   upload: function () {
@@ -177,7 +178,7 @@ var HeaderView = Backbone.View.extend({
     if (tools.isLogged()) {
       // Enter
       if (e.keyCode === 13) {
-        this.item.set("description", this.$("input[name='description']").val());
+        this.item.set('description', this.$("input[name='description']").val());
         this.item.save();
         this.renderZoom(this.item);
       }
@@ -190,7 +191,7 @@ var HeaderView = Backbone.View.extend({
 
   escapeDescription: function () {
     // force header to be rendered in normal mode
-    this.item.trigger("change");
+    this.item.trigger('change');
   },
 
   deletePicture: function () {
@@ -211,7 +212,7 @@ var HeaderView = Backbone.View.extend({
   },
 
   hideFilter: function (e) {
-    if (e.target.classList.contains('side')) {
+    if (e && e.target.classList.contains('side')) {
       this.filterButton.render();
     }
   }
