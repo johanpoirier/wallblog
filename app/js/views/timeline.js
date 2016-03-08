@@ -12,6 +12,8 @@ export default Backbone.View.extend({
   inputPattern: 'YYYY-MM-DD HH:mm:ss',
   outputPattern: 'MMMM',
 
+  colors: [ '#FDB67F', '#FFCB1A', '#99B83D', '#97BC21', '#FBB3B6', '#FD4C1A', '#B14F06', '#3C9AD7', '#DC569F', '#FD9808', '#CC9109', '#342F11' ],
+
   initialize: function () {
     this.bottom = 0;
     this.markers = [];
@@ -28,7 +30,7 @@ export default Backbone.View.extend({
   },
 
   addMarker: function (marker) {
-    var markerDate = moment(marker.date, this.inputPattern);
+    const markerDate = moment(marker.date, this.inputPattern);
 
     // new marker older than the last added -> empty list
     if (markerDate.valueOf() > this.lastMarkerDate) {
@@ -37,11 +39,12 @@ export default Backbone.View.extend({
     }
 
     // marker with an another month : add it and display
-    var date = markerDate.format('YYYY-MM');
-    if (this.markers.length === 0 || this.markers[this.markers.length - 1].date !== date) {
+    const date = markerDate.format('YYYY-MM');
+    if (this.markers.length === 0 || (this.markers[this.markers.length - 1]['top'] !== Math.round(marker.top))) {
       this.markers.push({
         'top': Math.round(marker.top),
         'label': markerDate.format(this.outputPattern),
+        'color': this.colors[parseInt(markerDate.format('M'), 10) - 1],
         'date': date
       });
     }

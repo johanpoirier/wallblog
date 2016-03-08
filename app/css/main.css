@@ -108,10 +108,11 @@ aside {
 }
 
 aside > .marker {
-    background-color: #000;
+    background-color: #FFF;
     display: block;
-    color: #e4e4e4;
+    color: #000;
     font-family: monospace;
+    font-weight: bold;
     left: 0;
     padding: 4px;
     position: absolute;
