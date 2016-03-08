@@ -90,7 +90,7 @@ nav {
     position: fixed;
     top: 2.2rem;
     transition: transform 0.25s ease;
-    z-index: 2;
+    z-index: 100;
 }
 
 nav.displayed {
@@ -549,7 +549,7 @@ nav .filter-group .year, nav .filter-group .month {
     background-color: transparent;
     display: block;
     position: absolute;
-    z-index: 500;
+    z-index: 10;
 }
 
 @media (max-width: 1024px) {
