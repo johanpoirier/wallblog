@@ -77,7 +77,7 @@ var HeaderView = Backbone.View.extend({
   },
 
   requestNbItems: function () {
-    $.get('api/items/count', _.bind(this.render, this));
+    $.get('/api/items/count', _.bind(this.render, this));
   },
 
   renderZoom: function (item) {
