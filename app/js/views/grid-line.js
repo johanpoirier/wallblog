@@ -49,7 +49,7 @@ export default Backbone.View.extend({
   render: function () {
     this.loading = false;
 
-    if (this.collection.length === 0) {
+    if (this.collection.length === 0 && !this.filterActive) {
       this.loading = true;
       this.fetchCurrent();
       return this;

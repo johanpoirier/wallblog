@@ -24,21 +24,16 @@ var Settings = {
   saveFilter: function (filter) {
     let year = parseInt(filter.year, 10);
     if (!Number.isInteger(year)) {
-      year = null;
+      filter = {};
+    } else {
+      let monthId = parseInt(filter.monthId, 10);
+      if (!Number.isInteger(monthId)) {
+        filter.monthId = null;
+        filter.month = null;
+      }
     }
 
-    let monthId = parseInt(filter.monthId, 10);
-    let month = null;
-    if (!Number.isInteger(monthId)) {
-      monthId = null;
-      month = null;
-    }
-
-    savePreference(Constants.FILTER_LABEL, JSON.stringify({
-      'year': year,
-      'month': month,
-      'monthId': monthId
-    }));
+    savePreference(Constants.FILTER_LABEL, JSON.stringify(filter));
   },
 
   clearFilter: function () {
