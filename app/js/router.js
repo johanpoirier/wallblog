@@ -25,7 +25,7 @@ export default Backbone.Router.extend({
     this.headerView = new HeaderView($('header'));
     this.menuView = new MenuView({ 'el': $('nav') });
 
-    Pubsub.on(Events.FILTER, this.saveFilter, this);
+    Pubsub.on(Events.FILTER, this.updateUrl, this);
     Pubsub.on(Events.CLEAR_FILTER, this.clearFilter, this);
 
     Backbone.history.start({ 'pushState': true, 'root': '/' });
@@ -35,10 +35,19 @@ export default Backbone.Router.extend({
     'login': 'login',
     'new-user': 'newUser',
     'item/:id': 'zoom',
+    ':year(/:monthId)': 'main',
     '': 'main'
   },
 
-  main: function () {
+  main: function (year = null, monthId = null) {
+    // filter
+    if (year !== null) {
+        Settings.saveFilter({ 'year': year, 'monthId': monthId });
+    }
+
+    // URL with filter
+    this.updateUrl();
+
     // zoom view clean
     if (this.zoomView) {
       this.zoomView.remove();
@@ -63,7 +72,7 @@ export default Backbone.Router.extend({
     $('main').html(this.timelineView.el);
 
     // display items on the grid
-    var dataGrid = { collection: this.items, filter: this.filter };
+    var dataGrid = { 'collection': this.items };
     if (this.displayMode == Constants.DISPLAY_MODE_LINE) {
       this.grid = new GridLine(dataGrid);
     } else {
@@ -147,5 +156,21 @@ export default Backbone.Router.extend({
       'availableWidth': win.width(),
       'availableHeight': win.height() - 44
     });
+  },
+
+  updateUrl: function () {
+    const filter = Settings.getFilter();
+    let url = '/';
+    if (filter.year) {
+      url += filter.year;
+      if (filter.monthId) {
+        url += `/${filter.monthId}`;
+      }
+    }
+    Backbone.history.navigate(url, false);
+  },
+
+  clearFilter: function () {
+    Backbone.history.navigate('/', false);
   }
 });

@@ -25,13 +25,7 @@ export default Backbone.View.extend({
     drop: 'handleFileSelect'
   },
 
-  initialize: function (options) {
-    // apply filter
-    if (options.filter) {
-      this.filterActive = true;
-      this.filterValue = options.filter.year + '-' + options.filter.month;
-    }
-
+  initialize: function () {
     // fetch items
     this.collection.on('add', this.addItemToLine, this);
     this.collection.on('reset', this.render, this);

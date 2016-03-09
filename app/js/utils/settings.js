@@ -22,7 +22,23 @@ var Settings = {
   },
 
   saveFilter: function (filter) {
-    savePreference(Constants.FILTER_LABEL, JSON.stringify(filter));
+    let year = parseInt(filter.year, 10);
+    if (!Number.isInteger(year)) {
+      year = null;
+    }
+
+    let monthId = parseInt(filter.monthId, 10);
+    let month = null;
+    if (!Number.isInteger(monthId)) {
+      monthId = null;
+      month = null;
+    }
+
+    savePreference(Constants.FILTER_LABEL, JSON.stringify({
+      'year': year,
+      'month': month,
+      'monthId': monthId
+    }));
   },
 
   clearFilter: function () {
