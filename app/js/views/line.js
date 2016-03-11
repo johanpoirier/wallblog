@@ -11,6 +11,7 @@ export default Backbone.View.extend({
     this.height = this.baseHeight;
     this.width = 0;
     this.maxWidth = options.maxWidth;
+    this.lineNumber = options.lineNumber;
     this.currentRatio = 1;
     this.items = [];
     this.rendered = false;
@@ -48,8 +49,8 @@ export default Backbone.View.extend({
       var firstItem = this.items[0];
       PubSub.trigger(Events.ADD_MARKER, {
         'date': firstItem.get('date'),
-        'top': this.$('#' + firstItem.get('id')).offset().top,
-        'bottom': this.$el.height()
+        'height': firstItem.get('height'),
+        'line': this.lineNumber
       });
     }
 

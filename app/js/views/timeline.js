@@ -15,7 +15,6 @@ export default Backbone.View.extend({
   colors: [ '#FDB67F', '#FFCB1A', '#99B83D', '#97BC21', '#FBB3B6', '#FD4C1A', '#B14F06', '#3C9AD7', '#DC569F', '#FD9808', '#CC9109', '#342F11' ],
 
   initialize: function () {
-    this.bottom = 0;
     this.markers = [];
     this.lastMarkerDate = Date.now();
 
@@ -24,7 +23,6 @@ export default Backbone.View.extend({
 
   render: function () {
     this.$el.html(template({ 'markers': this.markers }));
-    this.$el.height(this.bottom + 'px');
 
     return this;
   },
@@ -35,23 +33,20 @@ export default Backbone.View.extend({
     // new marker older than the last added -> empty list
     if (markerDate.valueOf() > this.lastMarkerDate) {
       this.markers = [];
-      this.bottom = 0;
     }
 
     // marker with an another month : add it and display
     const date = markerDate.format('YYYY-MM');
-    if (this.markers.length === 0 || (this.markers[this.markers.length - 1]['top'] !== Math.round(marker.top))) {
+    const label = markerDate.format(this.outputPattern);
+    if (this.markers.length === 0 || (this.markers[this.markers.length - 1]['line'] !== marker.line)) {
       this.markers.push({
-        'top': Math.round(marker.top),
-        'label': markerDate.format(this.outputPattern),
+        'height': marker.height,
+        'label': label,
         'color': this.colors[parseInt(markerDate.format('M'), 10) - 1],
-        'date': date
+        'date': date,
+        'line': marker.line
       });
-    }
 
-    // timeline must have the same height as the wall
-    if (this.bottom !== marker.bottom) {
-      this.bottom = marker.bottom;
       this.render();
     }
 

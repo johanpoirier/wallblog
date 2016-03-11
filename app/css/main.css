@@ -99,7 +99,6 @@ nav.displayed {
 
 aside {
     background: url(../img/timeline-white.png) repeat-y;
-    bottom: 0;
     min-height: 100vh;
     position: absolute;
     right: 0;
@@ -108,18 +107,26 @@ aside {
 }
 
 aside > .marker {
-    background-color: #FFF;
     display: block;
     color: #000;
     font-family: monospace;
     font-weight: bold;
-    left: 0;
+    margin-top: 0.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+aside > .marker:first-child {
+    margin-top: 3rem;
+}
+
+.marker-label {
+    background-color: #FFF;
+    display: block;
     padding: 4px;
-    position: absolute;
     white-space: pre-wrap;
     width: 15px;
     word-wrap: break-word;
-    z-index: 1;
 }
 
 .headbar {

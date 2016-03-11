@@ -1,3 +1,5 @@
 {{#each markers}}
-    <span class="marker" style="top:{{this.top}}px;color:{{this.color}};">{{this.label}}</span>
+    <div class="marker" style="height:{{this.height}}px;color:{{this.color}};">
+        <span class="marker-label">{{this.label}}</span>
+    </div>
 {{/each}}

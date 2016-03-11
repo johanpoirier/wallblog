@@ -19,6 +19,7 @@ export default Backbone.View.extend({
 
   currentLine: null,
   lastItemId: false,
+  lineNumber: 0,
 
   events: {
     dragover: 'handleDragOver',
@@ -111,10 +112,12 @@ export default Backbone.View.extend({
   },
 
   newLine: function () {
+    this.lineNumber += 1;
     this.currentLine = new LineView({
       'el': this.$el,
       'maxWidth': this.lineMaxWidth,
-      'baseHeight': this.lineBaseHeight
+      'baseHeight': this.lineBaseHeight,
+      'lineNumber': this.lineNumber
     });
     return this.currentLine;
   },
