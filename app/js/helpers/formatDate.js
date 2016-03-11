@@ -1,11 +1,17 @@
-var moment = require('moment');
-var lang = (navigator.language || navigator.userLanguage).split('-').shift().toLowerCase();
-require(`moment/locale/${lang}`);
+const moment = require('moment');
+
+let locale = navigator.language || navigator.userLanguage;
+if (locale.toLowerCase() === 'en-us') {
+  locale = 'en-gb';
+}
+require(`moment/locale/${locale}`);
+
+const lang = locale.split('-').shift().toLowerCase();
 moment.locale(lang);
 
 module.exports = function(date, outputPattern, inputPattern) {
-  var defaultPattern = 'YYYY-MM-DD HH:mm:ss';
-  var momentDate;
+  const defaultPattern = 'YYYY-MM-DD HH:mm:ss';
+  let momentDate;
 
   if(date) {
     if((date instanceof Date) || (date instanceof Array)) {

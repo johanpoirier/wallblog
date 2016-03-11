@@ -27,7 +27,7 @@ module.exports = {
       jQuery: "jquery",
       "window.jQuery": "jquery"
     }),
-    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /fr/)
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /(fr|en)/)
   ],
   'resolve': {
     'root': [
