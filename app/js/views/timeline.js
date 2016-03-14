@@ -15,16 +15,21 @@ export default Backbone.View.extend({
   colors: [ '#FDB67F', '#FFCB1A', '#99B83D', '#97BC21', '#FBB3B6', '#FD4C1A', '#B14F06', '#3C9AD7', '#DC569F', '#FD9808', '#CC9109', '#342F11' ],
 
   initialize: function () {
-    this.markers = [];
-    this.lastMarkerDate = Date.now();
+    this.reset();
 
     PubSub.on(Events.ADD_MARKER, this.addMarker, this);
+    PubSub.on(Events.FILTER, this.reset, this);
   },
 
   render: function () {
     this.$el.html(template({ 'markers': this.markers }));
 
     return this;
+  },
+
+  reset: function () {
+    this.markers = [];
+    this.lastMarkerDate = Date.now();
   },
 
   addMarker: function (marker) {
