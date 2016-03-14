@@ -149,7 +149,7 @@ export default Backbone.View.extend({
       this.collection.fetch({
         'add': true,
         'remove': false,
-        'data': this.getFetchData(),
+        'data': this.getFetchData(true),
         'success': (items) => {
           this.loading = false;
           this.currentNbItems = items.length;
@@ -227,13 +227,16 @@ export default Backbone.View.extend({
     Pubsub.trigger(Events.ITEMS_ADDED, -1);
   },
 
-  getFetchData: function () {
+  getFetchData: function (more = false) {
     const filter = this.getFilterValue();
     let data = {
       'comments': true
     };
     if (filter) {
       data.filter = filter;
+    } else if (more) {
+      data.nb = this.loadingIncrement;
+      data.start = this.currentNbItems;
     } else {
       data.nb = this.currentNbItems;
       data.start = 0;
