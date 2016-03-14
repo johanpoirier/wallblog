@@ -13,8 +13,8 @@ export default Backbone.View.extend({
   tagName: 'section',
 
   loading: false,
-  loadingIncrement: 12,
-  currentNbItems: 12,
+  loadingIncrement: 24,
+  currentNbItems: 24,
   maxItemsToUpload: 12,
 
   currentLine: null,
@@ -126,7 +126,7 @@ export default Backbone.View.extend({
     var currentScreenWidth = $(window).innerWidth();
     var currentScreenHeight = $(window).height();
 
-    var reRender = (this.screenWidth !== currentScreenWidth) || (this.screenHeight !== currentScreenHeight);
+    var reRender = (this.screenWidth !== currentScreenWidth) || ((Math.abs(this.screenHeight - currentScreenHeight) / currentScreenHeight) > 0.5);
 
     this.screenWidth = currentScreenWidth;
     this.screenHeight = currentScreenHeight;
