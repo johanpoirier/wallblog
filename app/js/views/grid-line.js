@@ -149,11 +149,7 @@ export default Backbone.View.extend({
       this.collection.fetch({
         'add': true,
         'remove': false,
-        'data': {
-          'start': this.currentNbItems,
-          'nb': this.loadingIncrement,
-          'comments': true
-        },
+        'data': this.getFetchData(),
         'success': (items) => {
           this.loading = false;
           this.currentNbItems = items.length;
