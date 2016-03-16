@@ -13,7 +13,7 @@ export default Backbone.View.extend({
   tagName: 'section',
 
   loading: false,
-  loadingIncrement: 24,
+  loadingIncrement: 16,
   currentNbItems: 24,
   maxItemsToUpload: 12,
 
@@ -126,7 +126,7 @@ export default Backbone.View.extend({
     var currentScreenWidth = $(window).innerWidth();
     var currentScreenHeight = $(window).height();
 
-    var reRender = (this.screenWidth !== currentScreenWidth) || ((Math.abs(this.screenHeight - currentScreenHeight) / currentScreenHeight) > 0.5);
+    var reRender = (this.screenWidth !== currentScreenWidth) || ((Math.abs(this.screenHeight - currentScreenHeight) / currentScreenHeight) > 0.7);
 
     this.screenWidth = currentScreenWidth;
     this.screenHeight = currentScreenHeight;
@@ -144,7 +144,7 @@ export default Backbone.View.extend({
   },
 
   loadMore: function () {
-    if (!this.filterActive && !this.loading && ((window.innerHeight + window.pageYOffset) > 0.5 * this.$el.height())) {
+    if (!this.filterActive && !this.loading && ((this.$el.height() - window.innerHeight - window.pageYOffset) < (this.lineBaseHeight * 5))) {
       this.loading = true;
       this.collection.fetch({
         'add': true,
