@@ -77,6 +77,7 @@ export default Backbone.View.extend({
     }
     view.render();
     this.$el.append(view.el);
+    view.adaptVisibility();
   },
 
   isRendered: function () {

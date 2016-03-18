@@ -13,7 +13,7 @@ export default Backbone.View.extend({
   tagName: 'section',
 
   loading: false,
-  loadingIncrement: 16,
+  loadingIncrement: 12,
   currentNbItems: 24,
   maxItemsToUpload: 12,
 

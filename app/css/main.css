@@ -270,6 +270,10 @@ main {
     position: relative;
 }
 
+.item > img {
+    transition: 0.2s opacity ease-out;
+}
+
 .column .item {
     margin-top: 1%;
 }
