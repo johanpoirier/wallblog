@@ -161,6 +161,7 @@ class PictureService {
         unset($item['width']);
         unset($item['srcWidth']);
         unset($item['height']);
+        unset($item['rendered']);
         $res = $this->db->update($this->table_name, $item, array('id' => $item['id']));
         $this->logger->addDebug("updating item result = " . $res);
         if ($res == 1) {
