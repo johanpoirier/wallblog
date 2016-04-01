@@ -1,4 +1,4 @@
-FROM php:7.0.3-fpm
+FROM php:7.0.4-fpm
 
 MAINTAINER Johan Poirier, johan.poirier@gmail.com
 
@@ -27,7 +27,8 @@ RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC64107
 	&& apt-get install -y ca-certificates nginx gettext-base \
 	&& rm -rf /var/lib/apt/lists/*
 RUN rm /etc/nginx/conf.d/default.conf
-COPY ./config/wallblog.conf /etc/nginx/conf.d/wallblog.conf
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+COPY ./config/nginx.conf /etc/nginx/conf.d/wallblog.conf
 
 # Node.js
 RUN curl -sL https://deb.nodesource.com/setup_5.x | bash - && apt-get install -y nodejs
