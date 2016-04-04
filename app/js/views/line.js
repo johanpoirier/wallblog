@@ -3,8 +3,11 @@ import ItemView from 'views/item';
 import VideoView from 'views/video';
 import PubSub from 'utils/pubsub';
 import Events from 'utils/events';
+import template from 'templates/line';
 
 export default Backbone.View.extend({
+
+  className: 'line',
 
   initialize: function (options) {
     this.baseHeight = options.baseHeight || 300;
@@ -77,7 +80,6 @@ export default Backbone.View.extend({
     }
     view.render();
     this.$el.append(view.el);
-    view.adaptVisibility();
   },
 
   isRendered: function () {

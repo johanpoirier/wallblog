@@ -261,17 +261,19 @@ main {
 
 .grid.line {
     flex-wrap: wrap;
+}
+
+div.line {
+    display: flex;
+    flex-direction: row;
     justify-content: space-around;
     margin: 0;
+    width: 100%;
 }
 
 .item {
     margin-top: 0.3rem;
     position: relative;
-}
-
-.item > img {
-    transition: 0.2s opacity ease-out;
 }
 
 .column .item {

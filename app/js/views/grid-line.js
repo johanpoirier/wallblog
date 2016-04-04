@@ -114,11 +114,11 @@ export default Backbone.View.extend({
   newLine: function () {
     this.lineNumber += 1;
     this.currentLine = new LineView({
-      'el': this.$el,
       'maxWidth': this.lineMaxWidth,
       'baseHeight': this.lineBaseHeight,
       'lineNumber': this.lineNumber
     });
+    this.$el.append(this.currentLine.el);
     return this.currentLine;
   },
 
