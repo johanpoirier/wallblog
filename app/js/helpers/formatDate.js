@@ -3,6 +3,8 @@ const moment = require('moment');
 let locale = navigator.language || navigator.userLanguage;
 if (locale.toLowerCase() === 'en-us') {
   locale = 'en-gb';
+} else if (locale.toLowerCase() === 'fr-fr') {
+  locale = 'fr';
 }
 require(`moment/locale/${locale}`);
 
