@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `wallblog__item` (
   `date` timestamp NULL default NULL,
   `ratio` decimal(10,6) NOT NULL default '1.000000',
   `reverseRatio` decimal(10,6) NOT NULL default '1.000000',
-  `like` int(6) NOT NULL default '0',
+  `likes` int(6) NOT NULL default '0',
   `type` varchar(7) collate utf8_bin NOT NULL default 'picture',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
@@ -34,14 +34,14 @@ CREATE TABLE IF NOT EXISTS `wallblog__user` (
 
 INSERT INTO `wallblog__user` (`id`, `email`, `password`) VALUES (1, 'wall@blog.fr', 'f71dbe52628a3f83a77ab494817525c6');
 
-INSERT INTO `wallblog__item` (`id`, `file`, `description`, `date`, `ratio`, `reverseRatio`, `like`, `type`) VALUES
-(2, 'hawaii-209956_1920.jpg', 'Hawaï', '2014-06-24 13:59:42', '1.500000', '0.666667', 0, 'picture'),
+INSERT INTO `wallblog__item` (`id`, `file`, `description`, `date`, `ratio`, `reverseRatio`, `likes`, `type`) VALUES
+(2, 'hawaii-209956_1920.jpg', 'Hawaï', '2014-06-24 13:59:42', '1.500000', '0.666667', 2, 'picture'),
 (3, 'water-321847.jpg', 'plouf8', '2014-06-27 12:24:02', '1.405564', '0.711458', 0, 'picture'),
-(4, 'water-373780_1920.jpg', NULL, '2014-07-24 13:59:02', '1.000000', '1.000000', 0, 'picture'),
+(4, 'water-373780_1920.jpg', NULL, '2014-07-24 13:59:02', '1.000000', '1.000000', 1, 'picture'),
 (5, 'banana_tree_garden_wallpaper.jpg', 'Banana', '2014-07-26 07:56:52', '1.778646', '0.562225', 0, 'picture'),
 (6, 'colorado_sand_dune_dunes.jpg', 'Colorado', '2014-07-26 08:01:01', '1.336815', '0.748047', 0, 'picture'),
 (13, 'amsterdam-1150319_1920.jpg', '', '2015-01-12 11:10:22', '1.498829', '0.667188', 0, 'picture'),
-(12, 'abstract-1168134_1920.jpg', '', '2015-01-14 11:04:57', '1.504702', '0.664583', 0, 'picture'),
+(12, 'abstract-1168134_1920.jpg', '', '2015-01-14 11:04:57', '1.504702', '0.664583', 5, 'picture'),
 (14, 'boats-1183373_1920.jpg', '', '2015-01-15 11:10:24', '1.498829', '0.667188', 0, 'picture'),
 (15, 'canoe-1149501_1920.jpg', '', '2015-01-17 11:10:24', '1.500000', '0.666667', 0, 'picture'),
 (16, 'climbing-1148883.jpg', '', '2015-03-13 05:25:17', '1.500375', '0.666500', 0, 'picture'),

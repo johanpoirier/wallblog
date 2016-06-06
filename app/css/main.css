@@ -310,7 +310,7 @@ div.line {
     box-shadow: 2px 2px 6px #FFFFBC;
 }
 
-.item .date, .item .description, .item .nb-comments {
+.item .date, .item .description, .item .nb-comments, .item .likes {
     background: rgba(0, 0, 0, 0.5);
     color: #ffffff;
     font-size: large;
@@ -345,6 +345,18 @@ div.line {
     padding: 4px 0 4px 5px;
     right: 0;
     top: 0;
+    width: auto;
+}
+
+.item .likes {
+    background: none;
+    bottom: auto;
+    cursor: pointer;
+    font-size: medium;
+    padding: 4px 0 4px 5px;
+    right: 0;
+    top: 0;
+    visibility: visible;
     width: auto;
 }
 

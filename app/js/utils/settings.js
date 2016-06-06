@@ -1,15 +1,15 @@
 import Constants from 'utils/constants';
 
 function savePreference(key, value) {
-  window.localStorage.setItem(key, value);
+  window.sessionStorage.setItem(key, value);
 }
 
 function getPreference(key) {
-  return window.localStorage.getItem(key);
+  return window.sessionStorage.getItem(key);
 }
 
 function removePreference(key) {
-  return window.localStorage.removeItem(key);
+  return window.sessionStorage.removeItem(key);
 }
 
 var Settings = {
