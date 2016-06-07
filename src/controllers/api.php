@@ -123,12 +123,23 @@ $api->post('/item', function (Application $app, Request $request) {
 
 $api->put('/item/{id}', function (Application $app, Request $request, $id) {
     $app['monolog']->addDebug("put item $id : " . $request->getContent());
-    $item = json_decode($request->getContent(), true);
-    if($item['id'] == $id) {
-        unset($item['comments']);
-        $app['picture_service']->update($item);
+
+	$item = $app['picture_service']->getById($id);
+	$itemData = json_decode($request->getContent(), true);
+	if (($item !== null) && ($itemData['id'] == $id)) {
+		unset($itemData['comments']);
+		if ($itemData['description'] !== $item['description']) {
+			if (!($request->hasSession() && $app['user_service']->getByEmail($request->getSession()->get('email')))) {
+				$app['monolog']->addWarn("Can't update item $id, user " . $request->getSession()->get('email') . " not found in session");
+				return;
+			}
+		}
+		if ($itemData['likes'] < $item['likes']) {
+			$itemData['likes'] = $item['likes'];
+		}
+        $app['picture_service']->update($itemData);
     }
-    return $app['json']->constructJsonResponse($item);
+    return $app['json']->constructJsonResponse($itemData);
 });
 
 $api->post('/items', function (Application $app, Request $request) {
