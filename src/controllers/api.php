@@ -123,22 +123,10 @@ $api->post('/item', function (Application $app, Request $request) {
 
 $api->put('/item/{id}', function (Application $app, Request $request, $id) {
     $app['monolog']->addDebug("put item $id : " . $request->getContent());
-    if ($request->hasSession()) {
-        $user = $app['user_service']->getByEmail($request->getSession()->get('email'));
-        if ($user) {
-            $item = json_decode($request->getContent(), true);
-            if($item['id'] == $id) {
-                unset($item['comments']);
-                unset($item['like']);
-                $app['picture_service']->update($item);
-            }
-        }
-        else {
-            $app['monolog']->addInfo('user not found in session');
-        }
-    }
-    else {
-        $app['monolog']->addInfo('no session found');
+    $item = json_decode($request->getContent(), true);
+    if($item['id'] == $id) {
+        unset($item['comments']);
+        $app['picture_service']->update($item);
     }
     return $app['json']->constructJsonResponse($item);
 });

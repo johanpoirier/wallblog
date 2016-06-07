@@ -2,6 +2,7 @@ import Backbone from 'backbone';
 import labels from 'nls/labels';
 import ItemZoomView from 'views/item-zoom';
 import pictureTmpl from 'templates/picture';
+import visitor from 'utils/visitor';
 
 export default Backbone.View.extend({
 
@@ -9,17 +10,18 @@ export default Backbone.View.extend({
   tagName: 'article',
 
   events: {
+    'click .likes': 'like',
     'click': 'zoom'
   },
 
-  attributes: function () {
+  attributes() {
     return {
       'id': this.model.get('id')
     }
   },
 
-  initialize: function () {
-    var file = encodeURIComponent(decodeURIComponent(this.model.get('file'))), filenameInfo = file.split('.');
+  initialize() {
+    const file = encodeURIComponent(decodeURIComponent(this.model.get('file'))), filenameInfo = file.split('.');
     this.model.set({
       'file': file,
       'extension': filenameInfo.pop(),
@@ -27,16 +29,16 @@ export default Backbone.View.extend({
     }, { silent: true });
   },
 
-  render: function () {
-    var context = {
+  render() {
+    this.$el.html(pictureTmpl({
       'model': this.model.toJSON(),
+      'liked': visitor.doesLike(this.model.get('id')),
       'labels': labels
-    };
-    this.$el.html(pictureTmpl(context));
+    }));
     return this;
   },
 
-  zoom: function () {
+  zoom() {
     window.currentScollPosition = $(window.document).scrollTop();
     if (this.model.get('id') !== undefined) {
       Backbone.history.navigate('/item/' + this.model.get('id'), true);
@@ -44,9 +46,19 @@ export default Backbone.View.extend({
     return false;
   },
 
-  isVisible: function () {
+  isVisible() {
     const rect = this.el.getBoundingClientRect();
     const viewportHeight = window.innerHeight || document.documentElement.clientHeight + 50;
     return (rect.top >= -50) && (rect.top <= viewportHeight) || (rect.bottom >= -50) && (rect.bottom <= viewportHeight);
+  },
+
+  like(e) {
+    if (!visitor.doesLike(this.model.get('id'))) {
+      visitor.addLike(this.model.get('id'));
+      this.model.set('likes', parseInt(this.model.get('likes'), 10) + 1);
+      this.model.save();
+    }
+    this.render();
+    e.stopImmediatePropagation();
   }
 });

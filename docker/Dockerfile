@@ -1,4 +1,4 @@
-FROM php:7.0.4-fpm
+FROM php:7.0.5-fpm
 
 MAINTAINER Johan Poirier, johan.poirier@gmail.com
 

@@ -10,9 +10,12 @@
 {{#if model.date}}
     <span class="date">{{formatDate model.date labels.dateFormat}}</span>
 {{/if}}
-{{#if model.comments}}
-    <span class="nb-comments">{{model.comments.length}} <i class="icon-comment"></i></span>
-{{/if}}
+<span class="likes">
+{{#unlessequals model.likes '0'}}
+    {{model.likes}}
+{{/unlessequals}}
+{{#if liked}}<i class="icon-heart"></i>{{else}}<i class="icon-heart-empty"></i>{{/if}}
+</span>
 {{#if model.description}}
     <span class="description">{{model.description}}</span>
 {{/if}}
