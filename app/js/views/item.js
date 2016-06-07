@@ -2,7 +2,7 @@ import Backbone from 'backbone';
 import labels from 'nls/labels';
 import ItemZoomView from 'views/item-zoom';
 import pictureTmpl from 'templates/picture';
-import userId from 'utils/user-id';
+import visitor from 'utils/visitor';
 
 export default Backbone.View.extend({
 
@@ -32,6 +32,7 @@ export default Backbone.View.extend({
   render() {
     this.$el.html(pictureTmpl({
       'model': this.model.toJSON(),
+      'liked': visitor.doesLike(this.model.get('id')),
       'labels': labels
     }));
     return this;
@@ -52,9 +53,11 @@ export default Backbone.View.extend({
   },
 
   like(e) {
-    console.debug(`${userId} likes ${this.model.toJSON()}`);
-    this.model.set('likes', parseInt(this.model.get('likes'), 10) + 1);
-    this.model.save();
+    if (!visitor.doesLike(this.model.get('id'))) {
+      visitor.addLike(this.model.get('id'));
+      this.model.set('likes', parseInt(this.model.get('likes'), 10) + 1);
+      this.model.save();
+    }
     this.render();
     e.stopImmediatePropagation();
   }

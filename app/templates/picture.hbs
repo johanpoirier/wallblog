@@ -11,11 +11,10 @@
     <span class="date">{{formatDate model.date labels.dateFormat}}</span>
 {{/if}}
 <span class="likes">
-{{#ifequals model.likes '0'}}
-    <i class="icon-heart-empty"></i>
-{{else}}
-    {{model.likes}} <i class="icon-heart"></i>
-{{/ifequals}}
+{{#unlessequals model.likes '0'}}
+    {{model.likes}}
+{{/unlessequals}}
+{{#if liked}}<i class="icon-heart"></i>{{else}}<i class="icon-heart-empty"></i>{{/if}}
 </span>
 {{#if model.description}}
     <span class="description">{{model.description}}</span>
