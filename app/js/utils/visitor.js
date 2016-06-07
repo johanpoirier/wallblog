@@ -17,7 +17,6 @@ function init() {
 
 function save() {
   if (window.localStorage) {
-    console.debug('saving', uuid, likes);
     window.localStorage.setItem('visitor', JSON.stringify({
       'uuid': uuid,
       'likes': likes
