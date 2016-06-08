@@ -134,7 +134,7 @@ $api->put('/item/{id}', function (Application $app, Request $request, $id) {
 				return;
 			}
 		}
-		if ($itemData['likes'] < $item['likes']) {
+		if (isset($itemData['likes']) && ($itemData['likes'] < $item['likes'])) {
 			$itemData['likes'] = $item['likes'];
 		}
         $app['picture_service']->update($itemData);

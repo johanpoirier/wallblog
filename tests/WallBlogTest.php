@@ -33,8 +33,8 @@ class WallBlogTest extends WebTestCase {
         $this->app['user_service']->create($user);
 
         // set pictures
-        $item1 = array("id" => "354", "file" => "2013_05_26_3561.JPG", "description" => "Bienvenue Alice !", "date" => "2013-05-26 17:04:17", "like" => "0", "ratio" => "1.499531", "reverseRatio" => "0.666875", "type" => "picture");
-        $item2 = array("id" => "334", "file" => "2013_05_19_3325.JPG", "description" => "La East side galerie", "date" => "2013-05-19 11:02:09", "like" => "0", "ratio" => "1.392515", "reverseRatio" => "0.718125", "type" => "picture");
+        $item1 = array("id" => "354", "file" => "2013_05_26_3561.JPG", "description" => "Bienvenue Alice !", "date" => "2013-05-26 17:04:17", "likes" => "0", "ratio" => "1.499531", "reverseRatio" => "0.666875", "type" => "picture");
+        $item2 = array("id" => "334", "file" => "2013_05_19_3325.JPG", "description" => "La East side galerie", "date" => "2013-05-19 11:02:09", "likes" => "0", "ratio" => "1.392515", "reverseRatio" => "0.718125", "type" => "picture");
         $this->app['picture_service']->insert($item1);
         $this->app['picture_service']->insert($item2);
     }
@@ -75,9 +75,9 @@ class WallBlogTest extends WebTestCase {
         $client->request(
             'PUT',
             '/api/item/354',
-            array(),
-            array(),
-            array('CONTENT_TYPE' => 'application/json'),
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
             '{ "id": 354, "file": "2013_05_26_3561.JPG", "description": "Johan is the best" }'
         );
         $this->assertTrue($client->getResponse()->isOk());
