@@ -22,14 +22,14 @@ $app->get('/rss', function () use ($app) {
     $items = $app['picture_service']->get(20, 0);
     $response = new Response();
     $response->headers->set('Content-type', 'application/rss+xml; charset=utf-8');
-    return $app['twig']->render('rss.twig', array("now" => date("D, d M Y H:i:s T"), "items" => $items), $response);
+    return $app['twig']->render('rss.twig', [ 'now' => date("D, d M Y H:i:s T"), 'items' => $items ], $response);
 });
 
 $app->get('/rssComment', function () use ($app) {
-    $items = $app['comment_service']->getLast(7);
+    $items = $app['comment_service']->getLatest();
     $response = new Response();
     $response->headers->set('Content-type', 'application/rss+xml; charset=utf-8');
-    return $app['twig']->render('rss-comment.twig', array("now" => date("D, d M Y H:i:s T"), "items" => $items), $response);
+    return $app['twig']->render('rss-comment.twig', [ 'now' => date("D, d M Y H:i:s T"), "items" => $items ], $response);
 });
 
 $app->post('/github', function (Request $request) use ($app) {

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <rss version="2.0">
     <channel>
-        <title>Tan, Johan &amp; Evan</title>
+        <title>Tan, Johan, Evan &amp; Lyam</title>
         <link>http://life.jops-dev.com/rss</link>
-        <description>Derniers Commentaires</description>
+        <description>Derniers commentaires</description>
         <language>FR-fr</language>
         <pubDate>{{now}}</pubDate>
-        <copyright>Copyright 2013 GBCreation</copyright>
+        <copyright>Copyright 2016 JoPs</copyright>
 {% for item in items %}
         <item>
-            <title>{{item.author}}</title>
+            <title>{{item.author}} - {{item.file}}{% if item.description %}("{{item.description}}"){% endif %}</title>
             <link>http://life.jops-dev.com/item/{{item.idItem}}</link>
             <pubDate>{{item.date|date("D, d M Y H:i:s T")}}</pubDate>
             <description>{{item.text}}</description>
