@@ -4,6 +4,7 @@ import PubSub from 'utils/pubsub';
 import tools from 'utils/tools';
 import Settings from 'utils/settings';
 import Events from 'utils/events';
+import visitor from 'utils/visitor';
 import UploadVideoView from 'views/upload-video';
 import FilterButtonView from 'views/filter-button';
 import labels from 'nls/labels';
@@ -24,11 +25,12 @@ var HeaderView = Backbone.View.extend({
     'click #loginCancel': 'hideLogin',
     'click #loginSubmit': 'login',
     'click .menu': 'toggleMenu',
+    'click .likes': 'iLikeIt',
     'keypress #password': 'keyPressed',
     'click': 'hideFilter'
   },
 
-  initialize: function (root) {
+  initialize(root) {
     Pubsub.on(Events.ITEMS_ADDED, this.render, this);
     Pubsub.on(Events.ITEM_ZOOMED, this.renderZoom, this);
     Pubsub.on(Events.USER_LOGGED_IN, this.render, this);
@@ -39,7 +41,7 @@ var HeaderView = Backbone.View.extend({
     this.root = root;
   },
 
-  render: function (nbItems) {
+  render(nbItems) {
     // retrieve total nb of items if we ask for refresh (-1)
     if (nbItems) {
       if (nbItems === -1) {
@@ -59,7 +61,11 @@ var HeaderView = Backbone.View.extend({
     }
 
     // render header bar
-    this.$el.html(template({ nbItems: this.nbItems, title: WallBlog.title, labels: labels }));
+    this.$el.html(template({
+      nbItems: this.nbItems,
+      title: WallBlog.title,
+      labels: labels
+    }));
     this.root.html(this.el);
     this.delegateEvents(this.events);
 
@@ -72,15 +78,15 @@ var HeaderView = Backbone.View.extend({
     }
   },
 
-  setItems: function (items) {
+  setItems(items) {
     this.items = items;
   },
 
-  requestNbItems: function () {
+  requestNbItems() {
     $.get('/api/items/count', _.bind(this.render, this));
   },
 
-  renderZoom: function (item) {
+  renderZoom(item) {
     this.item = item;
 
     // update browser title
@@ -92,19 +98,33 @@ var HeaderView = Backbone.View.extend({
     this.$el.addClass('zoom');
 
     // render with description in header bar
-    this.$el.html(templateZoom({ 'item': this.item.toJSON(), 'admin': tools.isLogged(), 'labels': labels }));
+    this.$el.html(templateZoom({
+      'item': this.item.toJSON(),
+      'admin': tools.isLogged(),
+      'labels': labels,
+      'liked': visitor.doesLike(this.item.get('id'))
+    }));
     this.root.html(this.el);
     this.delegateEvents(this.events);
   },
 
-  renderEdit: function () {
+  renderEdit() {
     this.$el.html(templateEdit({ 'item': this.item.toJSON(), 'admin': tools.isLogged(), 'labels': labels }));
     this.root.html(this.el);
     this.delegateEvents(this.events);
     this.$('input').focus();
   },
 
-  upload: function () {
+  iLikeIt() {
+    if (!visitor.doesLike(this.item.get('id'))) {
+      visitor.addLike(this.item.get('id'));
+      this.item.save({ 'likes': parseInt(this.item.get('likes'), 10) + 1 }, {
+        'success': () => this.renderZoom(this.item)
+      });
+    }
+  },
+
+  upload() {
     if (!tools.isLogged()) {
       this.showLogin();
     }
@@ -114,17 +134,17 @@ var HeaderView = Backbone.View.extend({
     }
   },
 
-  toggleMenu: function () {
+  toggleMenu() {
     PubSub.trigger(Events.MENU_TOGGLE);
   },
 
-  showLogin: function () {
+  showLogin() {
     this.$el.addClass('login');
     this.$el.find("input[type='email']").focus();
     Backbone.history.navigate('/login', false);
   },
 
-  hideLogin: function (e) {
+  hideLogin(e) {
     if (e) {
       e.preventDefault();
       Backbone.history.navigate('/', false);
@@ -132,13 +152,13 @@ var HeaderView = Backbone.View.extend({
     this.$el.removeClass('login');
   },
 
-  keyPressed: function (e) {
+  keyPressed(e) {
     if (e.keyCode === 13) {
       this.login(e);
     }
   },
 
-  login: function (e) {
+  login(e) {
     e.preventDefault();
 
     var email = this.$el.find("input[name='email']").val();
@@ -168,13 +188,13 @@ var HeaderView = Backbone.View.extend({
     tools.trackEventInGa('Site', 'login-success', this.$el.find("input[name='email']").val());
   },
 
-  editDescription: function () {
+  editDescription() {
     if (tools.isLogged()) {
       this.renderEdit();
     }
   },
 
-  submitDescription: function (e) {
+  submitDescription(e) {
     if (tools.isLogged()) {
       // Enter
       if (e.keyCode === 13) {
@@ -189,29 +209,29 @@ var HeaderView = Backbone.View.extend({
     }
   },
 
-  escapeDescription: function () {
+  escapeDescription() {
     // force header to be rendered in normal mode
     this.item.trigger('change');
   },
 
-  deletePicture: function () {
+  deletePicture() {
     if (window.confirm(labels['confirmDeletePicture'])) {
       this.items.remove(this.item);
       this.item.destroy();
     }
   },
 
-  saveFilter: function () {
+  saveFilter() {
     var filter = Settings.getFilter();
     (filter.year) ? this.$('.menu').addClass('active') : this.$('.menu').removeClass('active');
   },
 
-  clearFilter: function () {
+  clearFilter() {
     this.$('.menu').removeClass('active');
     Settings.clearFilter();
   },
 
-  hideFilter: function (e) {
+  hideFilter(e) {
     if (e && e.target.classList.contains('side')) {
       this.filterButton.render();
     }

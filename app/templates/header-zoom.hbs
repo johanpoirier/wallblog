@@ -8,6 +8,10 @@
     {{#if admin}}&nbsp;: {{labels.addDescription}} {{/if}}
 {{/if}}
 </span>
-{{#if admin}}
-<span class="delete">{{labels.deletePicture}}</span>
-{{/if}}
+<span class="likes">
+{{#unlessequals item.likes '0'}}
+    {{item.likes}}
+{{/unlessequals}}
+    {{#if liked}}<i class="icon-heart"></i>{{else}}<i class="icon-heart-empty"></i>{{/if}}
+</span>
+{{#if admin}}<span class="delete">{{labels.deletePicture}}</span>{{/if}}

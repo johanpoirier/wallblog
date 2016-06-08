@@ -189,9 +189,8 @@ aside > .marker:first-child {
 
 .headbar .delete {
     cursor: pointer;
-    line-height: 36px;
-    position: absolute;
-    right: 1rem;
+    line-height: 2.2rem;
+    margin-left: auto;
 }
 
 .headbar .info {
@@ -228,6 +227,13 @@ aside > .marker:first-child {
 .headbar .btn {
     height: 1.5rem;
     line-height: 1.5rem;
+}
+
+.headbar.zoom .likes {
+    cursor: pointer;
+    line-height: 2.2rem;
+    margin-left: auto;
+    padding-right: 0.5rem;
 }
 
 .btn {
