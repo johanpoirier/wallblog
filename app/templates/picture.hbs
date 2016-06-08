@@ -10,7 +10,7 @@
 {{#if model.date}}
     <span class="date">{{formatDate model.date labels.dateFormat}}</span>
 {{/if}}
-<span class="likes">
+<span class="likes" title="J'aime cette photo">
 {{#unlessequals model.likes '0'}}
     {{model.likes}}
 {{/unlessequals}}
