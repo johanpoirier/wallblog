@@ -11,6 +11,7 @@ class PictureService {
 
     protected $db;
     protected $table_name;
+    protected $like_table_name;
     protected $logger;
     protected $dir;
 
@@ -18,21 +19,42 @@ class PictureService {
         $this->db = $db;
         $this->logger = $app_logger;
         $this->table_name = $config["prefix"] . "__item";
+        $this->like_table_name = $config["prefix"] . "__like";
         $this->dir = __DIR__ . '/../../dist/pictures';
     }
 
     public function get($nb, $index) {
-        $sql = "SELECT * FROM " . $this->table_name . " ORDER BY date DESC" . " LIMIT " . $index . ", " . $nb;
+        $sql = <<<SQL
+SELECT item.*, count(l.id) AS likes
+FROM $this->table_name item
+LEFT JOIN $this->like_table_name l ON (item.id = l.itemId)
+GROUP BY item.id
+ORDER BY date DESC
+LIMIT $index, $nb;
+SQL;
         return $this->db->fetchAll($sql);
     }
 
-    public function getByDate($value) {
-        $sql = "SELECT * FROM " . $this->table_name . " WHERE date LIKE '" . $value . "%' ORDER BY date DESC";
+    public function getByDate($date) {
+        $sql = <<<SQL
+SELECT item.*, count(l.id) AS likes
+FROM $this->table_name item
+LEFT JOIN $this->like_table_name l ON (item.id = l.itemId)
+WHERE item.date LIKE '$date%'
+GROUP BY item.id
+ORDER BY date DESC;
+SQL;
         return $this->db->fetchAll($sql);
     }
 
     public function getAll() {
-        $sql = "SELECT * FROM " . $this->table_name . " ORDER BY date DESC";
+        $sql = <<<SQL
+SELECT item.*, count(l.id) AS likes
+FROM $this->table_name item
+LEFT JOIN $this->like_table_name l ON (item.id = l.itemId)
+GROUP BY item.id
+ORDER BY date DESC;
+SQL;
         return $this->db->fetchAll($sql);
     }  
     
@@ -47,14 +69,21 @@ class PictureService {
     }
 
     public function getById($id) {
-        $sql = "SELECT * FROM " . $this->table_name . " WHERE id = ?";
-        $picture = $this->db->fetchAssoc($sql, array($id));
+        $sql = <<<SQL
+SELECT item.*, count(l.id) AS likes
+FROM $this->table_name item
+LEFT JOIN $this->like_table_name l ON (item.id = l.itemId)
+WHERE item.id = ?
+GROUP BY item.id
+ORDER BY date DESC;
+SQL;
+        $picture = $this->db->fetchAssoc($sql, [ $id ]);
         
         // previous picture
         $prev = false;
         $prevId = $id - 1;
         while(!$prev && $prevId > 0) {
-            $prev = $this->db->fetchAssoc($sql, array($prevId--));
+            $prev = $this->db->fetchAssoc($sql, [ $prevId-- ]);
         }
         if($prev) {
             $picture['prevId'] = $prev['id'];
@@ -65,7 +94,7 @@ class PictureService {
         $nextId = $id + 1;
         $maxId = $this->getMaxId();
         while(!$next && $nextId < $maxId) {
-            $next = $this->db->fetchAssoc($sql, array($nextId++));
+            $next = $this->db->fetchAssoc($sql, [ $nextId++ ]);
         }
         if($next) {
             $picture['nextId'] = $next['id'];

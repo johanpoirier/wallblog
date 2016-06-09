@@ -11,6 +11,7 @@ import labels from 'nls/labels';
 import template from 'templates/header';
 import templateZoom from 'templates/header-zoom';
 import templateEdit from 'templates/header-edit';
+import Like from 'models/like';
 
 var HeaderView = Backbone.View.extend({
 
@@ -118,8 +119,12 @@ var HeaderView = Backbone.View.extend({
   iLikeIt() {
     if (!visitor.doesLike(this.item.get('id'))) {
       visitor.addLike(this.item.get('id'));
-      this.item.save({ 'likes': parseInt(this.item.get('likes'), 10) + 1 }, {
-        'success': () => this.renderZoom(this.item)
+      let like = new Like({ 'itemId': this.item.get('id') });
+      like.save({ 'visitorId': visitor.getUuid() }, {
+        'success': () => {
+          this.item.set('likes', parseInt(this.item.get('likes'), 10) + 1);
+          this.renderZoom(this.item);
+        }
       });
     }
   },

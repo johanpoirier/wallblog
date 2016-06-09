@@ -1,6 +1,6 @@
 import Backbone from 'backbone';
 import labels from 'nls/labels';
-import ItemZoomView from 'views/item-zoom';
+import Like from 'models/like';
 import pictureTmpl from 'templates/picture';
 import visitor from 'utils/visitor';
 
@@ -10,7 +10,7 @@ export default Backbone.View.extend({
   tagName: 'article',
 
   events: {
-    'click .likes': 'like',
+    'click .likes': 'iLikeIt',
     'click': 'zoom'
   },
 
@@ -52,11 +52,16 @@ export default Backbone.View.extend({
     return (rect.top >= -50) && (rect.top <= viewportHeight) || (rect.bottom >= -50) && (rect.bottom <= viewportHeight);
   },
 
-  like(e) {
+  iLikeIt(e) {
     if (!visitor.doesLike(this.model.get('id'))) {
       visitor.addLike(this.model.get('id'));
-      this.model.set('likes', parseInt(this.model.get('likes'), 10) + 1);
-      this.model.save();
+      let like = new Like({ 'itemId': this.model.get('id') });
+      like.save({ 'visitorId': visitor.getUuid() }, {
+        'success': () => {
+          this.model.set('likes', parseInt(this.model.get('likes'), 10) + 1);
+          this.render();
+        }
+      });
     }
     this.render();
     e.stopImmediatePropagation();

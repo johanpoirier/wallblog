@@ -1,5 +1,4 @@
-import _ from 'underscore';
-import backbone from 'backbone';
+import Backbone from 'backbone';
 import Comment from 'models/comment';
 import labels from 'nls/labels';
 import tools from 'utils/tools';

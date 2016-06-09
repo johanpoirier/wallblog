@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 $api = $app['controllers_factory'];
 
+
+/*************** Items API *****************/
 $api->get('/item', function (Application $app, Request $request) {
 	$start = $request->get('start');
 	$nb = $request->get('nb');
@@ -53,29 +55,6 @@ $api->delete('/item/{id}', function (Application $app, Request $request, $id) {
             }
 			$app['picture_service']->delete($id);
 			return new Response('Item removed', 200);
-		}
-	}
-	else {
-		return new Response('Operation not authorized', 401);
-	}
-});
-
-$api->get('/item/{id}/comments', function (Application $app, $id) {
-	return $app['json']->constructJsonResponse($app['comment_service']->getByItem($id));
-})->assert('id', '\d+');
-
-$api->post('/item/{id}/comments', function (Application $app, Request $request) {
-	$jsonComment = json_decode($request->getContent(), true);
-	$comment = $app['comment_service']->add($jsonComment);
-	return $app['json']->constructJsonResponse($comment);
-});
-
-$api->delete('/item/{id}/comments/{idComment}', function (Application $app, Request $request, $idComment) {
-	if ($request->hasSession()) {
-		$user = $app['user_service']->getByEmail($request->getSession()->get('email'));
-		if ($user) {
-			$app['comment_service']->delete($idComment);
-			return new Response('Comment removed', 200);
 		}
 	}
 	else {
@@ -185,6 +164,63 @@ $api->post('/items', function (Application $app, Request $request) {
     }
 });
 
+
+/*************** Comments API *****************/
+$api->get('/item/{id}/comments', function (Application $app, $id) {
+	return $app['json']->constructJsonResponse($app['comment_service']->getByItem($id));
+})->assert('id', '\d+');
+
+$api->post('/item/{id}/comments', function (Application $app, Request $request) {
+	$jsonComment = json_decode($request->getContent(), true);
+	$comment = $app['comment_service']->add($jsonComment);
+	return $app['json']->constructJsonResponse($comment);
+});
+
+$api->delete('/item/{id}/comments/{idComment}', function (Application $app, Request $request, $idComment) {
+	if ($request->hasSession()) {
+		$user = $app['user_service']->getByEmail($request->getSession()->get('email'));
+		if ($user) {
+			$app['comment_service']->delete($idComment);
+			return new Response('Comment removed', 200);
+		}
+	}
+	else {
+		return new Response('Operation not authorized', 401);
+	}
+});
+
+$api->get('/items/count', function (Application $app) {
+	return $app['json']->constructJsonResponse($app['picture_service']->count());
+});
+
+$api->get('/items/ids', function (Application $app) {
+	return $app['json']->constructJsonResponse($app['picture_service']->listIds());
+});
+
+$api->get('/items/rebuild', function (Application $app) {
+	$app['picture_service']->rebuild();
+	return new Response('OK', 204);
+});
+
+
+/*************** Likes API *****************/
+$api->get('/item/{id}/likes', function (Application $app, $id) {
+	return $app['json']->constructJsonResponse($app['like_service']->getByItem($id));
+})->assert('id', '\d+');
+
+$api->post('/item/{id}/likes', function (Application $app, Request $request) {
+	$jsonLike = json_decode($request->getContent(), true);
+	$like = $app['like_service']->add($jsonLike, $request->headers->get('User-Agent'), $request->getClientIp());
+	return $app['json']->constructJsonResponse($like);
+});
+
+$api->delete('/item/{id}/likes/{likeId}', function (Application $app, Request $request, $likeId) {
+	$app['like_service']->delete($likeId);
+	return new Response('Like removed', 200);
+});
+
+
+/*************** Videos API *****************/
 $api->post('/videos', function (Application $app, Request $request) {
 	$item = null;
 	if ($request->hasSession()) {
@@ -208,19 +244,8 @@ $api->post('/videos', function (Application $app, Request $request) {
 	}
 });
 
-$api->get('/items/count', function (Application $app) {
-	return $app['json']->constructJsonResponse($app['picture_service']->count());
-});
 
-$api->get('/items/ids', function (Application $app) {
-	return $app['json']->constructJsonResponse($app['picture_service']->listIds());
-});
-
-$api->get('/items/rebuild', function (Application $app) {
-	$app['picture_service']->rebuild();
-	return new Response('OK', 204);
-});
-
+/*************** Users API *****************/
 $api->get('/user', function(Request $request) use($app) {
 	$user = false;
 	if ($request->hasSession()) {
@@ -245,5 +270,6 @@ $api->post('/user', function (Application $app, Request $request) {
 $api->get('/users/count', function (Application $app) {
 	return $app['json']->constructJsonResponse($app['user_service']->count());
 });
+
 
 return $api;

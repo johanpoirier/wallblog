@@ -6,6 +6,7 @@ require_once __DIR__ . '/services/UserService.php';
 require_once __DIR__ . '/services/PictureService.php';
 require_once __DIR__ . '/services/VideoService.php';
 require_once __DIR__ . '/services/CommentService.php';
+require_once __DIR__ . '/services/LikeService.php';
 
 include __DIR__ . '/config.php';
 
@@ -55,6 +56,9 @@ $app['user_service'] = $app->share(function() use ($app, $config) {
 });
 $app['comment_service'] = $app->share(function() use ($app, $config) {
     return new services\CommentService($app['db'], $app['monolog'], $config);
+});
+$app['like_service'] = $app->share(function() use ($app, $config) {
+    return new services\LikeService($app['db'], $app['monolog'], $config);
 });
 $app['json'] = $app->share(function() {
     return new services\JSonService();
