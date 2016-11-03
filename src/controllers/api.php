@@ -107,14 +107,12 @@ $api->put('/item/{id}', function (Application $app, Request $request, $id) {
 	$itemData = json_decode($request->getContent(), true);
 	if (($item !== null) && ($itemData['id'] == $id)) {
 		unset($itemData['comments']);
+		unset($itemData['likes']);
 		if ($itemData['description'] !== $item['description']) {
 			if (!($request->hasSession() && $app['user_service']->getByEmail($request->getSession()->get('email')))) {
 				$app['monolog']->addWarn("Can't update item $id, user " . $request->getSession()->get('email') . " not found in session");
 				return;
 			}
-		}
-		if (isset($itemData['likes']) && ($itemData['likes'] < $item['likes'])) {
-			$itemData['likes'] = $item['likes'];
 		}
         $app['picture_service']->update($itemData);
     }
