@@ -200,6 +200,11 @@ $api->get('/items/rebuild', function (Application $app) {
 	return new Response('OK', 204);
 });
 
+$api->get('/items/rebuildall', function (Application $app) {
+$app['picture_service']->rebuild(true);
+return new Response('OK', 204);
+});
+
 
 /*************** Likes API *****************/
 $api->get('/item/{id}/likes', function (Application $app, $id) {

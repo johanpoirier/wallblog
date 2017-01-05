@@ -139,7 +139,7 @@ SQL;
         return $this->insert($item);
     }
 
-    protected function samplePicture($fileName) {
+    protected function samplePicture($fileName, $force = false) {
         $fileNameInfo = pathinfo($fileName);
 
         $filePathSource = sprintf('%s/%s', $this->dir, $fileName);
@@ -149,6 +149,13 @@ SQL;
         $filePath320 = sprintf('%s/%s--%s.%s', $this->dir, $fileNameInfo['filename'], '320', $fileNameInfo['extension']);
 
         $this->resize($filePathSource, 2048);
+
+        if ($force) {
+          unlink($filePath1600);
+          unlink($filePath1024);
+          unlink($filePath640);
+          unlink($filePath320);
+        }
 
         if (!file_exists($filePath1600)) {
             copy($filePathSource, $filePath1600);
@@ -240,6 +247,9 @@ SQL;
             $new_image = imagecreatetruecolor($new_image_width, $new_image_height);
             imagecopyresampled($new_image, $image, 0, 0, 0, 0, $new_image_width, $new_image_height, $image_width, $image_height);
 
+            // progressive image
+            imageinterlace($new_image, true);
+
             if ($image_type == IMAGETYPE_JPEG) {
                 imagejpeg($new_image, $filename, $quality);
             } elseif ($image_type == IMAGETYPE_PNG) {
@@ -248,7 +258,7 @@ SQL;
         }
     }
 
-    public function rebuild() {
+    public function rebuild($force = false) {
         set_time_limit(0);
         $items = self::getAll();
         for ($i = 0; $i < sizeof($items); $i++) {
@@ -257,7 +267,7 @@ SQL;
             if ($item['type'] == 'picture') {
                 $this->logger->addDebug("rebuilding item : " . $item['file']);
 
-                $this->samplePicture($item['file']);
+                $this->samplePicture($item['file'], $force);
                 $image_info = getimagesize(sprintf('%s/%s', $this->dir, $item['file']));
 
                 $this->db->update($this->table_name, array("ratio" => $image_info[0] / $image_info[1], "reverseRatio" => $image_info[1] / $image_info[0]), array('id' => $item['id']));
