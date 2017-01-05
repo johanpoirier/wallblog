@@ -265,10 +265,11 @@ SQL;
             $item = $items[$i];
 
             if ($item['type'] == 'picture') {
-                $this->logger->addDebug("rebuilding item : " . $item['file']);
+                $fileName = urldecode($item['file']);
+                $this->logger->addDebug("rebuilding item : $fileName");
 
-                $this->samplePicture($item['file'], $force);
-                $image_info = getimagesize(sprintf('%s/%s', $this->dir, $item['file']));
+                $this->samplePicture($fileName, $force);
+                $image_info = getimagesize(sprintf('%s/%s', $this->dir, $fileName));
 
                 $this->db->update($this->table_name, array("ratio" => $image_info[0] / $image_info[1], "reverseRatio" => $image_info[1] / $image_info[0]), array('id' => $item['id']));
             }
