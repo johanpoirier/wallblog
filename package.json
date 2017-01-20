@@ -47,6 +47,7 @@
     "copy:misc": "cp app/index.php dist/ && cp app/.htaccess dist/ && cp app/favicon.ico dist/ && cp app/robots.txt dist/ && cp app/manifest.* dist/ && cp app/js/analytics.js dist/",
 
     "prebuild": "npm run copy",
+    "prebuild:scripts": "npm run build:config",
     "prebuild:styles": "mkdir -p dist/css",
     "prebuild:sw": "mkdir -p dist/sw",
     "build": "npm run build:scripts -s -- -d && npm run build:styles -s && npm run build:markup -- -e dev && npm run build:sw",
@@ -54,6 +55,7 @@
     "build:styles": "cleancss --skip-rebase app/css/*.css -o dist/css/main.css",
     "build:markup": "htmlprocessor app/index.html -o dist/index.html",
     "build:sw": "cp app/js/sw/notifications.js dist/sw/",
+    "build:config": "node scripts/config.js",
 
     "cachebuster": "hashmark -l 8 --cwd dist {js,css}/*.{js,css} '{dir}/{name}{hash}{ext}' | replaceinfiles -s 'dist/index.html' -d '{dir}/{base}'",
     "postcachebuster": "rimraf dist/js/wallblog.js && rimraf dist/css/main.css",

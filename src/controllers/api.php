@@ -275,4 +275,13 @@ $api->get('/users/count', function (Application $app) {
 });
 
 
+/***************** Push API *****************/
+
+$api->post('/push/subscribe', function (Application $app, Request $request) {
+  $subscription = json_decode($request->getContent(), true);
+  $subscription = $app['subscription_service']->create($subscription);
+  return $app['json']->constructJsonResponse($subscription);
+});
+
+
 return $api;

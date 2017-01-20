@@ -1,0 +1,28 @@
+{
+  "short_name": "Wallblog",
+  "name": "Wallblog",
+  "description": "A beautiful photo blog",
+  "start_url": "/",
+  "gcm_sender_id": "103953800507",
+  "icons": [
+    {
+      "src": "/img/icon-128.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "/img/icon-256.png",
+      "type": "image/png",
+      "sizes": "256x256"
+    },
+    {
+      "src": "/img/windows-tile.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "background_color": "#FFFFFF",
+  "theme_color": "#83C22A",
+  "display": "standalone",
+  ​"orientation": "portrait-primary"
+}

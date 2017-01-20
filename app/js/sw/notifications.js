@@ -1,30 +1,23 @@
-var port;
+self.addEventListener('push', function(event) {
+  console.log('[Service Worker] Push Received.');
+  console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
 
-self.addEventListener('push', function (event) {
-  var obj = event.data.json();
+  const title = 'Nouvelle photo';
+  const options = {
+    body: 'Sur le blog de Tan & Johan',
+    icon: 'images/icon.png',
+    badge: 'images/badge.png'
+  };
 
-  if (obj.action === 'subscribe' || obj.action === 'unsubscribe') {
-    fireNotification(obj, event);
-    port.postMessage(obj);
-  } else if (obj.action === 'init' || obj.action === 'chatMsg') {
-    port.postMessage(obj);
-  }
+  event.waitUntil(self.registration.showNotification(title, options));
 });
 
-self.onmessage = function (e) {
-  console.log(e);
-  port = e.ports[0];
-};
+self.addEventListener('notificationclick', function(event) {
+  console.log('[Service Worker] Notification click Received.');
 
-function fireNotification(obj, event) {
-  var title = 'Subscription change';
-  var body = obj.name + ' has ' + obj.action + 'd.';
-  var icon = 'push-icon.png';
-  var tag = 'push';
+  event.notification.close();
 
-  event.waitUntil(self.registration.showNotification(title, {
-    body: body,
-    icon: icon,
-    tag: tag
-  }));
-}
+  event.waitUntil(
+    clients.openWindow('https://life.jops-dev.com/')
+  );
+});

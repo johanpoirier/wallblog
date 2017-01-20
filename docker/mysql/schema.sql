@@ -41,6 +41,13 @@ CREATE TABLE IF NOT EXISTS `wallblog__user` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
+CREATE TABLE `wallblog__subscription` (
+  `id` int(11) NOT NULL,
+  `endpoint` varchar(255) COLLATE utf8_bin NOT NULL,
+  `p256dh` varchar(90) COLLATE utf8_bin NOT NULL,
+  `auth` varchar(30) COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
 INSERT INTO `wallblog__user` (`id`, `email`, `password`) VALUES (1, 'wall@blog.fr', 'f71dbe52628a3f83a77ab494817525c6');
 
 INSERT INTO `wallblog__item` (`id`, `file`, `description`, `date`, `ratio`, `reverseRatio`, `type`) VALUES
