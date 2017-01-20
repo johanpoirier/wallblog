@@ -48,10 +48,12 @@
 
     "prebuild": "npm run copy",
     "prebuild:styles": "mkdir -p dist/css",
-    "build": "npm run build:scripts -s -- -d && npm run build:styles -s && npm run build:markup -- -e dev",
+    "prebuild:sw": "mkdir -p dist/sw",
+    "build": "npm run build:scripts -s -- -d && npm run build:styles -s && npm run build:markup -- -e dev && npm run build:sw",
     "build:scripts": "webpack",
     "build:styles": "cleancss --skip-rebase app/css/*.css -o dist/css/main.css",
     "build:markup": "htmlprocessor app/index.html -o dist/index.html",
+    "build:sw": "cp app/js/sw/notifications.js dist/sw/",
 
     "cachebuster": "hashmark -l 8 --cwd dist {js,css}/*.{js,css} '{dir}/{name}{hash}{ext}' | replaceinfiles -s 'dist/index.html' -d '{dir}/{base}'",
     "postcachebuster": "rimraf dist/js/wallblog.js && rimraf dist/css/main.css",
