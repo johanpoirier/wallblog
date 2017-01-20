@@ -5,7 +5,6 @@ CID_FILE="/tmp/${IMAGE_NAME}.cid"
 SCRIPT_DIR=$(dirname "$0")
 WORKSPACE=`pwd`/..
 DOCKER_WORKSPACE='/var/www/wallblog'
-GULP_LOG="${DOCKER_WORKSPACE}/logs/gulp.log"
 
 
 docker rm -f -v "$IMAGE_NAME" > /dev/null 2>&1
