@@ -282,6 +282,10 @@ $api->post('/push/subscribe', function (Application $app, Request $request) {
   $subscription = $app['subscription_service']->create($subscription);
   return $app['json']->constructJsonResponse($subscription);
 });
+$api->get('/push/item', function (Application $app, Request $request) {
+  $app['subscription_service']->notify('plop');
+  return new Response('Notified', 200);
+});
 
 
 return $api;

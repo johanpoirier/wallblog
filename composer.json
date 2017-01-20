@@ -9,6 +9,7 @@
     "monolog/monolog": "^1.17",
     "doctrine/dbal": "^2.5",
     "twig/twig": "^1.24",
-    "symfony/browser-kit": "^3.0"
+    "symfony/browser-kit": "^3.0",
+    "minishlink/web-push": "^1.3"
   }
 }

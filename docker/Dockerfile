@@ -3,9 +3,9 @@ FROM php:7.0.5-fpm
 MAINTAINER Johan Poirier, johan.poirier@gmail.com
 
 # PHP modules
-RUN apt-get update && apt-get install -y libjpeg-dev libpng-dev
-RUN docker-php-ext-configure gd --enable-gd-native-ttf --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu
-RUN docker-php-ext-install pdo pdo_mysql gd exif
+RUN apt-get update && apt-get install -y libjpeg-dev libpng-dev libgmp-dev
+RUN docker-php-ext-configure gd --enable-gd-native-ttf --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu --with-gmp=/usr/include/x86_64-linux-gnu
+RUN ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h && docker-php-ext-install pdo pdo_mysql gd exif gmp
 
 # Supervisor
 RUN apt-get update && apt-get install -y supervisor && mkdir -p /var/log/supervisor
@@ -13,7 +13,7 @@ COPY ./config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # MySQL
 RUN apt-get update \
-&& apt-get install -y debconf-utils \
+&& apt-get install -y debconf-utils\
 && echo mysql-server-5.5 mysql-server/root_password password root | debconf-set-selections \
 && echo mysql-server-5.5 mysql-server/root_password_again password root | debconf-set-selections \
 && apt-get install -y mysql-server-5.5 -o pkg::Options::="--force-confdef" -o pkg::Options::="--force-confold" --fix-missing
