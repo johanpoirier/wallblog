@@ -69,6 +69,6 @@
     "predev": "npm run build -s",
     "dev": "parallelshell \"npm run watch\" \"npm run live-reload\"",
 
-    "package": "npm run copy -s && npm run build:scripts -s -- -p && npm run build:styles -s && npm run build:markup -s -- -e dist && npm run cachebuster -s"
+    "package": "npm run copy -s && npm run build:scripts -s -- -p && npm run build:styles -s && npm run build:markup -s -- -e dist && npm run build:sw && npm run cachebuster -s"
   }
 }

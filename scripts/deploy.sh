@@ -33,6 +33,7 @@ then
     cp -r views/ "$targetPath/current/views/"
     cp -r src/ "$targetPath/current/src/"
     cp "$targetPath/config.php" "$targetPath/current/src/config.php"
+    cp "$targetPath/config.json" "$targetPath/current/config.json"
     chgrp -R www-data "$targetPath/current/"
     if [ $analytics = 0 ]
     then

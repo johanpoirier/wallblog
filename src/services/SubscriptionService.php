@@ -50,6 +50,7 @@ class SubscriptionService {
     for ($i = 0; $i < sizeof($subscriptions); $i++) {
       $subscription = $subscriptions[$i];
       self::$push->sendNotification($subscription['endpoint'], 'plop', $subscription['p256dh'], $subscription['auth']);
+      self::$logger->addDebug("notification sent to: " . $subscription['endpoint']);
     }
   }
 }
