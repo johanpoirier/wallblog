@@ -21,7 +21,7 @@ class SubscriptionService {
         self::$logger = $app_logger;
         self::$table_name =  $config["prefix"] . "__subscription";
 
-        $vapidConfig = json_decode(file_get_contents(__DIR__ . '/../../config.life.json'), true);
+        $vapidConfig = json_decode(file_get_contents(__DIR__ . '/../../config.json'), true);
         self::$push = new WebPush([ 'VAPID' => [
           'subject' => $vapidConfig['private']['vapidEmail'],
           'publicKey' => $vapidConfig['public']['vapidPublicKey'],
