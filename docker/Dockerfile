@@ -11,15 +11,6 @@ RUN ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h && docker-php-e
 RUN apt-get update && apt-get install -y supervisor && mkdir -p /var/log/supervisor
 COPY ./config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# MySQL
-RUN apt-get update \
-&& apt-get install -y debconf-utils\
-&& echo mysql-server-5.5 mysql-server/root_password password root | debconf-set-selections \
-&& echo mysql-server-5.5 mysql-server/root_password_again password root | debconf-set-selections \
-&& apt-get install -y mysql-server-5.5 -o pkg::Options::="--force-confdef" -o pkg::Options::="--force-confold" --fix-missing
-COPY ./mysql /tmp/mysql
-RUN /tmp/mysql/init.sh
-
 # Nginx
 RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
 	&& echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list \
@@ -36,6 +27,15 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - && apt-get install -y
 
 # Git
 RUN apt-get update && apt-get install -y git
+
+# MySQL
+RUN apt-get update \
+&& apt-get install -y debconf-utils\
+&& echo mysql-server-5.5 mysql-server/root_password password root | debconf-set-selections \
+&& echo mysql-server-5.5 mysql-server/root_password_again password root | debconf-set-selections \
+&& apt-get install -y mysql-server-5.5 -o pkg::Options::="--force-confdef" -o pkg::Options::="--force-confold" --fix-missing
+COPY ./mysql /tmp/mysql
+RUN /tmp/mysql/init.sh
 
 # Sample pictures
 RUN mkdir /var/www/pictures

@@ -9,48 +9,34 @@ use Minishlink\WebPush\WebPush;
  *
  * @author dst17
  */
-class SubscriptionService {
+class SubscriptionService
+{
 
-    private static $db;
-    private static $table_name;
-    private static $logger;
-    private static $push;
+  private static $table_name;
+  private $db;
+  private $logger;
 
-    public function __construct($db, $app_logger, $config) {
-        self::$db = $db;
-        self::$logger = $app_logger;
-        self::$table_name =  $config["prefix"] . "__subscription";
-
-        $vapidConfig = json_decode(file_get_contents(__DIR__ . '/../../config.json'), true);
-        self::$push = new WebPush([ 'VAPID' => [
-          'subject' => $vapidConfig['vapidEmail'],
-          'publicKey' => $vapidConfig['vapidPublicKey'],
-          'privateKey' => $vapidConfig['vapidPrivateKey']
-        ]]);
-    }
-
-    public function create($subscriptionData) {
-        $subscription = [
-          'endpoint' => $subscriptionData['endpoint'],
-          'p256dh' => $subscriptionData['keys']['p256dh'],
-          'auth' => $subscriptionData['keys']['auth']
-        ];
-        $res = self::$db->insert(self::$table_name, $subscription);
-        self::$logger->addDebug("creating new subscription: " . $subscription['endpoint']);
-        return true;
-    }
-
-  public function getAll() {
-    $sql = "SELECT * FROM " . self::$table_name;
-    return self::$db->fetchAll($sql);
+  public function __construct($db, $app_logger, $config)
+  {
+    $this->db = $db;
+    $this->logger = $app_logger;
+    self::$table_name = $config["prefix"] . "__subscription";
   }
 
-  public function notify($item) {
-    $subscriptions = self::getAll();
-    for ($i = 0; $i < sizeof($subscriptions); $i++) {
-      $subscription = $subscriptions[$i];
-      self::$push->sendNotification($subscription['endpoint'], 'Nouvelles photos publiées !', $subscription['p256dh'], $subscription['auth']);
-    }
-    $res = self::$push->flush();
+  public function create($subscriptionData)
+  {
+    $subscription = [
+      'endpoint' => $subscriptionData['endpoint'],
+      'p256dh' => $subscriptionData['keys']['p256dh'],
+      'auth' => $subscriptionData['keys']['auth']
+    ];
+    $this->db->insert(self::$table_name, $subscription);
+    return true;
+  }
+
+  public function getAll()
+  {
+    $sql = "SELECT * FROM " . self::$table_name;
+    return $this->db->fetchAll($sql);
   }
 }
