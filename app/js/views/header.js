@@ -19,6 +19,7 @@ var HeaderView = Backbone.View.extend({
 
   events: {
     'click button#add-item': 'upload',
+    'click button#notify': 'notify',
     'dblclick .description': 'editDescription',
     "keypress input[name='description']": 'submitDescription',
     "blur input[name='description']": 'escapeDescription',
@@ -137,6 +138,19 @@ var HeaderView = Backbone.View.extend({
       var videoUploadView = new UploadVideoView();
       $('body').append(videoUploadView.el);
     }
+  },
+
+  notify() {
+    $.ajax({
+      type: 'POST',
+      url: '/api/push/notify',
+      dataType: 'json',
+      data: {
+        'label': 'test'
+      },
+      success: () => window.alert('Notified!'),
+      error: err => console.warn(err)
+    });
   },
 
   toggleMenu() {
