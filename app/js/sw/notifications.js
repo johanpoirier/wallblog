@@ -1,23 +1,20 @@
-self.addEventListener('push', function(event) {
-  console.log('[Service Worker] Push Received.');
-  console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
+const websiteUrl = 'websiteUrlPlaceholder';
+const notificationTitle = 'notificationTitlePlaceholder';
 
-  const title = 'Nouvelle photo';
+self.addEventListener('push', function(event) {
   const options = {
-    body: 'Sur le blog de Tan & Johan',
-    icon: 'images/icon.png',
-    badge: 'images/badge.png'
+    body: event.data.text(),
+    icon: 'img/icon-128.png',
+    badge: 'img/icon-128.png'
   };
 
-  event.waitUntil(self.registration.showNotification(title, options));
+  event.waitUntil(self.registration.showNotification(notificationTitle, options));
 });
 
 self.addEventListener('notificationclick', function(event) {
-  console.log('[Service Worker] Notification click Received.');
-
   event.notification.close();
 
   event.waitUntil(
-    clients.openWindow('https://life.jops-dev.com/')
+    clients.openWindow(websiteUrl)
   );
 });

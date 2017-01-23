@@ -1,10 +1,7 @@
 {
-  "public": {
-    "vapidPublicKey": "ahahahahahahahahahah"
-  },
-  "private": {
-    "fcmEndPoint": "https://fcm.googleapis.com/fcm/send",
-    "vapidEmail": "noone@nowhere.com",
-    "vapidPrivateKey": "behbehbehbehbehbeh"
-  }
+  "websiteUrl": "https://wallblog.local",
+  "notificationTitlePlaceholder": "Wallblog",
+  "vapidPublicKey": "ahahahahahahahahahah",
+  "vapidEmail": "noone@nowhere.com",
+  "vapidPrivateKey": "behbehbehbehbehbeh"
 }

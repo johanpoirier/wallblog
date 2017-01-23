@@ -1,4 +1,8 @@
-var webpack = require('webpack');
+'use strict';
+
+const webpack = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const config = require('./config.json');
 
 module.exports = {
   'entry': 'main',
@@ -10,6 +14,11 @@ module.exports = {
   module: {
     loaders: [
       {
+        test: /sw\/.*\.js$/,
+        loader: 'webpack-append',
+        query: `const vapidPublicKey = '${config.vapidPublicKey}';`
+      },
+      {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
@@ -17,8 +26,14 @@ module.exports = {
           presets: ['es2015']
         }
       },
-      { test: /\.hbs$/, loader: 'handlebars-loader?helperDirs[]=' + __dirname + '/app/js/helpers' },
-      { test: /\.json$/, loader: 'json-loader' }
+      {
+        test: /\.hbs$/,
+        loader: 'handlebars-loader?helperDirs[]=' + __dirname + '/app/js/helpers'
+      },
+      {
+        test: /\.json$/,
+        loader: 'json-loader'
+      }
     ]
   },
   'plugins': [
@@ -27,7 +42,19 @@ module.exports = {
       jQuery: "jquery",
       "window.jQuery": "jquery"
     }),
-    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /(fr|en)/)
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /(fr|en)/),
+    new CopyWebpackPlugin([
+      {
+        from: 'app/js/sw/notifications.js',
+        to: '../sw/notifications.js',
+        transform: function(content) {
+          let fileContent = content.toString();
+          fileContent = fileContent.replace(/websiteUrlPlaceholder/, config.websiteUrl);
+          fileContent = fileContent.replace(/notificationTitlePlaceholder/, config.notificationTitle);
+          return fileContent;
+        }
+      }
+    ])
   ],
   'resolve': {
     'root': [

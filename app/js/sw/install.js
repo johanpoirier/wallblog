@@ -1,4 +1,4 @@
-import config from '../config';
+'use strict';
 
 function urlB64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4);
@@ -31,7 +31,7 @@ function initialiseUI(swRegistration) {
 }
 
 function subscribeUser(swRegistration) {
-  const applicationServerKey = urlB64ToUint8Array(config.vapidPublicKey);
+  const applicationServerKey = urlB64ToUint8Array(vapidPublicKey);
   swRegistration.pushManager.subscribe({
     userVisibleOnly: true,
     applicationServerKey: applicationServerKey
