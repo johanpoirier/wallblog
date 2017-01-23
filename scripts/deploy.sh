@@ -44,6 +44,7 @@ then
     cp -r vendor/ "$targetPath/current/vendor/"
     cp -r views/ "$targetPath/current/views/"
     cp -r src/ "$targetPath/current/src/"
+    cp "$targetPath/config.json" "$targetPath/current/config.json"
     cp "$targetPath/config.php" "$targetPath/current/src/config.php"
     chgrp -R www-data "$targetPath/current/"
 

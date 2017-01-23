@@ -23,9 +23,9 @@ class SubscriptionService {
 
         $vapidConfig = json_decode(file_get_contents(__DIR__ . '/../../config.json'), true);
         self::$push = new WebPush([ 'VAPID' => [
-          'subject' => $vapidConfig['private']['vapidEmail'],
-          'publicKey' => $vapidConfig['public']['vapidPublicKey'],
-          'privateKey' => $vapidConfig['private']['vapidPrivateKey']
+          'subject' => $vapidConfig['vapidEmail'],
+          'publicKey' => $vapidConfig['vapidPublicKey'],
+          'privateKey' => $vapidConfig['vapidPrivateKey']
         ]]);
     }
 
