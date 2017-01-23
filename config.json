@@ -1,6 +1,6 @@
 {
   "websiteUrl": "https://wallblog.local",
-  "notificationTitlePlaceholder": "Wallblog",
+  "notificationTitle": "Wallblog",
   "vapidPublicKey": "ahahahahahahahahahah",
   "vapidEmail": "noone@nowhere.com",
   "vapidPrivateKey": "behbehbehbehbehbeh"
