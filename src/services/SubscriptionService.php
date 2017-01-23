@@ -51,6 +51,6 @@ class SubscriptionService {
       $subscription = $subscriptions[$i];
       self::$push->sendNotification($subscription['endpoint'], 'plop', $subscription['p256dh'], $subscription['auth']);
     }
-    $res = $webPush->flush();
+    $res = self::$push->flush();
   }
 }
