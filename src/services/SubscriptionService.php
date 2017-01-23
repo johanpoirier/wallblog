@@ -49,7 +49,7 @@ class SubscriptionService {
     $subscriptions = self::getAll();
     for ($i = 0; $i < sizeof($subscriptions); $i++) {
       $subscription = $subscriptions[$i];
-      self::$push->sendNotification($subscription['endpoint'], 'plop', $subscription['p256dh'], $subscription['auth']);
+      self::$push->sendNotification($subscription['endpoint'], 'Nouvelles photos publiées !', $subscription['p256dh'], $subscription['auth']);
     }
     $res = self::$push->flush();
   }

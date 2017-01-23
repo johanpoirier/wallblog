@@ -4,8 +4,8 @@ const notificationTitle = 'notificationTitlePlaceholder';
 self.addEventListener('push', function(event) {
   const options = {
     body: event.data.text(),
-    icon: 'img/icon-128.png',
-    badge: 'img/icon-128.png'
+    icon: `${websiteUrl}/img/logo_m.png`,
+    badge: `${websiteUrl}/img/logo_m.png`
   };
 
   event.waitUntil(self.registration.showNotification(notificationTitle, options));
