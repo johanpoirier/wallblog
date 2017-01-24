@@ -32,6 +32,8 @@ then
     /usr/local/bin/composer install
     cp "$projectDir/config.json" "$projectDir/config.sample.json"
     cp "$targetPath/config.json" "$projectDir/config.json"
+    cp "$projectDir/app/manifest.json" "$projectDir/app/manifest.sample.json"
+    cp "$targetPath/manifest.json" "$projectDir/app/manifest.json"
     npm install
     npm run package
 
@@ -55,6 +57,7 @@ then
     fi
 
     mv "$projectDir/config.sample.json" "$projectDir/config.json"
+    mv "$projectDir/app/manifest.sample.json" "$projectDir/app/manifest.json"
     cd --
 
     echo "Version $version created"

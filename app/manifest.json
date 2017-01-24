@@ -3,20 +3,19 @@
   "name": "Wallblog",
   "description": "A beautiful photo blog",
   "start_url": "/",
-  "gcm_sender_id": "103953800507",
   "icons": [
     {
-      "src": "/img/icon-128.png",
+      "src": "/img/icon-114.png",
       "type": "image/png",
-      "sizes": "128x128"
+      "sizes": "114x114"
     },
     {
-      "src": "/img/icon-256.png",
+      "src": "/img/icon-144.png",
       "type": "image/png",
-      "sizes": "256x256"
+      "sizes": "144x144"
     },
     {
-      "src": "/img/windows-tile.png",
+      "src": "/img/icon-512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
