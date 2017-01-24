@@ -2,7 +2,7 @@
   "short_name": "Wallblog",
   "name": "Wallblog",
   "description": "A beautiful photo blog",
-  "start_url": "/",
+  "start_url": "./",
   "icons": [
     {
       "src": "/img/icon-114.png",

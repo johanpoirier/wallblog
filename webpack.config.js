@@ -46,7 +46,7 @@ module.exports = {
     new CopyWebpackPlugin([
       {
         from: 'app/js/sw/notifications.js',
-        to: '../sw/notifications.js',
+        to: '../notifications.js',
         transform: function(content) {
           let fileContent = content.toString();
           fileContent = fileContent.replace(/websiteUrlPlaceholder/, config.websiteUrl);
