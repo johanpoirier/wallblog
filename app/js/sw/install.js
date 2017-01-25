@@ -1,5 +1,7 @@
 'use strict';
 
+let registration = null;
+
 function urlB64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4);
   const base64 = (base64String + padding)
@@ -15,67 +17,59 @@ function urlB64ToUint8Array(base64String) {
   return outputArray;
 }
 
-function initialiseUI(swRegistration) {
-  // Set the initial subscription value
-  swRegistration.pushManager.getSubscription()
-    .then(function(subscription) {
-      let isSubscribed = !(subscription === null);
-
-      if (isSubscribed) {
-        console.log('User IS subscribed.');
-      } else {
-        console.log('User is NOT subscribed.');
-        subscribeUser(swRegistration);
-      }
-    });
+function getSubscribtionStatus(registration) {
+  return registration.pushManager.getSubscription().then(subscription => !(subscription === null));
 }
 
-function subscribeUser(swRegistration) {
+function subscribeUser(registration) {
   const applicationServerKey = urlB64ToUint8Array(vapidPublicKey);
-  swRegistration.pushManager.subscribe({
+
+  return registration.pushManager.subscribe({
     userVisibleOnly: true,
     applicationServerKey: applicationServerKey
   })
-    .then(function(subscription) {
+    .then(subscription => {
       console.log('User is subscribed:', subscription);
-
-      updateSubscriptionOnServer(subscription);
-
-      return true;
+      return updateSubscriptionOnServer(subscription);
     })
-    .catch(function(err) {
+    .catch(function (err) {
       console.log('Failed to subscribe the user: ', err);
+      return false;
     });
 }
 
 function updateSubscriptionOnServer(subscription) {
   if (subscription) {
-    fetch('/api/push/subscribe', {
+    return fetch('/api/push/subscribe', {
       method: 'post',
       body: JSON.stringify(subscription.toJSON())
-    }).then(response => {
-      console.log(response);
-    });
+    }).then(response => console.log(response));
   }
+  return false;
 }
 
-export default function () {
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./notifications.js').then(function(reg) {
-      if(reg.installing) {
-        console.log('Service worker installing');
-      } else if(reg.waiting) {
-        console.log('Service worker installed');
-      } else if(reg.active) {
-        console.log('Service worker active');
-      }
+function getRegistration() {
+  return new Promise((resolve, reject) => {
+    if (!('serviceWorker' in navigator)) {
+      return reject(new Error('Service workers aren\'t supported in this browser.'));
+    }
 
-      initialiseUI(reg);
-
-      return true;
+    if (registration !== null) {
+      return resolve(registration);
+    }
+    navigator.serviceWorker.register('./notifications.js').then(swRegistration => {
+      registration = swRegistration;
+      resolve(registration);
     });
-  } else {
-    console.log('Service workers aren\'t supported in this browser.');
-    return false;
+  });
+}
+
+export default {
+  isUserSubscribed() {
+    return getRegistration().then(getSubscribtionStatus);
+  },
+
+  subscribeUser() {
+    return getRegistration().then(subscribeUser);
   }
 };

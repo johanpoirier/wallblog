@@ -19,6 +19,11 @@ module.exports = {
         query: `const vapidPublicKey = '${config.vapidPublicKey}';`
       },
       {
+        test: /main.js$/,
+        loader: 'webpack-append',
+        query: `const blogTitle = '${config.blogTitle}';`
+      },
+      {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
