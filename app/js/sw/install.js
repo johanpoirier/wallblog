@@ -57,7 +57,7 @@ function getRegistration() {
     if (registration !== null) {
       return resolve(registration);
     }
-    navigator.serviceWorker.register('./notifications.js').then(swRegistration => {
+    navigator.serviceWorker.register(`./notifications.${hash}.js`).then(swRegistration => {
       registration = swRegistration;
       resolve(registration);
     });
