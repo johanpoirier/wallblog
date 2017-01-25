@@ -364,7 +364,7 @@ div.line {
     top: 0;
     visibility: visible;
     width: auto;
-    z-index: 11;
+    z-index: 1;
 }
 
 .zoom {
