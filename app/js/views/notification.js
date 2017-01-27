@@ -32,13 +32,8 @@ var NotificationView = ModalView.extend({
     e.preventDefault();
 
     this.$('button').attr('disabled', 'disabled');
-
-    ServiceWorkerSubscriptions.subscribeUser()
-      .then(() => this.remove())
-      .catch(error => {
-        console.warn(error);
-        this.remove()
-      });
+    ServiceWorkerSubscriptions.subscribeUser();
+    this.remove()
   }
 });
 

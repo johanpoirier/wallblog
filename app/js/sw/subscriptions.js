@@ -29,11 +29,10 @@ function subscribeUser(registration) {
     applicationServerKey: applicationServerKey
   })
     .then(subscription => {
-      console.log('User is subscribed:', subscription);
       return updateSubscriptionOnServer(subscription);
     })
     .catch(function (err) {
-      console.log('Failed to subscribe the user: ', err);
+      console.error('Failed to subscribe the user: ', err);
       return false;
     });
 }
@@ -43,9 +42,9 @@ function updateSubscriptionOnServer(subscription) {
     return fetch('/api/push/subscribe', {
       method: 'post',
       body: JSON.stringify(subscription.toJSON())
-    }).then(response => console.log(response));
+    }).then(response => true);
   }
-  return false;
+  return Promise.resolve(false);
 }
 
 export default {
