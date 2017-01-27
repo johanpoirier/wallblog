@@ -50,8 +50,8 @@ module.exports = {
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /(fr|en)/),
     new CopyWebpackPlugin([
       {
-        from: 'app/js/sw/notifications.js',
-        to: `../notifications.js`,
+        from: 'app/js/sw/service-worker.js',
+        to: `../service-worker.js`,
         transform: function(content) {
           let fileContent = content.toString();
           fileContent = fileContent.replace(/WEBSITE_URL/, config.websiteUrl);
