@@ -8,6 +8,7 @@
     "babel-loader": "^6.2.1",
     "babel-preset-es2015": "^6.3.13",
     "clean-css": "^3.4.9",
+    "copy-webpack-plugin": "^4.0.1",
     "exports-loader": "^0.6.2",
     "handlebars-loader": "^1.1.4",
     "hashmark": "^3.1.0",
@@ -22,7 +23,8 @@
     "rimraf": "^2.2.8",
     "run-sequence": "^1.1.0",
     "watch": "^0.17.1",
-    "webpack": "^1.12.10"
+    "webpack": "^1.12.10",
+    "webpack-append": "^0.1.2"
   },
   "dependencies": {
     "backbone": "^1.2.3",
@@ -38,33 +40,27 @@
   },
   "scripts": {
     "clean": "rimraf dist/js dist/css dist/index.* dist/font/ dist/img/",
-
     "precopy": "npm run clean -s && mkdir -p dist/img && mkdir -p dist/font && mkdir -p dist/pictures",
     "copy": "npm run copy:images -s && npm run copy:fonts -s && npm run copy:misc -s && npm run copy:pictures -s",
     "copy:images": "cp app/img/* dist/img",
     "copy:pictures": "cp app/pictures/empty* dist/pictures",
     "copy:fonts": "cp app/font/* dist/font",
     "copy:misc": "cp app/index.php dist/ && cp app/.htaccess dist/ && cp app/favicon.ico dist/ && cp app/robots.txt dist/ && cp app/manifest.* dist/ && cp app/js/analytics.js dist/",
-
     "prebuild": "npm run copy",
     "prebuild:styles": "mkdir -p dist/css",
+    "prebuild:sw": "mkdir -p dist/sw",
     "build": "npm run build:scripts -s -- -d && npm run build:styles -s && npm run build:markup -- -e dev",
     "build:scripts": "webpack",
     "build:styles": "cleancss --skip-rebase app/css/*.css -o dist/css/main.css",
     "build:markup": "htmlprocessor app/index.html -o dist/index.html",
-
     "cachebuster": "hashmark -l 8 --cwd dist {js,css}/*.{js,css} '{dir}/{name}{hash}{ext}' | replaceinfiles -s 'dist/index.html' -d '{dir}/{base}'",
     "postcachebuster": "rimraf dist/js/wallblog.js && rimraf dist/css/main.css",
-
     "live-reload": "live-reload --port=9091 --delay=100 dist/js/ dist/css/",
-
     "watch": "parallelshell \"npm run watch:scripts\" \"npm run watch:styles\"",
     "watch:scripts": "webpack -d --watch",
     "watch:styles": "watch \"npm run build:styles\" app/css/",
-
     "predev": "npm run build -s",
     "dev": "parallelshell \"npm run watch\" \"npm run live-reload\"",
-
     "package": "npm run copy -s && npm run build:scripts -s -- -p && npm run build:styles -s && npm run build:markup -s -- -e dist && npm run cachebuster -s"
   }
 }

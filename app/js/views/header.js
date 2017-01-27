@@ -19,6 +19,7 @@ var HeaderView = Backbone.View.extend({
 
   events: {
     'click button#add-item': 'upload',
+    'click button#notify': 'notify',
     'dblclick .description': 'editDescription',
     "keypress input[name='description']": 'submitDescription',
     "blur input[name='description']": 'escapeDescription',
@@ -65,7 +66,8 @@ var HeaderView = Backbone.View.extend({
     this.$el.html(template({
       nbItems: this.nbItems,
       title: WallBlog.title,
-      labels: labels
+      labels: labels,
+      admin: tools.isLogged()
     }));
     this.root.html(this.el);
     this.delegateEvents(this.events);
@@ -100,17 +102,21 @@ var HeaderView = Backbone.View.extend({
 
     // render with description in header bar
     this.$el.html(templateZoom({
-      'item': this.item.toJSON(),
-      'admin': tools.isLogged(),
-      'labels': labels,
-      'liked': visitor.doesLike(this.item.get('id'))
+      item: this.item.toJSON(),
+      admin: tools.isLogged(),
+      labels: labels,
+      liked: visitor.doesLike(this.item.get('id'))
     }));
     this.root.html(this.el);
     this.delegateEvents(this.events);
   },
 
   renderEdit() {
-    this.$el.html(templateEdit({ 'item': this.item.toJSON(), 'admin': tools.isLogged(), 'labels': labels }));
+    this.$el.html(templateEdit({
+      item: this.item.toJSON(),
+      admin: tools.isLogged(),
+      labels: labels
+    }));
     this.root.html(this.el);
     this.delegateEvents(this.events);
     this.$('input').focus();
@@ -137,6 +143,19 @@ var HeaderView = Backbone.View.extend({
       var videoUploadView = new UploadVideoView();
       $('body').append(videoUploadView.el);
     }
+  },
+
+  notify() {
+    $.ajax({
+      type: 'POST',
+      url: '/api/push/notify',
+      dataType: 'json',
+      data: {
+        'label': 'test'
+      },
+      success: () => window.alert('Notified!'),
+      error: err => console.warn(err)
+    });
   },
 
   toggleMenu() {

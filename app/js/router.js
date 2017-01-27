@@ -12,7 +12,11 @@ import ItemZoomView from 'views/item-zoom';
 import UserFormView from 'views/user-form';
 import HeaderView from 'views/header';
 import MenuView from 'views/menu';
+import NotificationView from 'views/notification';
 import TimelineView from 'views/timeline';
+import ServiceWorkerSubscriptions from 'sw/subscriptions';
+
+const USER_ASKED_FOR_NOTIFICATIONS = 'userNotifcationsAsked';
 
 export default Backbone.Router.extend({
 
@@ -27,6 +31,8 @@ export default Backbone.Router.extend({
 
     Pubsub.on(Events.FILTER, this.updateUrl, this);
     Pubsub.on(Events.CLEAR_FILTER, this.clearFilter, this);
+
+    Pubsub.on(Events.SERVICE_WORKER_READY, this.proposeNotificationsToUser, this);
 
     Backbone.history.start({ 'pushState': true, 'root': '/' });
   },
@@ -172,5 +178,23 @@ export default Backbone.Router.extend({
 
   clearFilter: function () {
     Backbone.history.navigate('/', false);
+  },
+
+  proposeNotificationsToUser: function () {
+    if (this.notificationView || window.localStorage.getItem(USER_ASKED_FOR_NOTIFICATIONS) == 1) {
+      return;
+    }
+
+    this.notificationView = new NotificationView();
+
+    ServiceWorkerSubscriptions.isUserSubscribed().then(userSubscribed => {
+      if (userSubscribed) {
+        console.info('user is subscribed');
+        return;
+      }
+
+      $('body').append(this.notificationView.render().el);
+      window.localStorage.setItem(USER_ASKED_FOR_NOTIFICATIONS, 1);
+    });
   }
 });

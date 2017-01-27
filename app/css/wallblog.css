@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'wallblog';
-  src: url('../font/wallblog.eot?52081513');
-  src: url('../font/wallblog.eot?52081513#iefix') format('embedded-opentype'),
-       url('../font/wallblog.woff2?52081513') format('woff2'),
-       url('../font/wallblog.woff?52081513') format('woff'),
-       url('../font/wallblog.ttf?52081513') format('truetype'),
-       url('../font/wallblog.svg?52081513#wallblog') format('svg');
+  src: url('../font/wallblog.eot?47074209');
+  src: url('../font/wallblog.eot?47074209#iefix') format('embedded-opentype'),
+       url('../font/wallblog.woff2?47074209') format('woff2'),
+       url('../font/wallblog.woff?47074209') format('woff'),
+       url('../font/wallblog.ttf?47074209') format('truetype'),
+       url('../font/wallblog.svg?47074209#wallblog') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -15,7 +15,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'wallblog';
-    src: url('../font/wallblog.svg?52081513#wallblog') format('svg');
+    src: url('../font/wallblog.svg?47074209#wallblog') format('svg');
   }
 }
 */
@@ -64,3 +64,5 @@
 .icon-clear:before { content: '\78'; } /* 'x' */
 .icon-heart:before { content: '\e800'; } /* '' */
 .icon-heart-empty:before { content: '\e801'; } /* '' */
+.icon-login:before { content: '\e802'; } /* '' */
+.icon-notify:before { content: '\e803'; } /* '' */

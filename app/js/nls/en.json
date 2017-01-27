@@ -1,6 +1,8 @@
 {
   "submitComment": "OK",
   "cancel": "Cancel",
+  "yesIdo": "Yes I do",
+  "noThanks": "No thanks",
   "validate": "OK",
   "comments": "Comments",
   "addComment": "Add comment",
@@ -30,5 +32,8 @@
   "video-dailymotion": "DailyMotion",
   "video-youtube": "Youtube",
   "video-vimeo": "Vimeo",
-  "filter": "Filter..."
+  "filter": "Filter...",
+  "hello": "Hello!",
+  "notifications": "Notifications",
+  "receiveNotifications": "Do you want to be notified when new pictures are added to this blog?"
 }

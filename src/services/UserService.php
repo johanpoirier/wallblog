@@ -21,7 +21,7 @@ class UserService {
 
     public function getByEmail($email) {
         $sql = "SELECT * FROM " . self::$table_name . " WHERE email = ?";
-        return self::$db->fetchAssoc($sql, array(strtolower($email)));
+        return self::$db->fetchAssoc($sql, [strtolower($email)]);
     }
 
     public function login($email, $password) {

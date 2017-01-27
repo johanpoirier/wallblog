@@ -8,6 +8,7 @@ src/config.jops.php
 app/pictures/20*
 app/videos/*
 app/js/analytics.js
+app/js/config.js
 tests/app.log
 assets.json
 *.iml

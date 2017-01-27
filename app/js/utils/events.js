@@ -7,5 +7,6 @@ export default {
   FILTER: 'Filter',
   CLEAR_FILTER: 'ClearFilter',
   MENU_TOGGLE: 'ToggleMenu',
-  ADD_MARKER: 'AddMarker'
+  ADD_MARKER: 'AddMarker',
+  SERVICE_WORKER_READY: 'ServiceWorkerReady '
 }

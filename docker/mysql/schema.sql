@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS `wallblog__item` (
   `ratio` decimal(10,6) NOT NULL default '1.000000',
   `reverseRatio` decimal(10,6) NOT NULL default '1.000000',
   `type` varchar(7) collate utf8_bin NOT NULL default 'picture',
+  `notificationId` int(11) DEFAULT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
@@ -40,6 +41,22 @@ CREATE TABLE IF NOT EXISTS `wallblog__user` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+
+CREATE TABLE `wallblog__subscription` (
+  `id` int(11) UNSIGNED NOT NULL auto_increment,
+  `endpoint` varchar(255) COLLATE utf8_bin NOT NULL,
+  `p256dh` varchar(90) COLLATE utf8_bin NOT NULL,
+  `auth` varchar(30) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+
+CREATE TABLE `wallblog__notification` (
+  `id` int(10) UNSIGNED NOT NULL auto_increment,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `label` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `userId` int(11) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
 INSERT INTO `wallblog__user` (`id`, `email`, `password`) VALUES (1, 'wall@blog.fr', 'f71dbe52628a3f83a77ab494817525c6');
 

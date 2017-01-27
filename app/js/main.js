@@ -1,9 +1,15 @@
-window.WallBlog = {
-  title: "Tan, Johan, Evan & Lyam"
-};
-window.document.title = window.WallBlog.title;
-
+import serviceWorkerInstall from 'sw/install';
 import AppRouter from 'router';
+import Events from 'utils/events';
+import PubSub from 'utils/pubsub';
+
+window.WallBlog = {
+  title: blogTitle
+};
+window.document.title = blogTitle;
 
 // create and initialize our router
 new AppRouter();
+
+// register service worker
+serviceWorkerInstall().then(() => PubSub.trigger(Events.SERVICE_WORKER_READY));
