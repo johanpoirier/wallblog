@@ -150,10 +150,7 @@ var HeaderView = Backbone.View.extend({
       type: 'POST',
       url: '/api/push/notify',
       dataType: 'json',
-      data: {
-        'label': 'test'
-      },
-      success: () => window.alert('Notified!'),
+      success: () => console.info('Notified!'),
       error: err => console.warn(err)
     });
   },
