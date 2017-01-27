@@ -4,8 +4,6 @@ const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const config = require('./config.json');
 
-const hash = Math.round(Math.random() * 100000000000);
-
 module.exports = {
   'entry': 'main',
   'output': {
@@ -18,7 +16,7 @@ module.exports = {
       {
         test: /sw\/.*\.js$/,
         loader: 'webpack-append',
-        query: `const vapidPublicKey = '${config.vapidPublicKey}'; const hash = ${hash};`
+        query: `const vapidPublicKey = '${config.vapidPublicKey}';`
       },
       {
         test: /main.js$/,
@@ -53,11 +51,12 @@ module.exports = {
     new CopyWebpackPlugin([
       {
         from: 'app/js/sw/notifications.js',
-        to: `../notifications.${hash}.js`,
+        to: `../notifications.js`,
         transform: function(content) {
           let fileContent = content.toString();
-          fileContent = fileContent.replace(/websiteUrlPlaceholder/, config.websiteUrl);
-          fileContent = fileContent.replace(/notificationTitlePlaceholder/, config.notificationTitle);
+          fileContent = fileContent.replace(/WEBSITE_URL/, config.websiteUrl);
+          fileContent = fileContent.replace(/NOTIFICATION_TITLE/, config.notificationTitle);
+          fileContent = fileContent.replace(/CURRENT_VERSION/, `build-${Math.round(Math.random() * 1000000000)}`);
           return fileContent;
         }
       }
