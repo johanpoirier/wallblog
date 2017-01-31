@@ -131,10 +131,11 @@ function addPictureToCache(cacheKey, request, response) {
     return addToCache(cacheKey, request, response);
   } else {
     const hiResPictureUrl = getHiResPictureUrl(request.url);
-    return fetch(hiResPictureUrl)
+    fetch(hiResPictureUrl)
       .then(response => addToCache(cacheKey, hiResPictureUrl, response))
-      .catch(error => new Response('aww', { status: 404 }));
+      .catch(error => console.log(error));
   }
+  return response;
 }
 
 function fetchFromCache(request) {
