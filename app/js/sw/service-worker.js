@@ -81,18 +81,18 @@ self.addEventListener('fetch', event => {
   function onFetch(event, opts) {
     const request = event.request;
 
-    if (event.request.url.indexOf('/api') > 0) {
+    if (request.url.indexOf('/api') > 0) {
       event.respondWith(
         fetch(request)
           .then(response => addToCache(cacheName('api', opts), request, response))
-          .catch(() => fetchFromCache(event))
+          .catch(() => fetchFromCache(request))
           .catch(() => offlineResponse())
       );
-    } else if (event.request.url.indexOf('/pictures') > 0) {
+    } else if (request.url.indexOf('/pictures') > 0) {
       event.respondWith(
         fetch(request)
-          .then(response => addToCache(cacheName('pictures', opts), request, response))
-          .catch(() => fetchFromCache(event))
+          .then(response => addPictureToCache(cacheName('pictures', opts), request, response))
+          .catch(() => fetchPictureFromCache(request))
           .catch(() => offlineResponse())
       );
     } else {
@@ -126,30 +126,41 @@ function addToCache(cacheKey, request, response) {
   return response;
 }
 
-function fetchFromCache(event) {
-  return caches.match(event.request).then(response => {
+function addPictureToCache(cacheKey, request, response) {
+  if (isHiResPictureUrl(request.url) && response.ok) {
+    return addToCache(cacheKey, request, response);
+  } else {
+    const hiResPictureUrl = getHiResPictureUrl(request.url);
+    return fetch(hiResPictureUrl)
+      .then(response => addToCache(cacheKey, hiResPictureUrl, response))
+      .catch(error => new Response('aww', { status: 404 }));
+  }
+}
+
+function fetchFromCache(request) {
+  return caches.match(request).then(response => {
     if (!response) {
-      throw Error(`${event.request.url} not found in cache`);
+      throw Error(`${request.url || request} not found in cache`);
     }
     return response;
   });
 }
 
-function fetchPictureFromCache(event) {
-  return caches.match(event.request).then(response => {
-    if (!response) {
-      if (event.request.url.indexOf('--320') > 0) {
-        throw Error(`${event.request.url} not found in cache`);
-      }
-
-      // fallback to 320px picture
-      event.request.url = event.request.url.replace(/--(\d+)/, '--320');
-      return fetchPictureFromCache(event);
-    }
-    return response;
-  });
+function fetchPictureFromCache(request) {
+  return fetchFromCache(getHiResPictureUrl(request.url));
 }
 
 function offlineResponse() {
   return new Response();
+}
+
+function isHiResPictureUrl(url) {
+  return url.indexOf('--1600') > 0;
+}
+
+function getHiResPictureUrl(url) {
+  if (url.match(/--(\d+)/)) {
+    return url.replace(/--(\d+)/, '--1600');
+  }
+  return url.replace(/\.([a-zA-Z]+)$/, '--1600.$1');
 }
