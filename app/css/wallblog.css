@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'wallblog';
-  src: url('../font/wallblog.eot?47074209');
-  src: url('../font/wallblog.eot?47074209#iefix') format('embedded-opentype'),
-       url('../font/wallblog.woff2?47074209') format('woff2'),
-       url('../font/wallblog.woff?47074209') format('woff'),
-       url('../font/wallblog.ttf?47074209') format('truetype'),
-       url('../font/wallblog.svg?47074209#wallblog') format('svg');
+  src: url('../font/wallblog.eot');
+  src: url('../font/wallblog.eot#iefix') format('embedded-opentype'),
+       url('../font/wallblog.woff2') format('woff2'),
+       url('../font/wallblog.woff') format('woff'),
+       url('../font/wallblog.ttf') format('truetype'),
+       url('../font/wallblog.svg#wallblog') format('svg');
   font-weight: normal;
   font-style: normal;
 }

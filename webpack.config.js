@@ -56,7 +56,7 @@ module.exports = {
           let fileContent = content.toString();
           fileContent = fileContent.replace(/WEBSITE_URL/, config.websiteUrl);
           fileContent = fileContent.replace(/NOTIFICATION_TITLE/, config.notificationTitle);
-          fileContent = fileContent.replace(/CURRENT_VERSION/, `build-${Math.round(Math.random() * 1000000000)}`);
+          fileContent = fileContent.replace(/CURRENT_VERSION/, `v${Date.now()}`);
           return fileContent;
         }
       }
