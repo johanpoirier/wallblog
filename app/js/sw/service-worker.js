@@ -23,7 +23,7 @@ const config = {
     '/font/wallblog.woff2',
     '/'
   ],
-  cachePathPattern: /^\/(?:(font|css|img|js|api|pictures)\/(.+)?)?$/
+  cachePathPattern: /^\/(?:(font|css|img|js|api|pictures|item|2[0-9]{3})\/(.+)?)?$/
 };
 
 self.addEventListener('install', event => {
