@@ -26,6 +26,8 @@ const config = {
   cachePathPattern: /^\/(?:(font|css|img|js|api|pictures|item|2[0-9]{3})\/(.+)?)?$/
 };
 
+const PICTURES_CACHE_KEY = 'pictures';
+
 self.addEventListener('install', event => {
   function onInstall(event, opts) {
     const cacheKey = cacheName('static', opts);
@@ -39,7 +41,7 @@ self.addEventListener('activate', event => {
   function onActivate(event, opts) {
     return caches.keys()
       .then(cacheKeys => {
-        const oldCacheKeys = cacheKeys.filter(key => key.indexOf(opts.version) !== 0);
+        const oldCacheKeys = cacheKeys.filter(key => (key.indexOf(opts.version) !== 0) && (key !== PICTURES_CACHE_KEY));
         const deletePromises = oldCacheKeys.map(oldKey => caches.delete(oldKey));
         return Promise.all(deletePromises);
       });
@@ -91,7 +93,7 @@ self.addEventListener('fetch', event => {
     } else if (request.url.indexOf('/pictures') > 0) {
       event.respondWith(
         fetch(request)
-          .then(response => addPictureToCache(cacheName('pictures', opts), request, response))
+          .then(response => addPictureToCache(PICTURES_CACHE_KEY, request, response))
           .catch(() => fetchPictureFromCache(request))
           .catch(() => offlineResponse())
       );
