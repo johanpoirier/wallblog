@@ -97,7 +97,7 @@ self.addEventListener('fetch', event => {
       );
     } else {
       event.respondWith(
-        fetchFromCache(event)
+        fetchFromCache(request)
           .catch(() => fetch(request))
           .then(response => addToCache(cacheName('static', opts), request, response))
           .catch(() => offlineResponse())
