@@ -1,6 +1,6 @@
 {
   "name": "Wallblog",
-  "version": "1.10.1",
+  "version": "1.2.0",
   "repository": "https://github.com/johanpoirier/wallblog",
   "private": true,
   "devDependencies": {
@@ -19,7 +19,7 @@
     "live-reload": "^1.1.0",
     "parallelshell": "^2.0.0",
     "preprocess": "^3.0.2",
-    "replaceinfiles": "^1.1.4",
+    "replaceinfiles": "^1.1.6",
     "rimraf": "^2.2.8",
     "run-sequence": "^1.1.0",
     "watch": "^0.17.1",
@@ -53,14 +53,15 @@
     "build:scripts": "webpack",
     "build:styles": "cleancss --skip-rebase app/css/*.css -o dist/css/main.css",
     "build:markup": "htmlprocessor app/index.html -o dist/index.html",
-    "cachebuster": "hashmark -l 8 --cwd dist {js,css}/*.{js,css} '{dir}/{name}{hash}{ext}' | replaceinfiles -s 'dist/index.html' -d '{dir}/{base}'",
-    "postcachebuster": "rimraf dist/js/wallblog.js && rimraf dist/css/main.css",
+    "precachebuster": "hashmark -l 8 --cwd dist {js,css}/*.{js,css} '{dir}/{name}{hash}{ext}' > 'dist/cachebuster.map'",
+    "cachebuster": "cat dist/cachebuster.map | replaceinfiles -s 'dist/index.html' -d '{dir}/{base}' && cat 'dist/cachebuster.map' | replaceinfiles -s 'dist/service-worker.js' -d '{dir}/{base}'",
+    "postcachebuster": "rimraf dist/js/wallblog.js && rimraf dist/css/main.css && rimraf 'dist/cachebuster.map'",
     "live-reload": "live-reload --port=9091 --delay=100 dist/js/ dist/css/",
     "watch": "parallelshell \"npm run watch:scripts\" \"npm run watch:styles\"",
     "watch:scripts": "webpack -d --watch",
     "watch:styles": "watch \"npm run build:styles\" app/css/",
     "predev": "npm run build -s",
     "dev": "parallelshell \"npm run watch\" \"npm run live-reload\"",
-    "package": "npm run copy -s && npm run build:scripts -s -- -p && npm run build:styles -s && npm run build:markup -s -- -e dist"
+    "package": "npm run copy -s && npm run build:scripts -s -- -p && npm run build:styles -s && npm run build:markup -s -- -e dist && npm run cachebuster -s"
   }
 }
