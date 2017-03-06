@@ -7,6 +7,7 @@ window.WallBlog = {
   title: blogTitle
 };
 window.document.title = blogTitle;
+window.document.querySelector('meta[name="apple-mobile-web-app-title"]').setAttribute('content', blogTitle);
 
 // create and initialize our router
 new AppRouter();
