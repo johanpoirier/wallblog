@@ -11,6 +11,9 @@ RUN ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h && docker-php-e
 RUN apt-get update && apt-get install -y supervisor && mkdir -p /var/log/supervisor
 COPY ./config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
+# Git
+RUN apt-get update && apt-get install -y git
+
 # Nginx
 RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
 	&& echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list \
@@ -20,13 +23,11 @@ RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC64107
 RUN rm /etc/nginx/conf.d/default.conf
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 COPY ./config/nginx.conf /etc/nginx/conf.d/wallblog.conf
-RUN mkdir /etc/nginx/ssl/ && openssl req -new -nodes -x509 -subj "/C=FR/ST=France/L=Lyon/O=FR/CN=wallblog.local" -days 3650 -keyout /etc/nginx/ssl/wallblog.local.key -out /etc/nginx/ssl/wallblog.local.crt -extensions v3_ca
+COPY ./config/openssl.cnf /etc/nginx/ssl/openssl.cnf
+RUN openssl req -config /etc/nginx/ssl/openssl.cnf -new -x509 -sha256 -newkey rsa:2048 -nodes -days 3650 -keyout /etc/nginx/ssl/wallblog.local.key -out /etc/nginx/ssl/wallblog.local.crt
 
 # Node.js
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - && apt-get install -y nodejs
-
-# Git
-RUN apt-get update && apt-get install -y git
 
 # MySQL
 RUN apt-get update \

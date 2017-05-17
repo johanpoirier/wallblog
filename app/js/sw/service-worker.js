@@ -38,7 +38,7 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('activate', event => {
-  function onActivate(event, opts) {
+  function onActivate(opts) {
     return caches.keys()
       .then(cacheKeys => {
         const oldCacheKeys = cacheKeys.filter(key => (key.indexOf(opts.version) !== 0) && (key !== PICTURES_CACHE_KEY));
@@ -47,7 +47,7 @@ self.addEventListener('activate', event => {
       });
   }
 
-  event.waitUntil(onActivate(event, config).then(() => self.clients.claim()));
+  event.waitUntil(onActivate(config).then(() => self.clients.claim()));
 });
 
 self.addEventListener('push', function (event) {
@@ -135,7 +135,7 @@ function addPictureToCache(cacheKey, request, response) {
     const hiResPictureUrl = getHiResPictureUrl(request.url);
     fetch(hiResPictureUrl)
       .then(response => addToCache(cacheKey, hiResPictureUrl, response))
-      .catch(error => console.log(error));
+      .catch(error => console.warn(error));
   }
   return response;
 }
