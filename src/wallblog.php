@@ -15,16 +15,16 @@ include __DIR__ . '/config.php';
 $app = new Silex\Application();
 $app['debug'] = true;
 
-date_default_timezone_set("Europe/Paris");
+date_default_timezone_set('Europe/Paris');
 
 /** Extensions */
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => array(
         'driver' => 'pdo_mysql',
-        'host' => $config["host"],
-        'dbname' => $config["dbname"],
-        'user' => $config["user"],
-        'password' => $config["password"],
+        'host' => $config['host'],
+        'dbname' => $config['dbname'],
+        'user' => $config['user'],
+        'password' => $config['password'],
         'charset' => 'utf8'
     ),
     'db.dbal.class_path' => __DIR__ . '/../vendor/doctrine-dbal/lib',

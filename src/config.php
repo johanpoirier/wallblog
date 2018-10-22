@@ -1,6 +1,9 @@
 <?php
-$config["host"] = "127.0.0.1";
-$config["dbname"] = "wallblog";
-$config["user"] = "root";
-$config["password"] = "root";
-$config["prefix"] = "wallblog";
+$config = [
+  'host' => 'localhost',
+  'dbname' => 'wallblog',
+  'user' => 'wallblog',
+  'password' => 'password',
+  'prefix' => 'wallblog',
+  'salt' => 'e1G8tJ1*vM3v#&@o'
+];
