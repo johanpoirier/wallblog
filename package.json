@@ -1,6 +1,6 @@
 {
-  "name": "Wallblog",
-  "version": "1.2.0",
+  "name": "wallblog",
+  "version": "1.2.1",
   "repository": "https://github.com/johanpoirier/wallblog",
   "private": true,
   "devDependencies": {
@@ -13,15 +13,15 @@
     "handlebars-loader": "^1.1.4",
     "hashmark": "^4.1.0",
     "htmlprocessor": "^0.2.1",
-    "imagemin-pngquant": "^5.0.0",
-    "imports-loader": "^0.7.0",
+    "imagemin-pngquant": "^6.0.0",
+    "imports-loader": "^0.8.0",
     "json-loader": "^0.5.4",
     "live-reload": "^1.1.0",
-    "parallelshell": "^2.0.0",
+    "parallelshell": "^3.0.2",
     "preprocess": "^3.1.0",
     "replaceinfiles": "^1.1.4",
     "rimraf": "^2.5.4",
-    "run-sequence": "^1.2.2",
+    "run-sequence": "^2.2.1",
     "watch": "^1.0.1",
     "webpack": "^1.12.10",
     "webpack-append": "^0.1.2"

@@ -35,15 +35,15 @@ CREATE TABLE IF NOT EXISTS `wallblog__like` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `wallblog__user` (
-  `id` int(9) NOT NULL auto_increment,
+  `id` int(4) NOT NULL auto_increment,
   `email` varchar(255) collate utf8_bin NOT NULL,
-  `password` varchar(32) collate utf8_bin NOT NULL,
+  `password` varchar(64) collate utf8_bin NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
 CREATE TABLE `wallblog__subscription` (
-  `id` int(11) UNSIGNED NOT NULL auto_increment,
+  `id` int(9) UNSIGNED NOT NULL auto_increment,
   `endpoint` varchar(255) COLLATE utf8_bin NOT NULL,
   `p256dh` varchar(90) COLLATE utf8_bin NOT NULL,
   `auth` varchar(30) COLLATE utf8_bin NOT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE `wallblog__notification` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
-INSERT INTO `wallblog__user` (`id`, `email`, `password`) VALUES (1, 'wall@blog.fr', 'f71dbe52628a3f83a77ab494817525c6');
+INSERT INTO `wallblog__user` (`id`, `email`, `password`) VALUES (1, 'wall@blog.fr', '92d66d3a6dae34495631ace7b713e0288236255e431afb2e2b525f86d28417a9');
 
 INSERT INTO `wallblog__item` (`id`, `file`, `description`, `date`, `ratio`, `reverseRatio`, `type`) VALUES
 (2, 'hawaii-209956_1920.jpg', 'Hawaï', '2014-06-24 13:59:42', '1.500000', '0.666667', 'picture'),
