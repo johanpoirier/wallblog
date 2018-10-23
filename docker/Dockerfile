@@ -4,13 +4,16 @@ MAINTAINER Johan Poirier, johan.poirier@gmail.com
 
 # Tools
 RUN apt-get update \
-&& apt-get install -y libjpeg-dev libpng-dev libgmp-dev \
-                      git gnupg gnupg1 wget
+&& apt-get install -y libjpeg-dev libpng-dev libgmp-dev git gnupg gnupg1 wget zip
 
 # PHP modules
 RUN docker-php-ext-configure gd --enable-gd-native-ttf --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu --with-gmp=/usr/include/x86_64-linux-gnu
 RUN ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h && docker-php-ext-install pdo pdo_mysql gd exif gmp
 COPY ./config/php.ini /usr/local/etc/php/php.ini
+
+# Composer
+RUN curl -sS https://getcomposer.org/installer -o composer-setup.php
+RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer && rm composer-setup.php
 
 # Supervisor
 RUN apt-get update && apt-get install -y supervisor && mkdir -p /var/log/supervisor
@@ -46,6 +49,7 @@ RUN /tmp/mysql/init.sh
 # Sample pictures
 RUN mkdir /var/www/pictures
 COPY ./pictures/* /var/www/pictures/
+
 
 # Run
 CMD ["/usr/bin/supervisord", "-n"]
