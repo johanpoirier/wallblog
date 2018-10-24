@@ -3,14 +3,14 @@
 
 /** Bootstraping */
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/../src/services/PictureService.php';
+require_once __DIR__ . '/../src/Service/PictureService.php';
 
-include __DIR__ . '/../src/config.php';
+include __DIR__ . '/../__src/config.php';
 
 $app = new Silex\Application();
 $app['debug'] = true;
 
-date_default_timezone_set("Europe/Paris");
+date_default_timezone_set('Europe/Paris');
 
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
   'db.options' => array(

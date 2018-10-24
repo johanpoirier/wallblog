@@ -1,0 +1,32 @@
+items:
+  path: /api/item
+  controller: App\Controller\ItemController::getPaginated
+
+item_get:
+  path: /api/item/{id}
+  controller: App\Controller\ItemController::get
+  methods: GET
+  requirements:
+    id: '\d+'
+
+item_delete:
+  path: /api/item/{id}
+  controller: App\Controller\ItemController::delete
+  methods: DELETE
+  requirements:
+    id: '\d+'
+
+item_count:
+  path: /api/items/count
+  controller: App\Controller\ItemController::count
+  methods: GET
+
+item_ids:
+  path: /api/items/ids
+  controller: App\Controller\ItemController::ids
+  methods: GET
+
+picture_add:
+  path: /api/item
+  controller: App\Controller\ItemController::add
+  methods: POST
