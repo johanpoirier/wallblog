@@ -44,10 +44,10 @@ SQL;
   }
 
   /**
-   * @param $id
+   * @param int $id
    * @return mixed
    */
-  public function findById($id)
+  public function findById(int $id)
   {
     $sql = <<<SQL
 SELECT item.*, count(l.id) AS likes
@@ -173,12 +173,12 @@ SQL;
   }
 
   /**
-   * @param $id
+   * @param int $id
    * @return mixed
    */
-  public function delete($id)
+  public function delete(int $id)
   {
-    return $this->db->executeQuery('DELETE FROM wallblog__item WHERE id = ?', [$id]);
+    return $this->db->delete($this->tableName, ['id' => $id]);
   }
 
   /**

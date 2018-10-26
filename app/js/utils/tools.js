@@ -1,6 +1,6 @@
 const LAST_LOGIN_KEY = "lastLogin";
 
-var isLogged = () => {
+const isLogged = () => {
   let lastLogin = 0;
   if (window.sessionStorage) {
     lastLogin = window.sessionStorage.getItem(LAST_LOGIN_KEY);
@@ -11,7 +11,7 @@ var isLogged = () => {
   return (lastLogin != 0) && ((Date.now() - lastLogin) < 3600000);
 };
 
-var setLoggedTime = () => {
+const setLoggedTime = () => {
   let now = Date.now();
   if (window.sessionStorage) {
     window.sessionStorage.setItem(LAST_LOGIN_KEY, now);
@@ -21,7 +21,7 @@ var setLoggedTime = () => {
   }
 };
 
-var trackEventInGa = (category, action, label, value, nonInteraction) => {
+const trackEventInGa = (category, action, label, value, nonInteraction) => {
   'use strict';
   let ga_params;
   if (typeof(ga) !== 'undefined') {

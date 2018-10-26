@@ -44,7 +44,7 @@ class ItemController extends Controller
    */
   public function get(string $id): Response
   {
-    $item = $this->repository->findById($id);
+    $item = $this->repository->findById((int) $id);
 
     if (!$item) {
       $response = new Response();
@@ -94,7 +94,7 @@ class ItemController extends Controller
    */
   public function delete(string $id): Response
   {
-    $this->repository->delete($id);
+    $this->repository->delete((int) $id);
 
     $response = new Response();
     $response->setStatusCode(204);

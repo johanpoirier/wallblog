@@ -19,11 +19,11 @@ class SecurityController extends AbstractController
 
     $securityCookie = new Cookie(
       'authenticated',
-      '1',
+      $user->getID(),
       \time() + (int) \ini_get('session.gc_maxlifetime'),
       '/',
       null,
-      false,
+      true,
       false
     );
 
