@@ -34,3 +34,6 @@ services:
         resource: '../src/Repository/*'
         arguments:
             $prefix: '%prefix%'
+
+    app.logout.handler:
+        class: App\Controller\LogoutHandler

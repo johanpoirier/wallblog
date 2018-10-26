@@ -1,0 +1,28 @@
+security:
+
+    providers:
+        user_provider:
+            id: App\Repository\UserRepository
+
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+            cost: 12
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: true
+            json_login:
+                check_path: /auth/login
+
+            logout:
+                path: /auth/logout
+                handlers: [app.logout.handler]
+
+    access_control:
+        - { path: ^/api/item/[0-9]+/comments$, roles: ROLE_ADMIN, methods: [DELETE] }
+        - { path: ^/api/item/[0-9]+$, roles: ROLE_ADMIN, methods: [PUT, DELETE] }
+        - { path: ^/api/items$, roles: ROLE_ADMIN, methods: [POST] }

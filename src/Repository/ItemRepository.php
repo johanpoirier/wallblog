@@ -13,8 +13,8 @@ class ItemRepository
   public function __construct(Connection $db, string $prefix)
   {
     $this->db = $db;
-    $this->tableName = $prefix . '__item';
-    $this->likeTableName = $prefix . '__like';
+    $this->tableName = "${prefix}__item";
+    $this->likeTableName = "${prefix}__like";
   }
 
   /**
@@ -108,7 +108,7 @@ SQL;
     $res = $this->db->insert($this->tableName, $item);
     if ($res === 1) {
       $id = $this->db->lastInsertId($this->tableName);
-      return $this->getById($id);
+      return $this->findById($id);
     }
 
     return null;

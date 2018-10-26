@@ -27,6 +27,10 @@ item_ids:
   methods: GET
 
 picture_add:
-  path: /api/item
+  path: /api/items
   controller: App\Controller\ItemController::add
   methods: POST
+
+login:
+  path: /auth/login
+  controller: App\Controller\SecurityController::login
