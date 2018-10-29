@@ -50,7 +50,6 @@ then
     mkdir "${targetReleasePath}/vendor/"
     cp "$targetPath/config.json" "${targetReleasePath}/config.json"
     cp "$targetPath/.env" "${targetReleasePath}/.env"
-    chgrp -R www-data "${targetReleasePath}/"
 
     # Google analytics script
     if [ $analytics = 0 ]
@@ -61,6 +60,9 @@ then
     mv "$projectDir/config.sample.json" "$projectDir/config.json"
     mv "$projectDir/app/manifest.sample.json" "$projectDir/app/manifest.json"
     cd --
+
+    # Set correct rights
+    chown -R www-data:www-data "${targetReleasePath}/"
 
     # Composer & Symfony stuff
     pushd "$targetPath/versions/$version/"
