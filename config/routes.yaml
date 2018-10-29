@@ -23,6 +23,13 @@ item_likes:
   requirements:
     id: '\d+'
 
+item_update:
+  path: /api/item/{id}
+  controller: App\Controller\ItemController::update
+  methods: PUT
+  requirements:
+    id: '\d+'
+
 item_delete:
   path: /api/item/{id}
   controller: App\Controller\ItemController::delete
@@ -40,9 +47,19 @@ item_ids:
   controller: App\Controller\ItemController::ids
   methods: GET
 
+items_rebuild:
+  path: /api/items/rebuild
+  controller: App\Controller\ItemController::rebuildAll
+  methods: POST
+
 picture_add:
-  path: /api/items
-  controller: App\Controller\ItemController::add
+  path: /api/pictures
+  controller: App\Controller\ItemController::addPictures
+  methods: POST
+
+video_add:
+  path: /api/videos
+  controller: App\Controller\ItemController::addVideos
   methods: POST
 
 comment_add:

@@ -34,7 +34,7 @@ class ItemController extends Controller
    */
   public function getPaginated(Request $request): JsonResponse
   {
-    $items = $this->repository->findPaginated($request->query->get('nb'), $request->query->get('start'));
+    $items = $this->repository->findPaginated($request->query->get('nb', 20), $request->query->get('start', 0));
     return $this->json($items);
   }
 
@@ -59,11 +59,12 @@ class ItemController extends Controller
    * @param Request $request
    * @return Response
    */
-  public function add(Request $request): Response
+  public function addPictures(Request $request): Response
   {
-    $item = null;
-    $items = json_decode($request->getContent(), true);
-    foreach ($items as $picture) {
+    $items = [];
+
+    $pictures = json_decode($request->getContent(), true);
+    foreach ($pictures as $picture) {
       if (!\in_array($this->pictureService->getExtension($picture['filename']), self::ALLOWED_EXT)) {
         continue;
       }
@@ -75,17 +76,67 @@ class ItemController extends Controller
       $data = base64_decode($img);
 
       if (file_put_contents($this->uploadDir . $picture['filename'], $data)) {
-        $item = $this->pictureService->add($picture['filename'], $picture['description']);
+        $items[] = $this->pictureService->add($picture['filename'], $picture['description']);
       } else {
         //$app['monolog']->addDebug("[session " . $request->getSession()->getId() . "] problem during pic upload");
       }
     }
 
-    if ($item) {
-      return $this->json($item);
+    if (empty($items)) {
+      return new Response('Problem during picture upload', 500);
     }
 
-    return new Response('problem during picture upload', 500);
+    return $this->json($items);
+  }
+
+  /**
+   * @param Request $request
+   * @return Response
+   */
+  public function addVideos(Request $request): Response
+  {
+    $items = [];
+
+    $videos = json_decode($request->getContent(), true);
+    foreach ($videos as $video) {
+      $item = [
+        'file' => $video['url'],
+        'description' => $video['description'],
+        'type' => 'video',
+        'ratio' => 1280 / 720,
+        'reverseRatio' => 720 / 1280,
+        'date' => ($video['date'] === null) ? date('Y-M-d H:i:s') : $video['date'] . ' 00:00:00'
+      ];
+      $items[] = $this->repository->add($item);
+    }
+
+    if (empty($items)) {
+      return new Response('Problem during video upload', 500);
+    }
+
+    return $this->json($items);
+  }
+
+  /**
+   * @param Request $request
+   * @param string $id
+   * @return Response
+   */
+  public function update(Request $request, string $id): Response
+  {
+    //$app['monolog']->addDebug("put item $id : " . $request->getContent());
+
+    $item = $this->repository->findById((int) $id);
+    $itemData = json_decode($request->getContent(), true);
+
+    if (($item !== null) && ($itemData['id'] === $id)) {
+      unset($itemData['comments'], $itemData['likes']);
+      if ($itemData['description'] !== $item['description']) {
+        $this->repository->update($itemData);
+      }
+    }
+
+    return $this->get($id);
   }
 
   /**
@@ -119,5 +170,23 @@ class ItemController extends Controller
   public function ids(): JsonResponse
   {
     return $this->json($this->repository->listIds());
+  }
+
+  /**
+   * @param Request $request
+   * @return Response
+   */
+  public function rebuildAll(Request $request): Response
+  {
+    set_time_limit(0);
+
+    $forceReSample = $request->query->get('force') === 'true';
+
+    $this->pictureService->rebuild($forceReSample);
+
+    $response = new Response();
+    $response->setStatusCode(204);
+
+    return $response;
   }
 }

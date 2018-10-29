@@ -25,4 +25,6 @@ security:
     access_control:
         - { path: ^/api/item/[0-9]+/comments$, roles: ROLE_ADMIN, methods: [DELETE] }
         - { path: ^/api/item/[0-9]+$, roles: ROLE_ADMIN, methods: [PUT, DELETE] }
-        - { path: ^/api/items$, roles: ROLE_ADMIN, methods: [POST] }
+        - { path: ^/api/items, roles: ROLE_ADMIN, methods: [POST] }
+        - { path: ^/api/pictures, roles: ROLE_ADMIN, methods: [POST] }
+        - { path: ^/api/videos, roles: ROLE_ADMIN, methods: [POST] }

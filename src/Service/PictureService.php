@@ -143,10 +143,8 @@ class PictureService
   /**
    * @param bool $force
    */
-  public function rebuild($force = false)
+  public function rebuild($force = false): void
   {
-    set_time_limit(0);
-
     $items = $this->repository->findAll();
     foreach ($items as $item) {
       if ($item['type'] === 'picture') {

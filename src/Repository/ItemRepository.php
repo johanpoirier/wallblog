@@ -30,7 +30,7 @@ class ItemRepository
    * @param $index
    * @return mixed
    */
-  public function findPaginated($count, $index)
+  public function findPaginated($count = 20, $index = 0)
   {
     $sql = <<<SQL
 SELECT item.*, count(l.id) AS likes
