@@ -92,6 +92,23 @@ like_delete:
     id: '\d+'
     idLike: '\d+'
 
+user_get:
+  path: /api/user/{id}
+  controller: App\Controller\UserController::get
+  methods: GET
+  requirements:
+    id: '\d+'
+
+user_count:
+  path: /api/user/count
+  controller: App\Controller\UserController::count
+  methods: GET
+
+user_add:
+  path: /api/user
+  controller: App\Controller\UserController::add
+  methods: POST
+
 login:
   path: /auth/login
   controller: App\Controller\SecurityController::login

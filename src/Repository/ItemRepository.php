@@ -169,7 +169,7 @@ SQL;
   public function count()
   {
     $sql = "SELECT COUNT(*) FROM $this->tableName";
-    return (int)$this->db->fetchColumn($sql);
+    return (int) $this->db->fetchColumn($sql);
   }
 
   /**

@@ -38,13 +38,7 @@ SQL;
 
   public function refreshUser(UserInterface $user): UserInterface
   {
-    $sql = <<<SQL
-SELECT *
-FROM $this->tableName
-WHERE id = ?;
-SQL;
-    $data = $this->db->fetchAssoc($sql, [$user->getId()]);
-
+    $data = $this->findById($user->getId());
     return $this->buildUser($data);
   }
 
@@ -53,8 +47,51 @@ SQL;
     return true;
   }
 
-  protected function buildUser($data): User
+  /**
+   * @param $data
+   * @return User
+   */
+  public function buildUser($data): User
   {
-    return new User((int) $data['id'], $data['email'], $data['password']);
+    return new User((int) ($data['id'] ?? 0), $data['email'], $data['password']);
+  }
+
+  /**
+   * @param int $id
+   * @return mixed
+   */
+  public function findById(int $id)
+  {
+    $sql = <<<SQL
+SELECT *
+FROM $this->tableName
+WHERE id = ?
+SQL;
+    return $this->db->fetchAssoc($sql, [$id]);
+  }
+
+  /**
+   * @return int
+   */
+  public function count()
+  {
+    $sql = "SELECT COUNT(*) FROM $this->tableName";
+    return (int) $this->db->fetchColumn($sql);
+  }
+
+  /**
+   * @param $user
+   * @return mixed|null
+   */
+  public function add($user)
+  {
+    $saltedPassword = $user['password'];
+    $res = $this->db->insert($this->tableName, $user);
+    if ($res === 1) {
+      $id = $this->db->lastInsertId($this->tableName);
+      return $this->findById($id);
+    }
+
+    return null;
   }
 }
