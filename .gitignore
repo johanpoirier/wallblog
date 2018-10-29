@@ -2,7 +2,6 @@
 node_modules/
 logs/
 vendor/
-bin/
 dist/
 var/
 __src/config.jops.php
