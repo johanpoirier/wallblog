@@ -43,9 +43,11 @@ then
     ln -s "$targetPath/pictures/" "$targetPath/current/dist/pictures"
     mkdir "$targetPath/current/logs"
     chmod 775 "$targetPath/current/logs"
-    cp -r vendor/ "$targetPath/current/vendor/"
-    cp -r views/ "$targetPath/current/views/"
+    cp -r bin/ "$targetPath/current/bin/"
+    cp -r config/ "$targetPath/current/config/"
     cp -r src/ "$targetPath/current/src/"
+    cp -r templates/ "$targetPath/current/templates/"
+    cp -r vendor/ "$targetPath/current/vendor/"
     cp "$targetPath/config.json" "$targetPath/current/config.json"
     cp "$targetPath/.env" "$targetPath/current/.env"
     chgrp -R www-data "$targetPath/current/"
@@ -61,7 +63,9 @@ then
     cd --
 
     # Clear cache
+    pushd "$targetPath/versions/$version/"
     php bin/console cache:clear --env=prod --no-debug
+    popd
 
     echo "Version $version created"
 else
