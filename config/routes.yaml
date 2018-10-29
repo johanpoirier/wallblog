@@ -82,3 +82,11 @@ login:
 logout:
   path: /auth/logout
   controller: App\Controller\SecurityController::logout
+
+rss_comments:
+  path: /rss/comments
+  controller: App\Controller\RssController::getLastComments
+
+rss_items:
+  path: /rss
+  controller: App\Controller\RssController::getLastItems
