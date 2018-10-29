@@ -34,7 +34,16 @@ class ItemController extends Controller
    */
   public function getPaginated(Request $request): JsonResponse
   {
-    $items = $this->repository->findPaginated($request->query->get('nb', 20), $request->query->get('start', 0));
+    $itemCount = $request->query->get('nb', 20);
+    $itemStart = $request->query->get('start', 0);
+    $dateFilter = $filter = $request->get('filter');
+
+    if ($filter && $filter !== '') {
+      $items = $this->repository->findByDate($dateFilter);
+    } else {
+      $items = $this->repository->findPaginated($itemCount, $itemStart);
+    }
+
     return $this->json($items);
   }
 
