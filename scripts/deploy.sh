@@ -40,7 +40,7 @@ then
     rm -rf "${targetReleasePath}/dist/pictures/"
     ln -s "$targetPath/pictures/" "${targetReleasePath}/dist/pictures"
     mkdir "${targetReleasePath}/var"
-    chmod 775 "${targetReleasePath}/var"
+    chmod 770 "${targetReleasePath}/var"
     cp composer.* "${targetReleasePath}/"
     cp symfony.* "${targetReleasePath}/"
     cp -r bin/ "${targetReleasePath}/bin/"
@@ -62,7 +62,8 @@ then
     cd --
 
     # Set correct rights
-    chown -R www-data:www-data "${targetReleasePath}/"
+    chgrp -R www-data "${targetReleasePath}/"
+    chmod 640 "${targetReleasePath}/.env"
 
     # Composer & Symfony stuff
     pushd "$targetPath/versions/$version/"
