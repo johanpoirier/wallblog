@@ -14,9 +14,7 @@
         "symfony/orm-pack": "^1.0",
         "symfony/security-bundle": "*",
         "symfony/twig-bundle": "*",
-        "symfony/yaml": "*"
-    },
-    "require-dev": {
+        "symfony/yaml": "*",
         "symfony/dotenv": "*"
     },
     "config": {

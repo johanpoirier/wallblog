@@ -29,7 +29,7 @@ then
 
     # build
     git pull origin master
-    /usr/local/bin/composer install
+    /usr/local/bin/composer install --no-dev --optimize-autoloader
     cp "$projectDir/config.json" "$projectDir/config.sample.json"
     cp "$targetPath/config.json" "$projectDir/config.json"
     cp "$projectDir/app/manifest.json" "$projectDir/app/manifest.sample.json"
@@ -47,7 +47,7 @@ then
     cp -r views/ "$targetPath/current/views/"
     cp -r src/ "$targetPath/current/src/"
     cp "$targetPath/config.json" "$targetPath/current/config.json"
-    cp "$targetPath/config.php" "$targetPath/current/src/config.php"
+    cp "$targetPath/.env" "$targetPath/current/.env"
     chgrp -R www-data "$targetPath/current/"
 
     # Google analytics script
@@ -59,6 +59,9 @@ then
     mv "$projectDir/config.sample.json" "$projectDir/config.json"
     mv "$projectDir/app/manifest.sample.json" "$projectDir/app/manifest.json"
     cd --
+
+    # Clear cache
+    php bin/console cache:clear --env=prod --no-debug
 
     echo "Version $version created"
 else
