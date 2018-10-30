@@ -124,3 +124,11 @@ rss_comments:
 rss_items:
   path: /rss
   controller: App\Controller\RssController::getLastItems
+
+subscribe:
+  path: /push/subscribe
+  controller: App\Controller\NotificationController::subscribe
+
+notify:
+  path: /push/notify
+  controller: App\Controller\NotificationController::notify

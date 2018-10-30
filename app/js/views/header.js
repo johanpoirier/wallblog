@@ -148,7 +148,7 @@ const HeaderView = Backbone.View.extend({
   notify() {
     $.ajax({
       type: 'POST',
-      url: '/api/push/notify',
+      url: '/push/notify',
       dataType: 'json',
       success: () => console.info('Notified!'),
       error: err => console.warn(err)
