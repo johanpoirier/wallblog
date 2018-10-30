@@ -65,8 +65,23 @@
     "doctrine/reflection": {
         "version": "v1.0.0"
     },
+    "fgrosse/phpasn1": {
+        "version": "2.1.0"
+    },
+    "guzzlehttp/guzzle": {
+        "version": "6.3.3"
+    },
+    "guzzlehttp/promises": {
+        "version": "v1.3.1"
+    },
+    "guzzlehttp/psr7": {
+        "version": "1.4.2"
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
+    },
+    "minishlink/web-push": {
+        "version": "v4.0.2"
     },
     "monolog/monolog": {
         "version": "1.23.0"
@@ -77,17 +92,26 @@
     "ocramius/proxy-manager": {
         "version": "2.1.1"
     },
+    "paragonie/sodium_compat": {
+        "version": "v1.7.0"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
     "psr/container": {
         "version": "1.0.0"
     },
+    "psr/http-message": {
+        "version": "1.0.1"
+    },
     "psr/log": {
         "version": "1.0.2"
     },
     "psr/simple-cache": {
         "version": "1.0.1"
+    },
+    "spomky-labs/base64url": {
+        "version": "v2.0.1"
     },
     "symfony/cache": {
         "version": "v4.1.6"
@@ -211,6 +235,33 @@
     },
     "twig/twig": {
         "version": "v2.5.0"
+    },
+    "web-token/jwt-core": {
+        "version": "v1.2.3"
+    },
+    "web-token/jwt-key-mgmt": {
+        "version": "v1.2.3"
+    },
+    "web-token/jwt-signature": {
+        "version": "v1.2.3"
+    },
+    "web-token/jwt-signature-algorithm-ecdsa": {
+        "version": "v1.2.3"
+    },
+    "web-token/jwt-signature-algorithm-eddsa": {
+        "version": "v1.2.3"
+    },
+    "web-token/jwt-signature-algorithm-hmac": {
+        "version": "v1.2.3"
+    },
+    "web-token/jwt-signature-algorithm-none": {
+        "version": "v1.2.3"
+    },
+    "web-token/jwt-signature-algorithm-rsa": {
+        "version": "v1.2.3"
+    },
+    "web-token/jwt-util-ecc": {
+        "version": "v1.2.3"
     },
     "zendframework/zend-code": {
         "version": "3.3.1"

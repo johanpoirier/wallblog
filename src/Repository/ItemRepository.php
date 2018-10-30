@@ -25,7 +25,7 @@ class ItemRepository
    */
   public function findAll()
   {
-    return $this->db->fetchAll('SELECT * FROM wallblog__item');
+    return $this->db->fetchAll("SELECT * FROM $this->tableName");
   }
 
   /**
@@ -149,7 +149,7 @@ SQL;
   public function getUnnotifiedCount()
   {
     $sql = "SELECT COUNT(*) FROM $this->tableName WHERE notificationId IS NULL";
-    return (int)$this->db->fetchColumn($sql);
+    return (int) $this->db->fetchColumn($sql);
   }
 
   /**

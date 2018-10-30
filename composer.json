@@ -8,6 +8,7 @@
         "ext-gd": "^7.1",
         "ext-iconv": "*",
         "ext-json": "^1.5",
+        "minishlink/web-push": "^4.0",
         "symfony/console": "*",
         "symfony/dotenv": "*",
         "symfony/flex": "^1.1",
