@@ -7,6 +7,7 @@ use App\Repository\NotificationRepository;
 use App\Repository\SubscriptionRepository;
 use Psr\Log\LoggerInterface;
 use Minishlink\WebPush\WebPush;
+use Minishlink\WebPush\Subscription;
 
 class NotificationService
 {
@@ -46,7 +47,12 @@ class NotificationService
 
     $subscriptions = $this->subscriptionRepository->findAll();
     foreach($subscriptions as $subscription) {
-      $this->push->sendNotification($subscription['endpoint'], $body, $subscription['p256dh'], $subscription['auth']);
+      $subscription = Subscription::create([
+        'endpoint' => $subscription['endpoint'],
+        'publicKey' => $subscription['p256dh'],
+        'authToken' => $subscription['auth']
+      ]);
+      $this->push->sendNotification($subscription, $body);
     }
     $this->push->flush();
 
