@@ -22,11 +22,16 @@ class UserController extends Controller
 
   /**
    * @param string $id
-   * @return JsonResponse
+   * @return Response
    */
-  public function get(string $id): JsonResponse
+  public function get(string $id): Response
   {
     $user = $this->repository->findById($id);
+
+    if(!$user) {
+      return new Response('User not found', 404);
+    }
+
     $user['password'] = '';
     return $this->json($user);
   }

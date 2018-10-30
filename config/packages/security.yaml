@@ -28,5 +28,6 @@ security:
         - { path: ^/api/items, roles: ROLE_ADMIN, methods: [POST] }
         - { path: ^/api/pictures, roles: ROLE_ADMIN, methods: [POST] }
         - { path: ^/api/videos, roles: ROLE_ADMIN, methods: [POST] }
-        - { path: ^/api/user/[0-9]+$, roles: ROLE_ADMIN, methods: [GET] }
+        - { path: ^/api/user/[0-9]+$, roles: ROLE_ADMIN, methods: [PUT] }
         - { path: ^/api/user, roles: ROLE_ADMIN, methods: [POST] }
+        - { path: ^/push/notify, roles: ROLE_ADMIN, methods: [POST] }

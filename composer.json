@@ -64,5 +64,9 @@
             "require": "4.1.*"
         },
         "public-dir": "dist"
+    },
+    "require-dev": {
+        "symfony/browser-kit": "*",
+        "symfony/phpunit-bridge": "*"
     }
 }

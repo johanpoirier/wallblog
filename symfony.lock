@@ -113,6 +113,9 @@
     "spomky-labs/base64url": {
         "version": "v2.0.1"
     },
+    "symfony/browser-kit": {
+        "version": "v4.1.6"
+    },
     "symfony/cache": {
         "version": "v4.1.6"
     },
@@ -135,6 +138,9 @@
         "version": "v4.1.6"
     },
     "symfony/doctrine-bridge": {
+        "version": "v4.1.6"
+    },
+    "symfony/dom-crawler": {
         "version": "v4.1.6"
     },
     "symfony/dotenv": {
@@ -190,6 +196,15 @@
     },
     "symfony/orm-pack": {
         "version": "v1.0.5"
+    },
+    "symfony/phpunit-bridge": {
+        "version": "4.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.1",
+            "ref": "b14c7f62fabeedf256d3211b0f704402b5530ba1"
+        }
     },
     "symfony/polyfill-mbstring": {
         "version": "v1.9.0"
