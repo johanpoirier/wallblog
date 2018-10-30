@@ -33,6 +33,16 @@ class SubscriptionRepository
   }
 
   /**
+   * @param int $id
+   * @return mixed
+   */
+  public function findById(int $id)
+  {
+    $sql = "SELECT * FROM  $this->tableName WHERE id = ?";
+    return $this->db->fetchAssoc($sql, [$id]);
+  }
+
+  /**
    * @return mixed
    */
   public function findAll()
