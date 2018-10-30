@@ -3,15 +3,18 @@
 namespace App\Service;
 
 use App\Repository\ItemRepository;
+use Psr\Log\LoggerInterface;
 
 class PictureService
 {
-  protected $repository;
-  protected $dir;
+  private $repository;
+  private $logger;
+  private $dir;
 
-  public function __construct(ItemRepository $repository)
+  public function __construct(ItemRepository $repository, LoggerInterface $logger)
   {
     $this->repository = $repository;
+    $this->logger = $logger;
     $this->dir = __DIR__ . '/../../dist/pictures';
   }
 
@@ -29,12 +32,12 @@ class PictureService
         if (empty($date) && isset($exifData['DateTime'])) {
           $date = $exifData['DateTime'];
         }
-        //$this->logger->info("exif date of " . $fileName . " : " . $date);
+        $this->logger->info("exif date of $fileName: $date");
       }
     }
-    //$this->logger->info("file date: " . $date);
+    $this->logger->info("file date: $date");
     $item['date'] = $date ?? date('Y-m-d H:i:s');
-    //$this->logger->info("item date: " . $item["date"]);
+    $this->logger->info('item date: ' . $item['date']);
 
     // resize in 4 sizes
     $this->samplePicture($fileName);
@@ -47,7 +50,7 @@ class PictureService
     return $this->repository->add($item);
   }
 
-  protected function samplePicture($fileName, $force = false)
+  protected function samplePicture($fileName, $force = false): void
   {
     $fileNameInfo = pathinfo($fileName);
 
@@ -149,7 +152,7 @@ class PictureService
     foreach ($items as $item) {
       if ($item['type'] === 'picture') {
         $fileName = urldecode($item['file']);
-        //$this->logger->addDebug("rebuilding item : $fileName");
+        $this->logger->debug("rebuilding item: $fileName");
 
         $this->samplePicture($fileName, $force);
         $imageInfo = getimagesize(sprintf('%s/%s', $this->dir, $fileName));

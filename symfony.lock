@@ -68,6 +68,9 @@
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
+    "monolog/monolog": {
+        "version": "1.23.0"
+    },
     "ocramius/package-versions": {
         "version": "1.3.0"
     },
@@ -148,6 +151,18 @@
     },
     "symfony/inflector": {
         "version": "v4.1.6"
+    },
+    "symfony/monolog-bridge": {
+        "version": "v4.1.6"
+    },
+    "symfony/monolog-bundle": {
+        "version": "3.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.1",
+            "ref": "18ebf5a940573a20de06f9c4060101eeb438cf3d"
+        }
     },
     "symfony/orm-pack": {
         "version": "v1.0.5"

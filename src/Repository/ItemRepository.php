@@ -3,16 +3,19 @@
 namespace App\Repository;
 
 use Doctrine\DBAL\Driver\Connection;
+use Psr\Log\LoggerInterface;
 
 class ItemRepository
 {
   private $db;
   private $tableName;
   private $likeTableName;
+  private $logger;
 
-  public function __construct(Connection $db, string $prefix)
+  public function __construct(Connection $db, string $prefix, LoggerInterface $logger)
   {
     $this->db = $db;
+    $this->logger = $logger;
     $this->tableName = "${prefix}__item";
     $this->likeTableName = "${prefix}__like";
   }
@@ -120,7 +123,7 @@ SQL;
    */
   public function update($item)
   {
-    //$this->logger->addDebug("updating item : " . $item['id']);
+    $this->logger->debug('updating item: ' . $item['id']);
     unset(
       $item['filename'],
       $item['extension'],
@@ -132,7 +135,7 @@ SQL;
       $item['rendered']
     );
     $res = $this->db->update($this->tableName, $item, ['id' => $item['id']]);
-    //$this->logger->addDebug("updating item result = " . $res);
+    $this->logger->debug("updating item result = $res");
     if ($res === 1) {
       return $this->findById($item['id']);
     }

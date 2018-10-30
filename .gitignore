@@ -9,7 +9,7 @@ app/pictures/20*
 app/videos/*
 app/js/analytics.js
 app/js/config.js
-__tests
+tests
 __src
 __views
 assets.json
