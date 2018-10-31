@@ -1,0 +1,134 @@
+items:
+  path: /api/item
+  controller: App\Controller\ItemController::getPaginated
+
+item_get:
+  path: /api/item/{id}
+  controller: App\Controller\ItemController::get
+  methods: GET
+  requirements:
+    id: '\d+'
+
+item_comments:
+  path: /api/item/{id}/comments
+  controller: App\Controller\CommentController::getByItemId
+  methods: GET
+  requirements:
+    id: '\d+'
+
+item_likes:
+  path: /api/item/{id}/likes
+  controller: App\Controller\LikeController::getByItem
+  methods: GET
+  requirements:
+    id: '\d+'
+
+item_update:
+  path: /api/item/{id}
+  controller: App\Controller\ItemController::update
+  methods: PUT
+  requirements:
+    id: '\d+'
+
+item_delete:
+  path: /api/item/{id}
+  controller: App\Controller\ItemController::delete
+  methods: DELETE
+  requirements:
+    id: '\d+'
+
+item_count:
+  path: /api/items/count
+  controller: App\Controller\ItemController::count
+  methods: GET
+
+item_ids:
+  path: /api/items/ids
+  controller: App\Controller\ItemController::ids
+  methods: GET
+
+items_rebuild:
+  path: /api/items/rebuild
+  controller: App\Controller\ItemController::rebuildAll
+  methods: POST
+
+picture_add:
+  path: /api/pictures
+  controller: App\Controller\ItemController::addPictures
+  methods: POST
+
+video_add:
+  path: /api/videos
+  controller: App\Controller\ItemController::addVideos
+  methods: POST
+
+comment_add:
+  path: /api/item/{id}/comments
+  controller: App\Controller\CommentController::add
+  methods: POST
+  requirements:
+    id: '\d+'
+
+comment_delete:
+  path: /api/item/{id}/comments/{idComment}
+  controller: App\Controller\CommentController::delete
+  methods: DELETE
+  requirements:
+    id: '\d+'
+    idComment: '\d+'
+
+like_add:
+  path: /api/item/{id}/likes
+  controller: App\Controller\LikeController::add
+  methods: POST
+  requirements:
+    id: '\d+'
+
+like_delete:
+  path: /api/item/{id}/likes/{idLike}
+  controller: App\Controller\LikeController::delete
+  methods: DELETE
+  requirements:
+    id: '\d+'
+    idLike: '\d+'
+
+user_get:
+  path: /api/user/{id}
+  controller: App\Controller\UserController::get
+  methods: GET
+  requirements:
+    id: '\d+'
+
+user_count:
+  path: /api/user/count
+  controller: App\Controller\UserController::count
+  methods: GET
+
+user_add:
+  path: /api/user
+  controller: App\Controller\UserController::add
+  methods: POST
+
+login:
+  path: /auth/login
+  controller: App\Controller\SecurityController::login
+
+logout:
+  path: /auth/logout
+  controller: App\Controller\SecurityController::logout
+
+rss_comments:
+  path: /rss/comments
+  controller: App\Controller\RssController::getLastComments
+
+rss_items:
+  path: /rss
+  controller: App\Controller\RssController::getLastItems
+
+subscribe:
+  path: /push/subscribe
+  controller: App\Controller\NotificationController::subscribe
+
+notify:
+  path: /push/notify
+  controller: App\Controller\NotificationController::notify

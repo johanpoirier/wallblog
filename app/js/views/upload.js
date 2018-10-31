@@ -41,7 +41,7 @@ var UploadView = ModalView.extend({
     }
     $.ajax({
       type: 'POST',
-      url: 'api/items',
+      url: 'api/pictures',
       dataType: 'json',
       contentType: 'application/json',
       data: JSON.stringify(this.pictures),

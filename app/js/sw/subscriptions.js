@@ -39,7 +39,7 @@ function subscribeUser(registration) {
 
 function updateSubscriptionOnServer(subscription) {
   if (subscription) {
-    return fetch('/api/push/subscribe', {
+    return fetch('/push/subscribe', {
       method: 'post',
       body: JSON.stringify(subscription.toJSON())
     }).then(response => true);

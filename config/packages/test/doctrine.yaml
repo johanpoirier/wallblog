@@ -1,0 +1,5 @@
+doctrine:
+    dbal:
+        driver: 'pdo_sqlite'
+        charset: utf8
+        path: "%kernel.project_dir%/tests/app.db"

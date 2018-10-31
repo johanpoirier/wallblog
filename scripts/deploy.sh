@@ -21,15 +21,13 @@ then
     version=`date '+%Y%m%d%H%M%S'`
 
     # release directory
-    mkdir -p "$targetPath/versions/$version/"
-    rm -f "$targetPath/current"
-    ln -s "$targetPath/versions/$version/" "$targetPath/current"
+    targetReleasePath="$targetPath/versions/$version"
+    mkdir -p ${targetReleasePath}
 
     cd "$projectDir"
 
     # build
     git pull origin master
-    /usr/local/bin/composer install
     cp "$projectDir/config.json" "$projectDir/config.sample.json"
     cp "$targetPath/config.json" "$projectDir/config.json"
     cp "$projectDir/app/manifest.json" "$projectDir/app/manifest.sample.json"
@@ -38,27 +36,44 @@ then
     npm run package
 
     # copy files
-    cp -r dist/ "$targetPath/current/dist/"
-    rm -rf "$targetPath/current/dist/pictures/"
-    ln -s "$targetPath/pictures/" "$targetPath/current/dist/pictures"
-    mkdir "$targetPath/current/logs"
-    chmod 775 "$targetPath/current/logs"
-    cp -r vendor/ "$targetPath/current/vendor/"
-    cp -r views/ "$targetPath/current/views/"
-    cp -r src/ "$targetPath/current/src/"
-    cp "$targetPath/config.json" "$targetPath/current/config.json"
-    cp "$targetPath/config.php" "$targetPath/current/src/config.php"
-    chgrp -R www-data "$targetPath/current/"
+    cp -r dist/ "${targetReleasePath}/dist/"
+    rm -rf "${targetReleasePath}/dist/pictures/"
+    ln -s "$targetPath/pictures/" "${targetReleasePath}/dist/pictures"
+    mkdir "${targetReleasePath}/var"
+    chmod 770 "${targetReleasePath}/var"
+    cp composer.* "${targetReleasePath}/"
+    cp symfony.* "${targetReleasePath}/"
+    cp -r bin/ "${targetReleasePath}/bin/"
+    cp -r config/ "${targetReleasePath}/config/"
+    cp -r src/ "${targetReleasePath}/src/"
+    cp -r templates/ "${targetReleasePath}/templates/"
+    mkdir "${targetReleasePath}/vendor/"
+    cp "$targetPath/config.json" "${targetReleasePath}/config.json"
+    cp "$targetPath/.env" "${targetReleasePath}/.env"
 
     # Google analytics script
     if [ $analytics = 0 ]
     then
-        rm "$targetPath/current/dist/analytics.js"
+        rm "${targetReleasePath}/dist/analytics.js"
     fi
 
     mv "$projectDir/config.sample.json" "$projectDir/config.json"
     mv "$projectDir/app/manifest.sample.json" "$projectDir/app/manifest.json"
     cd --
+
+    # Set correct rights
+    chgrp -R www-data "${targetReleasePath}/"
+    chmod 640 "${targetReleasePath}/.env"
+
+    # Composer & Symfony stuff
+    pushd "$targetPath/versions/$version/"
+    /usr/local/bin/composer install --no-dev --optimize-autoloader
+    php bin/console cache:clear --env=prod --no-debug
+    popd
+
+    # Switch to latest release
+    rm -f "$targetPath/current"
+    ln -s "${targetReleasePath}/" "$targetPath/current"
 
     echo "Version $version created"
 else

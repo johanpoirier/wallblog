@@ -58,7 +58,7 @@ CREATE TABLE `wallblog__notification` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
 
-INSERT INTO `wallblog__user` (`id`, `email`, `password`) VALUES (1, 'wall@blog.fr', '92d66d3a6dae34495631ace7b713e0288236255e431afb2e2b525f86d28417a9');
+INSERT INTO `wallblog__user` (`id`, `email`, `password`) VALUES (1, 'wall@blog.fr', '$2y$12$blHQum0LPh78IBbKBT0nYO0C.pDPpa6mheR7IYR9bbeT57WiK1vcu');
 
 INSERT INTO `wallblog__item` (`id`, `file`, `description`, `date`, `ratio`, `reverseRatio`, `type`) VALUES
 (2, 'hawaii-209956_1920.jpg', 'Hawaï', '2014-06-24 13:59:42', '1.500000', '0.666667', 'picture'),

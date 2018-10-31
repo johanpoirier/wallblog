@@ -2,13 +2,19 @@
 node_modules/
 logs/
 vendor/
-bin/
 dist/
-src/config.jops.php
+var/
+__src/config.jops.php
 app/pictures/20*
 app/videos/*
 app/js/analytics.js
 app/js/config.js
-tests/app.log
+__src
+__views
 assets.json
 *.iml
+
+###> symfony/phpunit-bridge ###
+.phpunit
+/phpunit.xml
+###< symfony/phpunit-bridge ###

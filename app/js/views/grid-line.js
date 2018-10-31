@@ -76,8 +76,8 @@ export default Backbone.View.extend({
       }
 
       // Check if no user in db
-      $.get('/api/users/count', function (nbUsers) {
-        if (parseInt(nbUsers) === 0) {
+      $.get('/api/user/count', function (nbUsers) {
+        if (parseInt(nbUsers, 10) === 0) {
           // Display new user form
           Backbone.history.navigate('/new-user', true);
         }

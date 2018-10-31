@@ -13,7 +13,7 @@ import templateZoom from 'templates/header-zoom';
 import templateEdit from 'templates/header-edit';
 import Like from 'models/like';
 
-var HeaderView = Backbone.View.extend({
+const HeaderView = Backbone.View.extend({
 
   className: 'headbar',
 
@@ -140,7 +140,7 @@ var HeaderView = Backbone.View.extend({
       this.showLogin();
     }
     else {
-      var videoUploadView = new UploadVideoView();
+      const videoUploadView = new UploadVideoView();
       $('body').append(videoUploadView.el);
     }
   },
@@ -148,7 +148,7 @@ var HeaderView = Backbone.View.extend({
   notify() {
     $.ajax({
       type: 'POST',
-      url: '/api/push/notify',
+      url: '/push/notify',
       dataType: 'json',
       success: () => console.info('Notified!'),
       error: err => console.warn(err)
@@ -182,16 +182,18 @@ var HeaderView = Backbone.View.extend({
   login(e) {
     e.preventDefault();
 
-    var email = this.$el.find("input[name='email']").val();
-    var password = this.$el.find("input[name='password']").val();
+    const email = this.$el.find("input[name='email']").val();
+    const password = this.$el.find("input[name='password']").val();
 
     $.ajax({
       type: 'POST',
       url: '/auth/login',
-      data: {
-        'email': email,
-        'password': password
-      },
+      data: JSON.stringify({
+        username: email,
+        password: password
+      }),
+      contentType: 'application/json',
+      dataType: 'json',
       success: this.loginSuccess.bind(this),
       error: () => {
         alert('Email et/ou mot de passe incorrects.');
@@ -243,8 +245,8 @@ var HeaderView = Backbone.View.extend({
   },
 
   saveFilter() {
-    var filter = Settings.getFilter();
-    (filter.year) ? this.$('.menu').addClass('active') : this.$('.menu').removeClass('active');
+    const filter = Settings.getFilter();
+    filter.year ? this.$('.menu').addClass('active') : this.$('.menu').removeClass('active');
   },
 
   clearFilter() {
