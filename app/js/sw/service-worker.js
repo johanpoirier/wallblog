@@ -129,12 +129,12 @@ function addToCache(cacheKey, request, response) {
 }
 
 function addPictureToCache(cacheKey, request, response) {
-  if (isHiResPictureUrl(request.url) && response.ok) {
+  if (isLowResPictureUrl(request.url) && response.ok) {
     return addToCache(cacheKey, request, response);
   } else {
-    const hiResPictureUrl = getHiResPictureUrl(request.url);
-    fetch(hiResPictureUrl)
-      .then(response => addToCache(cacheKey, hiResPictureUrl, response))
+    const lowResPictureUrl = getLowResPictureUrl(request.url);
+    fetch(lowResPictureUrl)
+      .then(response => addToCache(cacheKey, lowResPictureUrl, response))
       .catch(error => console.warn(error));
   }
   return response;
@@ -150,20 +150,20 @@ function fetchFromCache(request) {
 }
 
 function fetchPictureFromCache(request) {
-  return fetchFromCache(getHiResPictureUrl(request.url));
+  return fetchFromCache(getLowResPictureUrl(request.url));
 }
 
 function offlineResponse() {
   return new Response();
 }
 
-function isHiResPictureUrl(url) {
-  return url.indexOf('--1600') > 0;
+function isLowResPictureUrl(url) {
+  return url.indexOf('--640') > 0;
 }
 
-function getHiResPictureUrl(url) {
+function getLowResPictureUrl(url) {
   if (url.match(/--(\d+)/)) {
-    return url.replace(/--(\d+)/, '--1600');
+    return url.replace(/--(\d+)/, '--640');
   }
-  return url.replace(/\.([a-zA-Z]+)$/, '--1600.$1');
+  return url.replace(/\.([a-zA-Z]+)$/, '--640.$1');
 }
