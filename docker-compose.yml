@@ -1,0 +1,63 @@
+version: '2.3'
+
+volumes:
+  db: ~
+
+services:
+  web:
+    image: nginx:1.15.6
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./build:/usr/src/wallblog/build
+      - ./docker/pictures:/usr/src/wallblog/pictures
+      - ./docker/config/ssl:/etc/nginx/ssl
+      - ./docker/config/site.conf:/etc/nginx/conf.d/site.conf
+    depends_on:
+      - "app"
+    networks:
+      - code-network
+
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=development
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/usr/src/app
+    networks:
+      - code-network
+
+  db:
+    image: mysql:5.7
+    ports:
+      - "33061:3306"
+    volumes:
+      - db:/var/lib/mysql
+      - ./docker/mysql:/docker-entrypoint-initdb.d:ro
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - code-network
+
+  api:
+    build:
+      context: ./api/
+      dockerfile: Dockerfile
+    volumes:
+      - ./docker/config/log.conf:/usr/local/etc/php-fpm.d/zz-log.conf
+      - ./api:/usr/src/wallblog/api
+      - ./api/.env:/usr/src/wallblog/.env
+      - ./build/index.php:/usr/src/wallblog/build/index.php
+    depends_on:
+      - "db"
+    networks:
+    - code-network
+
+networks:
+  code-network:
+    driver: bridge

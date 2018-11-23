@@ -1,7 +1,12 @@
 #!/bin/bash
 
 cd /var/www/wallblog
-npm install
-composer install
+#npm install
 
-mv /var/www/pictures/* /var/www/wallblog/dist/pictures/
+pushd /var/www/wallblog/api
+#composer install
+popd
+
+mv /var/www/pictures/* /var/www/wallblog/build/pictures/
+
+npm start
