@@ -1,16 +1,8 @@
 .idea/
 node_modules/
-logs/
 vendor/
 dist/
 var/
-__src/config.jops.php
-app/pictures/20*
-app/videos/*
-app/js/analytics.js
-app/js/config.js
-__src
-__views
 assets.json
 *.iml
 
@@ -18,3 +10,5 @@ assets.json
 .phpunit
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
+
+build/
