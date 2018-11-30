@@ -1,23 +1,31 @@
 import * as constants from '../constants'
+import {Dispatch} from 'redux';
+import {ApiItem} from '../types';
 
-export interface IncrementEnthusiasm {
-    type: constants.INCREMENT_ENTHUSIASM;
-}
+export const requestItems = () => ({
+  type: constants.REQUEST_ITEMS,
+});
 
-export interface DecrementEnthusiasm {
-    type: constants.DECREMENT_ENTHUSIASM;
-}
+export const receivedItems = (items: ApiItem[]) => {
+  const transformedItems = items.map(item => ({
+    description: item.description,
+    extension: item.file.split('.').pop(),
+    filename: item.file.split('.').shift()
+  }));
+  return {
+    payload: transformedItems,
+    type: constants.RECEIVE_ITEMS
+  }
+};
 
-export type EnthusiasmAction = IncrementEnthusiasm | DecrementEnthusiasm;
-
-export function incrementEnthusiasm(): IncrementEnthusiasm {
-    return {
-        type: constants.INCREMENT_ENTHUSIASM
-    }
-}
-
-export function decrementEnthusiasm(): DecrementEnthusiasm {
-    return {
-        type: constants.DECREMENT_ENTHUSIASM
-    }
+export function fetchItems() {
+  return (dispatch: Dispatch) => {
+    dispatch(requestItems());
+    return fetch(`/api/item`)
+      .then(async response => {
+        const items = await response.json();
+        dispatch(receivedItems(items));
+      })
+      .catch(console.error);
+  };
 }

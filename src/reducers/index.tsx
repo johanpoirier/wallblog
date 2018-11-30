@@ -1,13 +1,12 @@
-import { EnthusiasmAction } from '../actions';
-import { StoreState } from '../types';
-import { DECREMENT_ENTHUSIASM, INCREMENT_ENTHUSIASM } from '../constants';
+import {StoreState, ItemsAction} from '../types';
+import {REQUEST_ITEMS, RECEIVE_ITEMS} from '../constants';
 
-export function enthusiasm(state: StoreState, action: EnthusiasmAction): StoreState {
+export function items(state: StoreState, action: ItemsAction): StoreState {
     switch (action.type) {
-        case INCREMENT_ENTHUSIASM:
-            return { ...state };
-        case DECREMENT_ENTHUSIASM:
-            return { ...state };
+        case REQUEST_ITEMS:
+            return {...state, loading: true};
+        case RECEIVE_ITEMS:
+            return {...state, items: action.payload, loading: false};
     }
     return state;
 }

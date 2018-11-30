@@ -1,11 +1,18 @@
 import Grid from '../components/Grid';
-import { connect } from 'react-redux';
-import { StoreState } from '../types';
+import {bindActionCreators, Dispatch} from 'redux';
+import {connect} from 'react-redux';
+import {StoreState, ItemsAction} from '../types';
+import {fetchItems} from '../actions';
 
-export function mapStateToProps({ items }: StoreState) {
-    return {
-        items
-    }
-}
+const mapStateToProps = ({items, loading}: StoreState) => {
+  return {
+    items,
+    loading
+  }
+};
 
-export default connect(mapStateToProps)(Grid);
+const mapDispatchToProps = (dispatch: Dispatch<ItemsAction>) => bindActionCreators({
+  getItems: fetchItems,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Grid);

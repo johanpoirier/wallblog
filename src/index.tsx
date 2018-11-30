@@ -1,33 +1,23 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import {createStore} from 'redux';
-import {EnthusiasmAction} from './actions';
+import {createStore, applyMiddleware} from 'redux';
+import thunk from 'redux-thunk';
+import {logger} from 'redux-logger';
 import Grid from './containers/Grid';
 import './index.css';
-import {enthusiasm} from './reducers';
+import {items} from './reducers';
 import registerServiceWorker from './registerServiceWorker';
-import {StoreState} from './types';
+import {StoreState, ItemsAction} from './types';
 
-const store = createStore<StoreState, EnthusiasmAction, any, any>(enthusiasm, {
-    items: [
-        {
-            description: 'plop',
-            extension: 'jpg',
-            filename: 'abstract-1168134_1920'
-        },
-        {
-            description: 'Filou',
-            extension: 'jpg',
-            filename: 'boats-1183373_1920'
-        }
-    ]
-});
+const store = createStore<StoreState, ItemsAction, any, any>(items, {
+  items: []
+}, applyMiddleware(thunk, logger));
 
 ReactDOM.render(
-    <Provider store={store}>
-        <Grid/>
-    </Provider>,
-    document.getElementById('root') as HTMLElement
+  <Provider store={store}>
+    <Grid/>
+  </Provider>,
+  document.getElementById('root') as HTMLElement
 );
 registerServiceWorker();
