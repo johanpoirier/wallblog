@@ -2,6 +2,8 @@ export interface Item {
   description: string;
   extension: string;
   filename: string;
+  ratio: number;
+  index: number;
 }
 
 export interface ApiItem {
@@ -9,6 +11,7 @@ export interface ApiItem {
   description: string;
   file: string;
   id: string;
+  ratio: number;
 }
 
 export interface StoreState {

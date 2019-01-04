@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Picture from './Picture';
-import './Picture.css';
-import {Item} from "../types";
+import './Grid.css';
+import {Item} from '../types';
 
 interface GridProps {
   items: ReadonlyArray<Item>;
@@ -19,8 +19,8 @@ class Grid extends React.Component<GridProps> {
     return (
       <div className="grid">
         {this.loader()}
-        {items.map(item => (
-          <Picture key={item.filename} filename={item.filename} description={item.description} extension={item.extension}/>
+        {items.map((item, index) => (
+          <Picture key={item.filename} index={index} filename={item.filename} description={item.description} extension={item.extension} ratio={item.ratio}/>
         ))}
   </div>
     );

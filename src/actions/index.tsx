@@ -10,7 +10,8 @@ export const receivedItems = (items: ApiItem[]) => {
   const transformedItems = items.map(item => ({
     description: item.description,
     extension: item.file.split('.').pop(),
-    filename: item.file.split('.').shift()
+    filename: item.file.split('.').shift(),
+    ratio: item.ratio
   }));
   return {
     payload: transformedItems,
