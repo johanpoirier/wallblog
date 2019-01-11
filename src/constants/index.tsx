@@ -3,3 +3,6 @@ export type REQUEST_ITEMS = typeof REQUEST_ITEMS;
 
 export const RECEIVE_ITEMS = 'RECEIVE_ITEMS';
 export type RECEIVE_ITEMS = typeof RECEIVE_ITEMS;
+
+export const SET_GRID_COLUMN_COUNT = 'SET_GRID_COLUMN_COUNT';
+export type SET_GRID_COLUMN_COUNT = typeof SET_GRID_COLUMN_COUNT;

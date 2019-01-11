@@ -2,10 +2,11 @@ import Grid from '../components/Grid';
 import {bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 import {StoreState, ItemsAction} from '../types';
-import {fetchItems} from '../actions';
+import {fetchItems, setGridColumnCount} from '../actions';
 
-const mapStateToProps = ({items, loading}: StoreState) => {
+const mapStateToProps = ({columnCount, items, loading}: StoreState) => {
   return {
+    columnCount,
     items,
     loading
   }
@@ -13,6 +14,7 @@ const mapStateToProps = ({items, loading}: StoreState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<ItemsAction>) => bindActionCreators({
   getItems: fetchItems,
+  setGridColumnCount
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Grid);

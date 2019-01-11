@@ -1,3 +1,8 @@
+:root {
+  --grid-column-count: 5;
+  --first-item-column-count: 2;
+}
+
 body {
   margin: 0;
   padding: 0;

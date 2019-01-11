@@ -7,12 +7,16 @@ export const requestItems = () => ({
 });
 
 export const receivedItems = (items: ApiItem[]) => {
-  const transformedItems = items.map(item => ({
-    description: item.description,
-    extension: item.file.split('.').pop(),
-    filename: item.file.split('.').shift(),
-    ratio: item.ratio
-  }));
+  const transformedItems = items.map(item => {
+    const itemFileParts = item.file.split('.');
+    return {
+      date: item.date,
+      description: item.description,
+      extension: itemFileParts.pop(),
+      filename: itemFileParts.shift(),
+      ratio: item.ratio
+    }
+  });
   return {
     payload: transformedItems,
     type: constants.RECEIVE_ITEMS
@@ -29,4 +33,14 @@ export function fetchItems() {
       })
       .catch(console.error);
   };
+}
+
+export function setGridColumnCount(count: number) {
+  const root = document.getElementById('root');
+  if (root) {
+    const firstItemColumnCount = count > 1 ? 2 : 1;
+    root.style.setProperty('--grid-column-count', count.toString(10));
+    root.style.setProperty('--first-item-column-count', firstItemColumnCount.toString(10));
+  }
+  return {type: constants.SET_GRID_COLUMN_COUNT};
 }

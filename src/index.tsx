@@ -11,7 +11,8 @@ import registerServiceWorker from './registerServiceWorker';
 import {StoreState, ItemsAction} from './types';
 
 const store = createStore<StoreState, ItemsAction, any, any>(items, {
-  items: []
+  columnCount: 5,
+  items: [],
 }, applyMiddleware(thunk, logger));
 
 ReactDOM.render(
@@ -20,4 +21,5 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root') as HTMLElement
 );
+
 registerServiceWorker();
